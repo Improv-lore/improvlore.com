@@ -2,7 +2,7 @@ name: Rebuild Eleventy Site Twice Daily
 
 on:
   schedule:
-    - cron: "0 2,10 * * *"   # 08:00 & 20:00 IST
+    - cron: "0 2,19 * * *"   # 08:00 & 20:00 IST
   workflow_dispatch:
 
 permissions:
