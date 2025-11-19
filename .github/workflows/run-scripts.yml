@@ -37,11 +37,12 @@ jobs:
         run: npm run build
 
       # -------------------------------
-      # (Optional) Touch a file to force Vercel rebuild
+      # (Optional) Touch a file to force Vercel rebuild and build timestamp
       # -------------------------------
       - name: Update build timestamp
-        run: echo "// Build updated $(date -u)" > build_timestamp.js
-
+        run: |
+              echo "// Build updated $(date -u)" >> build_timestamp.js
+              echo "BUILD_TIME=$(TZ=Asia/Kolkata date '+%d-%m %H:%M %Z')" >> $GITHUB_ENV
       # -------------------------------
       # Commit & push any changed files (output.json, build triggers)
       # -------------------------------

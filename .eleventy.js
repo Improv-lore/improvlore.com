@@ -1,14 +1,14 @@
 export default function(eleventyConfig) {
-  // Copy CSS
-  eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
-  eleventyConfig.addPassthroughCopy("output.json");
+    eleventyConfig.addGlobalData("buildTime", process.env.BUILD_TIME || new Date().toISOString());
+    eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
+    eleventyConfig.addPassthroughCopy("output.json");
 
 
-  return {
-    dir: {
-      input: "src",
-      output: "_site",
-      includes: "layouts"
-    }
-  };
+    return {
+        dir: {
+            input: "src",
+            output: "_site",
+            includes: "layouts"
+        }
+    };
 }
