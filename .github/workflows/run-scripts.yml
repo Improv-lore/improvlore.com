@@ -42,7 +42,7 @@ jobs:
       - name: Update build timestamp
         run: |
               echo "// Build updated $(date -u)" >> build_timestamp.js
-              echo "BUILD_TIME=$(TZ=Asia/Kolkata date '+%d-%m %H:%M %Z')" >> $GITHUB_ENV
+              echo "BUILD_TIME=$(TZ=Asia/Kolkata date '+%d-%m %H:%M')" >> $GITHUB_ENV
       # -------------------------------
       # Commit & push any changed files (output.json, build triggers)
       # -------------------------------
