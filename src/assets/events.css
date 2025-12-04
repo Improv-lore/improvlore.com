@@ -26,6 +26,7 @@ body {
   text-align: center;
   margin: 1.8rem 0 2.5rem;
   padding: 0 1rem;
+  background: #FFFAFA;
 }
 
 .page-hero h1 {
@@ -95,8 +96,15 @@ body {
     padding: 0.9rem 1rem;
   }
 }
-
-
+.empty-state {
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  margin: 3rem 0;
+}
+.center{
+  text-align: center;
+}
 /* -------------------------------------------------
    EVENT IMAGE (POSTER)
 ------------------------------------------------- */

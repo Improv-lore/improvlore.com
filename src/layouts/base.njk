@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>{{ title or "Events" }}</title>
-
+  <title>{{ Events }}</title>
   <link rel="stylesheet" href="/assets/events.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +15,7 @@
 <body>
    <div class="page-hero">
   <h1 class="hero-title">IMPROVLORE</h1>
-  <p class="tagline">Bangalore's friendliest improv troupe. We take play, seriously.</p>
+  
 
  <div class="social-row">
   <a class="social-icon" href="{{ social.whatsapp }}" target="_blank">
@@ -34,15 +33,31 @@
   <a class="social-icon" href="{{ social.youtube }}" target="_blank">
     <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
   </a>
+   <a class="social-icon" href="{{ social.gmail }}" target="_blank">
+    <img src="https://cdn.simpleicons.org/gmail/FF000" alt="gmail">
+  </a>
   </div>
-
-  <hr>
-    <H2>📅UPCOMING EVENTS📅</H2>
+   <hr>
+<p class="tagline">Hi!👋 <br> We're Bangalore's friendliest improv troupe. <br>We take play, seriously.</p>
+ 
+  
+    <H2>UPCOMING EVENTS👇</H2>
 </div>
 
 
   <main>
-    {{ content | safe }}
+    {% if events.length > 0 %}
+      {{ content | safe }}
+     
+  
+    {% else %}
+    
+      <div class="empty-state">
+        <h2>No upcoming events</h2>
+        <p>join our socials in the meantime!</p>
+        <p class="warning">if you think this is an error please contact us.</p>
+      </div>
+    {% endif %}
   </main>
 
   <footer class="footer">
