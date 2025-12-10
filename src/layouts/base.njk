@@ -6,7 +6,6 @@
 
   <title>Improvlore</title>
   <link rel="stylesheet" href="/assets/events.css">
-  <link rel="stylesheet" href="/assets/snowflake.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,35 +13,8 @@
 
 </head>
 
-<body>
-   <div class="outer-border">
-    <div class="snowflakes" aria-hidden="true">
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-      <div class="snowflake">
-        <div class="inner">❅</div>
-      </div>
-    </div>
 
+<body>
 
    <div class="page-hero">
   <h1 class="hero-title">IMPROVLORE</h1>
@@ -88,7 +60,7 @@
         <p>join our socials in the meantime!</p>
         <p class="warning">if you think this is an error please contact us.</p>
       </div>
-    {% endif %}
+    {% endif %}  
   </main>
 
   <footer class="footer">
@@ -99,6 +71,8 @@
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
+
+  {% include "christmas.njk" %}
 </body>
 
 </html>
