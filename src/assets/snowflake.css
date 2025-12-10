@@ -1,8 +1,8 @@
 .snowflake {
   color: #ffffff;
-  font-size: 3em;
+  font-size: 1em;
   font-family: Arial, sans-serif;
-  text-shadow: 0 0 2px #000;
+  text-shadow: 0 0 3px #000;
 }
  
 .snowflake,.snowflake .inner{
