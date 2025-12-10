@@ -51,6 +51,51 @@ title: Improvlore – Upcoming Shows
     </div>
   {% endfor %}
 
+{% for ev in custom %}
+    {% set dateObj = filters.parseLocal(ev.event_starts_at) %}
+
+    {% if dateObj %}
+      {% set dateLabel =
+        dateObj.toLocaleDateString("en-IN", { month: "short", day: "numeric" })
+        ~ " · "
+        ~ dateObj.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
+      %}
+    {% else %}
+      {% set dateLabel = "" %}
+    {% endif %}
+
+    {% set img = null %}
+    {% if ev.thumbnails and ev.thumbnails.length %}
+      {% set img = ev.thumbnails[0].url %}
+    {% elif ev.image_url %}
+      {% set img = ev.image_url %}
+    {% endif %}
+
+    <div class="event-card">
+
+      {% if img %}
+      <div class="event-image">
+        <img src="{{ img }}" alt="{{ ev.title }}">
+      </div>
+      {% endif %}
+
+      <h2 class="event-title">{{ ev.title }}</h2>
+
+      {% if dateLabel %}
+        <div class="event-date">{{ dateLabel }} — Underline Center, Indiranagar</div>
+      {% endif %}
+
+      <p class="event-excerpt">
+        {{ filters.shortText(ev.excerpt or ev.full_content, 180) }}
+      </p>
+
+      <div class="event-buttons">
+        <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
+        <a class="btn btn-ghost" href="https://underline.center/t/{{ ev.slug }}" target="_blank">Learn More</a>
+      </div>
+
+    </div>
+  {% endfor %}
 </div>
 
 

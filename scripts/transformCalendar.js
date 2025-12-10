@@ -13,6 +13,8 @@ export async function transformCalendar(rawData) {
 
   for (const topic of rawData.topic_list.topics) {
     if (!topic.title.toLowerCase().includes("improv")) continue;
+    if (topic.title.toLowerCase().includes("christmas")) continue;
+
     const startTime = topic.event_starts_at;
     const now = toIST(new Date());
     if (startTime < now) continue;

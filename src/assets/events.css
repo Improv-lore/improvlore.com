@@ -6,7 +6,42 @@ body {
   font-family: 'Archivo', system-ui, sans-serif;
   margin: 0;
   padding: 0;
-  background: #fafafa;
+  background: #efefef;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background: 
+    /* Top Layer: A white/misty glow from the top (The "Frost") */
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
+    
+    /* Bottom Layer: The water depth (Light Blue -> Teal -> Deep Blue) */
+    linear-gradient(to bottom, #e0f7fa 0%, #80deea 50%, #006064 100%);
+
+  mix-blend-mode: overlay;
+  opacity: 0.9;
+  filter: blur(30px) contrast(1.2);
+  transform: scale(1.1);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Same depth as background */
+  
+  /* This creates a tiny noise pattern */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  
+  /* Blends the noise with the blue background */
+  opacity: 100; 
+  pointer-events: none;
 }
 
 .events-root {
@@ -26,11 +61,10 @@ body {
   text-align: center;
   margin: 1.8rem 0 2.5rem;
   padding: 0 1rem;
-  background: #FFFAFA;
 }
 
 .page-hero h1 {
-  font-size: clamp(1.7rem, 5vw, 2.8rem);
+  font-size: clamp(4rem, 5vw, 2.8rem);
   font-weight: 800;
   margin-bottom: 0.4rem;
   line-height: 1.2;
