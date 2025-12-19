@@ -13,21 +13,18 @@ export async function transformCalendar(rawData) {
 
   for (const topic of rawData.topic_list.topics) {
     if (!topic.title.toLowerCase().includes("improv")) continue;
-    if (topic.title.toLowerCase().includes("christmas")) continue;
-    const startTime = topic.event_starts_at;
-    const now = toIST(new Date());
-    if (startTime < now) continue;
 
     const topic_id = topic.id;
     const slug = topic.slug;
-
+    const date = new Date (topic.event_starts_at);
+    const now = new Date();
+    if (date.getDate() < now.getDate()) continue;  // skip past events
+    
     // fetch detailed topic JSON
     const detail_url = `https://underline.center/t/${slug}/${topic_id}.json`;
     const detail = await (await fetch(detail_url)).json();
     const first_post = detail.post_stream.posts[0];
-    
    
-    console.log(now,"<>", topic.event_starts_at);
     data_improv.push({
       title: topic.title,
       "fancy title": topic.fancy_title,
@@ -39,7 +36,7 @@ export async function transformCalendar(rawData) {
       event_ends_at: toIST(topic.event_ends_at),
       featured_link: topic.featured_link,
       slug,
-      url: `https://www.district.in/events/${slug}-buy-tickets`
+      url: first_post.event.url,
     });
   }
 

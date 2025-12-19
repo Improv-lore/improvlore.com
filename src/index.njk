@@ -5,7 +5,7 @@ title: Improvlore – Upcoming Shows
 
 <div class="events-root">
 
-  {% for ev in events %}
+  {% for ev in events  %}
     {% set dateObj = filters.parseLocal(ev.event_starts_at) %}
 
     {% if dateObj %}
