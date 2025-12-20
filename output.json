@@ -1,67 +1,5 @@
 [
     {
-        "title": "Every Christmas Movie Ever with Improv Lore",
-        "fancy title": "Every Christmas Movie Ever with Improv Lore",
-        "excerpt": "&#39;tis that time of the year again; the season for cosy cliches, festive cheer, and Every Christmas Movie Ever, all made up on the spot! \nJoin us for a one-night-only improv celebration that pays tribute to the world o&hellip;",
-        "image_url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_1024x560.jpeg",
-        "thumbnails": [
-            {
-                "max_width": null,
-                "max_height": null,
-                "width": 1680,
-                "height": 920,
-                "url": "https://underline.center/uploads/default/original/1X/4528186f9e784ffdbd318e18854f1d5416aedb37.jpeg"
-            },
-            {
-                "max_width": 1024,
-                "max_height": 1024,
-                "width": 1024,
-                "height": 560,
-                "url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_1024x560.jpeg"
-            },
-            {
-                "max_width": 800,
-                "max_height": 800,
-                "width": 800,
-                "height": 438,
-                "url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_800x438.jpeg"
-            },
-            {
-                "max_width": 600,
-                "max_height": 600,
-                "width": 600,
-                "height": 328,
-                "url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_600x328.jpeg"
-            },
-            {
-                "max_width": 400,
-                "max_height": 400,
-                "width": 400,
-                "height": 219,
-                "url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_400x219.jpeg"
-            },
-            {
-                "max_width": 300,
-                "max_height": 300,
-                "width": 300,
-                "height": 164,
-                "url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_300x164.jpeg"
-            },
-            {
-                "max_width": 200,
-                "max_height": 200,
-                "width": 200,
-                "height": 109,
-                "url": "https://underline.center/uploads/default/optimized/1X/4528186f9e784ffdbd318e18854f1d5416aedb37_2_200x109.jpeg"
-            }
-        ],
-        "event_starts_at": "2025-12-21 19:00:00",
-        "event_ends_at": "2025-12-21 21:00:00",
-        "featured_link": null,
-        "slug": "every-christmas-movie-ever-with-improv-lore",
-        "url": "https://www.district.in/events/every-christmas-movie-ever-with-improv-lore-buy-tickets"
-    },
-    {
         "title": "High CaliBur Show by Improv Lore",
         "fancy title": "High CaliBur Show by Improv Lore",
         "excerpt": "A classic good ol’ improv show packed with riddles, tongue twisters, and some nostalgia. If you’ve been missing having a hearty laugh at an improv show, consider this your invite to enjoy the freshest stories in town&hellip;",
@@ -122,5 +60,129 @@
         "featured_link": null,
         "slug": "high-calibur-show-by-improv-lore",
         "url": "https://www.district.in/events/high-calibur-show-by-improv-lore-buy-tickets"
+    },
+    {
+        "title": "Whimsical Weekend with Improv Lore",
+        "fancy title": "Whimsical Weekend with Improv Lore",
+        "excerpt": "We bring you some whimsy this weekend for those who can’t make it to our Wednesday jams. \nWhether you’re a novice to theatre, a maverick on stage, or just dipping your toes into the world of unscripted performance, t&hellip;",
+        "image_url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_1024x576.png",
+        "thumbnails": [
+            {
+                "max_width": null,
+                "max_height": null,
+                "width": 3200,
+                "height": 1800,
+                "url": "https://underline.center/uploads/default/original/1X/eaf867b598c83740fb325f9f45518f194fb473b6.png"
+            },
+            {
+                "max_width": 1024,
+                "max_height": 1024,
+                "width": 1024,
+                "height": 576,
+                "url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_1024x576.png"
+            },
+            {
+                "max_width": 800,
+                "max_height": 800,
+                "width": 800,
+                "height": 450,
+                "url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_800x450.png"
+            },
+            {
+                "max_width": 600,
+                "max_height": 600,
+                "width": 600,
+                "height": 337,
+                "url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_600x337.png"
+            },
+            {
+                "max_width": 400,
+                "max_height": 400,
+                "width": 400,
+                "height": 225,
+                "url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_400x225.png"
+            },
+            {
+                "max_width": 300,
+                "max_height": 300,
+                "width": 300,
+                "height": 168,
+                "url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_300x168.png"
+            },
+            {
+                "max_width": 200,
+                "max_height": 200,
+                "width": 200,
+                "height": 112,
+                "url": "https://underline.center/uploads/default/optimized/1X/eaf867b598c83740fb325f9f45518f194fb473b6_2_200x112.png"
+            }
+        ],
+        "event_starts_at": "2025-12-28 12:00:00",
+        "event_ends_at": "2025-12-28 14:00:00",
+        "featured_link": null,
+        "slug": "whimsical-weekend-with-improv-lore",
+        "url": "https://www.district.in/events/whimsical-weekend-with-improv-lore-buy-tickets"
+    },
+    {
+        "title": "Intensive Course in Improvised Theatre by Improv Lore",
+        "fancy title": "Intensive Course in Improvised Theatre by Improv Lore",
+        "excerpt": "If you’ve ever watched Whose Line Is It Anyway?, and wondered how to pull of some of the quick-witted acting the cast manage, this course is for you! Improv Lore’s Intensive Course in Improvised Theatre will help bri&hellip;",
+        "image_url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_1024x576.jpeg",
+        "thumbnails": [
+            {
+                "max_width": null,
+                "max_height": null,
+                "width": 1600,
+                "height": 900,
+                "url": "https://underline.center/uploads/default/original/1X/c4b5f3288809efb6ad494d21236b0592518182ee.jpeg"
+            },
+            {
+                "max_width": 1024,
+                "max_height": 1024,
+                "width": 1024,
+                "height": 576,
+                "url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_1024x576.jpeg"
+            },
+            {
+                "max_width": 800,
+                "max_height": 800,
+                "width": 800,
+                "height": 450,
+                "url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_800x450.jpeg"
+            },
+            {
+                "max_width": 600,
+                "max_height": 600,
+                "width": 600,
+                "height": 337,
+                "url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_600x337.jpeg"
+            },
+            {
+                "max_width": 400,
+                "max_height": 400,
+                "width": 400,
+                "height": 225,
+                "url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_400x225.jpeg"
+            },
+            {
+                "max_width": 300,
+                "max_height": 300,
+                "width": 300,
+                "height": 168,
+                "url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_300x168.jpeg"
+            },
+            {
+                "max_width": 200,
+                "max_height": 200,
+                "width": 200,
+                "height": 112,
+                "url": "https://underline.center/uploads/default/optimized/1X/c4b5f3288809efb6ad494d21236b0592518182ee_2_200x112.jpeg"
+            }
+        ],
+        "event_starts_at": "2026-02-07 10:00:00",
+        "event_ends_at": "2026-02-07 13:00:00",
+        "featured_link": null,
+        "slug": "intensive-course-in-improvised-theatre-by-improv-lore",
+        "url": "https://www.district.in/events/intensive-course-in-improvised-theatre-by-improv-lore-buy-tickets"
     }
 ]
