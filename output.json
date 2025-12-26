@@ -1,67 +1,5 @@
 [
     {
-        "title": "High CaliBur Show by Improv Lore",
-        "fancy title": "High CaliBur Show by Improv Lore",
-        "excerpt": "A classic good ol’ improv show packed with riddles, tongue twisters, and some nostalgia. If you’ve been missing having a hearty laugh at an improv show, consider this your invite to enjoy the freshest stories in town&hellip;",
-        "image_url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_1024x560.jpeg",
-        "thumbnails": [
-            {
-                "max_width": null,
-                "max_height": null,
-                "width": 1680,
-                "height": 920,
-                "url": "https://underline.center/uploads/default/original/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca.jpeg"
-            },
-            {
-                "max_width": 1024,
-                "max_height": 1024,
-                "width": 1024,
-                "height": 560,
-                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_1024x560.jpeg"
-            },
-            {
-                "max_width": 800,
-                "max_height": 800,
-                "width": 800,
-                "height": 438,
-                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_800x438.jpeg"
-            },
-            {
-                "max_width": 600,
-                "max_height": 600,
-                "width": 600,
-                "height": 328,
-                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_600x328.jpeg"
-            },
-            {
-                "max_width": 400,
-                "max_height": 400,
-                "width": 400,
-                "height": 219,
-                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_400x219.jpeg"
-            },
-            {
-                "max_width": 300,
-                "max_height": 300,
-                "width": 300,
-                "height": 164,
-                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_300x164.jpeg"
-            },
-            {
-                "max_width": 200,
-                "max_height": 200,
-                "width": 200,
-                "height": 109,
-                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_200x109.jpeg"
-            }
-        ],
-        "event_starts_at": "2025-12-26 21:00:00",
-        "event_ends_at": "2025-12-26 22:30:00",
-        "featured_link": null,
-        "slug": "high-calibur-show-by-improv-lore",
-        "url": "https://www.district.in/events/high-calibur-show-by-improv-lore-buy-tickets"
-    },
-    {
         "title": "Whimsical Weekend with Improv Lore",
         "fancy title": "Whimsical Weekend with Improv Lore",
         "excerpt": "We bring you some whimsy this weekend for those who can’t make it to our Wednesday jams. \nWhether you’re a novice to theatre, a maverick on stage, or just dipping your toes into the world of unscripted performance, t&hellip;",
@@ -122,6 +60,68 @@
         "featured_link": null,
         "slug": "whimsical-weekend-with-improv-lore",
         "url": "https://www.district.in/events/whimsical-weekend-with-improv-lore-buy-tickets"
+    },
+    {
+        "title": "High CaliBur Show by Improv Lore",
+        "fancy title": "High CaliBur Show by Improv Lore",
+        "excerpt": "A classic good ol’ improv show packed with riddles, tongue twisters, and some nostalgia. If you’ve been missing having a hearty laugh at an improv show, consider this your invite to enjoy the freshest stories in town&hellip;",
+        "image_url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_1024x560.jpeg",
+        "thumbnails": [
+            {
+                "max_width": null,
+                "max_height": null,
+                "width": 1680,
+                "height": 920,
+                "url": "https://underline.center/uploads/default/original/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca.jpeg"
+            },
+            {
+                "max_width": 1024,
+                "max_height": 1024,
+                "width": 1024,
+                "height": 560,
+                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_1024x560.jpeg"
+            },
+            {
+                "max_width": 800,
+                "max_height": 800,
+                "width": 800,
+                "height": 438,
+                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_800x438.jpeg"
+            },
+            {
+                "max_width": 600,
+                "max_height": 600,
+                "width": 600,
+                "height": 328,
+                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_600x328.jpeg"
+            },
+            {
+                "max_width": 400,
+                "max_height": 400,
+                "width": 400,
+                "height": 219,
+                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_400x219.jpeg"
+            },
+            {
+                "max_width": 300,
+                "max_height": 300,
+                "width": 300,
+                "height": 164,
+                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_300x164.jpeg"
+            },
+            {
+                "max_width": 200,
+                "max_height": 200,
+                "width": 200,
+                "height": 109,
+                "url": "https://underline.center/uploads/default/optimized/1X/51333740ebe290bc7bd1e7acf0efbd8e6a3101ca_2_200x109.jpeg"
+            }
+        ],
+        "event_starts_at": "2026-01-02 21:00:00",
+        "event_ends_at": "2026-01-02 22:30:00",
+        "featured_link": null,
+        "slug": "high-calibur-show-by-improv-lore",
+        "url": "https://www.district.in/events/high-calibur-show-by-improv-lore-buy-tickets"
     },
     {
         "title": "Intensive Course in Improvised Theatre by Improv Lore",
