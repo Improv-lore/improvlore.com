@@ -1,6 +1,7 @@
 [
     {
-        "fancy title": "Whimsical Wednesday with Improv Lore",
+         "title": "The SILLIEST SHOW with Improv Lore",
+        "fancy title": "The SILLIEST SHOW with Improv Lore",
         "excerpt": "A classic good ol’ improv show packed with riddles, tongue twisters, and some nostalgia. If you’ve been missing having a hearty laugh at an improv show, consider this your invite to enjoy the freshest stories in town!",
         "image_url": "https://d218byoo78ov75.cloudfront.net/images/f94f4160584f2aaa53a7355836f7b625.png",
         "thumbnails": [
@@ -56,16 +57,16 @@
         ],
         "event_starts_at": "2026-01-17 19:30:00",
         "event_ends_at": "2026-01-17 21:00:00",
-        "slug": "the-turing-twist-with-improv-lore",
+        "slug": "the-silliest-show-with-improv-lore",
         "url": "https://blrhubba.in/events/the-silliest-show-tonight/tickets",
-        "tag": "hubba",
+        "tags": "hubba",
         "learn_more": "https://blrhubba.in/events/the-silliest-show-tonight",
         "venue": "Bangalore International Centre (BIC)"
         
     },
     {
         "title": "A TURING TWIST with Improv Lore",
-        "fancy title": "Whimsical Wednesday with Improv Lore",
+        "fancy title": "A TURING TWIST with Improv Lore",
         "excerpt": "What truly separates humans from machines? Is it empathy, creativity, a sense of sense, insecurities or our desires? The Turing Twist is an Improv show, a live Turing Test and an experiment that aims to answer just that.",
         "image_url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png",
         "thumbnails": [
@@ -123,7 +124,7 @@
         "event_ends_at": "2026-01-22 21:00:00",
         "slug": "the-turing-twist-with-improv-lore",
         "url": "https://blrhubba.in/events/the-turing-twist/tickets",
-        "tag": "hubba",
+        "tags": "hubba",
         "learn_more": "https://blrhubba.in/events/the-turing-twist/",
         "venue": "National Gallery of Modern Art (NGMA) "
     }
