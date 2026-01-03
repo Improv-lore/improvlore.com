@@ -39,7 +39,8 @@ export async function transformCalendar(rawData) {
       slug,
       url: first_post.event.url,
       learn_more: `https://underline.center/t/${slug}/${topic_id}`,
-      venue : "Underline Center, Indiranagar"
+      venue : "Underline Center, Indiranagar", 
+      tags: "UC"
     });
   }
   

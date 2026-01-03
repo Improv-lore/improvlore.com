@@ -1,0 +1,88 @@
+<section class="hubba-banners">
+  <!-- Banner 1 -->
+  <div class="banner banner-left">
+    <div class="banner-track">
+      {% for i in range(0, 10) %}
+        <span>Improvlore @ BLR HUBBA</span>
+      {% endfor %}
+    </div>
+  </div>
+
+
+<style>
+/* Container */
+.hubba-banners {
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Individual banner */
+.banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 16px 0;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+/* Track that moves */
+.banner-track {
+  display: inline-flex;
+  gap: 48px;
+  will-change: transform;
+}
+
+/* Text styling */
+.banner span {
+  font-family: "Arial Black", Impact, sans-serif;
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #00ffcc;
+}
+
+/* Animations */
+.banner-left .banner-track {
+  animation: scroll-left 18s linear infinite;
+}
+
+.banner-right .banner-track {
+  animation: scroll-right 22s linear infinite;
+  color: #ffcc00;
+}
+
+/* Keyframes */
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Optional hover pause (feels premium) */
+.banner:hover .banner-track {
+  animation-play-state: paused;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .banner {
+    padding: 12px 0;
+  }
+}
+</style>
+
