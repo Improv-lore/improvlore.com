@@ -26,7 +26,6 @@ export async function transformCalendar(rawData) {
     const first_post = detail.post_stream.posts[0];
     
    
-    console.log(now,"<>", topic.event_starts_at);
     data_improv.push({
       title: topic.title,
       "fancy title": topic.fancy_title,
