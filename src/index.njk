@@ -36,7 +36,7 @@ title: Improvlore – Upcoming Shows
       <h2 class="event-title">{{ ev.title }}</h2>
 
       {% if dateLabel %}
-        <div class="event-date">{{ dateLabel }} — Underline Center, Indiranagar</div>
+        <div class="event-date">{{ dateLabel }} — {{ev.venue}}</div>
       {% endif %}
 
       <p class="event-excerpt">
@@ -45,11 +45,13 @@ title: Improvlore – Upcoming Shows
 
       <div class="event-buttons">
         <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-        <a class="btn btn-ghost" href="https://underline.center/t/{{ ev.slug }}" target="_blank">Learn More</a>
+        <a class="btn btn-ghost" href={{ ev.learn_more }} target="_blank">Learn More</a>
       </div>
 
     </div>
   {% endfor %}
+
+  
 
 </div>
 
