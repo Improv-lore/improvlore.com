@@ -18,8 +18,9 @@ export async function transformCalendar(rawData) {
     const slug = topic.slug;
     const date = new Date (topic.event_starts_at);
     const now = new Date();
-    if (date.getDate() < now.getDate()) continue;  // skip past events
+    if (date.getFullYear() < now.getFullYear() || date.getMonth() < now.getMonth()  || date.getDate() < now.getDate()) continue;  // skip past events
     
+
     // fetch detailed topic JSON
     const detail_url = `https://underline.center/t/${slug}/${topic_id}.json`;
     const detail = await (await fetch(detail_url)).json();
@@ -37,8 +38,11 @@ export async function transformCalendar(rawData) {
       featured_link: topic.featured_link,
       slug,
       url: first_post.event.url,
+      learn_more: `https://underline.center/t/${slug}/${topic_id}`,
+      venue : "Underline Center, Indiranagar"
     });
   }
+  
 
   return data_improv;
 }
