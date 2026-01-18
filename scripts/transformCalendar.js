@@ -13,12 +13,13 @@ export async function transformCalendar(rawData) {
 
   for (const topic of rawData.topic_list.topics) {
     if (!topic.title.toLowerCase().includes("improv")) continue;
-
+    console.log(`Processing topic: ${topic.title}`);
     const topic_id = topic.id;
     const slug = topic.slug;
     const date = new Date (topic.event_starts_at);
     const now = new Date();
-    if (date.getFullYear() < now.getFullYear() || date.getMonth() < now.getMonth()  || date.getDate() < now.getDate()) continue;  // skip past events
+    console.log(date < now);
+    if (date < now) continue;  // skip past events
     
 
     // fetch detailed topic JSON
