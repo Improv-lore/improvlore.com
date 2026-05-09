@@ -11,8 +11,32 @@
 </head>
 
 <body>
+  <div class="page-motifs" aria-hidden="true">
+    <img class="motif motif-1"  src="/assets/icons/lightning.png"     alt="">
+    <img class="motif motif-2"  src="/assets/icons/starburst.png"     alt="">
+    <img class="motif motif-3"  src="/assets/icons/star-purple.png"   alt="">
+    <img class="motif motif-4"  src="/assets/icons/diamond.png"       alt="">
+    <img class="motif motif-5"  src="/assets/icons/star-4point.png"   alt="">
+    <img class="motif motif-6"  src="/assets/icons/moon.png"          alt="">
+    <img class="motif motif-7"  src="/assets/icons/star-green.png"    alt="">
+    <img class="motif motif-8"  src="/assets/icons/ring-pink.png"     alt="">
+    <img class="motif motif-9"  src="/assets/icons/star-outline.png"  alt="">
+    <img class="motif motif-10" src="/assets/icons/arc-blue.png"      alt="">
+    <img class="motif motif-11" src="/assets/icons/arc-green.png"     alt="">
+    <img class="motif motif-12" src="/assets/icons/arc-pink.png"      alt="">
+    <img class="motif motif-13" src="/assets/icons/pacman-orange.png" alt="">
+    <img class="motif motif-14" src="/assets/icons/pacman-yellow.png" alt="">
+    <img class="motif motif-15" src="/assets/icons/blob-blue.png"     alt="">
+    <img class="motif motif-16" src="/assets/icons/blob-cream.png"    alt="">
+  </div>
+
+  <div class="foreground-motifs" aria-hidden="true">
+    <img class="fg-motif fg-motif-lightning" src="/assets/icons/lightning.png"     alt="">
+    <img class="fg-motif fg-motif-pacman"    src="/assets/icons/pacman-yellow.png" alt="">
+  </div>
+
   <div class="page-hero">
-    <h1 class="hero-title">IMPROVLORE</h1>
+    <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore">
 
     <div class="social-row">
       <a class="social-icon" href="{{ social.whatsapp }}" target="_blank">
@@ -36,6 +60,22 @@
 
   <main>
     {% if events.length > 0 %}
+      <div class="event-key">
+        <div class="event-key-item">
+          <span class="event-key-dot dot-show"></span>
+          <div>
+            <strong>SHOW</strong>
+            <p>Sit back & watch us perform</p>
+          </div>
+        </div>
+        <div class="event-key-item">
+          <span class="event-key-dot dot-jam"></span>
+          <div>
+            <strong>JAM</strong>
+            <p>Come play with us, beginner friendly</p>
+          </div>
+        </div>
+      </div>
       {{ content | safe }}
     {% else %}
       <div class="empty-state">
@@ -47,7 +87,7 @@
   </main>
 
   <footer class="footer">
-    built with love by MG
+    built with love by <a href="https://instagram.com/heresmohit" target="_blank">MG</a>
   </footer>
 
   <script>

@@ -17,5 +17,12 @@ export default {
     if (!text) return "";
     const cleaned = text.replace(/\s+/g, " ").trim();
     return cleaned.length > n ? cleaned.slice(0, n).trim() + "…" : cleaned;
+  },
+
+  eventType(title = "") {
+    const t = title.toLowerCase();
+    if (t.includes("jam")) return "jam";
+    if (t.includes("workshop")) return "workshop";
+    return "show";
   }
 };

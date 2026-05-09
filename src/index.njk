@@ -7,7 +7,7 @@ showCustomEvents: false
 <div class="events-root">
 
   {% for ev in events %}
-  {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
+  {% if (showCustomEvents or (ev.tags and "UC" in ev.tags)) and filters.eventType(ev.title) != "workshop" %}
     {% set dateLabel = "" %}
     {% if ev.event_starts_at %}
       {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
@@ -20,7 +20,8 @@ showCustomEvents: false
       {% set img = ev.image_url %}
     {% endif %}
 
-    <div class="event-card">
+    {% set evType = filters.eventType(ev.title) %}
+    <div class="event-card event-type-{{ evType }}">
 
       {% if img %}
         <div class="event-image">
@@ -28,19 +29,22 @@ showCustomEvents: false
         </div>
       {% endif %}
 
-      <h2 class="event-title">{{ ev.title }}</h2>
+      <div class="event-card-body">
+        <span class="event-type-badge">{{ evType }}</span>
+        <h2 class="event-title">{{ ev.title }}</h2>
 
-      {% if dateLabel %}
-        <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
-      {% endif %}
+        {% if dateLabel %}
+          <div class="event-date">📅 {{ dateLabel }} — {{ ev.venue }}</div>
+        {% endif %}
 
-      <p class="event-excerpt">
-        {{ filters.shortText(ev.excerpt or ev.full_content, 180) }}
-      </p>
+        <p class="event-excerpt">
+          {{ filters.shortText(ev.excerpt or ev.full_content, 180) }}
+        </p>
 
-      <div class="event-buttons">
-        <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-        <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
+        <div class="event-buttons">
+          <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
+          <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
+        </div>
       </div>
 
     </div>
@@ -48,10 +52,13 @@ showCustomEvents: false
   {% endfor %}
 
   <div class="event-card promo-card">
-    <h2 class="event-title">More events in Bangalore?</h2>
-    <p class="event-excerpt">Underline Center is a community space in Indiranagar that hosts shows, workshops, and events all year round. Check out what else is on.</p>
-    <div class="event-buttons">
-      <a class="btn btn-primary" href="https://underline.center" target="_blank">Visit Underline Center</a>
+    <div class="event-card-body">
+      <h2 class="event-title">More events in Bangalore?</h2>
+      <p class="event-excerpt">Underline Center is a community space in Indiranagar that hosts shows, workshops, and events all year round. Check out what else is on.</p>
+      <div class="event-buttons">
+        <a class="btn btn-primary" href="https://underline.center" target="_blank">Visit Underline Center</a>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/place/Underline+Center/@12.9672266,77.6341233,1247m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bae15ce8263b8d9:0x1589e99864d3e1a8!8m2!3d12.9672214!4d77.6366982!16s%2Fg%2F11vqhpphq2?entry=ttu&g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank">View on Maps</a>
+      </div>
     </div>
   </div>
 
