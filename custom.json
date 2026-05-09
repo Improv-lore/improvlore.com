@@ -1,66 +1,12 @@
 [
-    {
-        "title": "A TURING TWIST with Improv Lore",
-        "fancy title": "A TURING TWIST with Improv Lore",
-        "excerpt": "What truly separates humans from machines? Is it empathy, creativity, a sense of sense, insecurities or our desires? The Turing Twist is an Improv show, a live Turing Test and an experiment that aims to answer just that.",
-        "image_url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png",
-        "thumbnails": [
-            {
-                "max_width": null,
-                "max_height": null,
-                "width": 1920,
-                "height": 1080,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            },
-            {
-                "max_width": 1024,
-                "max_height": 1024,
-                "width": 1024,
-                "height": 576,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            },
-            {
-                "max_width": 800,
-                "max_height": 800,
-                "width": 800,
-                "height": 450,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            },
-            {
-                "max_width": 600,
-                "max_height": 600,
-                "width": 600,
-                "height": 337,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            },
-            {
-                "max_width": 400,
-                "max_height": 400,
-                "width": 400,
-                "height": 225,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            },
-            {
-                "max_width": 300,
-                "max_height": 300,
-                "width": 300,
-                "height": 168,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            },
-            {
-                "max_width": 200,
-                "max_height": 200,
-                "width": 200,
-                "height": 112,
-                "url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png"
-            }
-        ],
-        "event_starts_at": "2026-01-22 19:30:00",
-        "event_ends_at": "2026-01-22 21:00:00",
-        "slug": "the-turing-twist-with-improv-lore",
-        "url": "https://blrhubba.in/events/the-turing-twist/tickets",
-        "tags": "hubba",
-        "learn_more": "https://blrhubba.in/events/the-turing-twist/",
-        "venue": "National Gallery of Modern Art (NGMA) "
-    }
+  {
+    "title": "A Turing Twist with Improv Lore",
+    "excerpt": "What truly separates humans from machines? Is it empathy, creativity, a sense of sense, insecurities or our desires? The Turing Twist is an Improv show, a live Turing Test and an experiment that aims to answer just that.",
+    "image_url": "https://d218byoo78ov75.cloudfront.net/images/266f19ecf5308e618186315c1eda781c.png",
+    "event_starts_at": "2026-06-15 19:30:00",
+    "event_ends_at": "2026-06-15 21:00:00",
+    "venue": "National Gallery of Modern Art (NGMA)",
+    "url": "https://blrhubba.in/events/the-turing-twist/tickets",
+    "learn_more": "https://blrhubba.in/events/the-turing-twist/"
+  }
 ]

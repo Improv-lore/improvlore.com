@@ -1,9 +1,16 @@
+const IST = { timeZone: "Asia/Kolkata" };
+
 export default {
-  parseLocal(dateStr) {
-    if (!dateStr) return null;
-    const iso = dateStr.replace(" ", "T");
-    const d = new Date(iso);
-    return isNaN(d) ? null : d;
+  formatDate(dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return isNaN(d) ? "" : d.toLocaleDateString("en-IN", { ...IST, month: "short", day: "numeric" });
+  },
+
+  formatTime(dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return isNaN(d) ? "" : d.toLocaleTimeString("en-IN", { ...IST, hour: "2-digit", minute: "2-digit" });
   },
 
   shortText(text, n = 140) {

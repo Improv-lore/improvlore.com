@@ -56,3 +56,5 @@ htmlcov/
 
 _site
 .vercel
+build_timestamp.js
+output.json
