@@ -1,6 +1,8 @@
 # ILxUC Calendar
 
-Pulls upcoming improv events from [underline.center](https://underline.center) and displays them as a simple event listing. Rebuilds twice a day via GitHub Actions and deploys to Vercel.
+Front-end for Improvlore's event listing. Displays upcoming shows pulled from [UC-ingest](https://github.com/heresmohit/UC-ingest), a separate pipeline that fetches from underline.center and publishes a static `events.json` daily.
+
+This repo has no fetching logic — it just consumes that JSON at build time and renders it.
 
 ## Dev
 
@@ -10,22 +12,6 @@ npm run dev    # local server
 npm run build  # one-off build
 ```
 
-## Adding Custom Events
+## Custom events / toggling
 
-For events not on Discourse (other venues, Hubba, etc.), add them to `custom.json`. They get sorted in alongside UC events on the next build.
-
-```json
-[
-  {
-    "title": "Show Name",
-    "event_starts_at": "2026-06-15 19:30:00",
-    "venue": "Venue Name",
-    "url": "https://tickets.link",
-    "learn_more": "https://more.info"
-  }
-]
-```
-
-`excerpt` and `image_url` are optional — the card handles missing fields. Past events are skipped automatically.
-
-To toggle custom events on/off without deleting them, flip `showCustomEvents` at the top of `src/index.njk`.
+Custom events are managed in the ingest repo via its `custom.json`. To toggle them on/off here, flip `showCustomEvents` at the top of `src/index.njk`.
