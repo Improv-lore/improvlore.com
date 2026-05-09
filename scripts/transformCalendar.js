@@ -1,50 +1,39 @@
 export async function transformCalendar(rawData) {
+  const now = new Date();
 
-  function toIST(timestr) {
-    if (!timestr) return null;
-    const utc = new Date(timestr + " UTC");
-    return utc.toLocaleString("en-CA", {
-      timeZone: "Asia/Kolkata",
-      hour12: false
-    }).replace(",", "");
-  }
+  const upcomingImprov = rawData.topic_list.topics.filter(topic =>
+    topic.title.toLowerCase().includes("improv") &&
+    topic.event_starts_at &&
+    new Date(topic.event_starts_at) > now
+  );
 
-  const data_improv = [];
+  const results = await Promise.all(
+    upcomingImprov.map(async (topic) => {
+      try {
+        const res = await fetch(`https://underline.center/t/${topic.slug}/${topic.id}.json`);
+        const json = await res.json();
+        const first_post = json.post_stream.posts[0];
 
-  for (const topic of rawData.topic_list.topics) {
-    if (!topic.title.toLowerCase().includes("improv")) continue;
-    console.log(`Processing topic: ${topic.title}`);
-    const topic_id = topic.id;
-    const slug = topic.slug;
-    const date = new Date (topic.event_starts_at);
-    const now = new Date();
-    console.log(date < now);
-    if (date < now) continue;  // skip past events
-    
+        return {
+          title: topic.title,
+          excerpt: topic.excerpt,
+          full_content: first_post.raw,
+          image_url: topic.image_url,
+          thumbnails: topic.thumbnails,
+          event_starts_at: topic.event_starts_at,
+          event_ends_at: topic.event_ends_at,
+          featured_link: topic.featured_link,
+          slug: topic.slug,
+          url: first_post.event?.url,
+          learn_more: `https://underline.center/t/${topic.slug}/${topic.id}`,
+          venue: "Underline Center, Indiranagar",
+          tags: ["UC"]
+        };
+      } catch {
+        return null;
+      }
+    })
+  );
 
-    // fetch detailed topic JSON
-    const detail_url = `https://underline.center/t/${slug}/${topic_id}.json`;
-    const detail = await (await fetch(detail_url)).json();
-    const first_post = detail.post_stream.posts[0];
-   
-    data_improv.push({
-      title: topic.title,
-      "fancy title": topic.fancy_title,
-      excerpt: topic.excerpt,
-      full_content: first_post.raw,
-      image_url: topic.image_url,
-      thumbnails: topic.thumbnails,
-      event_starts_at: toIST(topic.event_starts_at),
-      event_ends_at: toIST(topic.event_ends_at),
-      featured_link: topic.featured_link,
-      slug,
-      url: first_post.event.url,
-      learn_more: `https://underline.center/t/${slug}/${topic_id}`,
-      venue : "Underline Center, Indiranagar", 
-      tags: "UC"
-    });
-  }
-  
-
-  return data_improv;
+  return results.filter(Boolean);
 }

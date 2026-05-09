@@ -1,49 +1,31 @@
 # ILxUC Calendar
 
-*A Lightweight Eleventy Site with Automated Discourse Integration*
+Pulls upcoming improv events from [underline.center](https://underline.center) and displays them as a simple event listing. Rebuilds twice a day via GitHub Actions and deploys to Vercel.
 
-## Overview
-
-ILxUC Calendar is a minimal static website for improvlore that blends manually authored content with automatically retrieved data from a Discourse forum(underline.center). It was built to support a specific workflow: maintaining a simple, public-facing calendar and topic index without using a CMS, database, or server‑side application. The system compiles all content with Eleventy and deploys to Vercel, while a scheduled GitHub Actions workflow fetches updated Discourse data and stores it as JSON for the next build.
-
-## Features
-
-* Automated daily ingestion of Discourse topics and posts
-* File-based content model (Markdown + JSON only)
-* Static site generation with Eleventy (11ty)
-* Scheduled GitHub Actions build and deployment pipeline
-* No client-side dependencies
-* Hosted on Vercel with Web Analytics and Speed Insights
-
-## Technology Stack
-
-* **Eleventy (11ty)** for static site generation
-* **Node.js** scripts for data retrieval
-* **GitHub Actions** for automation
-* **Vercel** for hosting and analytics
-* **Markdown / JSON** as primary data formats
-
-
-## Development
-
-Install dependencies:
+## Dev
 
 ```bash
 npm install
+npm run dev    # local server
+npm run build  # one-off build
 ```
 
-Run a local build:
+## Adding Custom Events
 
-```bash
-npm run build
+For events not on Discourse (other venues, Hubba, etc.), add them to `custom.json`. They get sorted in alongside UC events on the next build.
+
+```json
+[
+  {
+    "title": "Show Name",
+    "event_starts_at": "2026-06-15 19:30:00",
+    "venue": "Venue Name",
+    "url": "https://tickets.link",
+    "learn_more": "https://more.info"
+  }
+]
 ```
 
-Start a local server:
+`excerpt` and `image_url` are optional — the card handles missing fields. Past events are skipped automatically.
 
-```bash
-npm run start
-```
-
-## Purpose
-
-This project was created for a highly specific personal use case: merging forum activity and event information into a single static site that can be deployed and updated automatically. It highlights a compact architecture combining automated data ingestion, static generation, and cloud deployment without additional infrastructure or dependencies.
+To toggle custom events on/off without deleting them, flip `showCustomEvents` at the top of `src/index.njk`.

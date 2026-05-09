@@ -1,22 +1,16 @@
 ---
 layout: base.njk
 title: Improvlore – Upcoming Shows
+showCustomEvents: false
 ---
 
 <div class="events-root">
 
   {% for ev in events %}
-   {%if ev.tags and "UC" in ev.tags  %}
-    {% set dateObj = filters.parseLocal(ev.event_starts_at) %}
-
-    {% if dateObj %}
-      {% set dateLabel =
-        dateObj.toLocaleDateString("en-IN", { month: "short", day: "numeric" })
-        ~ " · "
-        ~ dateObj.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
-      %}
-    {% else %}
-      {% set dateLabel = "" %}
+  {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
+    {% set dateLabel = "" %}
+    {% if ev.event_starts_at %}
+      {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
     {% endif %}
 
     {% set img = null %}
@@ -29,15 +23,15 @@ title: Improvlore – Upcoming Shows
     <div class="event-card">
 
       {% if img %}
-      <div class="event-image">
-        <img src="{{ img }}" alt="{{ ev.title }}">
-      </div>
+        <div class="event-image">
+          <img src="{{ img }}" alt="{{ ev.title }}">
+        </div>
       {% endif %}
 
       <h2 class="event-title">{{ ev.title }}</h2>
 
       {% if dateLabel %}
-        <div class="event-date">{{ dateLabel }} — {{ev.venue}}</div>
+        <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
       {% endif %}
 
       <p class="event-excerpt">
@@ -46,12 +40,11 @@ title: Improvlore – Upcoming Shows
 
       <div class="event-buttons">
         <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-        <a class="btn btn-ghost" href={{ ev.learn_more }} target="_blank">Learn More</a>
+        <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
       </div>
 
     </div>
   {% endif %}
   {% endfor %}
-  
-</div>
 
+</div>

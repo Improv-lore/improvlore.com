@@ -1,5 +1,7 @@
 export default function(eleventyConfig) {
-    eleventyConfig.addGlobalData("buildTime", process.env.BUILD_TIME || new Date().toISOString());
+    const buildTime = process.env.BUILD_TIME
+      || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" });
+    eleventyConfig.addGlobalData("buildTime", buildTime);
     eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
     return {
         dir: {

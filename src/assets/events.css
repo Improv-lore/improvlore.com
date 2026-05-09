@@ -102,9 +102,6 @@ body {
   font-size: 1.1rem;
   margin: 3rem 0;
 }
-.center{
-  text-align: center;
-}
 /* -------------------------------------------------
    EVENT IMAGE (POSTER)
 ------------------------------------------------- */
@@ -112,7 +109,7 @@ body {
 /* “Show whole poster but smaller” mode */
 .event-image {
   width: 100%;
-  max-height: auto;
+  max-height: none;
   padding: 6px 0;
   text-align: center;
   overflow: hidden;
