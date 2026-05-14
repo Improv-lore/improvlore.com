@@ -38,44 +38,27 @@
   <div class="page-hero">
     <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore">
 
+    <p class="tagline">Bangalore's friendliest improv troupe. <br>We take play, seriously. <br><a class="tagline-link" href="#section-book-visit">Learn more about us →</a></p>
+
     <div class="social-row">
-      <a class="social-icon" href="{{ social.whatsapp }}" target="_blank">
-        <img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp">
+      <a class="social-icon social-icon-attn social-icon-attn-1" href="{{ social.whatsapp }}" target="_blank">
+        <img src="/assets/icons/whatsapp.svg" alt="WhatsApp">
       </a>
-      <a class="social-icon" href="{{ social.instagram }}" target="_blank">
-        <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
+      <a class="social-icon social-icon-attn social-icon-attn-2" href="{{ social.instagram }}" target="_blank">
+        <img src="/assets/icons/instagram.svg" alt="Instagram">
       </a>
       <a class="social-icon" href="{{ social.youtube }}" target="_blank">
-        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
+        <img src="/assets/icons/youtube.svg" alt="YouTube">
       </a>
       <a class="social-icon" href="{{ social.gmail }}" target="_blank">
-        <img src="https://cdn.simpleicons.org/gmail/FF0000" alt="Gmail">
+        <img src="/assets/icons/gmail.svg" alt="Gmail">
       </a>
     </div>
 
-    <hr>
-    <p class="tagline">Hi!👋 <br> We're Bangalore's friendliest improv troupe. <br>We take play, seriously.</p>
-    <h2>UPCOMING EVENTS👇</h2>
   </div>
 
   <main>
     {% if events.length > 0 %}
-      <div class="event-key">
-        <div class="event-key-item">
-          <span class="event-key-dot dot-show"></span>
-          <div>
-            <strong>SHOW</strong>
-            <p>Sit back & watch us perform</p>
-          </div>
-        </div>
-        <div class="event-key-item">
-          <span class="event-key-dot dot-jam"></span>
-          <div>
-            <strong>JAM</strong>
-            <p>Come play with us, beginner friendly</p>
-          </div>
-        </div>
-      </div>
       {{ content | safe }}
     {% else %}
       <div class="empty-state">
@@ -91,8 +74,85 @@
   </footer>
 
   <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest(".week-item-link");
+      if (!link) return;
+      const details = link.closest("details.week-view");
+      if (details) details.open = false;
+    });
+
+    const applyFilter = (filter) => {
+      const root = document.querySelector(".events-root");
+      if (!root) return;
+      root.querySelectorAll(".event-key-item[data-filter]").forEach((b) => {
+        b.setAttribute("aria-pressed", b.dataset.filter === filter ? "true" : "false");
+      });
+      root.classList.remove("filter-show", "filter-jam");
+      const clearBtn = root.querySelector("[data-filter-clear]");
+      const empty = root.querySelector(".filter-empty");
+      const weekView = root.querySelector("details.week-view");
+      if (filter) {
+        root.classList.add("filter-" + filter);
+        if (weekView) weekView.open = false;
+        if (clearBtn) clearBtn.hidden = false;
+        if (empty) {
+          const visibleCards = root.querySelectorAll(
+            ".event-flip.event-type-" + filter
+          ).length;
+          empty.hidden = visibleCards > 0;
+          const label = empty.querySelector(".filter-empty-type");
+          if (label) label.textContent = filter + "s";
+        }
+      } else {
+        if (clearBtn) clearBtn.hidden = true;
+        if (empty) empty.hidden = true;
+      }
+    };
+
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("[data-filter-clear]")) {
+        applyFilter(null);
+        return;
+      }
+      const btn = e.target.closest(".event-key-item[data-filter]");
+      if (!btn) return;
+      const isActive = btn.getAttribute("aria-pressed") === "true";
+      applyFilter(isActive ? null : btn.dataset.filter);
+    });
+
+    const flipTimers = new WeakMap();
+    const clearFlipTimer = (flip) => {
+      const prev = flipTimers.get(flip);
+      if (prev) {
+        clearTimeout(prev);
+        flipTimers.delete(flip);
+      }
+    };
+    document.addEventListener("click", (e) => {
+      const trigger = e.target.closest(".event-flip-trigger");
+      if (trigger) {
+        const flip = trigger.closest(".event-flip");
+        if (!flip) return;
+        clearFlipTimer(flip);
+        flip.classList.toggle("is-flipped");
+        if (flip.classList.contains("is-flipped")) {
+          const t = setTimeout(() => {
+            flip.classList.remove("is-flipped");
+            flipTimers.delete(flip);
+          }, 10000);
+          flipTimers.set(flip, t);
+        }
+        return;
+      }
+      const backLink = e.target.closest(".event-flip-back a");
+      if (backLink) {
+        const flip = backLink.closest(".event-flip");
+        if (flip && flip.classList.contains("is-flipped")) {
+          clearFlipTimer(flip);
+          flip.classList.remove("is-flipped");
+        }
+      }
+    });
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
