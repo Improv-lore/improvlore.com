@@ -19,7 +19,9 @@ export default {
     return cleaned.length > n ? cleaned.slice(0, n).trim() + "…" : cleaned;
   },
 
-  eventType(title = "") {
+  eventType(title = "", tags = []) {
+    if (tags.includes("jam")) return "jam";
+    if (tags.includes("show")) return "show";
     const t = title.toLowerCase();
     if (t.includes("jam")) return "jam";
     if (t.includes("workshop")) return "workshop";
