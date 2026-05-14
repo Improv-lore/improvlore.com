@@ -7,7 +7,7 @@ showCustomEvents: false
 <div class="events-root">
 
   {% for ev in events %}
-  {% if (showCustomEvents or (ev.tags and "UC" in ev.tags)) and filters.eventType(ev.title) != "workshop" %}
+  {% if (showCustomEvents or (ev.tags and "UC" in ev.tags)) and filters.eventType(ev.title, ev.tags) != "workshop" %}
     {% set dateLabel = "" %}
     {% if ev.event_starts_at %}
       {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
@@ -20,7 +20,7 @@ showCustomEvents: false
       {% set img = ev.image_url %}
     {% endif %}
 
-    {% set evType = filters.eventType(ev.title) %}
+    {% set evType = filters.eventType(ev.title, ev.tags) %}
     <div class="event-card event-type-{{ evType }}">
 
       {% if img %}
@@ -34,7 +34,7 @@ showCustomEvents: false
         <h2 class="event-title">{{ ev.title }}</h2>
 
         {% if dateLabel %}
-          <div class="event-date">📅 {{ dateLabel }} — {{ ev.venue }}</div>
+          <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
         {% endif %}
 
         <p class="event-excerpt">
