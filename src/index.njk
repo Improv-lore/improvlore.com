@@ -6,6 +6,10 @@ showCustomEvents: false
 
 <div class="events-root">
 
+  <section class="page-section" aria-labelledby="section-whats-on">
+    <h2 class="section-heading" id="section-whats-on">What's On</h2>
+    <p class="section-sub">Check out our upcoming events below. The friendliest way to get started with improv.</p>
+
   {% set weekEvents = filters.upcomingWeek(events, showCustomEvents) %}
   {% if weekEvents.length %}
   <details class="week-view" aria-label="Upcoming week" open>
@@ -35,21 +39,29 @@ showCustomEvents: false
   </details>
   {% endif %}
 
-  <div class="event-key">
-    <div class="event-key-item">
+  <div class="event-key" role="group" aria-label="Filter events by type">
+    <button type="button" class="event-key-item" data-filter="show" aria-pressed="false">
       <span class="event-key-dot dot-show"></span>
       <div>
         <strong>SHOW</strong>
         <p>You shape the show with us</p>
       </div>
-    </div>
-    <div class="event-key-item">
+    </button>
+    <button type="button" class="event-key-item" data-filter="jam" aria-pressed="false">
       <span class="event-key-dot dot-jam"></span>
       <div>
         <strong>JAM</strong>
         <p>Come play with us, beginner friendly</p>
       </div>
-    </div>
+    </button>
+    <button type="button" class="event-key-clear" data-filter-clear hidden aria-label="Clear filter">
+      <span aria-hidden="true">×</span> Clear
+    </button>
+  </div>
+
+  <div class="filter-empty" hidden>
+    <h2>No <span class="filter-empty-type">events</span> coming up</h2>
+    <p>Nothing of that kind on the calendar right now. Try the other type or clear the filter.</p>
   </div>
 
   {% for ev in events %}
@@ -135,13 +147,70 @@ showCustomEvents: false
   {% endif %}
   {% endfor %}
 
-  <div class="event-card promo-card">
+  </section>
+
+  <section class="page-section page-section-info" aria-labelledby="section-book-visit">
+    <h2 class="section-heading" id="section-book-visit">Book &amp; Visit</h2>
+
+  <div class="event-card promo-card book-card">
     <div class="event-card-body">
       <span class="event-type-badge">BOOK US</span>
       <h2 class="event-title">Bring improv to your workplace</h2>
-      <p class="event-excerpt">We bring whimsy, play, and improv skills to teams and offices. Shoot us an email or DM and we'll build something for your specific team and workplace.</p>
+      <p class="event-excerpt">Custom shows and workshops, shaped around your team's goals. Whether it's an offsite, a team-building day, or a company event, we'll build something that fits.</p>
+
+      <ul class="book-offer-list">
+        <li>
+          <span class="book-offer-icon" aria-hidden="true">🎭</span>
+          <div>
+            <strong>Custom Shows</strong>
+            <p>A private improv show tailored to your team, theme, or occasion.</p>
+          </div>
+        </li>
+        <li>
+          <span class="book-offer-icon" aria-hidden="true">🧩</span>
+          <div>
+            <strong>Team Workshops</strong>
+            <p>Hands-on sessions that build trust, listening, and collaboration through play.</p>
+          </div>
+        </li>
+      </ul>
+
+      <p class="book-cta-line">Tell us a bit about your team and we'll design something specific.</p>
+
       <div class="event-buttons">
         <a class="btn btn-primary" href="mailto:{{ social.gmail | replace('mailto:', '') }}?subject=Book Improvlore for our team">Email Us</a>
+        <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank">DM on Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="event-card promo-card workshop-card">
+    <div class="event-card-body">
+      <span class="event-type-badge">WORKSHOPS</span>
+      <h2 class="event-title">Learn improv with us</h2>
+      <p class="event-excerpt">We run regular workshops for anyone curious about improv. No experience needed, just a willingness to play.</p>
+
+      <ul class="book-offer-list">
+        <li>
+          <span class="book-offer-icon" aria-hidden="true">🌱</span>
+          <div>
+            <strong>Improv 101</strong>
+            <p>The fundamentals: listening, yes-and, and getting comfortable on your feet.</p>
+          </div>
+        </li>
+        <li>
+          <span class="book-offer-icon" aria-hidden="true">🎵</span>
+          <div>
+            <strong>Musical Improv</strong>
+            <p>Make songs up on the spot. Group numbers, solos, and a lot of laughing.</p>
+          </div>
+        </li>
+      </ul>
+
+      <p class="book-cta-line">Next batch dates aren't out yet. Drop your details and we'll let you know.</p>
+
+      <div class="event-buttons">
+        <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScVGlLUHvSgII5k7CeEijb48vaqdK9OcHr0Awx6KKIiHDujog/viewform" target="_blank" rel="noopener">Notify Me</a>
         <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank">DM on Instagram</a>
       </div>
     </div>
@@ -157,5 +226,7 @@ showCustomEvents: false
       </div>
     </div>
   </div>
+
+  </section>
 
 </div>
