@@ -76,7 +76,9 @@ export default {
   shortText(text, n = 140) {
     if (!text) return "";
     const cleaned = text.replace(/\s+/g, " ").trim();
-    return cleaned.length > n ? cleaned.slice(0, n).trim() + "…" : cleaned;
+    const sentenceMatch = cleaned.match(/^.*?[.!?](?=\s|$)/);
+    const firstSentence = sentenceMatch ? sentenceMatch[0] : cleaned;
+    return firstSentence.length > n ? firstSentence.slice(0, n).trim() + "…" : firstSentence;
   },
 
   eventType(title = "", tags = []) {
