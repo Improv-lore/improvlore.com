@@ -5,10 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "deploy": "npm run build && wrangler deploy",
+    "preview": "npm run build && wrangler dev"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-fetch": "^4.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.98.0"
   }
 }
