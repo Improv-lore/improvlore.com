@@ -39,6 +39,34 @@ showCustomEvents: false
   </details>
   {% endif %}
 
+  {% set workshopEvents = filters.upcomingWorkshops(events, showCustomEvents) %}
+  {% if workshopEvents.length %}
+  <details class="week-view workshop-view" aria-label="Upcoming workshops" open>
+    <summary class="week-view-title">
+      <span><span class="workshop-flag">Workshops</span> Upcoming</span>
+      <span class="week-view-chevron" aria-hidden="true">▾</span>
+    </summary>
+    <ul class="week-list">
+      {% for ev in workshopEvents %}
+        <li class="week-item event-type-workshop">
+          <a class="week-item-link" href="#{{ filters.eventSlug(ev) }}">
+            <div class="week-date">
+              <span class="week-day">{{ filters.formatDay(ev.event_starts_at) }}</span>
+              <span class="week-daynum">{{ filters.formatDayNum(ev.event_starts_at) }}</span>
+              <span class="week-month">{{ filters.formatMonth(ev.event_starts_at) }}</span>
+            </div>
+            <div class="week-info">
+              <span class="week-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
+              <span class="week-name">{{ ev.title }}</span>
+              <span class="week-type-tag week-type-workshop">workshop</span>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+
   <div class="event-key" role="group" aria-label="Filter events by type">
     <button type="button" class="event-key-item" data-filter="show" aria-pressed="false">
       <span class="event-key-dot dot-show"></span>
@@ -65,7 +93,7 @@ showCustomEvents: false
   </div>
 
   {% for ev in events %}
-  {% if (showCustomEvents or (ev.tags and "UC" in ev.tags)) and filters.eventType(ev.title, ev.tags) != "workshop" %}
+  {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
     {% set dateLabel = "" %}
     {% if ev.event_starts_at %}
       {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
@@ -128,6 +156,10 @@ showCustomEvents: false
                 <p>Jams are our open sessions for anyone curious about improv.</p>
                 <p><strong>Whimsical Wednesday</strong> is off-stage play. Low-pressure exercises, no audience, a great place to start and meet people.</p>
                 <p><strong>Make Friends with the Stage</strong> is the next step on-stage. Short scenes in a supportive room, designed to help you take the leap into performing.</p>
+              {% elif evType == "workshop" %}
+                <p>A hands-on session to learn improv by doing, no experience needed.</p>
+                <p>You'll work through guided exercises in a supportive room, at a pace that's friendly to first-timers.</p>
+                <p>Each workshop focuses on a particular skill or format. Tap <strong>Learn More</strong> for what this one covers and who it's for.</p>
               {% else %}
                 <p>A live improv performance built entirely from your suggestions.</p>
                 <p>Every show is a one-time-only piece of theatre, created in the moment, in front of you.</p>
@@ -187,27 +219,27 @@ showCustomEvents: false
   <div class="event-card promo-card workshop-card">
     <div class="event-card-body">
       <span class="event-type-badge">WORKSHOPS</span>
-      <h2 class="event-title">Learn improv with us</h2>
-      <p class="event-excerpt">We run regular workshops for anyone curious about improv. No experience needed, just a willingness to play.</p>
+      <h2 class="event-title">These are our workshop offerings</h2>
+      <p class="event-excerpt">The workshops we run for anyone curious about improv. No experience needed, just a willingness to play.</p>
 
+      {% set offerWorkshops = filters.upcomingWorkshops(events, showCustomEvents) %}
+      {% if offerWorkshops.length %}
       <ul class="book-offer-list">
+        {% for ev in offerWorkshops %}
         <li>
-          <span class="book-offer-icon" aria-hidden="true">🌱</span>
+          <span class="book-offer-icon" aria-hidden="true">🎭</span>
           <div>
-            <strong>Improv 101</strong>
-            <p>The fundamentals: listening, yes-and, and getting comfortable on your feet.</p>
+            <strong>{{ filters.workshopName(ev.title) }}</strong>
+            <p>{{ filters.shortText(ev.excerpt or ev.full_content, 120) }}</p>
           </div>
         </li>
-        <li>
-          <span class="book-offer-icon" aria-hidden="true">🎵</span>
-          <div>
-            <strong>Musical Improv</strong>
-            <p>Make songs up on the spot. Group numbers, solos, and a lot of laughing.</p>
-          </div>
-        </li>
+        {% endfor %}
       </ul>
 
-      <p class="book-cta-line">Next batch dates aren't out yet. Drop your details and we'll let you know.</p>
+      <p class="book-cta-line">If these dates don't work for you, fill the form and we'll notify you about the next ones.</p>
+      {% else %}
+      <p class="book-cta-line">No workshops on the calendar right now. Fill the form and we'll notify you when the next ones open.</p>
+      {% endif %}
 
       <div class="event-buttons">
         <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScVGlLUHvSgII5k7CeEijb48vaqdK9OcHr0Awx6KKIiHDujog/viewform" target="_blank" rel="noopener">Notify Me</a>

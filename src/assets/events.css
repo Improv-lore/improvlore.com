@@ -283,6 +283,30 @@ body > *:not(.page-motifs) {
 
 .week-view-title::-webkit-details-marker { display: none; }
 
+/* Highlighted workshops box */
+.workshop-view {
+  border-color: #2563eb;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
+}
+
+.workshop-view .week-view-title {
+  background: #eef3ff;
+  color: #1e40af;
+}
+
+.workshop-view[open] .week-view-title {
+  border-bottom-color: #2563eb;
+}
+
+.workshop-flag {
+  display: inline-block;
+  background: #2563eb;
+  color: #fff;
+  padding: 0.12rem 0.45rem;
+  margin-right: 0.5rem;
+  letter-spacing: 0.12em;
+}
+
 .week-view[open] .week-view-title {
   border-bottom: 1.5px solid #e0e0e0;
 }

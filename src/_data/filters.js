@@ -65,9 +65,23 @@ export default {
         const tags = ev.tags || [];
         const isUC = showCustom || tags.includes("UC");
         if (!isUC) return false;
-        const title = (ev.title || "").toLowerCase();
-        const isWorkshop = tags.includes("workshop") || title.includes("workshop");
-        return !isWorkshop;
+        return this.eventType(ev.title, tags) !== "workshop";
+      })
+      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
+      .slice(0, 7);
+  },
+
+  upcomingWorkshops(events = [], showCustom = false) {
+    const now = Date.now();
+    return events
+      .filter(ev => {
+        if (!ev.event_starts_at) return false;
+        const t = new Date(ev.event_starts_at).getTime();
+        if (isNaN(t) || t < now) return false;
+        const tags = ev.tags || [];
+        const isUC = showCustom || tags.includes("UC");
+        if (!isUC) return false;
+        return this.eventType(ev.title, tags) === "workshop";
       })
       .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
       .slice(0, 7);
@@ -88,5 +102,14 @@ export default {
     if (t.includes("jam")) return "jam";
     if (t.includes("workshop")) return "workshop";
     return "show";
+  },
+
+  workshopName(title = "") {
+    return title
+      .split("|")[0]
+      .replace(/\bworkshop\b/i, "")
+      .replace(/\bby improv ?lore\b/i, "")
+      .replace(/[\s:–-]+$/, "")
+      .trim() || title.trim();
   }
 };
