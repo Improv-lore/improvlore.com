@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
+  {% if pageDescription %}<meta name="description" content="{{ pageDescription }}">{% endif %}
+  <meta property="og:title" content="{{ title }}">
+  {% if pageDescription %}<meta property="og:description" content="{{ pageDescription }}">{% endif %}
+  {% if pageImage %}<meta property="og:image" content="{{ pageImage }}">{% endif %}
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="{% if pageImage %}summary_large_image{% else %}summary{% endif %}">
   <link rel="stylesheet" href="/assets/events.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,9 +42,15 @@
   </div>
 
   <div class="page-hero">
-    <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore">
+    <a class="hero-logo-link" href="/" aria-label="Improv Lore home">
+      <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore">
+    </a>
 
-    <p class="tagline">Bangalore's friendliest improv troupe. <br>We take play, seriously. <br><a class="tagline-link" href="#section-book-visit">Learn more about us →</a></p>
+    <p class="tagline">Bangalore's friendliest improv troupe. <br>We take play, seriously.</p>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary hero-cta-btn" href="/events/">See What's On →</a>
+    </div>
 
     <div class="social-row">
       <a class="social-icon social-icon-attn social-icon-attn-1" href="{{ social.whatsapp }}" target="_blank">
@@ -58,7 +70,7 @@
   </div>
 
   <main>
-    {% if events.length > 0 %}
+    {% if events.length > 0 or not requiresEvents %}
       {{ content | safe }}
     {% else %}
       <div class="empty-state">
@@ -70,7 +82,27 @@
   </main>
 
   <footer class="footer">
-    built with love by <a href="https://instagram.com/heresmohit" target="_blank">MG</a>
+    <div class="footer-inner">
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/events/">All Events</a>
+        <a href="/for-teams/">For Teams</a>
+        <a href="https://underline.center" target="_blank" rel="noopener">Underline Center ↗</a>
+      </nav>
+
+      <div class="footer-social" aria-label="Social links">
+        <a href="{{ social.instagram }}" target="_blank" rel="noopener">Instagram</a>
+        <a href="{{ social.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="{{ social.youtube }}" target="_blank" rel="noopener">YouTube</a>
+        <a href="{{ social.gmail }}">Email</a>
+      </div>
+
+      <div class="footer-legal">
+        <p>&copy; {{ site.year }} Improvlore. All rights reserved.</p>
+        <p>Based in Bangalore, India. Questions? <a href="{{ social.gmail }}?subject=Improvlore website enquiry">{{ social.gmail | replace('mailto:', '') }}</a></p>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -87,7 +119,7 @@
       root.querySelectorAll(".event-key-item[data-filter]").forEach((b) => {
         b.setAttribute("aria-pressed", b.dataset.filter === filter ? "true" : "false");
       });
-      root.classList.remove("filter-show", "filter-jam");
+      root.classList.remove("filter-show", "filter-jam", "filter-workshop");
       const clearBtn = root.querySelector("[data-filter-clear]");
       const empty = root.querySelector(".filter-empty");
       const weekView = root.querySelector("details.week-view");
@@ -109,6 +141,93 @@
       }
     };
 
+    // Hero carousel: auto-advance every data-hero-interval ms, pause on hover,
+    // and let the dots jump to a slide.
+    document.querySelectorAll("[data-hero-carousel]").forEach((carousel) => {
+      const slides = [...carousel.querySelectorAll("[data-hero-slide]")];
+      if (slides.length < 2) return;
+      const dots = [...carousel.querySelectorAll("[data-hero-dot]")];
+      const interval = parseInt(carousel.dataset.heroInterval, 10) || 10000;
+      let current = 0;
+      let timer = null;
+
+      const show = (next) => {
+        current = (next + slides.length) % slides.length;
+        slides.forEach((s, i) => {
+          const active = i === current;
+          s.classList.toggle("is-active", active);
+          s.setAttribute("aria-hidden", active ? "false" : "true");
+          if (active) s.removeAttribute("tabindex");
+          else s.setAttribute("tabindex", "-1");
+        });
+        dots.forEach((d, i) => {
+          const active = i === current;
+          d.classList.toggle("is-active", active);
+          d.setAttribute("aria-selected", active ? "true" : "false");
+        });
+      };
+
+      const start = () => {
+        stop();
+        timer = setInterval(() => show(current + 1), interval);
+      };
+      const stop = () => {
+        if (timer) clearInterval(timer);
+        timer = null;
+      };
+
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          show(parseInt(dot.dataset.heroIndex, 10) || 0);
+          start();
+        });
+      });
+
+      carousel.addEventListener("mouseenter", stop);
+      carousel.addEventListener("mouseleave", start);
+
+      // Touch swipe: a horizontal drag past the threshold changes slide and
+      // suppresses the link tap that would otherwise follow. A small move is
+      // treated as a normal tap so the active slide's link still works.
+      let touchX = null;
+      let touchY = null;
+      let swiped = false;
+      const SWIPE_THRESHOLD = 45;
+
+      carousel.addEventListener("touchstart", (e) => {
+        const t = e.changedTouches[0];
+        touchX = t.clientX;
+        touchY = t.clientY;
+        swiped = false;
+        stop();
+      }, { passive: true });
+
+      carousel.addEventListener("touchend", (e) => {
+        if (touchX === null) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - touchX;
+        const dy = t.clientY - touchY;
+        if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+          swiped = true;
+          show(current + (dx < 0 ? 1 : -1));
+        }
+        touchX = null;
+        touchY = null;
+        start();
+      }, { passive: true });
+
+      // Cancel the click that fires after a swipe so we don't navigate away.
+      carousel.addEventListener("click", (e) => {
+        if (swiped) {
+          e.preventDefault();
+          e.stopPropagation();
+          swiped = false;
+        }
+      }, true);
+
+      start();
+    });
+
     document.addEventListener("click", (e) => {
       if (e.target.closest("[data-filter-clear]")) {
         applyFilter(null);
@@ -120,39 +239,14 @@
       applyFilter(isActive ? null : btn.dataset.filter);
     });
 
-    const flipTimers = new WeakMap();
-    const clearFlipTimer = (flip) => {
-      const prev = flipTimers.get(flip);
-      if (prev) {
-        clearTimeout(prev);
-        flipTimers.delete(flip);
-      }
-    };
-    document.addEventListener("click", (e) => {
-      const trigger = e.target.closest(".event-flip-trigger");
-      if (trigger) {
-        const flip = trigger.closest(".event-flip");
-        if (!flip) return;
-        clearFlipTimer(flip);
-        flip.classList.toggle("is-flipped");
-        if (flip.classList.contains("is-flipped")) {
-          const t = setTimeout(() => {
-            flip.classList.remove("is-flipped");
-            flipTimers.delete(flip);
-          }, 10000);
-          flipTimers.set(flip, t);
-        }
-        return;
-      }
-      const backLink = e.target.closest(".event-flip-back a");
-      if (backLink) {
-        const flip = backLink.closest(".event-flip");
-        if (flip && flip.classList.contains("is-flipped")) {
-          clearFlipTimer(flip);
-          flip.classList.remove("is-flipped");
-        }
-      }
-    });
+    // Preselect a filter from ?type= so links like /events/?type=workshop land
+    // on the events page with that type already filtered.
+    const initialType = new URLSearchParams(window.location.search).get("type");
+    if (initialType && ["show", "jam", "workshop"].includes(initialType)) {
+      applyFilter(initialType);
+    }
+
   </script>
+  <script src="/assets/ticket-button.js" defer></script>
 </body>
 </html>

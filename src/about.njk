@@ -1,0 +1,122 @@
+---
+layout: base.njk
+title: About Improvlore - Bangalore's Improv Troupe
+permalink: /about/
+pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. Weekly jams, beginner workshops, and shows made up on the spot.
+---
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-about-hero">
+    <p class="see-all-line">
+      <a class="see-all-link" href="/">← Back to home</a>
+    </p>
+
+    <h2 class="section-heading" id="section-about-hero">About Us</h2>
+
+    <div class="about-intro">
+      <p class="about-lede">We are a Bangalore-based community-theatre troupe. We make up theatre on the spot, with no script and no second take, and we would like to rekindle the joy of being playful and whimsical.</p>
+      <p class="about-where">Improv Lore has been around since 2022. When Underline Center opened in Indiranagar, we made it our home, and we have been the resident improv act there ever since. Our Wednesday jam is the longest-running night the venue has. We also play other rooms around the city, and now and then we take a show out of town.</p>
+    </div>
+
+    <!--
+      NUMBERS: placeholders below are provably true today (year formed, weekly
+      cadence). Swap the middle/right tiles for real counts when you have them,
+      e.g. number of Whimsical Wednesdays run, number of Maestro nights, etc.
+    -->
+    <ul class="about-stats" aria-label="Improv Lore at a glance">
+      <li>
+        <span class="about-stat-num">2022</span>
+        <span class="about-stat-label">Around since</span>
+      </li>
+      <li>
+        <span class="about-stat-num">Wed</span>
+        <span class="about-stat-label">Jam, every week</span>
+      </li>
+      <li>
+        <span class="about-stat-num">No two</span>
+        <span class="about-stat-label">Shows ever the same</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-new-here">
+    <h2 class="section-heading" id="section-new-here">Never Done This Before?</h2>
+    <p class="section-sub">Most people who come to a jam have never been on a stage. That is the point. Here is the order we would walk a friend through it.</p>
+
+    <ol class="about-ladder">
+      <li>
+        <span class="about-ladder-step">1</span>
+        <div>
+          <strong>Come to a Whimsical Wednesday</strong>
+          <p>Our jam. Leave your inhibitions at the door, play a few games, see what improv actually feels like. No experience, no pressure.</p>
+        </div>
+      </li>
+      <li>
+        <span class="about-ladder-step">2</span>
+        <div>
+          <strong>Make friends with the stage</strong>
+          <p>When you want to do more than watch, this is the open-stage jam built for it. Short scenes, we keep things moving, you step in and out as you like.</p>
+        </div>
+      </li>
+      <li>
+        <span class="about-ladder-step">3</span>
+        <div>
+          <strong>Take Improv 101</strong>
+          <p>A proper first workshop, built around how not to panic on stage. By the end you are doing scenes and enjoying it.</p>
+        </div>
+      </li>
+      <li>
+        <span class="about-ladder-step">4</span>
+        <div>
+          <strong>Find your thing</strong>
+          <p>Musical improv, our longer courses, and the formats that make up our shows. Go as deep as you want.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="event-buttons">
+      <a class="btn btn-primary" href="/#section-whats-on">See What's On</a>
+      <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">Follow Along</a>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-signature">
+    <h2 class="section-heading" id="section-signature">Shows We Are Known For</h2>
+    <p class="section-sub">Built live from what the room gives us, so no two are the same. A few of the formats we keep coming back to.</p>
+
+    <ul class="about-shows" aria-label="Signature show formats">
+      {% for show in signatureShows %}
+      <li>
+        <a class="about-show-card" href="{{ show.url }}" target="_blank" rel="noopener">
+          <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+          <div class="about-show-body">
+            <strong>{{ show.title }}</strong>
+            <span>{{ show.blurb }}</span>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-improvathon">
+    <h2 class="section-heading" id="section-improvathon">The Improvathon</h2>
+    <div class="about-intro">
+      <p class="about-where">Every so often we hand the venue over to improv for a full day, marathon included. We kick off with TheatreSports to set the tone, then run jams, intros, and signature formats back to back into the night. It is the easiest day to wander into and stay longer than you planned.</p>
+    </div>
+  </section>
+
+  <section class="page-section page-section-info" aria-labelledby="section-about-more">
+    <h2 class="section-heading" id="section-about-more">Work With Us</h2>
+
+    <a class="corporate-banner" href="/for-teams/">
+      <span class="corporate-banner-text">
+        <strong>We bring improv to workplaces too.</strong>
+        Custom shows and team workshops, shaped around your team.
+      </span>
+      <span class="corporate-banner-arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+
+</div>

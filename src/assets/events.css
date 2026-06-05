@@ -22,6 +22,14 @@ body {
   padding: 1rem 1.2rem 3rem;
 }
 
+/* On wide screens, let the page use more horizontal room so sections
+   can lay out in columns instead of one tall stack. Phones are untouched. */
+@media (min-width: 900px) {
+  .events-root {
+    max-width: 1040px;
+  }
+}
+
 
 /* -------------------------------------------------
    HERO SECTION
@@ -142,6 +150,12 @@ body > *:not(.page-motifs) {
 }
 
 
+.hero-logo-link {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
 .hero-logo {
   width: clamp(200px, 55vw, 420px);
   height: auto;
@@ -257,11 +271,28 @@ body > *:not(.page-motifs) {
    WEEKLY VIEW
 ------------------------------------------------- */
 
+.boards-row {
+  margin-bottom: 2rem;
+}
+
 .week-view {
   background: #fff;
   border: 1.5px solid #e0e0e0;
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Wide screens: the two boards sit side by side instead of stacking. */
+@media (min-width: 900px) {
+  .boards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+  .boards-row .week-view {
+    margin-bottom: 0;
+  }
 }
 
 .week-view-title {
@@ -453,9 +484,14 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.event-card:not(.event-flip-face):hover {
+.event-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* The .event-flip wrapper carries the bottom margin; the card fills it. */
+.event-flip > .event-card {
+  margin-bottom: 0;
 }
 
 .event-card-body {
@@ -565,6 +601,81 @@ button.event-key-item[aria-pressed="true"] p {
   color: #555;
 }
 
+.hero-cta {
+  margin: 1.4rem 0 0.4rem;
+}
+
+.hero-cta-btn {
+  font-size: 1rem;
+}
+
+.workshop-notify-line {
+  font-size: 0.92rem;
+  color: #555;
+  margin: 0.6rem 0 0;
+}
+
+.workshop-notify-line a {
+  color: #1a1a1a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.corporate-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.2rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 14px;
+  background: #fff;
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.corporate-banner:hover {
+  border-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.corporate-banner-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.corporate-banner-text {
+  flex: 1;
+  font-size: 0.92rem;
+  color: #555;
+}
+
+.corporate-banner-text strong {
+  display: block;
+  color: #1a1a1a;
+  font-size: 1rem;
+}
+
+.corporate-banner-arrow {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.more-line {
+  font-size: 0.92rem;
+  color: #555;
+  margin: 1rem 0 0;
+}
+
+.more-line a {
+  color: #1a1a1a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
 .section-jump {
   display: flex;
   align-items: center;
@@ -603,6 +714,384 @@ button.event-key-item[aria-pressed="true"] p {
   color: #555;
   line-height: 1.55;
   margin: 0 0 1.4rem;
+}
+
+.about-intro {
+  margin: 0 0 1.6rem;
+}
+
+.about-lede {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.5;
+  margin: 0 0 0.8rem;
+}
+
+.about-where {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.about-subhead {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.4rem;
+}
+
+.about-paths {
+  margin-bottom: 1.2rem;
+}
+
+/* The start-anywhere cards are now whole-card links. The <li> keeps the
+   border/padding; the <a> fills it and carries the hover state. */
+.about-paths li {
+  padding: 0;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.about-paths li:hover {
+  border-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.about-path-link {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.about-path-link strong::after {
+  content: " →";
+  font-weight: 700;
+  color: #888;
+}
+
+/* Wide screens: the three "start anywhere" paths sit side by side
+   instead of stacking, and each becomes a small card. */
+@media (min-width: 900px) {
+  .about-paths {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .about-paths li {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .about-paths .book-offer-icon {
+    font-size: 1.6rem;
+  }
+}
+
+/* About page: stat band */
+.about-stats {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+}
+
+.about-stats li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.2rem;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  padding: 0.9rem 0.6rem;
+}
+
+.about-stat-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.1;
+}
+
+.about-stat-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888;
+  line-height: 1.3;
+}
+
+/* About page: start-here ladder */
+.about-ladder {
+  list-style: none;
+  margin: 0 0 1.2rem;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.about-ladder li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  padding: 0.7rem 0.85rem;
+}
+
+.about-ladder-step {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.about-ladder strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin-bottom: 0.15rem;
+}
+
+.about-ladder p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Homepage hero carousel: rotates through upcoming workshops (or jams). */
+.hero-feature-carousel {
+  position: relative;
+  margin: 0 0 2rem;
+  /* Let the carousel own horizontal swipes while vertical page scroll
+     stays with the browser. */
+  touch-action: pan-y;
+}
+
+/* Slides stack; only the active one shows. The carousel sizes to the active
+   slide via grid (all slides occupy the same cell). */
+.hero-feature-carousel {
+  display: grid;
+}
+
+.hero-feature-carousel .hero-feature {
+  grid-area: 1 / 1;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.hero-feature-carousel .hero-feature.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Internal links, so the arrow is a same-site → not an external ↗. */
+.hero-feature-carousel .hero-feature-title::after {
+  content: " →";
+}
+
+.hero-feature-dots {
+  grid-area: 1 / 1;
+  align-self: end;
+  justify-self: center;
+  z-index: 2;
+  display: flex;
+  gap: 0.45rem;
+  margin-bottom: 0.7rem;
+  pointer-events: auto;
+}
+
+.hero-feature-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.hero-feature-dot:hover {
+  transform: scale(1.2);
+}
+
+.hero-feature-dot.is-active {
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+/* Homepage hero feature card: one marquee show, above What's On. */
+.hero-feature {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 2rem;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.hero-feature:hover {
+  border-color: #1a1a1a;
+  transform: translateY(-2px);
+}
+
+.hero-feature-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #1a1a1a;
+}
+
+.hero-feature-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.hero-feature-kicker {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.hero-feature-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.15;
+}
+
+.hero-feature-title::after {
+  content: " ↗";
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.hero-feature-blurb {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+@media (min-width: 720px) {
+  .hero-feature {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .hero-feature-poster {
+    width: 46%;
+    aspect-ratio: auto;
+    object-fit: cover;
+  }
+  .hero-feature-body {
+    flex: 1;
+    justify-content: center;
+    padding: 1.4rem 1.5rem;
+  }
+}
+
+/* About page: signature shows with posters */
+.about-shows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.about-shows li {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.about-shows li:hover {
+  border-color: #1a1a1a;
+  transform: translateY(-2px);
+}
+
+.about-show-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.about-show-card strong::after {
+  content: " ↗";
+  font-weight: 700;
+  color: #888;
+}
+
+.about-show-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #1a1a1a;
+}
+
+.about-show-body {
+  padding: 0.75rem 0.85rem 0.9rem;
+}
+
+.about-shows strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.2rem;
+}
+
+.about-shows span {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+@media (min-width: 640px) {
+  .about-shows {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  .about-shows {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .event-key-clear {
@@ -657,9 +1146,25 @@ button.event-key-item[aria-pressed="true"] p {
   font-size: 0.9rem;
 }
 
-.events-root.filter-show .event-flip:not(.event-type-show),
-.events-root.filter-jam  .event-flip:not(.event-type-jam) {
+.events-root.filter-show     .event-flip:not(.event-type-show),
+.events-root.filter-jam      .event-flip:not(.event-type-jam),
+.events-root.filter-workshop .event-flip:not(.event-type-workshop) {
   display: none;
+}
+
+/* Event list. One column on phones; two columns on desktop so the
+   16:9 posters sit at a natural size instead of one giant stack. */
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+}
+
+@media (min-width: 720px) {
+  .event-grid {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
 }
 
 .event-key-item strong {
@@ -774,6 +1279,11 @@ button.event-key-item[aria-pressed="true"] p {
   line-height: 1.55;
   margin-bottom: 1.1rem;
   color: #444;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 
@@ -817,6 +1327,18 @@ button.event-key-item[aria-pressed="true"] p {
   box-shadow: 0 5px 16px rgba(0,0,0,0.28);
 }
 
+/* Applied client-side when District reports an event sold out / not yet on sale. */
+.btn-disabled,
+.btn-disabled:hover {
+  background: #e6e6e6;
+  color: #888;
+  border-color: #e6e6e6;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+}
+
 .btn-ghost {
   border: none;
   color: #999;
@@ -839,7 +1361,6 @@ button.event-key-item[aria-pressed="true"] p {
 
 .event-flip {
   perspective: 1600px;
-  margin-bottom: 1.6rem;
   border-radius: 0;
   transition: box-shadow 0.3s ease;
 }
@@ -879,102 +1400,6 @@ button.event-key-item[aria-pressed="true"] p {
     0 0 0 4px rgba(37, 99, 235, 0.28),
     0 14px 38px rgba(37, 99, 235, 0.32);
 }
-
-.event-flip-inner {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
-}
-
-.event-flip.is-flipped .event-flip-inner {
-  transform: rotateY(180deg);
-}
-
-.event-flip-face {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  margin-bottom: 0;
-  transition: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.event-flip-front {
-  position: relative;
-}
-
-.event-flip-back {
-  position: absolute;
-  inset: 0;
-  transform: rotateY(180deg);
-  display: flex;
-  flex-direction: column;
-}
-
-.event-flip.is-flipped .event-flip-front {
-  pointer-events: none;
-}
-
-.event-flip:not(.is-flipped) .event-flip-back {
-  pointer-events: none;
-}
-
-.event-flip-back .event-card-body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.event-flip-back .event-buttons {
-  margin-top: auto;
-}
-
-.event-flip-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  border: none;
-  border-top: 1px solid #f4f4f4;
-  background: transparent;
-  cursor: pointer;
-  padding: 0.42rem 1.5rem;
-  font-family: inherit;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #b0b0b0;
-  transition: color 0.15s ease;
-}
-
-.event-flip-trigger:hover {
-  color: #777;
-}
-
-.event-expect-body p {
-  margin: 0.5rem 0 0;
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: #555;
-}
-
-.event-expect-body p + p {
-  margin-top: 0.55rem;
-}
-
-.event-expect-body strong {
-  color: #1a1a1a;
-  font-weight: 700;
-}
-
-.event-flip-back .event-expect-body {
-  margin: 0.4rem 0 1.1rem;
-}
-
-@media (max-width: 480px) {
-  .event-flip-trigger { padding: 0.4rem 1.1rem; }
-}
-
 
 /* -------------------------------------------------
    PROMO CARD
@@ -1042,6 +1467,26 @@ button.event-key-item[aria-pressed="true"] p {
   color: #1a1a1a;
 }
 
+/* Wide screens: the Book & Visit promos lay out as a grid. The lead
+   "Book Us" card spans full width, the two smaller promos sit side by side. */
+@media (min-width: 900px) {
+  .page-section-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+  .page-section-info .section-heading {
+    grid-column: 1 / -1;
+  }
+  .page-section-info .book-card {
+    grid-column: 1 / -1;
+  }
+  .promo-card {
+    margin: 0;
+  }
+}
+
 
 /* -------------------------------------------------
    FOOTER
@@ -1051,8 +1496,35 @@ button.event-key-item[aria-pressed="true"] p {
   text-align: center;
   font-size: 0.82rem;
   color: #b0a09a;
-  padding: 2rem 0 1.2rem;
+  padding: 2.5rem 1.5rem 2rem;
   letter-spacing: 0.02em;
+  border-top: 1.5px solid #ececec;
+  margin-top: 2.5rem;
+}
+
+.footer-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.footer-nav,
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.3rem;
+}
+
+.footer-nav a {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.footer-social a {
+  font-size: 0.85rem;
 }
 
 .footer a {
@@ -1062,4 +1534,193 @@ button.event-key-item[aria-pressed="true"] p {
 
 .footer a:hover {
   color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-legal {
+  font-size: 0.78rem;
+  color: #b0a09a;
+  line-height: 1.6;
+}
+
+.footer-legal p {
+  margin: 0.2rem 0;
+}
+
+/* -------------------------------------------------
+   EVENT DETAIL PAGE
+------------------------------------------------- */
+
+.event-detail-root {
+  margin-top: 1.5rem;
+}
+
+.event-detail {
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.event-detail.event-type-show     { border-top: 4px solid #f5c400; }
+.event-detail.event-type-jam      { border-top: 4px solid #2ecc71; }
+.event-detail.event-type-workshop { border-top: 4px solid #2563eb; }
+
+.event-detail-back {
+  display: inline-block;
+  margin: 1rem 1.5rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7a6a5a;
+  text-decoration: none;
+}
+
+.event-detail-back:hover {
+  color: #1a1a1a;
+}
+
+.event-detail-image {
+  width: 100%;
+  margin-top: 1rem;
+  background: #f0f0f0;
+  line-height: 0;
+}
+
+.event-detail-image img {
+  width: 100%;
+  height: auto;
+  max-height: 440px;
+  object-fit: cover;
+  display: block;
+}
+
+.event-detail-body {
+  padding: 1.4rem 1.5rem 1.8rem;
+}
+
+.event-detail-title {
+  font-size: 1.7rem;
+  line-height: 1.15;
+  margin: 0.3rem 0 0.9rem;
+  color: #1a1a1a;
+}
+
+.event-detail-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 0;
+  margin-bottom: 1rem;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.event-detail-when strong {
+  display: block;
+  font-size: 1.05rem;
+  color: #1a1a1a;
+}
+
+.event-detail-when span {
+  font-size: 0.9rem;
+  color: #7a6a5a;
+}
+
+.event-detail-where {
+  font-size: 0.9rem;
+  color: #7a6a5a;
+  margin-top: 0.2rem;
+}
+
+.event-detail-cadence {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #7a6a5a;
+  background: #faf8f5;
+  border: 1px solid #eee;
+  border-radius: 999px;
+}
+
+.event-detail-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.event-detail-content p {
+  margin: 0 0 0.9rem;
+}
+
+.event-detail-expect {
+  margin-top: 1.4rem;
+  padding: 1.1rem 1.2rem;
+  background: #faf8f5;
+  border: 1px solid #eee;
+}
+
+.event-detail-expect h2 {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a6a5a;
+  margin: 0 0 0.5rem;
+}
+
+.event-detail-expect p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #333;
+}
+
+.event-detail .event-buttons {
+  margin-top: 1.5rem;
+}
+
+.event-detail-source {
+  margin-top: 1.2rem;
+  font-size: 0.85rem;
+}
+
+.event-detail-source a {
+  color: #7a6a5a;
+  text-decoration: underline;
+}
+
+.event-detail-source a:hover {
+  color: #1a1a1a;
+}
+
+@media (max-width: 480px) {
+  .event-detail-body { padding: 1.1rem 1.1rem 1.4rem; }
+  .event-detail-title { font-size: 1.4rem; }
+}
+
+.event-detail-price {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-top: 0.2rem;
+}
+
+.event-detail-meta-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.event-detail-meta-empty strong {
+  font-size: 1.05rem;
+  color: #1a1a1a;
+}
+
+.event-detail-meta-empty span {
+  font-size: 0.9rem;
+  color: #7a6a5a;
 }

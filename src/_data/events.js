@@ -4,7 +4,7 @@ export default async function () {
   try {
     return await eleventyFetch(
       "https://github.com/heresmohit/UC-ingest/releases/download/improvlore-latest/events.json",
-      { duration: "1", type: "json" }
+      { duration: "5m", type: "json" }
     );
   } catch {
     return [];

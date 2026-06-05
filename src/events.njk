@@ -1,0 +1,97 @@
+---
+layout: base.njk
+title: What's On - Improvlore
+permalink: /events/index.html
+showCustomEvents: false
+---
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-whats-on">
+    <h2 class="section-heading" id="section-whats-on">What's On</h2>
+    <p class="section-sub">Every upcoming show, jam, and workshop in one place. Filter by type, or just browse.</p>
+
+  <div class="event-key" role="group" aria-label="Filter events by type">
+    <button type="button" class="event-key-item" data-filter="show" aria-pressed="false">
+      <span class="event-key-dot dot-show"></span>
+      <div>
+        <strong>SHOW</strong>
+        <p>You shape the show with us</p>
+      </div>
+    </button>
+    <button type="button" class="event-key-item" data-filter="jam" aria-pressed="false">
+      <span class="event-key-dot dot-jam"></span>
+      <div>
+        <strong>JAM</strong>
+        <p>Come play with us, beginner friendly</p>
+      </div>
+    </button>
+    <button type="button" class="event-key-item" data-filter="workshop" aria-pressed="false">
+      <span class="event-key-dot dot-workshop"></span>
+      <div>
+        <strong>WORKSHOP</strong>
+        <p>Learn to play, kind to first-timers</p>
+      </div>
+    </button>
+    <button type="button" class="event-key-clear" data-filter-clear hidden aria-label="Clear filter">
+      <span aria-hidden="true">×</span> Clear
+    </button>
+  </div>
+
+  <div class="filter-empty" hidden>
+    <h2>No <span class="filter-empty-type">events</span> coming up</h2>
+    <p>Nothing of that kind on the calendar right now. Try the other type or clear the filter.</p>
+  </div>
+
+  <div class="event-grid">
+  {% for ev in events %}
+  {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
+    {% set dateLabel = "" %}
+    {% if ev.event_starts_at %}
+      {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
+    {% endif %}
+
+    {% set img = null %}
+    {% if ev.thumbnails and ev.thumbnails.length %}
+      {% set img = ev.thumbnails[0].url %}
+    {% elif ev.image_url %}
+      {% set img = ev.image_url %}
+    {% endif %}
+
+    {% set evType = filters.eventType(ev.title, ev.tags) %}
+    <div id="{{ filters.eventSlug(ev) }}" class="event-flip event-type-{{ evType }}">
+      <div class="event-card event-type-{{ evType }}">
+
+        {% if img %}
+          <div class="event-image">
+            <img src="{{ img }}" alt="{{ ev.title }}">
+          </div>
+        {% endif %}
+
+        <div class="event-card-body">
+          <span class="event-type-badge">{{ evType }}</span>
+          <h2 class="event-title">{{ ev.title }}</h2>
+
+          {% if dateLabel %}
+            <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
+          {% endif %}
+
+          <p class="event-excerpt">
+            {{ filters.cardText(ev.full_content or ev.excerpt, 260) }}
+          </p>
+
+          <div class="event-buttons">
+            <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}" target="_blank">Buy Ticket</a>
+            <a class="btn btn-ghost" href="{{ filters.eventPermalink(ev) }}">Learn More</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  {% endif %}
+  {% endfor %}
+  </div>
+
+  </section>
+
+</div>

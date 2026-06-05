@@ -1,0 +1,29 @@
+---
+layout: base.njk
+pagination:
+  data: catalog
+  size: 1
+  alias: fmt
+permalink: "{{ filters.formatPermalink(fmt) }}index.html"
+---
+
+{% set bodyText = fmt.next.full_content or fmt.fullText or fmt.blurb %}
+{% set d = {
+  type: fmt.type,
+  image: fmt.image,
+  title: fmt.title,
+  hasWhen: fmt.hasUpcoming,
+  startsAt: filters.formatDateFull(fmt.startsAt),
+  timeRange: filters.formatTimeRange(fmt.startsAt, fmt.endsAt),
+  venue: fmt.venue,
+  price: fmt.price,
+  recurrence: fmt.recurrence,
+  emptyMeta: not fmt.hasUpcoming,
+  bodyParas: bodyText.split("\n"),
+  expect: fmt.expect,
+  ticketUrl: fmt.ticketUrl,
+  notify: not fmt.hasUpcoming,
+  learnMore: fmt.next.learn_more
+} %}
+
+{% include "event-detail.njk" %}
