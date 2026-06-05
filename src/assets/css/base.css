@@ -1,0 +1,386 @@
+/* =================================================
+   BASE: tokens, reset, layout shell, typography
+   ================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Brand palette */
+  --ink: #1a1a1a;
+  --cream: #fffbf5;
+  --yellow: #f5c400;
+  --yellow-deep: #f0b800;
+  --green: #2ecc71;
+  --blue: #2563eb;
+  --pink: #ff5ca8;
+
+  /* Text greys */
+  --text-body: #333;
+  --text-muted: #555;
+  --text-soft: #7a6a5a;
+  --text-faint: #888;
+
+  /* Surfaces & lines */
+  --surface: #fff;
+  --surface-tint: #fefdfb;
+  --surface-warm: #faf8f5;
+  --border-card: #e8ddd5;
+  --border-soft: #e0e0e0;
+  --border-hairline: #eee;
+  --border-hover: #d4a8a2;
+
+  /* The repeated "card" look: gradient fill + warm border + soft shadow.
+     Variants reference these instead of re-declaring the same values. */
+  --card-bg: linear-gradient(135deg, var(--surface) 0%, var(--surface-tint) 100%);
+  --card-bg-vert: linear-gradient(to bottom right, var(--surface) 0%, var(--surface-tint) 100%);
+  --card-border: 1.5px solid var(--border-card);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --card-shadow-lift: 0 8px 24px rgba(245, 196, 0, 0.15);
+  --card-shadow-yellow: 0 4px 12px rgba(245, 196, 0, 0.15);
+
+  /* Accent pill (year markers, ladder steps, etc.) */
+  --pill-yellow: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-deep) 100%);
+
+  --font-display: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+  --font-body: 'Archivo', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+html { scroll-behavior: smooth; }
+
+/* Headings carry the display face for personality; body copy stays Archivo
+   for readability. */
+.home-hero-heading,
+.event-title,
+.event-detail-title,
+.about-lede,
+.about-stat-num,
+.empty-state h2,
+.filter-empty h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* -------------------------------------------------
+   SHARED CARD SURFACE
+   A reusable hover-lift card. Component classes can either use .surface-card
+   directly or compose the look via the --card-* tokens above.
+------------------------------------------------- */
+
+.surface-card {
+  background: var(--card-bg);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.surface-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-lift);
+}
+
+/* A lighter variant that warms the border to yellow on hover instead of the
+   rose tone. Used by the list-style cards (stats, ladder, offers). */
+.surface-card--yellow:hover {
+  border-color: var(--yellow);
+  box-shadow: var(--card-shadow-yellow);
+  transform: none;
+}
+
+/* -------------------------------------------------
+   PAGE SHELL
+------------------------------------------------- */
+
+.events-root {
+  width: 100%;
+  max-width: 780px;
+  margin: 1.5rem auto 2.5rem;
+  /* The page-frost layer behind everything keeps text readable over the
+     background motifs, so the content stays transparent and borderless to let
+     the frosted wash show. */
+  padding: 1.8rem 1.6rem 3rem;
+}
+
+@media (max-width: 600px) {
+  .events-root {
+    margin: 0.8rem auto 1.5rem;
+    border-radius: 16px;
+    padding: 1.2rem 1.1rem 2rem;
+  }
+}
+
+/* On wide screens, let the page fill the viewport instead of sitting in a
+   narrow column with distracting empty rails. A modest gutter keeps content
+   off the screen edges. Phones are untouched. */
+@media (min-width: 900px) {
+  .events-root {
+    /* width:auto (not 100%) so the side margins act as gutters instead of
+       adding to a full-viewport width and overflowing — that overflow was the
+       source of the horizontal scrollbar. */
+    width: auto;
+    max-width: none;
+    margin: 1.5rem 2.5rem 2.5rem;
+    padding: 2rem 2.5rem 3.2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .events-root {
+    margin: 1.5rem 3.5rem 2.5rem;
+    padding: 2.2rem 3rem 3.5rem;
+  }
+}
+
+/* -------------------------------------------------
+   SITE HEADER + NAV
+------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.2rem 1.5rem;
+  position: relative;
+  background: linear-gradient(to bottom, rgba(255, 251, 245, 0.95), rgba(255, 251, 245, 0.9));
+  border-bottom: 2px solid rgba(26, 26, 26, 0.12);
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.08);
+}
+
+.site-header-logo {
+  display: block;
+  flex-shrink: 0;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.site-nav-link {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  outline-offset: 2px;
+}
+
+.site-nav-link:hover {
+  color: var(--ink);
+  background-color: rgba(37, 99, 235, 0.08);
+  border-bottom-color: var(--blue);
+}
+
+.site-nav-link:focus {
+  outline: 3px solid var(--blue);
+}
+
+.site-nav-link:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.site-nav-link:focus-visible {
+  outline: 3px solid var(--blue);
+}
+
+.site-nav-link.is-active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background-color: rgba(37, 99, 235, 0.06);
+  font-weight: 700;
+}
+
+/* Hamburger toggle. Hidden on wide screens (the inline nav shows instead);
+   revealed at the mobile breakpoint below. */
+.site-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1.5px solid rgba(26, 26, 26, 0.18);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.site-nav-toggle:hover {
+  border-color: var(--ink);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.site-nav-toggle:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* The three bars, drawn with the middle bar as the element and the outer two
+   as pseudo-elements. On open they cross into an X. */
+.site-nav-toggle-bars,
+.site-nav-toggle-bars::before,
+.site-nav-toggle-bars::after {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.site-nav-toggle-bars {
+  position: relative;
+}
+
+.site-nav-toggle-bars::before,
+.site-nav-toggle-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.site-nav-toggle-bars::before { top: -7px; }
+.site-nav-toggle-bars::after  { top: 7px; }
+
+.site-nav-toggle[aria-expanded="true"] .site-nav-toggle-bars {
+  background: transparent;
+}
+
+.site-nav-toggle[aria-expanded="true"] .site-nav-toggle-bars::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.site-nav-toggle[aria-expanded="true"] .site-nav-toggle-bars::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.hero-logo {
+  width: clamp(130px, 34vw, 180px);
+  height: auto;
+  display: block;
+}
+
+/* Mobile / small-tablet: the six links no longer wrap onto a second row.
+   Instead the hamburger shows and the nav collapses into a dropdown panel
+   anchored to the bottom of the header. */
+@media (max-width: 720px) {
+  .site-nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.4rem;
+    background: var(--cream);
+    border-bottom: 2px solid rgba(26, 26, 26, 0.12);
+    box-shadow: 0 8px 20px rgba(26, 26, 26, 0.12);
+    /* Collapsed by default; .is-open (set by the toggle) reveals it. */
+    display: none;
+    z-index: 20;
+  }
+
+  .site-nav.is-open {
+    display: flex;
+  }
+
+  .site-nav-link {
+    border-bottom: none;
+    border-radius: 6px;
+    padding: 0.8rem 0.9rem;
+    font-size: 1rem;
+  }
+
+  .site-nav-link.is-active {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 1rem 1rem;
+  }
+}
+
+/* -------------------------------------------------
+   SECTION HEADINGS
+------------------------------------------------- */
+
+.page-section + .page-section {
+  margin-top: 2.4rem;
+  padding-top: 2rem;
+  border-top: 1.5px dashed var(--border-soft);
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+  margin: 0 0 0.9rem;
+  line-height: 1.1;
+}
+
+@media (min-width: 900px) {
+  .section-heading { font-size: 1.75rem; }
+}
+
+@media (min-width: 1200px) {
+  .section-heading { font-size: 1.9rem; }
+}
+
+/* Hand-drawn highlighter swipe behind the heading text. The rounded inline
+   background reads as a marker stroke rather than a tidy box. Each section can
+   override --swipe to rotate the brand palette. */
+.section-heading > span,
+.section-heading {
+  position: relative;
+  display: inline;
+}
+
+.section-heading {
+  background-image: linear-gradient(transparent 58%, var(--swipe, rgba(245, 196, 0, 0.55)) 58%, var(--swipe, rgba(245, 196, 0, 0.55)) 92%, transparent 92%);
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.15em 0.1em 0;
+}
+
+.page-section:nth-of-type(3n+1) .section-heading { --swipe: rgba(245, 196, 0, 0.55); }
+.page-section:nth-of-type(3n+2) .section-heading { --swipe: rgba(46, 204, 113, 0.45); }
+.page-section:nth-of-type(3n+3) .section-heading { --swipe: rgba(37, 99, 235, 0.30); }
+
+.section-sub {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0 0 1.4rem;
+}

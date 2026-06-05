@@ -1,0 +1,5 @@
+---
+permalink: "/event/{{ filters.eventSlug(ev) }}/event.ics"
+eleventyExcludeFromCollections: true
+---
+{{- icsBody | safe -}}

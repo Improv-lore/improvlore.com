@@ -1,0 +1,136 @@
+---
+layout: base.njk
+title: About Improvlore - Bangalore's Improv Troupe
+permalink: /about/
+pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. Weekly jams, beginner workshops, and shows made up on the spot.
+---
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-about-hero">
+    <h1 class="section-heading" id="section-about-hero">About Us</h1>
+
+    <div class="about-intro">
+      <p class="about-lede">We are a Bangalore-based community-theatre troupe. We make up theatre on the spot, with no script and no second take, and we would like to rekindle the joy of being playful and whimsical.</p>
+      <p class="about-where">Improv Lore has been around since 2022. When Underline Center opened in Indiranagar, we made it our home, and we have been the resident improv act there ever since. Our Wednesday jam is the longest-running night the venue has. We also play other rooms around the city, and now and then we take a show out of town.</p>
+      <p class="more-line">Out of town has lately meant out of the country. Since 2024 we have been invited to improv festivals across Asia, in Singapore, Vietnam, Manila, and Hong Kong. <a href="/festivals/">See where we've played →</a></p>
+    </div>
+
+    <!--
+      All three are provably true today: weekly jam since 2022 (resident act at
+      Underline Center), 4 festival cities abroad (see festivals.js), and the
+      "no two the same" line. Swap in a hard count (jams run, shows performed)
+      if you ever want to track and stand behind one.
+    -->
+    <ul class="about-stats" aria-label="Improv Lore at a glance">
+      <li>
+        <span class="about-stat-num">Since '22</span>
+        <span class="about-stat-label">Weekly Wed jam</span>
+      </li>
+      <li>
+        <span class="about-stat-num">4</span>
+        <span class="about-stat-label">Countries abroad</span>
+      </li>
+      <li>
+        <span class="about-stat-num">No two</span>
+        <span class="about-stat-label">Shows the same</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-founders">
+    <h2 class="section-heading" id="section-founders">Who Started It</h2>
+    <div class="about-intro">
+      <p class="about-where">Improv Lore was started by Bala and Arjun, who run our jams, direct our shows, and built the formats we are known for. Both teach and perform improv around the world, and they have taken it to the TED stage too. What they pick up on the road comes back into the room here.</p>
+    </div>
+    <p class="more-line">
+      Watch their <a href="https://www.youtube.com/watch?v=PVgLzuHFpT4" target="_blank" rel="noopener">TED talk</a>, or follow their work:
+      <a href="https://www.instagram.com/blala_land" target="_blank" rel="noopener">Bala</a>
+      and
+      <a href="https://www.linkedin.com/in/mehrarjun/" target="_blank" rel="noopener">Arjun →</a>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-new-here">
+    <h2 class="section-heading" id="section-new-here">Never Done This Before?</h2>
+    <p class="section-sub">Most people who come to a jam have never been on a stage. That is the point. Here is the order we would walk a friend through it.</p>
+
+    <ol class="about-ladder">
+      <li>
+        <span class="about-ladder-step">1</span>
+        <div>
+          <strong>Come to a Whimsical Wednesday</strong>
+          <p>Our jam. Leave your inhibitions at the door, play a few games, see what improv actually feels like. No experience, no pressure.</p>
+        </div>
+      </li>
+      <li>
+        <span class="about-ladder-step">2</span>
+        <div>
+          <strong>Make friends with the stage</strong>
+          <p>When you want to do more than watch, this is the open-stage jam built for it. Short scenes, we keep things moving, you step in and out as you like.</p>
+        </div>
+      </li>
+      <li>
+        <span class="about-ladder-step">3</span>
+        <div>
+          <strong>Take Improv 101</strong>
+          <p>A proper first workshop, built around how not to panic on stage. By the end you are doing scenes and enjoying it.</p>
+        </div>
+      </li>
+      <li>
+        <span class="about-ladder-step">4</span>
+        <div>
+          <strong>Find your thing</strong>
+          <p>Musical improv, our longer courses, and the formats that make up our shows. Go as deep as you want.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="event-buttons">
+      <a class="btn btn-primary" href="/events/">See what's upcoming</a>
+      <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">Follow Along</a>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-signature">
+    <h2 class="section-heading" id="section-signature">Shows We Are Known For</h2>
+    <p class="section-sub">Built live from what the room gives us, so no two are the same. A few of the formats we keep coming back to.</p>
+
+    <ul class="about-shows" aria-label="Signature show formats">
+      {% for show in signatureShows %}
+      <li>
+        <a class="about-show-card" href="{{ show.url }}">
+          <div class="about-show-poster-wrap">
+            <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+            {% if show.festival %}<span class="festival-badge" title="A format we tour to international festivals">International format</span>{% endif %}
+          </div>
+          <div class="about-show-body">
+            <strong>{{ show.title }}</strong>
+            <span>{{ show.blurb }}</span>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-improvathon">
+    <h2 class="section-heading" id="section-improvathon">The Improvathon</h2>
+    <div class="about-intro">
+      <p class="about-where">Every so often we hand the venue over to improv for a full day, marathon included. We kick off with TheatreSports to set the tone, then run jams, intros, and signature formats back to back into the night. It is the easiest day to wander into and stay longer than you planned.</p>
+    </div>
+  </section>
+
+  <section class="page-section page-section-info" aria-labelledby="section-about-more">
+    <h2 class="section-heading" id="section-about-more">Work With Us</h2>
+
+    <a class="corporate-banner" href="/for-teams/">
+      <span class="corporate-banner-text">
+        <strong>We bring improv to workplaces too.</strong>
+        Custom shows and team workshops, shaped around your team.
+      </span>
+      <span class="corporate-banner-arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+
+</div>

@@ -1,264 +1,124 @@
 ---
 layout: base.njk
-title: Improvlore – Upcoming Shows
+title: Improvlore - Bangalore
 showCustomEvents: false
+requiresEvents: true
 ---
 
 <div class="events-root">
 
-  <section class="page-section" aria-labelledby="section-whats-on">
-    <h2 class="section-heading" id="section-whats-on">What's On</h2>
-    <p class="section-sub">Check out our upcoming events below. The friendliest way to get started with improv.</p>
+  {# Hero answers "who are you / is this for me / where do I go" for a new
+     visitor, while keeping a fast path into events. The featured card shows
+     the single next upcoming event of any type, with a copy fallback if
+     nothing is scheduled so the hero never renders half-empty. #}
+  {% set heroNext = filters.nextEvent(events, showCustomEvents) %}
 
-  {% set weekEvents = filters.upcomingWeek(events, showCustomEvents) %}
-  {% if weekEvents.length %}
-  <details class="week-view" aria-label="Upcoming week" open>
-    <summary class="week-view-title">
-      <span>{% if filters.spansBeyondThisWeek(weekEvents) %}Upcoming{% else %}This Week{% endif %}</span>
-      <span class="week-view-chevron" aria-hidden="true">▾</span>
-    </summary>
-    <ul class="week-list">
-      {% for ev in weekEvents %}
-        {% set evType = filters.eventType(ev.title, ev.tags) %}
-        <li class="week-item event-type-{{ evType }}">
-          <a class="week-item-link" href="#{{ filters.eventSlug(ev) }}">
-            <div class="week-date">
-              <span class="week-day">{{ filters.formatDay(ev.event_starts_at) }}</span>
-              <span class="week-daynum">{{ filters.formatDayNum(ev.event_starts_at) }}</span>
-              <span class="week-month">{{ filters.formatMonth(ev.event_starts_at) }}</span>
-            </div>
-            <div class="week-info">
-              <span class="week-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
-              <span class="week-name">{{ ev.title }}</span>
-              <span class="week-type-tag week-type-{{ evType }}">{{ evType }}</span>
-            </div>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </details>
-  {% endif %}
-
-  {% set workshopEvents = filters.upcomingWorkshops(events, showCustomEvents) %}
-  {% if workshopEvents.length %}
-  <details class="week-view workshop-view" aria-label="Upcoming workshops" open>
-    <summary class="week-view-title">
-      <span><span class="workshop-flag">Workshops</span> Upcoming</span>
-      <span class="week-view-chevron" aria-hidden="true">▾</span>
-    </summary>
-    <ul class="week-list">
-      {% for ev in workshopEvents %}
-        <li class="week-item event-type-workshop">
-          <a class="week-item-link" href="#{{ filters.eventSlug(ev) }}">
-            <div class="week-date">
-              <span class="week-day">{{ filters.formatDay(ev.event_starts_at) }}</span>
-              <span class="week-daynum">{{ filters.formatDayNum(ev.event_starts_at) }}</span>
-              <span class="week-month">{{ filters.formatMonth(ev.event_starts_at) }}</span>
-            </div>
-            <div class="week-info">
-              <span class="week-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
-              <span class="week-name">{{ ev.title }}</span>
-              <span class="week-type-tag week-type-workshop">workshop</span>
-            </div>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </details>
-  {% endif %}
-
-  <div class="event-key" role="group" aria-label="Filter events by type">
-    <button type="button" class="event-key-item" data-filter="show" aria-pressed="false">
-      <span class="event-key-dot dot-show"></span>
-      <div>
-        <strong>SHOW</strong>
-        <p>You shape the show with us</p>
-      </div>
-    </button>
-    <button type="button" class="event-key-item" data-filter="jam" aria-pressed="false">
-      <span class="event-key-dot dot-jam"></span>
-      <div>
-        <strong>JAM</strong>
-        <p>Come play with us, beginner friendly</p>
-      </div>
-    </button>
-    <button type="button" class="event-key-clear" data-filter-clear hidden aria-label="Clear filter">
-      <span aria-hidden="true">×</span> Clear
-    </button>
-  </div>
-
-  <div class="filter-empty" hidden>
-    <h2>No <span class="filter-empty-type">events</span> coming up</h2>
-    <p>Nothing of that kind on the calendar right now. Try the other type or clear the filter.</p>
-  </div>
-
-  {% for ev in events %}
-  {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
-    {% set dateLabel = "" %}
-    {% if ev.event_starts_at %}
-      {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
-    {% endif %}
-
-    {% set img = null %}
-    {% if ev.thumbnails and ev.thumbnails.length %}
-      {% set img = ev.thumbnails[0].url %}
-    {% elif ev.image_url %}
-      {% set img = ev.image_url %}
-    {% endif %}
-
-    {% set evType = filters.eventType(ev.title, ev.tags) %}
-    <div id="{{ filters.eventSlug(ev) }}" class="event-flip event-type-{{ evType }}">
-      <div class="event-flip-inner">
-
-        <div class="event-card event-flip-face event-flip-front event-type-{{ evType }}">
-
-          {% if img %}
-            <div class="event-image">
-              <img src="{{ img }}" alt="{{ ev.title }}">
-            </div>
-          {% endif %}
-
-          <div class="event-card-body">
-            <span class="event-type-badge">{{ evType }}</span>
-            <h2 class="event-title">{{ ev.title }}</h2>
-
-            {% if dateLabel %}
-              <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
-            {% endif %}
-
-            <p class="event-excerpt">
-              {{ filters.shortText(ev.excerpt or ev.full_content, 180) }}
-            </p>
-
-            <div class="event-buttons">
-              <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-              <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
-            </div>
-          </div>
-
-          <button type="button" class="event-flip-trigger" aria-label="What to expect">
-            <span>What to expect</span>
-            <span aria-hidden="true">↻</span>
-          </button>
-        </div>
-
-        <div class="event-card event-flip-face event-flip-back event-type-{{ evType }}">
-          <div class="event-card-body">
-            <span class="event-type-badge">{{ evType }}</span>
-            <h2 class="event-title">{{ ev.title }}</h2>
-
-            {% if dateLabel %}
-              <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
-            {% endif %}
-
-            <div class="event-expect-body">
-              {% if evType == "jam" %}
-                <p>Jams are our open sessions for anyone curious about improv.</p>
-                <p><strong>Whimsical Wednesday</strong> is off-stage play. Low-pressure exercises, no audience, a great place to start and meet people.</p>
-                <p><strong>Make Friends with the Stage</strong> is the next step on-stage. Short scenes in a supportive room, designed to help you take the leap into performing.</p>
-              {% elif evType == "workshop" %}
-                <p>A hands-on session to learn improv by doing, no experience needed.</p>
-                <p>You'll work through guided exercises in a supportive room, at a pace that's friendly to first-timers.</p>
-                <p>Each workshop focuses on a particular skill or format. Tap <strong>Learn More</strong> for what this one covers and who it's for.</p>
-              {% else %}
-                <p>A live improv performance built entirely from your suggestions.</p>
-                <p>Every show is a one-time-only piece of theatre, created in the moment, in front of you.</p>
-                <p>Some of our shows are themed or follow a particular format. Theme or no theme, each show is one of a kind. Tap <strong>Learn More</strong> for the specifics of this one.</p>
-              {% endif %}
-            </div>
-
-            <div class="event-buttons">
-              <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-              <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
-            </div>
-          </div>
-        </div>
-
+  <section class="home-hero" aria-labelledby="hero-heading">
+    <div class="home-hero-intro">
+      <p class="home-hero-eyebrow">Improv in Bangalore and beyond, since 2022</p>
+      <p class="fun-shout" aria-hidden="true"><span class="fun-f">F</span><span class="fun-u">U</span><span class="fun-n">N</span></p>
+      <h1 class="home-hero-heading" id="hero-heading">Live theatre, made up on the spot.</h1>
+      <p class="home-hero-lede">No script, no second take. We build shows from your suggestions, then never do them again. Come watch, jump into a jam, or learn it yourself.</p>
+      <div class="home-hero-cta">
+        <a class="btn btn-primary" href="/events/">See what's on</a>
       </div>
     </div>
-  {% endif %}
-  {% endfor %}
 
+    {% if heroNext %}
+    <a class="home-hero-next" href="{{ filters.eventPermalink(heroNext) }}">
+      <img class="home-hero-next-poster" src="{{ filters.eventImage(heroNext) }}" alt="{{ heroNext.title }} poster" loading="eager">
+      <span class="home-hero-next-body">
+        <span class="home-hero-next-kicker">Up next</span>
+        <span class="home-hero-next-title">{{ filters.workshopName(heroNext.title) }}</span>
+        {% set heroSessions = filters.eventSessions(heroNext.title) %}
+        <span class="home-hero-next-blurb">{{ filters.formatDay(heroNext.event_starts_at) }}, {{ filters.formatDayNum(heroNext.event_starts_at) }} {{ filters.formatMonth(heroNext.event_starts_at) }} at {{ filters.formatTime(heroNext.event_starts_at) }}{% if heroSessions and heroSessions.dates and heroSessions.dates.length > 1 %} <span class="home-hero-next-tag">+{{ heroSessions.dates.length - 1 }} more dates</span>{% endif %}</span>
+      </span>
+    </a>
+    {% endif %}
   </section>
 
-  <section class="page-section page-section-info" aria-labelledby="section-book-visit">
-    <h2 class="section-heading" id="section-book-visit">Book &amp; Visit</h2>
+  <section class="page-section" aria-labelledby="section-start">
+    <h2 class="section-heading" id="section-start">New Here? Start Anywhere</h2>
+    <p class="section-sub">However you like to play, there's a way in. We just want you to find joy in play again.</p>
 
-  <div class="event-card promo-card book-card">
-    <div class="event-card-body">
-      <span class="event-type-badge">BOOK US</span>
-      <h2 class="event-title">Bring improv to your workplace</h2>
-      <p class="event-excerpt">Custom shows and workshops, shaped around your team's goals. Whether it's an offsite, a team-building day, or a company event, we'll build something that fits.</p>
+    <ul class="book-offer-list about-paths">
+      <li>
+        <a class="about-path-link" href="/events/?type=show">
+          <strong>Watch a show</strong>
+          <p>Sit back and let us build a one-time-only show from your suggestions. No pressure to do a thing.</p>
+        </a>
+      </li>
+      <li>
+        <a class="about-path-link" href="/events/?type=jam">
+          <strong>Play at a jam</strong>
+          <p>Our open, beginner-friendly sessions. Jump in, mess around, meet people. No experience needed.</p>
+        </a>
+      </li>
+      <li>
+        <a class="about-path-link" href="/events/?type=workshop">
+          <strong>Take a workshop</strong>
+          <p>Learn by doing, at a pace that's kind to first-timers. A guided room where it's safe to try.</p>
+        </a>
+      </li>
+    </ul>
 
-      <ul class="book-offer-list">
-        <li>
-          <span class="book-offer-icon" aria-hidden="true">🎭</span>
-          <div>
-            <strong>Custom Shows</strong>
-            <p>A private improv show tailored to your team, theme, or occasion.</p>
-          </div>
-        </li>
-        <li>
-          <span class="book-offer-icon" aria-hidden="true">🧩</span>
-          <div>
-            <strong>Team Workshops</strong>
-            <p>Hands-on sessions that build trust, listening, and collaboration through play.</p>
-          </div>
-        </li>
-      </ul>
+    <p class="book-cta-line">Pricing and venue are listed on each event, so you always know before you go.</p>
+  </section>
 
-      <p class="book-cta-line">Tell us a bit about your team and we'll design something specific.</p>
+  <p class="yesand-shout" aria-hidden="true"><span class="yesand-yes">WHIM</span><span class="yesand-and">SY</span></p>
 
-      <div class="event-buttons">
-        <a class="btn btn-primary" href="mailto:{{ social.gmail | replace('mailto:', '') }}?subject=Book Improvlore for our team">Email Us</a>
-        <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank">DM on Instagram</a>
-      </div>
+  <section class="page-section" aria-labelledby="section-about">
+    <h2 class="section-heading" id="section-about">Who We Are</h2>
+
+    <div class="about-intro">
+      <p class="about-lede">We make up theatre on the spot, with no script and no second take. Around since 2022, building stories that never existed before and never will again, and letting a room feel its way through them together.</p>
     </div>
-  </div>
 
-  <div class="event-card promo-card workshop-card">
-    <div class="event-card-body">
-      <span class="event-type-badge">WORKSHOPS</span>
-      <h2 class="event-title">These are our workshop offerings</h2>
-      <p class="event-excerpt">The workshops we run for anyone curious about improv. No experience needed, just a willingness to play.</p>
+    <p class="more-line">
+      Weekly jams, workshops, and shows built live from whatever the room gives us.
+      <a href="/about/">Read our story →</a>
+    </p>
 
-      {% set offerWorkshops = filters.upcomingWorkshops(events, showCustomEvents) %}
-      {% if offerWorkshops.length %}
-      <ul class="book-offer-list">
-        {% for ev in offerWorkshops %}
-        <li>
-          <span class="book-offer-icon" aria-hidden="true">🎭</span>
-          <div>
-            <strong>{{ filters.workshopName(ev.title) }}</strong>
-            <p>{{ filters.shortText(ev.excerpt or ev.full_content, 120) }}</p>
+    <p class="more-line">
+      Since 2024 we've packed our shows off to improv festivals across Asia: Singapore, Vietnam, Manila, Hong Kong.
+      <a href="/festivals/">See where we've been →</a>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-shows">
+    <h2 class="section-heading" id="section-shows">Shows We Are Known For</h2>
+    <p class="section-sub">Built live from what the room gives us, so no two are the same. A few of the formats we keep coming back to.</p>
+
+    <ul class="about-shows" aria-label="Signature show formats">
+      {% for show in signatureShows %}
+      <li>
+        <a class="about-show-card" href="{{ show.url }}">
+          <div class="about-show-poster-wrap">
+            <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+            {% if show.festival %}<span class="festival-badge" title="A format we tour to international festivals">International format</span>{% endif %}
           </div>
-        </li>
-        {% endfor %}
-      </ul>
+          <div class="about-show-body">
+            <strong>{{ show.title }}</strong>
+            <span>{{ show.blurb }}</span>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
-      <p class="book-cta-line">If these dates don't work for you, fill the form and we'll notify you about the next ones.</p>
-      {% else %}
-      <p class="book-cta-line">No workshops on the calendar right now. Fill the form and we'll notify you when the next ones open.</p>
-      {% endif %}
+  <section class="page-section page-section-info" aria-labelledby="section-more">
+    <h2 class="section-heading" id="section-more">More From Us</h2>
 
-      <div class="event-buttons">
-        <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScVGlLUHvSgII5k7CeEijb48vaqdK9OcHr0Awx6KKIiHDujog/viewform" target="_blank" rel="noopener">Notify Me</a>
-        <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank">DM on Instagram</a>
-      </div>
-    </div>
-  </div>
+    <a class="corporate-banner" href="/for-teams/">
+      <span class="corporate-banner-text">
+        <strong>We bring improv to workplaces too.</strong>
+        Custom shows and team workshops, shaped around your team.
+      </span>
+      <span class="corporate-banner-arrow" aria-hidden="true">→</span>
+    </a>
 
-  <div class="event-card promo-card">
-    <div class="event-card-body">
-      <h2 class="event-title">More events in Bangalore?</h2>
-      <p class="event-excerpt">Underline Center is a community space in Indiranagar that hosts shows, workshops, and events all year round. Check out what else is on.</p>
-      <div class="event-buttons">
-        <a class="btn btn-primary" href="https://underline.center" target="_blank">Visit Underline Center</a>
-        <a class="btn btn-ghost" href="https://www.google.com/maps/place/Underline+Center/@12.9672266,77.6341233,1247m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bae15ce8263b8d9:0x1589e99864d3e1a8!8m2!3d12.9672214!4d77.6366982!16s%2Fg%2F11vqhpphq2?entry=ttu&g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank">View on Maps</a>
-      </div>
-    </div>
-  </div>
-
+    
   </section>
 
 </div>

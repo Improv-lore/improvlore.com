@@ -1,0 +1,30 @@
+---
+permalink: /_redirects
+eleventyExcludeFromCollections: true
+---
+# Cloudflare Pages reads this file at the site root.
+# Format: <source> <destination> <status>
+
+# Social vanity short links. /email goes to the contact page rather than a
+# mailto: (Cloudflare redirects only target http(s)/relative paths, not mailto).
+/whatsapp {{ social.whatsapp }} 302
+/instagram {{ social.instagram }} 302
+/email /contact/ 302
+
+# Auto-generated from the format catalog (src/_data/formats.js).
+#
+# Short links for socials/flyers. Add a `short` field to a catalog entry
+# and it appears here automatically, always pointing at the canonical page.
+{% for fmt in catalog %}
+{%- if fmt.short %}
+/{{ fmt.short }} {{ filters.formatPermalink(fmt) }} 302
+{%- endif %}
+{%- endfor %}
+
+# Feed's natural slug -> canonical catalog page, so shared full-title
+# links keep working even when the underlying event title changes.
+{% for ev in events %}
+{%- if ev.slug %}
+/event/{{ ev.slug }}/ {{ filters.eventPermalink(ev) }} 301
+{%- endif %}
+{%- endfor %}

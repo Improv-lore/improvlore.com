@@ -1,0 +1,115 @@
+{#
+  Shared event-detail article, rendered by both catalog.njk (recurring formats)
+  and event.njk (one-off feed events). Each caller normalizes its source object
+  into a single `d` dict so the markup lives in exactly one place.
+
+  Expected `d` keys:
+    type        show | jam | workshop  (drives colour + badge)
+    image       poster/thumbnail url, or falsy
+    title       heading
+    hasWhen     truthy if there's a scheduled date to show
+    startsAt    pre-formatted full date string
+    timeRange   pre-formatted time range, or falsy
+    venue       venue string, or falsy
+    price       price string, or falsy           (catalog only)
+    recurrence  cadence string, or falsy         (catalog only)
+    emptyMeta   truthy to show the "no dates scheduled" block (catalog only)
+    bodyParas   list of paragraph strings for the main content
+    expect      "what to expect" copy
+    ticketUrl   buy-ticket href, or falsy
+    notify      truthy to show Notify Me / Instagram instead of ticket (catalog)
+    learnMore   "original listing" href, or falsy
+    sessions    {note, dates[], extra?} for multi-day workshops, or falsy.
+                Rendered as a schedule list since the feed only carries one
+                date per event (catalog only).
+#}
+<div class="events-root event-detail-root">
+
+  <article class="event-detail event-type-{{ d.type }}">
+
+    {# Back link returns you to wherever you came from (history.back) rather
+       than always /events/, since evergreen format pages may not be on the
+       upcoming-only events list. Falls back to /events/ for direct landings,
+       new tabs, or external referrers, and stays a real link so it works
+       without JS and on right-click / open-in-new-tab. #}
+    <a class="event-detail-back" href="/events/" data-back-link>← Back</a>
+
+    {% if d.image %}
+      <div class="event-detail-image">
+        <img src="{{ d.image }}" alt="{{ d.title }}">
+      </div>
+    {% endif %}
+
+    <div class="event-detail-body">
+      <span class="event-type-badge">{{ d.type }}</span>
+      <h1 class="event-detail-title">{{ d.title }}</h1>
+
+      {% if d.hasWhen %}
+        <div class="event-detail-meta">
+          <div class="event-detail-when">
+            <strong>{{ d.startsAt }}</strong>
+            {% if d.timeRange %}<span>{{ d.timeRange }}</span>{% endif %}
+          </div>
+          {% if d.venue %}<div class="event-detail-where">{{ d.venue }}</div>{% endif %}
+          {% if d.price %}<div class="event-detail-price">{{ d.price }}</div>{% endif %}
+          {% if d.recurrence %}<div class="event-detail-cadence">{{ d.recurrence }}</div>{% endif %}
+        </div>
+      {% elif d.emptyMeta %}
+        <div class="event-detail-meta event-detail-meta-empty">
+          <strong>No dates scheduled right now</strong>
+          {% if d.recurrence %}<span>{{ d.recurrence }}. Get notified when the next one opens.</span>
+          {% else %}<span>Get notified when the next one opens.</span>{% endif %}
+        </div>
+      {% endif %}
+
+      {# Multi-day workshops list every session here. The ticket feed only
+         carries one date, so this is the authoritative schedule. #}
+      {% if d.sessions and d.sessions.dates %}
+        <div class="event-detail-sessions">
+          <h2 class="event-detail-sessions-heading">Schedule</h2>
+          {% if d.sessions.note %}<p class="event-detail-sessions-note">{{ d.sessions.note }}</p>{% endif %}
+          <ul class="event-detail-sessions-list">
+            {% for date in d.sessions.dates %}
+            <li>{{ date }}</li>
+            {% endfor %}
+          </ul>
+          {% if d.sessions.extra %}<p class="event-detail-sessions-extra">{{ d.sessions.extra }}</p>{% endif %}
+        </div>
+      {% endif %}
+
+      <div class="event-detail-content">
+        {% for para in d.bodyParas %}
+          {% if para | trim %}<p>{{ para | trim }}</p>{% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="event-detail-expect">
+        <h2>What to expect</h2>
+        <p>{{ d.expect }}</p>
+      </div>
+
+      <div class="event-buttons">
+        {% if d.notify %}
+          <a class="btn btn-primary" href="/contact/">Get in touch</a>
+          <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">DM on Instagram</a>
+        {% else %}
+          {% if d.ticketUrl %}<a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>{% endif %}
+          {% if d.hasWhen %}
+            <a class="btn btn-ghost" href="{{ page.url }}event.ics" download>Add to calendar</a>
+          {% endif %}
+          {% if d.venue %}
+            <a class="btn btn-ghost" href="https://www.google.com/maps/search/{{ d.venue | urlencode }}" target="_blank" rel="noopener">View on Maps</a>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      {% if d.learnMore %}
+        <p class="event-detail-source">
+          <a href="{{ d.learnMore }}" target="_blank" rel="noopener">Original listing ↗</a>
+        </p>
+      {% endif %}
+    </div>
+
+  </article>
+
+</div>

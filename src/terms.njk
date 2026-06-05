@@ -1,0 +1,65 @@
+---
+layout: base.njk
+title: Terms & Conditions - Improvlore
+permalink: /terms/
+pageDescription: The terms for using the Improv Lore website and attending our events.
+---
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-terms-hero">
+    <h1 class="section-heading" id="section-terms-hero">Terms &amp; Conditions</h1>
+    <div class="about-intro">
+      <p class="about-lede">These terms cover your use of this website and your attendance at our events. By using the site or coming to an event, you agree to them.</p>
+      <p class="about-where">{{ legal.brand }} is run by {{ legal.entity }}, based in {{ legal.city }}, {{ legal.country }}. Last updated {{ legal.effective }}.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-terms-site">
+    <h2 class="section-heading" id="section-terms-site">Using This Site</h2>
+    <div class="about-intro">
+      <p class="about-where">We keep the information on this site, including show dates, times, and prices, as accurate as we can, but it can change, and parts of it are pulled in live from other services. We are not liable for any loss from relying on information here that has since changed. Some links lead to other sites, such as our ticketing platform and social channels, which have their own terms and we are not responsible for them.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-terms-ip">
+    <h2 class="section-heading" id="section-terms-ip">Our Content</h2>
+    <div class="about-intro">
+      <p class="about-where">The name, logo, designs, text, images, and show formats on this site belong to {{ legal.entity }} or are used with permission. Please do not copy or reuse them for your own commercial purposes without asking us first. Recording, photographing, or sharing our performances is covered by our <a href="/code-of-conduct/">Code of Conduct</a>.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-terms-tickets">
+    <h2 class="section-heading" id="section-terms-tickets">Tickets And Entry</h2>
+    <ul class="coc-list">
+      <li>Tickets are sold for a specific event and are not transferable to another event unless we say so.</li>
+      <li>Most tickets are sold through a third-party platform; their booking terms also apply to your purchase.</li>
+      <li>We may need to change the line-up, format, timing, or venue of an event, and now and then we may have to postpone or cancel one.</li>
+      <li>Entry is subject to our <a href="/code-of-conduct/">Code of Conduct</a>. We may refuse entry to, or ask to leave, anyone who breaches it, without a refund.</li>
+      <li>Refunds and cancellations are covered by our <a href="/refunds/">Refund &amp; Cancellation Policy</a>.</li>
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-terms-conduct">
+    <h2 class="section-heading" id="section-terms-conduct">Behaviour At Events</h2>
+    <div class="about-intro">
+      <p class="about-where">Everyone who attends agrees to follow our <a href="/code-of-conduct/">Code of Conduct</a>. Improv is live and unscripted, and the occasional adult theme or strong language may come up, as set out there.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-terms-liability">
+    <h2 class="section-heading" id="section-terms-liability">Liability</h2>
+    <div class="about-intro">
+      <p class="about-where">You attend our events at your own risk and are responsible for your own belongings. To the extent the law allows, {{ legal.entity }} is not liable for any indirect or consequential loss arising from your use of this site or attendance at an event. Nothing in these terms limits any liability that cannot be limited by law.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-terms-law">
+    <h2 class="section-heading" id="section-terms-law">Governing Law And Contact</h2>
+    <div class="about-intro">
+      <p class="about-where">These terms are governed by the laws of {{ legal.country }}, and any dispute is subject to {{ legal.jurisdiction }}. We may update these terms from time to time; the date above shows when they last changed.</p>
+    </div>
+    <p class="coc-fineprint">Questions about these terms? Email <a href="{{ social.gmail }}?subject=Terms enquiry">{{ social.gmail | replace('mailto:', '') }}</a>. {{ legal.brand }} is operated by {{ legal.entity }}{% if legal.address %}, {{ legal.address }}{% endif %}, {{ legal.city }}, {{ legal.country }}.</p>
+  </section>
+
+</div>

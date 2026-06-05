@@ -1,6 +1,16 @@
+import { matchFormat } from "./formats.js";
+import { eventSlug, shortText, cardText } from "./slug.js";
+
 const IST = { timeZone: "Asia/Kolkata" };
 
 export default {
+  // True if a feed event is covered by a recurring catalog format.
+  // Such events get their page from catalog.njk, so event.njk skips them
+  // to avoid two templates writing the same /event/<slug>/ path.
+  isInCatalog(title = "") {
+    return matchFormat(title) !== null;
+  },
+
   formatDate(dateStr) {
     if (!dateStr) return "";
     const d = new Date(dateStr);
@@ -31,31 +41,55 @@ export default {
     return isNaN(d) ? "" : d.toLocaleDateString("en-IN", { ...IST, month: "short" });
   },
 
+  formatDateFull(dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return isNaN(d) ? "" : d.toLocaleDateString("en-IN", { ...IST, weekday: "long", month: "long", day: "numeric" });
+  },
+
+  formatTimeRange(startStr, endStr) {
+    const start = this.formatTime(startStr);
+    if (!start) return "";
+    const end = this.formatTime(endStr);
+    return end ? `${start} – ${end}` : start;
+  },
+
+  eventImage(ev = {}) {
+    // Prefer the self-hosted format poster so the image survives the event
+    // leaving the feed (feed thumbnails are hotlinked from underline.center
+    // and die when the listing ages out). One-offs fall back to the feed.
+    const fmt = matchFormat(ev.title || "");
+    if (fmt && fmt.image) return fmt.image;
+    if (ev.thumbnails && ev.thumbnails.length) return ev.thumbnails[0].url;
+    return ev.image_url || "";
+  },
+
   eventSlug(ev = {}) {
-    const title = (ev.title || "untitled")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 60);
-    const t = ev.event_starts_at ? new Date(ev.event_starts_at).getTime() : 0;
-    return `ev-${title}-${t}`;
+    return eventSlug(ev);
   },
 
-  spansBeyondThisWeek(events = []) {
-    if (!events.length) return false;
-    const now = new Date();
-    const day = now.getDay();
-    const daysUntilSunday = 7 - day;
-    const endOfWeek = new Date(now);
-    endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(now.getDate() + (day === 0 ? 0 : daysUntilSunday));
-    return events.some(ev => {
-      const t = new Date(ev.event_starts_at).getTime();
-      return !isNaN(t) && t > endOfWeek.getTime();
-    });
+  eventPermalink(ev = {}) {
+    // Catalog formats own the canonical /event/<catalog-slug>/ page, so a
+    // feed event that matches one links there. One-offs use the derived slug.
+    const fmt = matchFormat(ev.title || "");
+    return `/event/${fmt ? fmt.slug : this.eventSlug(ev)}/`;
   },
 
-  upcomingWeek(events = [], showCustom = false) {
+  formatPermalink(fmt = {}) {
+    return `/event/${fmt.slug}/`;
+  },
+
+  // Multi-day workshops carry their full schedule on the catalog format (the
+  // feed only has one date). Returns the matching format's `sessions` object,
+  // or null. Used to tag event cards with "+N more dates".
+  eventSessions(title = "") {
+    const fmt = matchFormat(title);
+    return (fmt && fmt.sessions) || null;
+  },
+
+  // Next upcoming event of any type, so the hero's featured card always has
+  // something to show as long as anything is scheduled.
+  nextEvent(events = [], showCustom = false) {
     const now = Date.now();
     return events
       .filter(ev => {
@@ -63,36 +97,17 @@ export default {
         const t = new Date(ev.event_starts_at).getTime();
         if (isNaN(t) || t < now) return false;
         const tags = ev.tags || [];
-        const isUC = showCustom || tags.includes("UC");
-        if (!isUC) return false;
-        return this.eventType(ev.title, tags) !== "workshop";
+        return showCustom || tags.includes("UC");
       })
-      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
-      .slice(0, 7);
-  },
-
-  upcomingWorkshops(events = [], showCustom = false) {
-    const now = Date.now();
-    return events
-      .filter(ev => {
-        if (!ev.event_starts_at) return false;
-        const t = new Date(ev.event_starts_at).getTime();
-        if (isNaN(t) || t < now) return false;
-        const tags = ev.tags || [];
-        const isUC = showCustom || tags.includes("UC");
-        if (!isUC) return false;
-        return this.eventType(ev.title, tags) === "workshop";
-      })
-      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
-      .slice(0, 7);
+      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))[0] || null;
   },
 
   shortText(text, n = 140) {
-    if (!text) return "";
-    const cleaned = text.replace(/\s+/g, " ").trim();
-    const sentenceMatch = cleaned.match(/^.*?[.!?](?=\s|$)/);
-    const firstSentence = sentenceMatch ? sentenceMatch[0] : cleaned;
-    return firstSentence.length > n ? firstSentence.slice(0, n).trim() + "…" : firstSentence;
+    return shortText(text, n);
+  },
+
+  cardText(text, n = 260) {
+    return cardText(text, n);
   },
 
   eventType(title = "", tags = []) {
