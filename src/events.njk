@@ -70,15 +70,7 @@ showCustomEvents: false
           <h2 class="event-title">{{ ev.title }}</h2>
 
           {% if dateLabel %}
-            {# Multi-day workshops: the feed carries only the first date, so
-               flag the rest with a tag pointing at the full schedule. #}
-            {% set sessions = filters.eventSessions(ev.title) %}
-            <div class="event-date">
-              {{ dateLabel }} — {{ ev.venue }}
-              {% if sessions and sessions.dates and sessions.dates.length > 1 %}
-              <a class="event-date-tag" href="{{ filters.eventPermalink(ev) }}">+{{ sessions.dates.length - 1 }} more dates</a>
-              {% endif %}
-            </div>
+            <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
           {% endif %}
 
           <p class="event-excerpt">
