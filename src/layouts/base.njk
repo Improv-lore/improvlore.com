@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
   {% if pageDescription %}<meta name="description" content="{{ pageDescription }}">{% endif %}
+  <link rel="canonical" href="{{ site.absUrl(canonicalUrl or page.url) }}">
   <meta property="og:title" content="{{ title }}">
   {% if pageDescription %}<meta property="og:description" content="{{ pageDescription }}">{% endif %}
-  {% if pageImage %}<meta property="og:image" content="{{ pageImage }}">{% endif %}
+  <meta property="og:url" content="{{ site.absUrl(page.url) }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  {% set ogImage = pageImage or "/assets/logo.png" %}
+  <meta property="og:image" content="{{ site.absUrl(ogImage) }}">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="{% if pageImage %}summary_large_image{% else %}summary{% endif %}">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="alternate" type="application/atom+xml" title="Improvlore upcoming events" href="/feed.xml">
+  {% if jsonLd %}<script type="application/ld+json">{{ jsonLd | safe }}</script>{% endif %}
   <link rel="stylesheet" href="/assets/events.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -41,33 +51,24 @@
     <img class="fg-motif fg-motif-pacman"    src="/assets/icons/pacman-yellow.png" alt="">
   </div>
 
-  <div class="page-hero">
-    <a class="hero-logo-link" href="/" aria-label="Improv Lore home">
+  {# Top bar: logo left, nav right. Aria labels ensure screen readers understand structure. #}
+  {% set navLinks = [
+    { url: "/", label: "Home" },
+    { url: "/about/", label: "About" },
+    { url: "/events/", label: "Upcoming" },
+    { url: "/festivals/", label: "Festivals" },
+    { url: "/for-teams/", label: "For Teams" }
+  ] %}
+  <header class="site-header" role="banner">
+    <a class="site-header-logo" href="/" aria-label="Improv Lore home page">
       <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore">
     </a>
-
-    <p class="tagline">Bangalore's friendliest improv troupe. <br>We take play, seriously.</p>
-
-    <div class="hero-cta">
-      <a class="btn btn-primary hero-cta-btn" href="/events/">See What's On →</a>
-    </div>
-
-    <div class="social-row">
-      <a class="social-icon social-icon-attn social-icon-attn-1" href="{{ social.whatsapp }}" target="_blank">
-        <img src="/assets/icons/whatsapp.svg" alt="WhatsApp">
-      </a>
-      <a class="social-icon social-icon-attn social-icon-attn-2" href="{{ social.instagram }}" target="_blank">
-        <img src="/assets/icons/instagram.svg" alt="Instagram">
-      </a>
-      <a class="social-icon" href="{{ social.youtube }}" target="_blank">
-        <img src="/assets/icons/youtube.svg" alt="YouTube">
-      </a>
-      <a class="social-icon" href="{{ social.gmail }}" target="_blank">
-        <img src="/assets/icons/gmail.svg" alt="Gmail">
-      </a>
-    </div>
-
-  </div>
+    <nav class="site-nav" aria-label="Main navigation">
+      {% for link in navLinks %}
+      <a class="site-nav-link{% if page.url == link.url %} is-active{% endif %}" href="{{ link.url }}"{% if page.url == link.url %} aria-current="page"{% endif %}>{{ link.label }}</a>
+      {% endfor %}
+    </nav>
+  </header>
 
   <main>
     {% if events.length > 0 or not requiresEvents %}
@@ -83,19 +84,32 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <nav class="footer-nav" aria-label="Footer">
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/events/">All Events</a>
-        <a href="/for-teams/">For Teams</a>
-        <a href="https://underline.center" target="_blank" rel="noopener">Underline Center ↗</a>
-      </nav>
+      <div class="footer-cols">
+        <nav class="footer-col" aria-label="Explore">
+          <h3 class="footer-col-title">Explore</h3>
+          <a href="/">Home</a>
+          <a href="/about/">About</a>
+          <a href="/events/">Upcoming</a>
+          <a href="/festivals/">Festivals</a>
+          <a href="/for-teams/">For Teams</a>
+          <a href="https://underline.center" target="_blank" rel="noopener">Underline Center ↗</a>
+        </nav>
 
-      <div class="footer-social" aria-label="Social links">
-        <a href="{{ social.instagram }}" target="_blank" rel="noopener">Instagram</a>
-        <a href="{{ social.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="{{ social.youtube }}" target="_blank" rel="noopener">YouTube</a>
-        <a href="{{ social.gmail }}">Email</a>
+        <nav class="footer-col" aria-label="Connect">
+          <h3 class="footer-col-title">Connect</h3>
+          <a href="{{ social.instagram }}" target="_blank" rel="noopener">Instagram</a>
+          <a href="{{ social.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="{{ social.youtube }}" target="_blank" rel="noopener">YouTube</a>
+          <a href="{{ social.gmail }}">Email</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Legal">
+          <h3 class="footer-col-title">Legal</h3>
+          <a href="/code-of-conduct/">Code of Conduct</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+        </nav>
       </div>
 
       <div class="footer-legal">
@@ -106,14 +120,22 @@
   </footer>
 
   <script>
-    document.addEventListener("click", (e) => {
-      const link = e.target.closest(".week-item-link");
-      if (!link) return;
-      const details = link.closest("details.week-view");
-      if (details) details.open = false;
-    });
+    // Keep the URL's ?type= in sync with the visible filter, using
+    // replaceState so changing/clearing a filter never adds a history entry.
+    // This way Back leaves the events page in a single step (landing on
+    // wherever you came from) instead of replaying each filter click, and the
+    // URL stays shareable and reload-safe.
+    const syncFilterUrl = (filter) => {
+      const url = new URL(window.location.href);
+      if (filter) {
+        url.searchParams.set("type", filter);
+      } else {
+        url.searchParams.delete("type");
+      }
+      history.replaceState(history.state, "", url);
+    };
 
-    const applyFilter = (filter) => {
+    const applyFilter = (filter, syncUrl = true) => {
       const root = document.querySelector(".events-root");
       if (!root) return;
       root.querySelectorAll(".event-key-item[data-filter]").forEach((b) => {
@@ -122,10 +144,8 @@
       root.classList.remove("filter-show", "filter-jam", "filter-workshop");
       const clearBtn = root.querySelector("[data-filter-clear]");
       const empty = root.querySelector(".filter-empty");
-      const weekView = root.querySelector("details.week-view");
       if (filter) {
         root.classList.add("filter-" + filter);
-        if (weekView) weekView.open = false;
         if (clearBtn) clearBtn.hidden = false;
         if (empty) {
           const visibleCards = root.querySelectorAll(
@@ -139,94 +159,8 @@
         if (clearBtn) clearBtn.hidden = true;
         if (empty) empty.hidden = true;
       }
+      if (syncUrl) syncFilterUrl(filter);
     };
-
-    // Hero carousel: auto-advance every data-hero-interval ms, pause on hover,
-    // and let the dots jump to a slide.
-    document.querySelectorAll("[data-hero-carousel]").forEach((carousel) => {
-      const slides = [...carousel.querySelectorAll("[data-hero-slide]")];
-      if (slides.length < 2) return;
-      const dots = [...carousel.querySelectorAll("[data-hero-dot]")];
-      const interval = parseInt(carousel.dataset.heroInterval, 10) || 10000;
-      let current = 0;
-      let timer = null;
-
-      const show = (next) => {
-        current = (next + slides.length) % slides.length;
-        slides.forEach((s, i) => {
-          const active = i === current;
-          s.classList.toggle("is-active", active);
-          s.setAttribute("aria-hidden", active ? "false" : "true");
-          if (active) s.removeAttribute("tabindex");
-          else s.setAttribute("tabindex", "-1");
-        });
-        dots.forEach((d, i) => {
-          const active = i === current;
-          d.classList.toggle("is-active", active);
-          d.setAttribute("aria-selected", active ? "true" : "false");
-        });
-      };
-
-      const start = () => {
-        stop();
-        timer = setInterval(() => show(current + 1), interval);
-      };
-      const stop = () => {
-        if (timer) clearInterval(timer);
-        timer = null;
-      };
-
-      dots.forEach((dot) => {
-        dot.addEventListener("click", () => {
-          show(parseInt(dot.dataset.heroIndex, 10) || 0);
-          start();
-        });
-      });
-
-      carousel.addEventListener("mouseenter", stop);
-      carousel.addEventListener("mouseleave", start);
-
-      // Touch swipe: a horizontal drag past the threshold changes slide and
-      // suppresses the link tap that would otherwise follow. A small move is
-      // treated as a normal tap so the active slide's link still works.
-      let touchX = null;
-      let touchY = null;
-      let swiped = false;
-      const SWIPE_THRESHOLD = 45;
-
-      carousel.addEventListener("touchstart", (e) => {
-        const t = e.changedTouches[0];
-        touchX = t.clientX;
-        touchY = t.clientY;
-        swiped = false;
-        stop();
-      }, { passive: true });
-
-      carousel.addEventListener("touchend", (e) => {
-        if (touchX === null) return;
-        const t = e.changedTouches[0];
-        const dx = t.clientX - touchX;
-        const dy = t.clientY - touchY;
-        if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
-          swiped = true;
-          show(current + (dx < 0 ? 1 : -1));
-        }
-        touchX = null;
-        touchY = null;
-        start();
-      }, { passive: true });
-
-      // Cancel the click that fires after a swipe so we don't navigate away.
-      carousel.addEventListener("click", (e) => {
-        if (swiped) {
-          e.preventDefault();
-          e.stopPropagation();
-          swiped = false;
-        }
-      }, true);
-
-      start();
-    });
 
     document.addEventListener("click", (e) => {
       if (e.target.closest("[data-filter-clear]")) {
@@ -243,10 +177,35 @@
     // on the events page with that type already filtered.
     const initialType = new URLSearchParams(window.location.search).get("type");
     if (initialType && ["show", "jam", "workshop"].includes(initialType)) {
-      applyFilter(initialType);
+      applyFilter(initialType, false);
     }
+
+    // Event-page back link: if you arrived from within the site, go back to the
+    // exact page you came from (history.back) instead of the href fallback of
+    // /events/, which is upcoming-only and may not list this event. Direct
+    // landings / new tabs / external referrers keep the plain /events/ link.
+    document.addEventListener("click", (e) => {
+      const backLink = e.target.closest("a[data-back-link]");
+      if (!backLink || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      let cameFromSite = false;
+      try {
+        cameFromSite =
+          window.history.length > 1 &&
+          !!document.referrer &&
+          new URL(document.referrer).origin === window.location.origin;
+      } catch (err) {
+        cameFromSite = false;
+      }
+      if (cameFromSite) {
+        e.preventDefault();
+        history.back();
+      }
+    });
 
   </script>
   <script src="/assets/ticket-button.js" defer></script>
+  <script src="/assets/shouts.js" defer></script>
 </body>
 </html>

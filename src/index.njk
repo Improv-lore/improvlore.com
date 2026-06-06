@@ -7,80 +7,34 @@ requiresEvents: true
 
 <div class="events-root">
 
-  {# Hero rotates through upcoming workshops; if none are scheduled, it falls
-     back to upcoming jams. Slides auto-advance every 10s (see base.njk script). #}
-  {% set heroWorkshops = filters.upcomingWorkshops(events, showCustomEvents) %}
-  {% if heroWorkshops.length %}
-    {% set heroSlides = heroWorkshops %}
-    {% set heroKicker = "Workshop coming up" %}
-  {% else %}
-    {% set heroSlides = filters.upcomingJams(events, showCustomEvents) %}
-    {% set heroKicker = "Jam coming up" %}
-  {% endif %}
+  {# Hero answers "who are you / is this for me / where do I go" for a new
+     visitor, while keeping a fast path into events. The featured card shows
+     the single next upcoming event of any type, with a copy fallback if
+     nothing is scheduled so the hero never renders half-empty. #}
+  {% set heroNext = filters.nextEvent(events, showCustomEvents) %}
 
-  {% if heroSlides.length %}
-  <div class="hero-feature-carousel" data-hero-carousel data-hero-interval="10000" aria-roledescription="carousel" aria-label="What to come to next">
-    {% for ev in heroSlides %}
-    <a class="hero-feature{% if loop.first %} is-active{% endif %}" href="{{ filters.eventPermalink(ev) }}" data-hero-slide aria-hidden="{{ "false" if loop.first else "true" }}"{% if not loop.first %} tabindex="-1"{% endif %}>
-      <img class="hero-feature-poster" src="{{ filters.eventImage(ev) }}" alt="{{ ev.title }} poster" loading="{% if loop.first %}eager{% else %}lazy{% endif %}">
-      <span class="hero-feature-body">
-        <span class="hero-feature-kicker">{{ heroKicker }}</span>
-        <span class="hero-feature-title">{{ filters.workshopName(ev.title) }}</span>
-        <span class="hero-feature-blurb">{{ filters.formatDay(ev.event_starts_at) }}, {{ filters.formatDayNum(ev.event_starts_at) }} {{ filters.formatMonth(ev.event_starts_at) }} at {{ filters.formatTime(ev.event_starts_at) }}</span>
+  <section class="home-hero" aria-labelledby="hero-heading">
+    <div class="home-hero-intro">
+      <p class="home-hero-eyebrow">Improv in Bangalore and beyond, since 2022</p>
+      <p class="fun-shout" aria-hidden="true"><span class="fun-f">F</span><span class="fun-u">U</span><span class="fun-n">N</span></p>
+      <h1 class="home-hero-heading" id="hero-heading">Live theatre, made up on the spot.</h1>
+      <p class="home-hero-lede">No script, no second take. We build shows from your suggestions, then never do them again. Come watch, jump into a jam, or learn it yourself.</p>
+      <div class="home-hero-cta">
+        <a class="btn btn-primary" href="/events/">See what's on</a>
+      </div>
+    </div>
+
+    {% if heroNext %}
+    <a class="home-hero-next" href="{{ filters.eventPermalink(heroNext) }}">
+      <img class="home-hero-next-poster" src="{{ filters.eventImage(heroNext) }}" alt="{{ heroNext.title }} poster" loading="eager">
+      <span class="home-hero-next-body">
+        <span class="home-hero-next-kicker">Up next</span>
+        <span class="home-hero-next-title">{{ filters.workshopName(heroNext.title) }}</span>
+        {% set heroSessions = filters.eventSessions(heroNext.title) %}
+        <span class="home-hero-next-blurb">{{ filters.formatDay(heroNext.event_starts_at) }}, {{ filters.formatDayNum(heroNext.event_starts_at) }} {{ filters.formatMonth(heroNext.event_starts_at) }} at {{ filters.formatTime(heroNext.event_starts_at) }}{% if heroSessions and heroSessions.dates and heroSessions.dates.length > 1 %} <span class="home-hero-next-tag">+{{ heroSessions.dates.length - 1 }} more dates</span>{% endif %}</span>
       </span>
     </a>
-    {% endfor %}
-    {% if heroSlides.length > 1 %}
-    <div class="hero-feature-dots" role="tablist" aria-label="Choose slide">
-      {% for ev in heroSlides %}
-      <button type="button" class="hero-feature-dot{% if loop.first %} is-active{% endif %}" data-hero-dot data-hero-index="{{ loop.index0 }}" aria-label="Show slide {{ loop.index }}"{% if loop.first %} aria-selected="true"{% else %} aria-selected="false"{% endif %}></button>
-      {% endfor %}
-    </div>
     {% endif %}
-  </div>
-  {% endif %}
-
-  <section class="page-section" aria-labelledby="section-whats-on">
-    <h2 class="section-heading" id="section-whats-on">What's On</h2>
-    <p class="section-sub">The next few nights at a glance. Tap any one for details and tickets.</p>
-
-  <div class="boards-row">
-
-  {% set weekEvents = filters.upcomingWeek(events, showCustomEvents) %}
-  {% if weekEvents.length %}
-  <details class="week-view" aria-label="Upcoming shows and jams" open>
-    <summary class="week-view-title">
-      <span>{% if filters.spansBeyondThisWeek(weekEvents) %}Shows &amp; Jams Coming Up{% else %}Shows &amp; Jams This Week{% endif %}</span>
-      <span class="week-view-chevron" aria-hidden="true">▾</span>
-    </summary>
-    <ul class="week-list">
-      {% for ev in weekEvents %}
-        {% set evType = filters.eventType(ev.title, ev.tags) %}
-        <li class="week-item event-type-{{ evType }}">
-          <a class="week-item-link" href="{{ filters.eventPermalink(ev) }}">
-            <div class="week-date">
-              <span class="week-day">{{ filters.formatDay(ev.event_starts_at) }}</span>
-              <span class="week-daynum">{{ filters.formatDayNum(ev.event_starts_at) }}</span>
-              <span class="week-month">{{ filters.formatMonth(ev.event_starts_at) }}</span>
-            </div>
-            <div class="week-info">
-              <span class="week-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
-              <span class="week-name">{{ ev.title }}</span>
-              <span class="week-type-tag week-type-{{ evType }}">{{ evType }}</span>
-            </div>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </details>
-  {% endif %}
-
-  </div>
-
-  <p class="see-all-line">
-    <a class="see-all-link" href="/events/">See all events →</a>
-  </p>
-
   </section>
 
   <section class="page-section" aria-labelledby="section-start">
@@ -111,16 +65,23 @@ requiresEvents: true
     <p class="book-cta-line">Pricing and venue are listed on each event, so you always know before you go.</p>
   </section>
 
+  <p class="yesand-shout" aria-hidden="true"><span class="yesand-yes">WHIM</span><span class="yesand-and">SY</span></p>
+
   <section class="page-section" aria-labelledby="section-about">
     <h2 class="section-heading" id="section-about">Who We Are</h2>
 
     <div class="about-intro">
-      <p class="about-lede">We make up theatre on the spot, with no script and no second take. Around since 2022, making people laugh at stories that never existed before and never will again.</p>
+      <p class="about-lede">We make up theatre on the spot, with no script and no second take. Around since 2022, building stories that never existed before and never will again, and letting a room feel its way through them together.</p>
     </div>
 
     <p class="more-line">
       Weekly jams, workshops, and shows built live from whatever the room gives us.
       <a href="/about/">Read our story →</a>
+    </p>
+
+    <p class="more-line">
+      Since 2024 we've packed our shows off to improv festivals across Asia: Singapore, Vietnam, Manila, Hong Kong.
+      <a href="/festivals/">See where we've been →</a>
     </p>
   </section>
 
@@ -131,8 +92,11 @@ requiresEvents: true
     <ul class="about-shows" aria-label="Signature show formats">
       {% for show in signatureShows %}
       <li>
-        <a class="about-show-card" href="{{ show.url }}" target="_blank" rel="noopener">
-          <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+        <a class="about-show-card" href="{{ show.url }}">
+          <div class="about-show-poster-wrap">
+            <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+            {% if show.festival %}<span class="festival-badge" title="A format we tour to international festivals">International format</span>{% endif %}
+          </div>
           <div class="about-show-body">
             <strong>{{ show.title }}</strong>
             <span>{{ show.blurb }}</span>

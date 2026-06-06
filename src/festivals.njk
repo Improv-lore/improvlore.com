@@ -1,0 +1,87 @@
+---
+layout: base.njk
+title: Festivals - Improvlore
+permalink: /festivals/
+pageDescription: Improv Lore has taken its shows on the road to improv festivals across Asia, from Singapore and Vietnam to Manila and Hong Kong.
+---
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-fest-hero">
+    <h1 class="section-heading" id="section-fest-hero">On the Road</h1>
+
+    <div class="about-intro">
+      <p class="about-lede">We are a Bangalore troupe, but the shows travel. Since 2024 we have been invited to improv festivals across Asia.</p>
+      <p class="about-where">Singapore, Vietnam, Manila, Hong Kong. New cities, new crowds, troupes from all over on the same bill. We pack the formats we run at home and play them for a room that has never seen us.</p>
+    </div>
+
+    <ul class="about-stats" aria-label="Improv Lore festivals at a glance">
+      <li>
+        <span class="about-stat-num">4</span>
+        <span class="about-stat-label">Festivals played</span>
+      </li>
+      <li>
+        <span class="about-stat-num">4</span>
+        <span class="about-stat-label">Cities abroad</span>
+      </li>
+      <li>
+        <span class="about-stat-num">2024</span>
+        <span class="about-stat-label">First trip out</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-fest-list">
+    <h2 class="section-heading" id="section-fest-list">Where We've Played</h2>
+    <p class="section-sub">Invitations to festivals across the region, newest first.</p>
+
+    <ol class="fest-timeline" aria-label="Festivals Improv Lore has played">
+      {% for fest in festivals %}
+      <li class="fest-stop">
+        <span class="fest-stop-year">{{ fest.year }}</span>
+        <div class="fest-stop-body">
+          <strong>{{ fest.name }}</strong>
+          <p><span class="fest-stop-city">{{ fest.city }}</span><span class="fest-stop-when">{{ fest.when }}</span></p>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-fest-formats">
+    <h2 class="section-heading" id="section-fest-formats">Formats We Take on the Road</h2>
+    <p class="section-sub">Two shows we built for the festival circuit, drawing on traditional Indian storytelling.</p>
+
+    {# Pulled from the catalog by slug so the cards, posters, and /event/ pages
+       never drift. Order here is the order shown. #}
+    {% set roadSlugs = ["reincarnations", "panchatantra"] %}
+    <ul class="about-shows" aria-label="Formats Improv Lore takes to festivals">
+      {% for slug in roadSlugs %}
+      {% for fmt in catalog %}{% if fmt.slug == slug %}
+      <li>
+        <a class="about-show-card" href="{{ filters.formatPermalink(fmt) }}">
+          <img class="about-show-poster" src="{{ fmt.image }}" alt="{{ fmt.title }} poster" loading="lazy">
+          <div class="about-show-body">
+            <strong>{{ fmt.title }}</strong>
+            <span>{{ fmt.blurb }}</span>
+          </div>
+        </a>
+      </li>
+      {% endif %}{% endfor %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section page-section-info" aria-labelledby="section-fest-more">
+    <h2 class="section-heading" id="section-fest-more">Catch Us Closer to Home</h2>
+
+    <a class="corporate-banner" href="/events/">
+      <span class="corporate-banner-text">
+        <strong>Most weeks you'll find us in Bangalore.</strong>
+        Weekly jams, workshops, and shows at Underline Center and around the city.
+      </span>
+      <span class="corporate-banner-arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+
+</div>

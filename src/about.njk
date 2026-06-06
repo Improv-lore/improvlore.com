@@ -8,36 +8,47 @@ pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. We
 <div class="events-root">
 
   <section class="page-section" aria-labelledby="section-about-hero">
-    <p class="see-all-line">
-      <a class="see-all-link" href="/">← Back to home</a>
-    </p>
-
-    <h2 class="section-heading" id="section-about-hero">About Us</h2>
+    <h1 class="section-heading" id="section-about-hero">About Us</h1>
 
     <div class="about-intro">
       <p class="about-lede">We are a Bangalore-based community-theatre troupe. We make up theatre on the spot, with no script and no second take, and we would like to rekindle the joy of being playful and whimsical.</p>
       <p class="about-where">Improv Lore has been around since 2022. When Underline Center opened in Indiranagar, we made it our home, and we have been the resident improv act there ever since. Our Wednesday jam is the longest-running night the venue has. We also play other rooms around the city, and now and then we take a show out of town.</p>
+      <p class="more-line">Out of town has lately meant out of the country. Since 2024 we have been invited to improv festivals across Asia, in Singapore, Vietnam, Manila, and Hong Kong. <a href="/festivals/">See where we've played →</a></p>
     </div>
 
     <!--
-      NUMBERS: placeholders below are provably true today (year formed, weekly
-      cadence). Swap the middle/right tiles for real counts when you have them,
-      e.g. number of Whimsical Wednesdays run, number of Maestro nights, etc.
+      All three are provably true today: weekly jam since 2022 (resident act at
+      Underline Center), 4 festival cities abroad (see festivals.js), and the
+      "no two the same" line. Swap in a hard count (jams run, shows performed)
+      if you ever want to track and stand behind one.
     -->
     <ul class="about-stats" aria-label="Improv Lore at a glance">
       <li>
-        <span class="about-stat-num">2022</span>
-        <span class="about-stat-label">Around since</span>
+        <span class="about-stat-num">Since '22</span>
+        <span class="about-stat-label">Weekly Wed jam</span>
       </li>
       <li>
-        <span class="about-stat-num">Wed</span>
-        <span class="about-stat-label">Jam, every week</span>
+        <span class="about-stat-num">4</span>
+        <span class="about-stat-label">Countries abroad</span>
       </li>
       <li>
         <span class="about-stat-num">No two</span>
-        <span class="about-stat-label">Shows ever the same</span>
+        <span class="about-stat-label">Shows the same</span>
       </li>
     </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-founders">
+    <h2 class="section-heading" id="section-founders">Who Started It</h2>
+    <div class="about-intro">
+      <p class="about-where">Improv Lore was started by Bala and Arjun, who run our jams, direct our shows, and built the formats we are known for. Both teach and perform improv around the world, and they have taken it to the TED stage too. What they pick up on the road comes back into the room here.</p>
+    </div>
+    <p class="more-line">
+      Watch their <a href="https://www.youtube.com/watch?v=PVgLzuHFpT4" target="_blank" rel="noopener">TED talk</a>, or follow their work:
+      <a href="https://www.instagram.com/blala_land" target="_blank" rel="noopener">Bala</a>
+      and
+      <a href="https://www.linkedin.com/in/mehrarjun/" target="_blank" rel="noopener">Arjun →</a>
+    </p>
   </section>
 
   <section class="page-section" aria-labelledby="section-new-here">
@@ -76,7 +87,7 @@ pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. We
     </ol>
 
     <div class="event-buttons">
-      <a class="btn btn-primary" href="/#section-whats-on">See What's On</a>
+      <a class="btn btn-primary" href="/events/">See what's upcoming</a>
       <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">Follow Along</a>
     </div>
   </section>
@@ -88,8 +99,11 @@ pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. We
     <ul class="about-shows" aria-label="Signature show formats">
       {% for show in signatureShows %}
       <li>
-        <a class="about-show-card" href="{{ show.url }}" target="_blank" rel="noopener">
-          <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+        <a class="about-show-card" href="{{ show.url }}">
+          <div class="about-show-poster-wrap">
+            <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
+            {% if show.festival %}<span class="festival-badge" title="A format we tour to international festivals">International format</span>{% endif %}
+          </div>
           <div class="about-show-body">
             <strong>{{ show.title }}</strong>
             <span>{{ show.blurb }}</span>

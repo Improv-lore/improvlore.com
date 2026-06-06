@@ -55,6 +55,11 @@ export default {
   },
 
   eventImage(ev = {}) {
+    // Prefer the self-hosted format poster so the image survives the event
+    // leaving the feed (feed thumbnails are hotlinked from underline.center
+    // and die when the listing ages out). One-offs fall back to the feed.
+    const fmt = matchFormat(ev.title || "");
+    if (fmt && fmt.image) return fmt.image;
     if (ev.thumbnails && ev.thumbnails.length) return ev.thumbnails[0].url;
     return ev.image_url || "";
   },
@@ -74,21 +79,17 @@ export default {
     return `/event/${fmt.slug}/`;
   },
 
-  spansBeyondThisWeek(events = []) {
-    if (!events.length) return false;
-    const now = new Date();
-    const day = now.getDay();
-    const daysUntilSunday = 7 - day;
-    const endOfWeek = new Date(now);
-    endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(now.getDate() + (day === 0 ? 0 : daysUntilSunday));
-    return events.some(ev => {
-      const t = new Date(ev.event_starts_at).getTime();
-      return !isNaN(t) && t > endOfWeek.getTime();
-    });
+  // Multi-day workshops carry their full schedule on the catalog format (the
+  // feed only has one date). Returns the matching format's `sessions` object,
+  // or null. Used to tag event cards with "+N more dates".
+  eventSessions(title = "") {
+    const fmt = matchFormat(title);
+    return (fmt && fmt.sessions) || null;
   },
 
-  upcomingWeek(events = [], showCustom = false) {
+  // Next upcoming event of any type, so the hero's featured card always has
+  // something to show as long as anything is scheduled.
+  nextEvent(events = [], showCustom = false) {
     const now = Date.now();
     return events
       .filter(ev => {
@@ -96,44 +97,9 @@ export default {
         const t = new Date(ev.event_starts_at).getTime();
         if (isNaN(t) || t < now) return false;
         const tags = ev.tags || [];
-        const isUC = showCustom || tags.includes("UC");
-        if (!isUC) return false;
-        return this.eventType(ev.title, tags) !== "workshop";
+        return showCustom || tags.includes("UC");
       })
-      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
-      .slice(0, 7);
-  },
-
-  upcomingWorkshops(events = [], showCustom = false) {
-    const now = Date.now();
-    return events
-      .filter(ev => {
-        if (!ev.event_starts_at) return false;
-        const t = new Date(ev.event_starts_at).getTime();
-        if (isNaN(t) || t < now) return false;
-        const tags = ev.tags || [];
-        const isUC = showCustom || tags.includes("UC");
-        if (!isUC) return false;
-        return this.eventType(ev.title, tags) === "workshop";
-      })
-      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
-      .slice(0, 7);
-  },
-
-  upcomingJams(events = [], showCustom = false) {
-    const now = Date.now();
-    return events
-      .filter(ev => {
-        if (!ev.event_starts_at) return false;
-        const t = new Date(ev.event_starts_at).getTime();
-        if (isNaN(t) || t < now) return false;
-        const tags = ev.tags || [];
-        const isUC = showCustom || tags.includes("UC");
-        if (!isUC) return false;
-        return this.eventType(ev.title, tags) === "jam";
-      })
-      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
-      .slice(0, 7);
+      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))[0] || null;
   },
 
   shortText(text, n = 140) {

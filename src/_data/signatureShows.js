@@ -8,45 +8,67 @@
 
 export default [
   {
-    title: "Maestro Impro",
-    image: "/assets/posters/maestro.jpg",
-    url: "https://underline.center/t/maestro-impro-by-improv-lore/110",
+    title: "The Silliest Show Tonight",
+    image: "/assets/posters/the-silliest-show-tonight.jpg",
+    url: "/event/the-silliest-show-tonight/",
     blurb:
-      "Twelve improvisers, scenes and games from the crowd, and a vote after every round until one is crowned the Maestro for the month.",
-  },
-  {
-    title: "TheatreSports",
-    image: "/assets/posters/theatresports.jpg",
-    url: "https://underline.center/t/theatresports-by-improv-lore/768",
-    blurb:
-      "Four teams, fast unpredictable challenges, judges and rules. Controlled chaos and collaborative competitiveness.",
+      "A classic good ol' improv show packed with riddles, tongue twisters, and plenty of mischief. Built from your suggestions, gone by morning.",
   },
   {
     title: "PowerPoint Roulette",
     image: "/assets/posters/powerpoint-roulette.jpg",
-    url: "https://underline.center/t/powerpoint-roulette-by-improv-lore/186",
+    url: "/event/powerpoint-roulette/",
     blurb:
       "Presentations from slides nobody has seen before. Business pitches, eulogies, TED talks, and conspiracy theories, all made up on the spot.",
   },
   {
-    title: "The Great Face-Off",
-    image: "/assets/posters/great-face-off.jpg",
-    url: "https://underline.center/t/the-great-face-off-by-improv-lore/712",
+    title: "Yes, And Dragons",
+    image: "/assets/posters/yes-and-dragons.jpg",
+    url: "/event/yes-and-dragons/",
     blurb:
-      "Bold choices, quick comebacks, friendly face-offs. Come cheer, gasp, and laugh through an evening of high-energy improv.",
+      "Dungeons and Dragons meets improv. A one-night campaign, rolled and made up as we go.",
   },
   {
     title: "The Turing Twist",
     image: "/assets/posters/turing-twist.jpg",
-    url: "https://underline.center/t/the-turing-twist-by-improv-lore/679",
+    url: "/event/the-turing-twist/",
     blurb:
       "A live Turing test on stage. AI and human improvisers on a level field, and the audience has no idea who is who.",
   },
+  // TODO: High Calibre Show — add as a format in formats.js (with poster) and
+  // point url at its /event/<slug>/ page when available.
+  // Festival formats drawing on traditional Indian storytelling. Blurbs mirror
+  // formats.js; images are festival photos rather than designed posters. The
+  // `festival` flag drives the international-format badge on the poster cards.
   {
-    title: "Yes, And Dragons",
-    image: "/assets/posters/yes-and-dragons.jpg",
-    url: "https://underline.center/t/yes-and-dragons-with-improv-lore/463",
+    title: "Reincarnations",
+    image: "/assets/posters/reincarnations.jpg",
+    url: "/event/reincarnations/",
+    festival: true,
     blurb:
-      "Dungeons and Dragons meets improv. A one-night campaign, rolled and made up as we go.",
+      "One ordinary problem becomes a doorway to every story ever told. Objects speak, time bends, and a corpse asks the questions.",
+  },
+  {
+    title: "Panchatantra",
+    image: "/assets/posters/panchatantra.jpg",
+    url: "/event/panchatantra/",
+    festival: true,
+    blurb:
+      "The animal kingdom holds court. Crows, jackals, and lions trade fables, and every one of them has a lesson with teeth.",
+  },
+  // Maestro and the Great Face-Off round out the list.
+  {
+    title: "Maestro Impro",
+    image: "/assets/posters/maestro.jpg",
+    url: "/event/maestro-impro/",
+    blurb:
+      "Twelve improvisers, scenes and games from the crowd, and a vote after every round until one is crowned the Maestro for the month.",
+  },
+  {
+    title: "The Great Face-Off",
+    image: "/assets/posters/great-face-off.jpg",
+    url: "/event/the-great-face-off/",
+    blurb:
+      "Bold choices, quick comebacks, friendly face-offs. Come cheer, gasp, and lean in through an evening of high-energy improv.",
   },
 ];

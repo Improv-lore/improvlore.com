@@ -4,6 +4,7 @@ pagination:
   data: events
   size: 1
   alias: ev
+  addAllPagesToCollections: true
 ---
 
 {% set evType = filters.eventType(ev.title, ev.tags) %}
@@ -13,7 +14,7 @@ pagination:
 {% elif evType == "workshop" %}
   {% set expectCopy = "A hands-on session to learn improv by doing, no experience needed. You'll work through guided exercises in a supportive room, at a pace that's friendly to first-timers." %}
 {% else %}
-  {% set expectCopy = "A live improv performance built entirely from your suggestions. Every show is a one-time-only piece of theatre, created in the moment, in front of you." %}
+  {% set expectCopy = "A live improv performance built entirely from your suggestions, created in the moment, in front of you." %}
 {% endif %}
 
 {% set bodyText = ev.full_content or ev.excerpt or "" %}

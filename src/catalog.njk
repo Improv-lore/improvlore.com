@@ -4,6 +4,7 @@ pagination:
   data: catalog
   size: 1
   alias: fmt
+  addAllPagesToCollections: true
 permalink: "{{ filters.formatPermalink(fmt) }}index.html"
 ---
 
@@ -18,6 +19,7 @@ permalink: "{{ filters.formatPermalink(fmt) }}index.html"
   venue: fmt.venue,
   price: fmt.price,
   recurrence: fmt.recurrence,
+  sessions: fmt.sessions,
   emptyMeta: not fmt.hasUpcoming,
   bodyParas: bodyText.split("\n"),
   expect: fmt.expect,

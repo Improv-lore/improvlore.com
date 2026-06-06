@@ -19,12 +19,20 @@
     ticketUrl   buy-ticket href, or falsy
     notify      truthy to show Notify Me / Instagram instead of ticket (catalog)
     learnMore   "original listing" href, or falsy
+    sessions    {note, dates[], extra?} for multi-day workshops, or falsy.
+                Rendered as a schedule list since the feed only carries one
+                date per event (catalog only).
 #}
 <div class="events-root event-detail-root">
 
   <article class="event-detail event-type-{{ d.type }}">
 
-    <a class="event-detail-back" href="/events/">← All events</a>
+    {# Back link returns you to wherever you came from (history.back) rather
+       than always /events/, since evergreen format pages may not be on the
+       upcoming-only events list. Falls back to /events/ for direct landings,
+       new tabs, or external referrers, and stays a real link so it works
+       without JS and on right-click / open-in-new-tab. #}
+    <a class="event-detail-back" href="/events/" data-back-link>← Back</a>
 
     {% if d.image %}
       <div class="event-detail-image">
@@ -54,6 +62,21 @@
         </div>
       {% endif %}
 
+      {# Multi-day workshops list every session here. The ticket feed only
+         carries one date, so this is the authoritative schedule. #}
+      {% if d.sessions and d.sessions.dates %}
+        <div class="event-detail-sessions">
+          <h2 class="event-detail-sessions-heading">Schedule</h2>
+          {% if d.sessions.note %}<p class="event-detail-sessions-note">{{ d.sessions.note }}</p>{% endif %}
+          <ul class="event-detail-sessions-list">
+            {% for date in d.sessions.dates %}
+            <li>{{ date }}</li>
+            {% endfor %}
+          </ul>
+          {% if d.sessions.extra %}<p class="event-detail-sessions-extra">{{ d.sessions.extra }}</p>{% endif %}
+        </div>
+      {% endif %}
+
       <div class="event-detail-content">
         {% for para in d.bodyParas %}
           {% if para | trim %}<p>{{ para | trim }}</p>{% endif %}
@@ -71,6 +94,9 @@
           <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">DM on Instagram</a>
         {% else %}
           {% if d.ticketUrl %}<a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>{% endif %}
+          {% if d.hasWhen %}
+            <a class="btn btn-ghost" href="{{ page.url }}event.ics" download>Add to calendar</a>
+          {% endif %}
           {% if d.venue %}
             <a class="btn btn-ghost" href="https://www.google.com/maps/search/{{ d.venue | urlencode }}" target="_blank" rel="noopener">View on Maps</a>
           {% endif %}
@@ -79,7 +105,7 @@
 
       {% if d.learnMore %}
         <p class="event-detail-source">
-          <a href="{{ d.learnMore }}" target="_blank" rel="noopener">View original listing on Underline Center ↗</a>
+          <a href="{{ d.learnMore }}" target="_blank" rel="noopener">Original listing ↗</a>
         </p>
       {% endif %}
     </div>

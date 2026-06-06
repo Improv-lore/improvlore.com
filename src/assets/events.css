@@ -6,8 +6,19 @@
   box-sizing: border-box;
 }
 
+:root {
+  --ink: #1a1a1a;
+  --cream: #fffbf5;
+  --yellow: #f5c400;
+  --green: #2ecc71;
+  --blue: #2563eb;
+  --pink: #ff5ca8;
+  --font-display: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+  --font-body: 'Archivo', system-ui, sans-serif;
+}
+
 body {
-  font-family: 'Archivo', system-ui, sans-serif;
+  font-family: var(--font-body);
   margin: 0;
   padding: 0;
   background: #fffbf5;
@@ -15,11 +26,41 @@ body {
   min-height: 100vh;
 }
 
+/* Headings carry the display face for personality; body copy stays Archivo
+   for readability. */
+.home-hero-heading,
+.event-title,
+.event-detail-title,
+.about-lede,
+.about-stat-num,
+.empty-state h2,
+.filter-empty h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
 .events-root {
   width: 100%;
   max-width: 780px;
-  margin: 0 auto;
-  padding: 1rem 1.2rem 3rem;
+  margin: 1.5rem auto 2.5rem;
+  /* Content sits on its own translucent surface so the louder background
+     motifs stay readable behind text. Slightly see-through, so the shapes
+     still peek through faintly and the page keeps its depth. */
+  background: linear-gradient(135deg, rgba(255, 251, 245, 0.88) 0%, rgba(255, 253, 250, 0.92) 100%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1.5px solid rgba(26, 26, 26, 0.10);
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(26, 26, 26, 0.10), 0 0 1px rgba(37, 99, 235, 0.08);
+  padding: 1.8rem 1.6rem 3rem;
+}
+
+@media (max-width: 600px) {
+  .events-root {
+    margin: 0.8rem auto 1.5rem;
+    border-radius: 16px;
+    padding: 1.2rem 1.1rem 2rem;
+  }
 }
 
 /* On wide screens, let the page use more horizontal room so sections
@@ -27,6 +68,15 @@ body {
 @media (min-width: 900px) {
   .events-root {
     max-width: 1040px;
+    padding: 2rem 2rem 3.2rem;
+  }
+}
+
+/* Extra large screens: maximize content width and increase typography */
+@media (min-width: 1200px) {
+  .events-root {
+    max-width: 1280px;
+    padding: 2.2rem 2.4rem 3.5rem;
   }
 }
 
@@ -35,11 +85,68 @@ body {
    HERO SECTION
 ------------------------------------------------- */
 
-.page-hero {
-  text-align: center;
-  padding: 2.8rem 1.5rem 2rem;
-  background: transparent;
+/* Top bar: logo left, primary nav right. */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.2rem 1.5rem;
   position: relative;
+  background: linear-gradient(to bottom, rgba(255, 251, 245, 0.95), rgba(255, 251, 245, 0.9));
+  border-bottom: 2px solid rgba(26, 26, 26, 0.12);
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.08);
+}
+
+.site-header-logo {
+  display: block;
+  flex-shrink: 0;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.site-nav-link {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  outline-offset: 2px;
+}
+
+.site-nav-link:hover {
+  color: #1a1a1a;
+  background-color: rgba(37, 99, 235, 0.08);
+  border-bottom-color: var(--blue);
+}
+
+.site-nav-link:focus {
+  outline: 3px solid var(--blue);
+}
+
+.site-nav-link:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.site-nav-link:focus-visible {
+  outline: 3px solid var(--blue);
+}
+
+.site-nav-link.is-active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background-color: rgba(37, 99, 235, 0.06);
+  font-weight: 700;
 }
 
 /* Foreground motifs — above content */
@@ -57,20 +164,20 @@ body {
 }
 
 .fg-motif-lightning {
-  width: 90px;
+  width: 96px;
   bottom: 12%;
   right: -18px;
   transform: rotate(12deg);
-  opacity: 0.85;
+  opacity: 0.95;
   filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.18));
 }
 
 .fg-motif-pacman {
-  width: 100px;
+  width: 108px;
   top: 38%;
   left: -22px;
   transform: rotate(-15deg) scaleX(-1);
-  opacity: 0.9;
+  opacity: 0.95;
   filter: drop-shadow(-2px 4px 6px rgba(0,0,0,0.15));
 }
 
@@ -95,378 +202,159 @@ body > *:not(.page-motifs) {
 
 .motif {
   position: absolute;
-  opacity: 0.11;
+  opacity: 0.55;
   user-select: none;
+  /* Each motif's tilt lives in --motif-rot; the animations layer movement on
+     top of it. animation-name/duration/delay are assigned per-motif below so
+     no two shapes move the same way at the same time. */
+  will-change: transform;
+  animation-iteration-count: infinite;
 }
 
-/* Lightning bolt — far left, near top */
-.motif-1  { width: 64px;  top: 4%;   left: 3%;    transform: rotate(-15deg); }
-/* Starburst — far right, near top */
-.motif-2  { width: 88px;  top: 3%;   right: 4%;   transform: rotate(10deg);  }
-/* Purple star — left-center, high */
-.motif-3  { width: 70px;  top: 12%;  left: 22%;   transform: rotate(-22deg); opacity: 0.09; }
-/* Diamond — right-center, high */
-.motif-4  { width: 58px;  top: 14%;  right: 20%;  transform: rotate(8deg);   }
-/* 4-point star — center */
-.motif-5  { width: 52px;  top: 8%;   left: 50%;   transform: rotate(20deg);  opacity: 0.08; }
-/* Moon — far right, upper-mid */
-.motif-6  { width: 72px;  top: 28%;  right: 6%;   transform: rotate(-30deg); }
-/* Green star — left, mid */
-.motif-7  { width: 66px;  top: 38%;  left: 8%;    transform: rotate(18deg);  }
-/* Pink ring — right-center, mid */
-.motif-8  { width: 80px;  top: 32%;  right: 24%;  transform: rotate(-5deg);  opacity: 0.09; }
-/* Outline star — center-left, lower-mid */
-.motif-9  { width: 60px;  top: 52%;  left: 28%;   transform: rotate(-12deg); }
-/* Blue arc — far right, lower-mid */
-.motif-10 { width: 74px;  top: 58%;  right: 5%;   transform: rotate(25deg);  }
-/* Green arc — far left, lower */
-.motif-11 { width: 68px;  top: 68%;  left: 4%;    transform: rotate(-20deg); }
-/* Pink arc — center-right, lower */
-.motif-12 { width: 60px;  top: 74%;  right: 28%;  transform: rotate(40deg);  }
-/* Orange pacman — center, mid */
-.motif-13 { width: 76px;  top: 46%;  left: 55%;   transform: rotate(-8deg);  opacity: 0.09; }
-/* Yellow pacman — center-left, bottom */
-.motif-14 { width: 70px;  top: 84%;  left: 18%;   transform: rotate(15deg);  }
-/* Blue blob — far right, bottom */
-.motif-15 { width: 90px;  top: 87%;  right: 3%;   transform: rotate(-18deg); opacity: 0.08; }
-/* Cream blob — center-right, bottom */
-.motif-16 { width: 80px;  top: 92%;  left: 60%;   transform: rotate(30deg);  opacity: 0.08; }
+/* --- Whimsy animation library -------------------------------------------
+   A spread of distinct motions instead of one uniform bob: lazy float,
+   end-over-end tumble, a sway like a pendulum, a heartbeat pop, a slow spin,
+   and two travelling moves (zoom across the screen, tumble down from the top)
+   that periodically send a shape sailing through the layout. The travelling
+   ones spend most of their cycle off-screen, so they read as occasional
+   surprises rather than constant motion. ------------------------------------ */
 
-@media (max-width: 600px) {
-  .motif { opacity: 0.08; }
-  .motif-1  { width: 44px; }
-  .motif-2  { width: 56px; }
-  .motif-3, .motif-5, .motif-8, .motif-13 { display: none; }
-  .motif-4  { width: 40px; }
-  .motif-6  { width: 50px; }
-  .motif-7  { width: 46px; }
-  .motif-9  { width: 42px; }
-  .motif-10 { width: 50px; }
-  .motif-11 { width: 46px; }
-  .motif-12 { width: 42px; }
-  .motif-14 { width: 48px; }
-  .motif-15 { width: 58px; }
-  .motif-16 { width: 54px; }
+@keyframes motif-float {
+  0%, 100% { transform: var(--motif-rot) translateY(0); }
+  50%      { transform: var(--motif-rot) translateY(-14px); }
 }
 
-
-.hero-logo-link {
-  display: block;
-  width: fit-content;
-  margin: 0 auto;
+@keyframes motif-tumble {
+  0%   { transform: var(--motif-rot) rotate(0deg) translateY(0); }
+  50%  { transform: var(--motif-rot) rotate(180deg) translateY(-10px); }
+  100% { transform: var(--motif-rot) rotate(360deg) translateY(0); }
 }
 
-.hero-logo {
-  width: clamp(200px, 55vw, 420px);
-  height: auto;
-  display: block;
-  margin: 0 auto 0.5rem;
+@keyframes motif-sway {
+  0%, 100% { transform: var(--motif-rot) rotate(-12deg); }
+  50%      { transform: var(--motif-rot) rotate(12deg); }
 }
 
-.page-hero .tagline {
-  font-size: clamp(1rem, 2.8vw, 1.2rem);
-  color: #444;
-  margin: 0.5rem 0 1.4rem;
-  line-height: 1.55;
+@keyframes motif-pop {
+  0%, 70%, 100% { transform: var(--motif-rot) scale(1); }
+  78%           { transform: var(--motif-rot) scale(1.35); }
+  86%           { transform: var(--motif-rot) scale(0.9); }
+  92%           { transform: var(--motif-rot) scale(1.08); }
 }
 
-.page-hero .tagline-sub {
-  font-size: clamp(0.9rem, 2.4vw, 1.02rem);
-  color: #666;
-  margin: 0;
+@keyframes motif-spin {
+  from { transform: var(--motif-rot) rotate(0deg); }
+  to   { transform: var(--motif-rot) rotate(360deg); }
 }
 
-.page-hero h2 {
-  font-size: clamp(1.1rem, 3vw, 1.35rem);
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0;
-  letter-spacing: 0.02em;
+/* Sails left-to-right across the whole viewport, spinning as it goes, and is
+   invisible the rest of the cycle so it feels like an occasional fly-by. */
+@keyframes motif-zoom {
+  0%       { transform: translateX(-30vw) rotate(0deg); opacity: 0; }
+  6%       { opacity: 0.6; }
+  40%      { opacity: 0.6; }
+  46%      { transform: translateX(120vw) rotate(540deg); opacity: 0; }
+  100%     { transform: translateX(120vw) rotate(540deg); opacity: 0; }
 }
 
-.page-hero hr {
-  border: none;
-  border-top: 1.5px solid #e0e0e0;
-  margin: 1.2rem auto;
-  max-width: 320px;
+/* Tumbles down from above the fold, end over end, then rests off-screen. */
+@keyframes motif-drop {
+  0%       { transform: translateY(-40vh) rotate(0deg); opacity: 0; }
+  8%       { opacity: 0.55; }
+  38%      { transform: translateY(115vh) rotate(720deg); opacity: 0; }
+  100%     { transform: translateY(115vh) rotate(720deg); opacity: 0; }
 }
 
-/* Social Row */
-.social-row {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 0.8rem 0 1.2rem;
-}
-
-.social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 0;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-}
-
-.social-icon:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  border-color: #aaaaaa;
-}
-
-.social-icon img {
-  display: block;
-  width: 22px;
-  height: 22px;
-  opacity: 0.9;
-  transition: opacity 0.18s ease;
-}
-
-.social-icon:hover img {
-  opacity: 1;
-}
-
-@keyframes social-attn-wiggle {
-  0%, 88%, 100% { transform: rotate(0deg); }
-  90%  { transform: rotate(-12deg); }
-  92%  { transform: rotate(10deg); }
-  94%  { transform: rotate(-8deg); }
-  96%  { transform: rotate(6deg); }
-  98%  { transform: rotate(-3deg); }
-}
-
-.social-icon-attn {
-  animation: social-attn-wiggle 4s ease-in-out infinite;
-  transform-origin: center center;
-}
-
-.social-icon-attn-2 {
-  animation-delay: 0.4s;
-}
-
-.social-icon-attn:hover {
-  animation-play-state: paused;
+/* Breaks through to foreground layer: expands and rises briefly, then settles back. */
+@keyframes motif-breakthrough {
+  0%      { z-index: 1; opacity: 0.55; transform: var(--motif-rot) scale(1); }
+  12%     { z-index: 1; opacity: 0.55; transform: var(--motif-rot) scale(1); }
+  15%     { z-index: 1000; opacity: 1; transform: var(--motif-rot) scale(1.3) translateY(-20px); filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35)); }
+  35%     { z-index: 1000; opacity: 1; transform: var(--motif-rot) scale(1.25) translateY(-8px); }
+  50%     { z-index: 1000; opacity: 0.9; transform: var(--motif-rot) scale(1.1) translateY(-2px); }
+  65%     { z-index: 1; opacity: 0.55; transform: var(--motif-rot) scale(1); filter: drop-shadow(0 0px 0px rgba(0,0,0,0)); }
+  100%    { z-index: 1; opacity: 0.55; transform: var(--motif-rot) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .social-icon-attn { animation: none; }
+  .motif { animation: none !important; }
+}
+
+/* Each motif sets its tilt via --motif-rot, then picks one motion from the
+   library above. Durations/delays are deliberately uneven (and prime-ish) so
+   the layer never falls into a visible rhythm. The two travelling shapes
+   (zoom / drop) run on long cycles so a fly-by is a now-and-then surprise. */
+
+/* Lightning bolt — far left, near top: rare breakthrough */
+.motif-1  { width: 78px;  top: 4%;   left: 3%;    --motif-rot: rotate(-15deg); animation-name: motif-breakthrough;    animation-duration: 47s;  animation-delay: -8s;   animation-timing-function: ease-in-out; }
+/* Starburst — far right, near top: rare breakthrough */
+.motif-2  { width: 104px; top: 3%;   right: 4%;   --motif-rot: rotate(10deg);  animation-name: motif-breakthrough;  animation-duration: 53s;  animation-delay: -12s; animation-timing-function: ease-in-out; }
+/* Purple star — left-center, high: rare breakthrough */
+.motif-3  { width: 82px;  top: 12%;  left: 22%;   --motif-rot: rotate(-22deg); opacity: 0.45; animation-name: motif-breakthrough; animation-duration: 61s; animation-delay: -18s; animation-timing-function: ease-in-out; }
+/* Diamond — right-center, high: rare breakthrough */
+.motif-4  { width: 66px;  top: 14%;  right: 20%;  --motif-rot: rotate(8deg);   animation-name: motif-breakthrough;   animation-duration: 43s; animation-delay: -5s; animation-timing-function: ease-in-out; }
+/* 4-point star — center: rare breakthrough */
+.motif-5  { width: 60px;  top: 8%;   left: 50%;   --motif-rot: rotate(20deg);  opacity: 0.4;  animation-name: motif-breakthrough; animation-duration: 59s; animation-delay: -22s; animation-timing-function: ease-in-out; }
+/* Moon — far right, upper-mid: rare breakthrough */
+.motif-6  { width: 84px;  top: 28%;  right: 6%;   --motif-rot: rotate(-30deg); animation-name: motif-breakthrough;  animation-duration: 51s;   animation-delay: -11s; animation-timing-function: ease-in-out; }
+/* Green star — left, mid: rare breakthrough */
+.motif-7  { width: 76px;  top: 38%;  left: 8%;    --motif-rot: rotate(18deg);  animation-name: motif-breakthrough;   animation-duration: 67s;  animation-delay: -25s;  animation-timing-function: ease-in-out; }
+/* Pink ring — right-center, mid: rare breakthrough */
+.motif-8  { width: 92px;  top: 32%;  right: 24%;  --motif-rot: rotate(-5deg);  opacity: 0.45; animation-name: motif-breakthrough;  animation-duration: 55s; animation-delay: -9s; animation-timing-function: ease-in-out; }
+/* Outline star — center-left, lower-mid: rare breakthrough */
+.motif-9  { width: 70px;  top: 52%;  left: 28%;   --motif-rot: rotate(-12deg); animation-name: motif-breakthrough;   animation-duration: 63s;  animation-delay: -21s;  animation-timing-function: ease-in-out; }
+/* Blue arc — far right, lower-mid: rare breakthrough */
+.motif-10 { width: 86px;  top: 58%;  right: 5%;   --motif-rot: rotate(25deg);  animation-name: motif-breakthrough;  animation-duration: 41s; animation-delay: -6s; animation-timing-function: ease-in-out; }
+/* Green arc — far left, lower: rare breakthrough */
+.motif-11 { width: 80px;  top: 68%;  left: 4%;    --motif-rot: rotate(-20deg); animation-name: motif-breakthrough; animation-duration: 58s;  animation-delay: -17s;  animation-timing-function: ease-in-out; }
+/* Pink arc — center-right, lower: rare breakthrough */
+.motif-12 { width: 70px;  top: 74%;  right: 28%;  --motif-rot: rotate(40deg);  animation-name: motif-breakthrough;    animation-duration: 49s;  animation-delay: -14s;  animation-timing-function: ease-in-out; }
+/* Orange pacman — center, mid: rare breakthrough */
+.motif-13 { width: 88px;  top: 46%;  left: 55%;   --motif-rot: rotate(-8deg);  opacity: 0.45; animation-name: motif-breakthrough; animation-duration: 71s; animation-delay: -28s; animation-timing-function: ease-in-out; }
+/* Yellow pacman — center-left, bottom: rare breakthrough */
+.motif-14 { width: 82px;  top: 84%;  left: 18%;   --motif-rot: rotate(15deg);  animation-name: motif-breakthrough;   animation-duration: 45s; animation-delay: -7s; animation-timing-function: ease-in-out; }
+/* Blue blob — far right, bottom: rare breakthrough */
+.motif-15 { width: 102px; top: 87%;  right: 3%;   --motif-rot: rotate(-18deg); opacity: 0.4;  animation-name: motif-breakthrough; animation-duration: 57s; animation-delay: -15s; animation-timing-function: ease-in-out; }
+/* Cream blob — center-right, bottom: rare breakthrough */
+.motif-16 { width: 92px;  top: 92%;  left: 60%;   --motif-rot: rotate(30deg);  opacity: 0.42; animation-name: motif-breakthrough; animation-duration: 69s; animation-delay: -26s; animation-timing-function: ease-in-out; }
+
+@media (max-width: 600px) {
+  .motif { opacity: 0.4; }
+  .motif-1  { width: 50px; }
+  .motif-2  { width: 62px; }
+  .motif-3, .motif-5, .motif-8, .motif-13 { display: none; }
+  .motif-4  { width: 44px; }
+  .motif-6  { width: 56px; }
+  .motif-7  { width: 52px; }
+  .motif-9  { width: 46px; }
+  .motif-10 { width: 56px; }
+  .motif-11 { width: 52px; }
+  .motif-12 { width: 46px; }
+  .motif-14 { width: 54px; }
+  .motif-15 { width: 64px; }
+  .motif-16 { width: 60px; }
+}
+
+
+.hero-logo {
+  width: clamp(130px, 34vw, 180px);
+  height: auto;
+  display: block;
 }
 
 @media (max-width: 480px) {
-  .social-icon {
-    width: 38px;
-    height: 38px;
+  .site-header {
+    padding: 1rem 1rem;
   }
-  .social-icon img {
-    width: 19px;
-    height: 19px;
-  }
-}
-
-
-/* -------------------------------------------------
-   WEEKLY VIEW
-------------------------------------------------- */
-
-.boards-row {
-  margin-bottom: 2rem;
-}
-
-.week-view {
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  margin-bottom: 1.2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-
-/* Wide screens: the two boards sit side by side instead of stacking. */
-@media (min-width: 900px) {
-  .boards-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-    align-items: start;
-  }
-  .boards-row .week-view {
-    margin-bottom: 0;
+  .site-nav-link {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.9rem;
   }
 }
 
-.week-view-title {
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0.8rem 1.1rem;
-  background: #fafafa;
-  color: #1a1a1a;
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  user-select: none;
-}
-
-.week-view-title::-webkit-details-marker { display: none; }
-
-/* Highlighted workshops box */
-.workshop-view {
-  border-color: #2563eb;
-  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
-}
-
-.workshop-view .week-view-title {
-  background: #eef3ff;
-  color: #1e40af;
-}
-
-.workshop-view[open] .week-view-title {
-  border-bottom-color: #2563eb;
-}
-
-.workshop-flag {
-  display: inline-block;
-  background: #2563eb;
-  color: #fff;
-  padding: 0.12rem 0.45rem;
-  margin-right: 0.5rem;
-  letter-spacing: 0.12em;
-}
-
-.week-view[open] .week-view-title {
-  border-bottom: 1.5px solid #e0e0e0;
-}
-
-.week-view-chevron {
-  font-size: 0.9rem;
-  transition: transform 0.2s ease;
-}
-
-.week-view[open] .week-view-chevron {
-  transform: rotate(180deg);
-}
-
-.week-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.week-item {
-  border-bottom: 1px solid #f0f0f0;
-  border-left: 4px solid transparent;
-}
-
-.week-item:last-child {
-  border-bottom: none;
-}
-
-.week-item-link {
-  display: flex;
-  align-items: stretch;
-  gap: 1rem;
-  padding: 0.75rem 1.1rem;
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.15s ease;
-}
-
-.week-item-link:hover {
-  background: #fafafa;
-}
 
 html { scroll-behavior: smooth; }
 .event-card { scroll-margin-top: 1rem; }
-
-.week-item.event-type-show     { border-left-color: #f5c400; }
-.week-item.event-type-jam      { border-left-color: #2ecc71; }
-.week-item.event-type-workshop { border-left-color: #2563eb; }
-
-.week-date {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 54px;
-  padding: 0.2rem 0.4rem;
-  background: #fafafa;
-  border: 1px solid #e0e0e0;
-  line-height: 1.1;
-}
-
-.week-day {
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #666;
-}
-
-.week-daynum {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #1a1a1a;
-}
-
-.week-month {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #666;
-}
-
-.week-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.15rem;
-  min-width: 0;
-  flex: 1;
-}
-
-.week-type-tag {
-  align-self: flex-start;
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.1rem 0.45rem;
-  margin-top: 0.2rem;
-  border: 1.5px solid currentColor;
-}
-
-.week-type-show     { color: #c9a100; }
-.week-type-jam      { color: #1faa58; }
-.week-type-workshop { color: #2563eb; }
-
-.week-time {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #555;
-  letter-spacing: 0.02em;
-}
-
-.week-name {
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.25;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@media (max-width: 480px) {
-  .week-item { padding: 0.65rem 0.85rem; gap: 0.8rem; }
-  .week-date { min-width: 48px; }
-  .week-daynum { font-size: 1.1rem; }
-  .week-name { font-size: 0.92rem; }
-}
 
 
 /* -------------------------------------------------
@@ -474,19 +362,20 @@ html { scroll-behavior: smooth; }
 ------------------------------------------------- */
 
 .event-card {
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #e8ddd5;
   padding: 0;
   border-radius: 0;
   margin-bottom: 1.6rem;
-  background: #fff;
+  background: linear-gradient(to bottom right, #fff 0%, #fefdfb 100%);
   overflow: hidden;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .event-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+  border-color: #d4a8a2;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* The .event-flip wrapper carries the bottom margin; the card fills it. */
@@ -541,8 +430,8 @@ html { scroll-behavior: smooth; }
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
   padding: 0.55rem 0.9rem;
   flex: 1;
   min-width: 140px;
@@ -555,18 +444,20 @@ html { scroll-behavior: smooth; }
 
 button.event-key-item:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  border-color: #bbb;
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.2);
+  border-color: #f5c400;
+  background: linear-gradient(135deg, #fffdfb 0%, #fffaf5 100%);
 }
 
 button.event-key-item[aria-pressed="true"] {
-  border-color: #1a1a1a;
-  background: #1a1a1a;
-  color: #fff;
+  border-color: #f5c400;
+  background: linear-gradient(135deg, #f5c400 0%, #f0b800 100%);
+  color: #1a1a1a;
+  font-weight: 600;
 }
 
 button.event-key-item[aria-pressed="true"] p {
-  color: #d0d0d0;
+  color: #1a1a1a;
 }
 
 .page-section + .page-section {
@@ -576,68 +467,69 @@ button.event-key-item[aria-pressed="true"] p {
 }
 
 .section-heading {
-  font-size: 0.78rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #888;
-  margin: 0 0 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1.5px solid #e0e0e0;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+  margin: 0 0 0.9rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  line-height: 1.1;
 }
 
-.tagline-link {
-  display: inline-block;
-  margin-top: 0.4rem;
-  color: #1a1a1a;
-  font-size: 0.88rem;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.15s ease;
+@media (min-width: 900px) {
+  .section-heading {
+    font-size: 1.75rem;
+  }
 }
 
-.tagline-link:hover {
-  color: #555;
+@media (min-width: 1200px) {
+  .section-heading {
+    font-size: 1.9rem;
+  }
 }
 
-.hero-cta {
-  margin: 1.4rem 0 0.4rem;
+/* Hand-drawn highlighter swipe behind the heading text. The skew + rounded
+   inline background reads as a marker stroke rather than a tidy box. Each
+   section can override --swipe to rotate the brand palette. */
+.section-heading > span,
+.section-heading {
+  position: relative;
+  display: inline;
 }
 
-.hero-cta-btn {
-  font-size: 1rem;
+.section-heading {
+  background-image: linear-gradient(transparent 58%, var(--swipe, rgba(245, 196, 0, 0.55)) 58%, var(--swipe, rgba(245, 196, 0, 0.55)) 92%, transparent 92%);
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.15em 0.1em 0;
 }
 
-.workshop-notify-line {
-  font-size: 0.92rem;
-  color: #555;
-  margin: 0.6rem 0 0;
-}
-
-.workshop-notify-line a {
-  color: #1a1a1a;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
+/* Rotate the swipe color section to section so the page feels lively. */
+.page-section:nth-of-type(3n+1) .section-heading { --swipe: rgba(245, 196, 0, 0.55); }
+.page-section:nth-of-type(3n+2) .section-heading { --swipe: rgba(46, 204, 113, 0.45); }
+.page-section:nth-of-type(3n+3) .section-heading { --swipe: rgba(37, 99, 235, 0.30); }
 
 .corporate-banner {
   display: flex;
   align-items: center;
   gap: 0.9rem;
   padding: 1rem 1.2rem;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #e8ddd5;
   border-radius: 14px;
-  background: #fff;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
   text-decoration: none;
   color: #1a1a1a;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .corporate-banner:hover {
-  border-color: #1a1a1a;
+  border-color: #f5c400;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
 }
 
 .corporate-banner-icon {
@@ -648,7 +540,7 @@ button.event-key-item[aria-pressed="true"] p {
 .corporate-banner-text {
   flex: 1;
   font-size: 0.92rem;
-  color: #555;
+  color: #1a1a1a;
 }
 
 .corporate-banner-text strong {
@@ -683,21 +575,21 @@ button.event-key-item[aria-pressed="true"] p {
   gap: 0.5rem;
   margin: 1.5rem 0 0;
   padding: 0.9rem 1.1rem;
-  background: #fff;
-  border: 1.5px dashed #d0d0d0;
-  color: #555;
+  background: linear-gradient(135deg, #fffdfb 0%, #fff 100%);
+  border: 1.5px dashed #f5c400;
+  color: #1a1a1a;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 .section-jump:hover {
-  color: #1a1a1a;
-  border-color: #1a1a1a;
-  background: #fafafa;
+  color: #fff;
+  border-color: #f5c400;
+  background: linear-gradient(135deg, #f5c400 0%, #f0b800 100%);
 }
 
 .section-jump-arrow {
@@ -804,15 +696,21 @@ button.event-key-item[aria-pressed="true"] p {
   align-items: center;
   text-align: center;
   gap: 0.2rem;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
   padding: 0.9rem 0.6rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.about-stats li:hover {
+  border-color: #f5c400;
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
 }
 
 .about-stat-num {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #1a1a1a;
+  color: #f5c400;
   line-height: 1.1;
 }
 
@@ -821,7 +719,7 @@ button.event-key-item[aria-pressed="true"] p {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #888;
+  color: #1a1a1a;
   line-height: 1.3;
 }
 
@@ -838,9 +736,15 @@ button.event-key-item[aria-pressed="true"] p {
   display: flex;
   align-items: flex-start;
   gap: 0.8rem;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
   padding: 0.7rem 0.85rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.about-ladder li:hover {
+  border-color: #f5c400;
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
 }
 
 .about-ladder-step {
@@ -851,8 +755,8 @@ button.event-key-item[aria-pressed="true"] p {
   width: 1.6rem;
   height: 1.6rem;
   border-radius: 50%;
-  background: #1a1a1a;
-  color: #fff;
+  background: linear-gradient(135deg, #f5c400 0%, #f0b800 100%);
+  color: #1a1a1a;
   font-size: 0.85rem;
   font-weight: 800;
   line-height: 1;
@@ -875,107 +779,285 @@ button.event-key-item[aria-pressed="true"] p {
   color: #555;
 }
 
-/* Homepage hero carousel: rotates through upcoming workshops (or jams). */
-.hero-feature-carousel {
-  position: relative;
-  margin: 0 0 2rem;
-  /* Let the carousel own horizontal swipes while vertical page scroll
-     stays with the browser. */
-  touch-action: pan-y;
-}
-
-/* Slides stack; only the active one shows. The carousel sizes to the active
-   slide via grid (all slides occupy the same cell). */
-.hero-feature-carousel {
-  display: grid;
-}
-
-.hero-feature-carousel .hero-feature {
-  grid-area: 1 / 1;
+/* Festivals page: a vertical timeline of festivals played. Mirrors the
+   about-ladder card style, but the leading marker is a year instead of a
+   step number. */
+.fest-timeline {
+  list-style: none;
   margin: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.4s ease, border-color 0.15s ease, transform 0.15s ease;
-}
-
-.hero-feature-carousel .hero-feature.is-active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-/* Internal links, so the arrow is a same-site → not an external ↗. */
-.hero-feature-carousel .hero-feature-title::after {
-  content: " →";
-}
-
-.hero-feature-dots {
-  grid-area: 1 / 1;
-  align-self: end;
-  justify-self: center;
-  z-index: 2;
-  display: flex;
-  gap: 0.45rem;
-  margin-bottom: 0.7rem;
-  pointer-events: auto;
-}
-
-.hero-feature-dot {
-  width: 8px;
-  height: 8px;
   padding: 0;
-  border: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.fest-stop {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
+  padding: 0.85rem 0.95rem;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fest-stop:hover {
+  border-color: #d4a8a2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
+}
+
+.fest-stop-year {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f5c400 0%, #f0b800 100%);
+  color: #1a1a1a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.fest-stop-body strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+
+.fest-stop-body p {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+.fest-stop-city {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.fest-stop-when {
+  position: relative;
+  padding-left: 0.55rem;
+}
+
+.fest-stop-when::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
+  background: #bbb;
 }
 
-.hero-feature-dot:hover {
-  transform: scale(1.2);
-}
-
-.hero-feature-dot.is-active {
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
-}
-
-/* Homepage hero feature card: one marquee show, above What's On. */
-.hero-feature {
+/* Homepage hero: identity block (who we are / what improv is) plus a fast
+   path into events, with a compact "up next" card alongside. */
+.home-hero {
   display: flex;
   flex-direction: column;
-  margin: 0 0 2rem;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
+  gap: 1.5rem;
+  margin: 0 0 2.5rem;
+}
+
+/* Oversized, tilted "FUN" — the loud brand accent. Sits behind the hero
+   intro on wide screens, full-bleed-ish, outlined so it reads as a graphic
+   element rather than body copy. */
+.home-hero {
+  position: relative;
+}
+
+.fun-shout {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4rem, 15vw, 9rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--ink);
+  transform: rotate(-7deg);
+  transform-origin: left center;
+  user-select: none;
+  pointer-events: none;
+  /* Let the tilted word breathe past the panel's padding instead of being
+     boxed in by it. Negative top margin tucks it up toward the eyebrow. */
+  margin: -0.3rem 0 0.4rem -0.15em;
+  display: inline-block;
+}
+
+/* The three dots of color sit just inside the outline so FUN isn't only
+   black-and-cream. */
+.fun-shout .fun-f { -webkit-text-stroke-color: var(--yellow); }
+.fun-shout .fun-u { -webkit-text-stroke-color: var(--green); }
+.fun-shout .fun-n { -webkit-text-stroke-color: var(--blue); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fun-shout {
+    animation: fun-wobble 5s ease-in-out infinite;
+  }
+}
+
+@keyframes fun-wobble {
+  0%, 100% { transform: rotate(-7deg); }
+  50%      { transform: rotate(-3deg) translateY(-4px); }
+}
+
+/* Second shout: "YES, AND" — the improv credo, used as a divider above the
+   "Who We Are" section. Tilts the opposite way from FUN so the two big words
+   echo each other down the page. Two words, so it sits a little smaller and
+   stacks on its own line. */
+.yesand-shout {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 11vw, 6.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--ink);
+  transform: rotate(4deg);
+  transform-origin: right center;
+  user-select: none;
+  pointer-events: none;
+  margin: 0.4rem 0 1.2rem;
+  text-align: right;
+  display: block;
+}
+
+.yesand-shout .yesand-yes { -webkit-text-stroke-color: var(--pink); }
+.yesand-shout .yesand-and { -webkit-text-stroke-color: var(--blue); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .yesand-shout {
+    animation: yesand-wobble 6s ease-in-out infinite;
+  }
+}
+
+@keyframes yesand-wobble {
+  0%, 100% { transform: rotate(4deg); }
+  50%      { transform: rotate(1deg) translateY(-4px); }
+}
+
+/* Mobile: bump shout sizes up slightly so they're more readable on phones. */
+@media (max-width: 600px) {
+  .fun-shout {
+    font-size: clamp(3.2rem, 18vw, 7rem);
+  }
+  .yesand-shout {
+    font-size: clamp(2.2rem, 13vw, 5.5rem);
+  }
+}
+
+.home-hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+  margin: 0 0 0.5rem;
+}
+
+.home-hero-heading {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .home-hero-heading {
+    font-size: 2.8rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-hero-heading {
+    font-size: 3rem;
+  }
+}
+
+.home-hero-lede {
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: #555;
+  max-width: 34rem;
+  margin: 0.8rem 0 0;
+}
+
+@media (min-width: 900px) {
+  .home-hero-lede {
+    font-size: 1.15rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-hero-lede {
+    font-size: 1.25rem;
+  }
+}
+
+.home-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.4rem 0 0;
+}
+
+/* Compact "up next" card. Square, flat aesthetic to match the event cards. */
+.home-hero-next {
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(to bottom right, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.hero-feature:hover {
-  border-color: #1a1a1a;
+.home-hero-next:hover {
+  border-color: #d4a8a2;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 196, 0, 0.15);
 }
 
-.hero-feature-poster {
+/* Poster fills the card's full height (no white gaps) and takes a wide enough
+   column that the 16:9 crop reads as a deliberate landscape slice rather than
+   a thin sliver. */
+.home-hero-next-poster {
   display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  flex-shrink: 0;
+  width: 45%;
+  max-width: 13rem;
+  align-self: stretch;
   object-fit: cover;
   background: #1a1a1a;
 }
 
-.hero-feature-body {
+.home-hero-next-body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0.3rem;
-  padding: 1rem 1.1rem 1.15rem;
+  padding: 0.9rem 1.1rem;
 }
 
-.hero-feature-kicker {
+.home-hero-next-kicker {
   font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -983,39 +1065,42 @@ button.event-key-item[aria-pressed="true"] p {
   color: #888;
 }
 
-.hero-feature-title {
-  font-size: 1.3rem;
+.home-hero-next-title {
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1a1a1a;
   line-height: 1.15;
 }
 
-.hero-feature-title::after {
-  content: " ↗";
-  font-size: 0.9rem;
+.home-hero-next-title::after {
+  content: " →";
   color: #888;
 }
 
-.hero-feature-blurb {
-  font-size: 0.9rem;
+.home-hero-next-blurb {
+  font-size: 0.88rem;
   line-height: 1.5;
   color: #555;
 }
 
-@media (min-width: 720px) {
-  .hero-feature {
+@media (min-width: 760px) {
+  .home-hero {
     flex-direction: row;
-    align-items: stretch;
+    align-items: center;
+    gap: 2.5rem;
   }
-  .hero-feature-poster {
-    width: 46%;
-    aspect-ratio: auto;
-    object-fit: cover;
+  .home-hero-intro {
+    flex: 1 1 56%;
   }
-  .hero-feature-body {
-    flex: 1;
-    justify-content: center;
-    padding: 1.4rem 1.5rem;
+  .home-hero-next {
+    flex: 1 1 44%;
+    align-self: stretch;
+  }
+  .home-hero-heading {
+    font-size: 2.5rem;
+  }
+  .home-hero-lede {
+    font-size: 1.1rem;
   }
 }
 
@@ -1031,15 +1116,17 @@ button.event-key-item[aria-pressed="true"] p {
 .about-shows li {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
   overflow: hidden;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .about-shows li:hover {
-  border-color: #1a1a1a;
+  border-color: #d4a8a2;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 196, 0, 0.15);
 }
 
 .about-show-card {
@@ -1056,12 +1143,40 @@ button.event-key-item[aria-pressed="true"] p {
   color: #888;
 }
 
+.about-show-poster-wrap {
+  position: relative;
+}
+
 .about-show-poster {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #1a1a1a;
+}
+
+/* Marks the formats we tour to international festivals. */
+.festival-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+  background: #f0c419;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.festival-badge::before {
+  content: "✦";
+  font-size: 0.85em;
+  line-height: 1;
 }
 
 .about-show-body {
@@ -1207,9 +1322,11 @@ button.event-key-item[aria-pressed="true"] p {
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.15rem 0.5rem;
+  padding: 0.2rem 0.55rem;
   margin-bottom: 0.55rem;
-  border: 1.5px solid currentColor;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  transform: rotate(-2deg);
 }
 
 .event-type-show     .event-type-badge { color: #c9a100; }
@@ -1260,6 +1377,18 @@ button.event-key-item[aria-pressed="true"] p {
   color: #1a1a1a;
 }
 
+@media (min-width: 900px) {
+  .event-title {
+    font-size: 1.65rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .event-title {
+    font-size: 1.8rem;
+  }
+}
+
 .event-date {
   display: inline-flex;
   align-items: center;
@@ -1272,6 +1401,42 @@ button.event-key-item[aria-pressed="true"] p {
   border-radius: 0;
   padding: 0.22rem 0.65rem;
   margin-bottom: 0.8rem;
+}
+
+/* "+N more dates" tag for multi-day workshops. Sits inside the date pill,
+   carries the workshop blue, and links to the full schedule. */
+.event-date-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #2563eb;
+  background: #eaf0fe;
+  border: 1px solid #cfddfb;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.event-date-tag:hover {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* Same flag on the home hero "up next" card. Plain text (the whole card is
+   already a link), so no hover state. */
+.home-hero-next-tag {
+  display: inline-block;
+  margin-left: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eaf0fe;
+  border: 1px solid #cfddfb;
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  white-space: nowrap;
 }
 
 .event-excerpt {
@@ -1314,17 +1479,22 @@ button.event-key-item[aria-pressed="true"] p {
 }
 
 .btn-primary {
-  background: #1a1a1a;
-  color: #fff;
-  border: 1.5px solid #1a1a1a;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  background: linear-gradient(135deg, var(--yellow) 0%, #f0b800 100%);
+  color: var(--ink);
+  border: 2.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
 .btn-primary:hover {
-  background: #000;
-  border-color: #000;
-  transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(0,0,0,0.28);
+  background: linear-gradient(135deg, #fff 0%, #fffbf5 100%);
+  border-color: var(--ink);
+  transform: translate(-2px, -2px) rotate(-1.5deg);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.btn-primary:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0 var(--ink) !important;
 }
 
 /* Applied client-side when District reports an event sold out / not yet on sale. */
@@ -1417,9 +1587,15 @@ button.event-key-item[aria-pressed="true"] p {
   display: flex;
   align-items: flex-start;
   gap: 0.7rem;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
   padding: 0.7rem 0.85rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.book-offer-list li:hover {
+  border-color: #f5c400;
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
 }
 
 .book-offer-icon {
@@ -1458,8 +1634,8 @@ button.event-key-item[aria-pressed="true"] p {
 }
 
 .promo-card {
-  background: linear-gradient(135deg, #f5f5f5 0%, #f5f5f5 100%);
-  border-color: #e0e0e0;
+  background: linear-gradient(135deg, rgba(245, 196, 0, 0.08) 0%, rgba(255, 251, 245, 0.6) 100%);
+  border-color: rgba(245, 196, 0, 0.3);
   border-style: dashed;
 }
 
@@ -1495,45 +1671,95 @@ button.event-key-item[aria-pressed="true"] p {
 .footer {
   text-align: center;
   font-size: 0.82rem;
-  color: #b0a09a;
+  color: #8a7a72;
   padding: 2.5rem 1.5rem 2rem;
   letter-spacing: 0.02em;
-  border-top: 1.5px solid #ececec;
+  border-top: 1.5px solid rgba(245, 196, 0, 0.15);
   margin-top: 2.5rem;
+  background: linear-gradient(135deg, rgba(255, 251, 245, 0.4) 0%, rgba(245, 196, 0, 0.06) 100%);
 }
 
 .footer-inner {
-  max-width: 640px;
+  max-width: 720px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1.8rem;
 }
 
-.footer-nav,
-.footer-social {
-  display: flex;
-  flex-wrap: wrap;
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
   justify-content: center;
-  gap: 0.4rem 1.3rem;
+  gap: 1.4rem 3.5rem;
+  text-align: left;
 }
 
-.footer-nav a {
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.footer-col-title {
+  margin: 0 0 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.footer-col a {
   font-weight: 600;
   font-size: 0.9rem;
 }
 
-.footer-social a {
-  font-size: 0.85rem;
-}
-
 .footer a {
-  color: #8a7a72;
+  color: #5a5650;
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .footer a:hover {
+  color: #f5c400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.coc-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.coc-list li {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.55;
+  margin: 0 0 0.6rem;
+}
+
+.coc-list li strong {
   color: #1a1a1a;
+}
+
+.coc-list a {
+  color: #1a1a1a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.coc-fineprint {
+  font-size: 0.82rem;
+  color: #888;
+  line-height: 1.55;
+  margin: 1.4rem 0 0;
+}
+
+.coc-fineprint a {
+  color: #555;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -1548,6 +1774,41 @@ button.event-key-item[aria-pressed="true"] p {
   margin: 0.2rem 0;
 }
 
+@media (max-width: 600px) {
+  .footer {
+    padding: 2rem 1.25rem 1.75rem;
+  }
+
+  .footer-inner {
+    gap: 1.1rem;
+  }
+
+  /* Stack the three groups, but let each group's links flow inline and
+     wrap instead of one-per-row. That keeps the labelled sections while
+     cutting the footer height roughly in half on a phone. */
+  .footer-cols {
+    display: block;
+    text-align: center;
+  }
+
+  .footer-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.3rem 1rem;
+  }
+
+  .footer-col + .footer-col {
+    margin-top: 1rem;
+  }
+
+  .footer-col-title {
+    flex-basis: 100%;
+    margin: 0;
+  }
+}
+
 /* -------------------------------------------------
    EVENT DETAIL PAGE
 ------------------------------------------------- */
@@ -1557,15 +1818,15 @@ button.event-key-item[aria-pressed="true"] p {
 }
 
 .event-detail {
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: linear-gradient(135deg, #fff 0%, #fefdfb 100%);
+  border: 1.5px solid #e8ddd5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   overflow: hidden;
 }
 
-.event-detail.event-type-show     { border-top: 4px solid #f5c400; }
-.event-detail.event-type-jam      { border-top: 4px solid #2ecc71; }
-.event-detail.event-type-workshop { border-top: 4px solid #2563eb; }
+.event-detail.event-type-show     { border-top: 4px solid #f5c400; border-left: 4px solid rgba(245, 196, 0, 0.3); }
+.event-detail.event-type-jam      { border-top: 4px solid #2ecc71; border-left: 4px solid rgba(46, 204, 113, 0.3); }
+.event-detail.event-type-workshop { border-top: 4px solid #2563eb; border-left: 4px solid rgba(37, 99, 235, 0.3); }
 
 .event-detail-back {
   display: inline-block;
@@ -1599,11 +1860,35 @@ button.event-key-item[aria-pressed="true"] p {
   padding: 1.4rem 1.5rem 1.8rem;
 }
 
+@media (min-width: 900px) {
+  .event-detail-body {
+    padding: 1.6rem 1.8rem 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .event-detail-body {
+    padding: 1.8rem 2rem 2.2rem;
+  }
+}
+
 .event-detail-title {
   font-size: 1.7rem;
   line-height: 1.15;
   margin: 0.3rem 0 0.9rem;
   color: #1a1a1a;
+}
+
+@media (min-width: 900px) {
+  .event-detail-title {
+    font-size: 1.95rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .event-detail-title {
+    font-size: 2.1rem;
+  }
 }
 
 .event-detail-meta {
@@ -1646,6 +1931,57 @@ button.event-key-item[aria-pressed="true"] p {
   border-radius: 999px;
 }
 
+/* Multi-day workshop schedule. The feed carries only one date, so this block
+   lists every session as the authoritative timetable. */
+.event-detail-sessions {
+  margin: 0 0 1.2rem;
+  padding: 0.9rem 1rem;
+  background: #faf8f5;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+
+.event-detail-sessions-heading {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.event-detail-sessions-note {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  color: #7a6a5a;
+}
+
+.event-detail-sessions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.event-detail-sessions-list li {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 999px;
+}
+
+.event-detail-sessions-extra {
+  margin: 0.7rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #7a6a5a;
+}
+
 .event-detail-content {
   font-size: 1rem;
   line-height: 1.6;
@@ -1684,17 +2020,19 @@ button.event-key-item[aria-pressed="true"] p {
 }
 
 .event-detail-source {
-  margin-top: 1.2rem;
-  font-size: 0.85rem;
+  margin-top: 1.4rem;
+  font-size: 0.72rem;
 }
 
 .event-detail-source a {
-  color: #7a6a5a;
-  text-decoration: underline;
+  color: #b0a09a;
+  text-decoration: none;
+  border-bottom: 1px dotted #d0d0d0;
 }
 
 .event-detail-source a:hover {
-  color: #1a1a1a;
+  color: #7a6a5a;
+  border-bottom-color: #7a6a5a;
 }
 
 @media (max-width: 480px) {
@@ -1723,4 +2061,48 @@ button.event-key-item[aria-pressed="true"] p {
 .event-detail-meta-empty span {
   font-size: 0.9rem;
   color: #7a6a5a;
+}
+
+
+/* -------------------------------------------------
+   RANDOM SHOUTS
+------------------------------------------------- */
+
+.random-shout {
+  margin: 0.8rem 0;
+  text-align: center;
+  font-size: 0;
+}
+
+.random-shout span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 8vw, 2.2rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 2px;
+  -webkit-text-stroke-color: var(--random-stroke, #f5c400);
+  transform: rotate(var(--random-rotation, -3deg));
+  user-select: none;
+  pointer-events: none;
+  display: inline-block;
+  animation: shout-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes shout-entrance {
+  from {
+    opacity: 0;
+    transform: rotate(var(--random-rotation, -3deg)) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--random-rotation, -3deg)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .random-shout span {
+    animation: none;
+  }
 }

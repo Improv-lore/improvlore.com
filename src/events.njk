@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: What's On - Improvlore
+title: Upcoming - Improvlore
 permalink: /events/index.html
 showCustomEvents: false
 ---
@@ -8,7 +8,7 @@ showCustomEvents: false
 <div class="events-root">
 
   <section class="page-section" aria-labelledby="section-whats-on">
-    <h2 class="section-heading" id="section-whats-on">What's On</h2>
+    <h1 class="section-heading" id="section-whats-on">Upcoming</h1>
     <p class="section-sub">Every upcoming show, jam, and workshop in one place. Filter by type, or just browse.</p>
 
   <div class="event-key" role="group" aria-label="Filter events by type">
@@ -51,12 +51,9 @@ showCustomEvents: false
       {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
     {% endif %}
 
-    {% set img = null %}
-    {% if ev.thumbnails and ev.thumbnails.length %}
-      {% set img = ev.thumbnails[0].url %}
-    {% elif ev.image_url %}
-      {% set img = ev.image_url %}
-    {% endif %}
+    {# Prefers the self-hosted format poster, falls back to the feed image
+       for genuine one-offs. See filters.eventImage. #}
+    {% set img = filters.eventImage(ev) %}
 
     {% set evType = filters.eventType(ev.title, ev.tags) %}
     <div id="{{ filters.eventSlug(ev) }}" class="event-flip event-type-{{ evType }}">
@@ -73,7 +70,15 @@ showCustomEvents: false
           <h2 class="event-title">{{ ev.title }}</h2>
 
           {% if dateLabel %}
-            <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
+            {# Multi-day workshops: the feed carries only the first date, so
+               flag the rest with a tag pointing at the full schedule. #}
+            {% set sessions = filters.eventSessions(ev.title) %}
+            <div class="event-date">
+              {{ dateLabel }} — {{ ev.venue }}
+              {% if sessions and sessions.dates and sessions.dates.length > 1 %}
+              <a class="event-date-tag" href="{{ filters.eventPermalink(ev) }}">+{{ sessions.dates.length - 1 }} more dates</a>
+              {% endif %}
+            </div>
           {% endif %}
 
           <p class="event-excerpt">

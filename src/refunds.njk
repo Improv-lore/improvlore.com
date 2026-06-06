@@ -1,0 +1,58 @@
+---
+layout: base.njk
+title: Refund & Cancellation Policy - Improvlore
+permalink: /refunds/
+pageDescription: How refunds, cancellations, and transfers work for Improv Lore tickets.
+---
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-refunds-hero">
+    <h1 class="section-heading" id="section-refunds-hero">Refund &amp; Cancellation Policy</h1>
+    <div class="about-intro">
+      <p class="about-lede">This explains what happens to your ticket if you cannot make an event, or if we have to change or cancel one.</p>
+      <p class="about-where">It applies to tickets for {{ legal.brand }} events, run by {{ legal.entity }}. Last updated {{ legal.effective }}.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-refunds-where">
+    <h2 class="section-heading" id="section-refunds-where">Where You Bought Your Ticket Matters</h2>
+    <div class="about-intro">
+      <p class="about-where">Most of our tickets are sold through a third-party ticketing platform. For those tickets, that platform's own refund and cancellation rules apply, and refunds are processed by them. Some tickets are sold directly by us, for example at the door or by UPI; for those, the terms below apply. If you are not sure which applies to your ticket, email us and we will tell you.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-refunds-you">
+    <h2 class="section-heading" id="section-refunds-you">If You Cannot Make It</h2>
+    <ul class="coc-list">
+      <li>Tickets are generally non-refundable once bought, because we plan each show around the size of the room.</li>
+      <li>If you let us know well in advance, we will do our best to move your ticket to another date of the same show, subject to space. This is at our discretion and is not guaranteed.</li>
+      <li>You are welcome to pass your ticket to a friend for the same event, as long as you let us know the new name where a guest list is used.</li>
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-refunds-us">
+    <h2 class="section-heading" id="section-refunds-us">If We Cancel Or Reschedule</h2>
+    <ul class="coc-list">
+      <li>If we cancel an event outright, you are entitled to a full refund of the ticket price.</li>
+      <li>If we reschedule an event, your ticket stays valid for the new date. If you cannot make the new date, you can ask for a full refund instead.</li>
+      <li>We are not able to refund travel, accommodation, or other costs you arranged around the event.</li>
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-refunds-conduct">
+    <h2 class="section-heading" id="section-refunds-conduct">No Refund For Removal</h2>
+    <div class="about-intro">
+      <p class="about-where">If you are refused entry or asked to leave for breaching our <a href="/code-of-conduct/">Code of Conduct</a>, you are not entitled to a refund.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-refunds-how">
+    <h2 class="section-heading" id="section-refunds-how">How To Request A Refund</h2>
+    <div class="about-intro">
+      <p class="about-where">For tickets bought through a third-party platform, request your refund through that platform. For tickets bought directly from us, email <a href="{{ social.gmail }}?subject=Refund request">{{ social.gmail | replace('mailto:', '') }}</a> with your name, the event, and your booking details. Approved refunds are returned to your original payment method, and usually reach you within 7 to 10 working days, depending on your bank or payment provider.</p>
+    </div>
+    <p class="coc-fineprint">{{ legal.brand }} is operated by {{ legal.entity }}{% if legal.address %}, {{ legal.address }}{% endif %}, {{ legal.city }}, {{ legal.country }}.</p>
+  </section>
+
+</div>

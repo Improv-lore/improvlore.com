@@ -1,0 +1,28 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+{%- set sorted = events | selectattr("event_starts_at") | sort(false, false, "event_starts_at") -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Improvlore upcoming events</title>
+  <subtitle>New and upcoming improv shows, jams, and workshops from Improvlore in Bangalore.</subtitle>
+  <link href="{{ site.absUrl('/feed.xml') }}" rel="self"/>
+  <link href="{{ site.url }}/"/>
+  {%- if sorted.length %}<updated>{{ (sorted | last).event_starts_at | dateToRfc3339 }}</updated>{% endif %}
+  <id>{{ site.url }}/</id>
+  <author>
+    <name>{{ site.name }}</name>
+  </author>
+{%- for ev in sorted %}
+  {%- set evUrl = site.absUrl(filters.eventPermalink(ev)) %}
+  <entry>
+    <title>{{ ev.title }}</title>
+    <link href="{{ evUrl }}"/>
+    <id>{{ evUrl }}</id>
+    <updated>{{ ev.event_starts_at | dateToRfc3339 }}</updated>
+    <published>{{ ev.event_starts_at | dateToRfc3339 }}</published>
+    <summary>{{ filters.shortText(ev.excerpt or ev.full_content, 280) }}</summary>
+  </entry>
+{%- endfor %}
+</feed>
