@@ -723,10 +723,6 @@ button.event-key-item[aria-pressed="true"] p {
   color: #fff;
 }
 
-.contact-sink {
-  display: none;
-}
-
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -779,6 +775,21 @@ button.event-key-item[aria-pressed="true"] p {
   font-size: 0.9rem;
   font-weight: 700;
   color: #1a7a3c;
+}
+
+/* Turnstile widget sits between the last field and the send button. The widget
+   itself is a fixed-size iframe Cloudflare renders; we just give it breathing
+   room and stop it overflowing on narrow screens. */
+.contact-turnstile {
+  margin: 0.4rem 0 0.2rem;
+  min-height: 65px;
+}
+
+.contact-error {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #c0392b;
 }
 
 /* -------------------------------------------------

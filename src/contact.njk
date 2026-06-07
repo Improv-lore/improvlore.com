@@ -68,10 +68,11 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
           <a class="btn btn-ghost" href="{{ social.whatsapp }}" target="_blank" rel="noopener">Join the WhatsApp Community</a>
         </div>
 
-        {# Hidden iframe catches Google's response so the page stays put. #}
-        <iframe name="contact-sink" class="contact-sink" title="form target" tabindex="-1" aria-hidden="true"></iframe>
+        <form class="contact-form" action="/submit" method="post">
+          {# Tells the Pages Function which Google Form to forward to after it
+             verifies the Turnstile token. #}
+          <input type="hidden" name="form" value="contact">
 
-        <form class="contact-form" action="{{ formAction }}" method="post" target="contact-sink">
           <div class="contact-field">
             <label for="cf-name">Your name</label>
             <input id="cf-name" name="{{ entryName }}" type="text" autocomplete="name" required>
@@ -115,10 +116,19 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
             <textarea id="cf-message" name="{{ entryMessage }}" rows="5" required></textarea>
           </div>
 
+          {# Cloudflare Turnstile widget. The token it produces is read from the
+             auto-injected cf-turnstile-response field and verified server-side
+             by functions/submit.js before anything reaches the Google Form. #}
+          <div class="cf-turnstile contact-turnstile"
+               data-sitekey="{{ site.turnstileSiteKey }}"
+               data-action="contact"
+               data-theme="light"></div>
+
           <div class="event-buttons">
             <button class="btn btn-primary" type="submit">Send message</button>
           </div>
 
+          <p class="contact-error" role="alert" aria-live="assertive" hidden></p>
           <p class="contact-status" role="status" aria-live="polite" hidden>Thanks. We've got your message and will be in touch soon.</p>
         </form>
 
@@ -129,42 +139,132 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
 
 </div>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
-  // The form posts into a hidden iframe so the page never navigates to Google's
-  // confirmation screen. Native validation (no novalidate) blocks empty required
-  // fields before submit fires. We confirm the send on the iframe's load event,
-  // which fires once Google has accepted the post and returned its response page
-  // (the iframe body is cross-origin, so we can't read it, only know it loaded).
-  // A timeout fallback covers the rare case where the load event doesn't fire.
+  // The form POSTs to our own /submit Pages Function, which verifies the
+  // Turnstile token server-side and only then forwards the fields to the Google
+  // Form. Because /submit is same-origin, we CAN read its JSON response (unlike
+  // the old direct, opaque no-cors POST to Google), so success and failure are
+  // both detectable. If /submit is unreachable (offline, deploy down) we fall
+  // back to opening the user's mail client pre-filled with the message, so the
+  // enquiry isn't lost. Native validation (no novalidate) still gates required
+  // fields; we run reportValidity() before sending.
   (function () {
     const form = document.querySelector(".contact-form");
     if (!form) return;
     const status = form.querySelector(".contact-status");
+    const errorBox = form.querySelector(".contact-error");
     const button = form.querySelector('button[type="submit"]');
-    const sink = document.querySelector('iframe[name="contact-sink"]');
-    let sending = false;
+    const action = form.getAttribute("action");
+    const FALLBACK_EMAIL = "{{ social.gmail | replace('mailto:', '') }}";
 
-    const confirmSent = function () {
-      if (!sending) return; // ignore the iframe's initial about:blank load
-      sending = false;
-      if (status) status.hidden = false;
-      form.reset();
-      if (button) {
-        button.disabled = false;
-        button.textContent = "Send message";
+    // Reset the Turnstile widget so a fresh token is required for the next try
+    // (tokens are single-use). turnstile may not be loaded yet; guard for it.
+    const resetTurnstile = () => {
+      if (window.turnstile) {
+        try { window.turnstile.reset(); } catch (e) {}
       }
     };
 
-    if (sink) sink.addEventListener("load", confirmSent);
+    const showError = (msg) => {
+      if (!errorBox) return;
+      errorBox.textContent = msg;
+      errorBox.hidden = false;
+    };
+    const clearError = () => {
+      if (errorBox) errorBox.hidden = true;
+    };
 
-    form.addEventListener("submit", function () {
-      sending = true;
+    // Read the human-readable values by their stable ids (not the entry.* names).
+    const readForm = () => ({
+      name:      (document.getElementById("cf-name")      || {}).value || "",
+      whatsapp:  (document.getElementById("cf-whatsapp")  || {}).value || "",
+      email:     (document.getElementById("cf-email")     || {}).value || "",
+      preferred: (document.getElementById("cf-preferred") || {}).value || "",
+      topic:     (document.getElementById("cf-topic")     || {}).value || "",
+      message:   (document.getElementById("cf-message")   || {}).value || "",
+    });
+
+    // Plain-text (non-JSON) email body for the contact enquiry.
+    const emailFallback = (data) => {
+      const subject = "Website enquiry: " + (data.topic || "general") + " from " + (data.name || "someone");
+      const lines = [
+        "The website couldn't reach the contact form, so here's the enquiry:",
+        "",
+        "Name: " + data.name,
+        "WhatsApp: " + (data.whatsapp || "-"),
+        "Email: " + data.email,
+        "Preferred contact: " + data.preferred,
+        "About: " + data.topic,
+        "",
+        "Message:",
+        data.message,
+      ];
+      const href = "mailto:" + FALLBACK_EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(lines.join("\n"));
+      window.location.href = href;
+    };
+
+    const showSent = () => {
+      if (status) status.hidden = false;
+      form.reset();
+      resetTurnstile();
+    };
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      clearError();
+      if (!form.reportValidity()) return;
+
+      // Require a Turnstile token before we even hit the network. The widget
+      // injects it as cf-turnstile-response; if it's empty the user hasn't
+      // solved (or the script hasn't loaded) yet.
+      const formData = new FormData(form);
+      if (!formData.get("cf-turnstile-response")) {
+        showError("Please complete the verification above, then send again.");
+        return;
+      }
+
+      const data = readForm();
       if (button) {
         button.disabled = true;
         button.textContent = "Sending...";
       }
-      // Fallback if the iframe load event never lands.
-      window.setTimeout(confirmSent, 2500);
+
+      try {
+        const resp = await fetch(action, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData).toString(),
+        });
+        const result = await resp.json().catch(() => ({}));
+
+        if (resp.ok && result.ok) {
+          showSent();
+        } else if (result.error === "turnstile_failed" || result.error === "missing_token") {
+          // The verification didn't pass. Make the user solve it again; do not
+          // fall back to email, since this is the bot gate doing its job.
+          showError("Verification failed. Please complete the check and try again.");
+          resetTurnstile();
+        } else {
+          // Server reached us but couldn't forward (Google Form down, config
+          // error). Hand the enquiry to the mail client so it isn't lost.
+          console.error("Contact submit failed:", result);
+          emailFallback(data);
+          showSent();
+        }
+      } catch (err) {
+        // /submit unreachable (offline, deploy down): email fallback.
+        console.error("Contact form unreachable, using email fallback:", err);
+        emailFallback(data);
+        showSent();
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = "Send message";
+        }
+      }
     });
   })();
 </script>

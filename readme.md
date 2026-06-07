@@ -16,6 +16,10 @@ npm run build  # one-off build
 
 Custom events are managed in the ingest repo via its `custom.json`. To toggle them on/off here, flip `showCustomEvents` at the top of `src/index.njk`.
 
+## Forms
+
+The contact and testimonial forms POST to `functions/submit.js`, which verifies a Cloudflare Turnstile token before forwarding to Google Forms. This needs `TURNSTILE_SECRET_KEY` set as a Pages environment variable (Production and Preview); without it the forms reject everything.
+
 ## License and usage
 
 Copyright (c) Improv Lore. All rights reserved.

@@ -1,0 +1,492 @@
+/* =================================================
+   TESTIMONIAL FORM
+   Self-contained, embeddable collection form. Every selector is scoped under
+   .tform so styles neither leak out to the host site nor get overwritten by
+   the shared sheets. Reuses the brand tokens from base.css :root (--ink,
+   --yellow, --blue, fonts) but defines its own component vars locally.
+   ================================================= */
+
+.tform {
+  --tf-accent: #2563eb;          /* one confident accent (workshop blue) */
+  --tf-accent-soft: rgba(37, 99, 235, 0.12);
+  --tf-ink: #1a1a1a;
+  --tf-paper: #fffdf8;           /* warm paper tone */
+  --tf-line: #1a1a1a;
+  --tf-muted: #6b6258;
+  --tf-error: #c92a2a;
+  --tf-radius: 0px;
+  --tf-shadow: 4px 4px 0 var(--tf-ink);
+
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(1.4rem, 4vw, 2.4rem);
+  background: var(--tf-paper);
+  border: 2.5px solid var(--tf-line);
+  box-shadow: 6px 6px 0 var(--tf-ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+  color: var(--tf-ink);
+  overflow: hidden;
+}
+
+/* Soft spotlight glow: a warm wash up top fading into the paper. */
+.tform-glow {
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130%;
+  height: 80%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(245, 196, 0, 0.28) 0%, rgba(245, 196, 0, 0.08) 40%, transparent 70%);
+  z-index: 0;
+}
+
+.tform > *:not(.tform-glow) {
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------------------------------
+   HEADER
+------------------------------------------------- */
+
+.tform-head {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.tform-eyebrow {
+  display: inline-block;
+  margin: 0 0 0.9rem;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tf-ink);
+  background: linear-gradient(135deg, #f5c400 0%, #f0b800 100%);
+  border: 2px solid var(--tf-ink);
+  transform: rotate(-1.5deg);
+}
+
+.tform-title {
+  font-family: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+  font-size: clamp(1.7rem, 5.5vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.7rem;
+  color: var(--tf-ink);
+}
+
+/* The emphasized "this place": underline swipe in the accent + slight tilt. */
+.tform-title em {
+  font-style: italic;
+  position: relative;
+  white-space: nowrap;
+  background-image: linear-gradient(transparent 62%, rgba(245, 196, 0, 0.6) 62%, rgba(245, 196, 0, 0.6) 92%, transparent 92%);
+  padding: 0 0.08em;
+}
+
+.tform-sub {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--tf-muted);
+  margin: 0 auto;
+  max-width: 30rem;
+}
+
+/* -------------------------------------------------
+   FORM LAYOUT + STAGGERED REVEAL
+------------------------------------------------- */
+
+.tform-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tform-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0; /* let fieldsets shrink in flex */
+}
+
+/* Gentle staggered reveal on load. --i carries the field's order index. */
+@media (prefers-reduced-motion: no-preference) {
+  .tform-field,
+  .tform-actions {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: tform-rise 0.5s ease forwards;
+    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+  }
+}
+
+@keyframes tform-rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tform-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--tf-ink);
+  padding: 0;
+}
+
+.tform-req { color: var(--tf-accent); }
+
+.tform-help {
+  margin: -0.05rem 0 0.25rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--tf-muted);
+}
+
+/* -------------------------------------------------
+   TEXT INPUTS + TEXTAREA
+------------------------------------------------- */
+
+.tform-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.98rem;
+  color: var(--tf-ink);
+  background: #fff;
+  border: 2.5px solid var(--tf-line);
+  border-radius: var(--tf-radius);
+  padding: 0.6rem 0.75rem;
+  box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.1);
+  transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.tform-input::placeholder { color: #b3aaa0; }
+
+.tform-input:focus {
+  outline: none;
+  border-color: var(--tf-accent);
+  box-shadow: 4px 4px 0 var(--tf-accent-soft);
+  transform: translate(-1px, -1px);
+}
+
+.tform-textarea {
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.5;
+}
+
+/* Native select, restyled to match the brutalist inputs with a custom caret. */
+.tform-select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%231a1a1a' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+}
+
+.tform-count {
+  align-self: flex-end;
+  margin: 0.1rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------
+   CREDIT CARDS (radio group)
+------------------------------------------------- */
+
+.tform-fieldset .tform-label { margin-bottom: 0.45rem; }
+
+.tform-cards {
+  display: grid;
+  gap: 0.6rem;
+}
+
+@media (min-width: 540px) {
+  .tform-cards { grid-template-columns: repeat(3, 1fr); }
+}
+
+.tform-card {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  background: #fff;
+  border: 2.5px solid var(--tf-line);
+  box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.1);
+  padding: 0.85rem 0.9rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.tform-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 rgba(26, 26, 26, 0.14);
+}
+
+/* Visually hidden radio, still keyboard-reachable and focusable. */
+.tform-card-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.tform-card-body { display: block; }
+
+.tform-card-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--tf-ink);
+  line-height: 1.25;
+}
+
+.tform-card-note {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.76rem;
+  color: var(--tf-muted);
+  line-height: 1.4;
+}
+
+/* Selected state. */
+.tform-card-input:checked ~ .tform-card-body .tform-card-title { color: var(--tf-ink); }
+
+.tform-card:has(.tform-card-input:checked) {
+  border-color: var(--tf-accent);
+  background: var(--tf-accent-soft);
+  box-shadow: 4px 4px 0 var(--tf-accent);
+}
+
+/* Keyboard focus ring on the card. */
+.tform-card:has(.tform-card-input:focus-visible) {
+  outline: 3px solid var(--tf-accent);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------
+   CONSENT CHECKBOX
+------------------------------------------------- */
+
+.tform-field--consent {
+  background: #fff;
+  border: 2.5px solid var(--tf-line);
+  box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.1);
+  padding: 0.9rem 1rem;
+}
+
+.tform-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  cursor: pointer;
+}
+
+/* Native box kept for accessibility but hidden; the .tform-consent-mark is the
+   visible custom box driven by its checked state. */
+.tform-consent-box {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.tform-consent-mark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.05rem;
+  background: #fff;
+  border: 2.5px solid var(--tf-line);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.tform-consent-mark::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.8rem;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  margin-bottom: 0.15rem;
+  transition: transform 0.15s ease;
+}
+
+.tform-consent-box:checked ~ .tform-consent-mark {
+  background: var(--tf-accent);
+  border-color: var(--tf-accent);
+}
+
+.tform-consent-box:checked ~ .tform-consent-mark::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.tform-consent-box:focus-visible ~ .tform-consent-mark {
+  outline: 3px solid var(--tf-accent);
+  outline-offset: 2px;
+}
+
+.tform-consent-text {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--tf-ink);
+}
+
+/* -------------------------------------------------
+   ERROR STATES
+------------------------------------------------- */
+
+.tform-error {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--tf-error);
+}
+
+/* Red border on the invalid control(s) within a field. */
+.tform-field.has-error .tform-input {
+  border-color: var(--tf-error);
+  box-shadow: 3px 3px 0 rgba(201, 42, 42, 0.18);
+}
+
+.tform-field.has-error .tform-card {
+  border-color: var(--tf-error);
+}
+
+.tform-field--consent.has-error {
+  border-color: var(--tf-error);
+}
+
+.tform-field--consent.has-error .tform-consent-mark {
+  border-color: var(--tf-error);
+}
+
+/* Turnstile widget. Cloudflare renders a fixed-size iframe; we only reserve
+   space so the layout doesn't jump as it loads, and nudge it left-aligned with
+   the rest of the form. */
+.tform-turnstile {
+  margin-top: 0.2rem;
+  min-height: 65px;
+}
+
+/* -------------------------------------------------
+   SUBMIT
+------------------------------------------------- */
+
+.tform-actions { margin-top: 0.4rem; }
+
+.tform-submit {
+  width: 100%;
+  font-family: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--tf-ink);
+  background: linear-gradient(135deg, #f5c400 0%, #f0b800 100%);
+  border: 2.5px solid var(--tf-ink);
+  box-shadow: var(--tf-shadow);
+  padding: 0.85rem 1.2rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.tform-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #fff 0%, #fffbf5 100%);
+  transform: translate(-2px, -2px) rotate(-1deg);
+  box-shadow: 6px 6px 0 var(--tf-ink);
+}
+
+.tform-submit:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--tf-ink);
+}
+
+.tform-submit:focus-visible {
+  outline: 3px solid var(--tf-accent);
+  outline-offset: 3px;
+}
+
+.tform-submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* -------------------------------------------------
+   THANK-YOU STATE
+------------------------------------------------- */
+
+.tform-thanks {
+  text-align: center;
+  padding: 1.5rem 0.5rem 0.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tform-thanks:not([hidden]) {
+    animation: tform-rise 0.5s ease both;
+  }
+}
+
+.tform-thanks-title {
+  font-family: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--tf-ink);
+  margin: 0 0 0.6rem;
+}
+
+.tform-thanks-body {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--tf-muted);
+  max-width: 28rem;
+  margin: 0 auto 1.4rem;
+}
+
+.tform-again {
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--tf-ink);
+  background: transparent;
+  border: 2.5px solid var(--tf-ink);
+  box-shadow: 3px 3px 0 var(--tf-ink);
+  padding: 0.65rem 1.3rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.tform-again:hover {
+  background: var(--tf-accent-soft);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--tf-ink);
+}
+
+.tform-again:focus-visible {
+  outline: 3px solid var(--tf-accent);
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------
+   SMALL SCREENS
+------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .tform {
+    box-shadow: 4px 4px 0 var(--tf-ink);
+  }
+  .tform-form { gap: 1.3rem; }
+}

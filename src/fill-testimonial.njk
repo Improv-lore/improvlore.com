@@ -1,0 +1,465 @@
+---
+layout: base.njk
+title: Leave a Testimonial - ImprovLore
+permalink: /fill-testimonial/
+pageDescription: Done a show, jam, or workshop with ImprovLore? Tell us how it went.
+pageStyles:
+  - /assets/css/testimonial.css
+---
+
+{#
+  Testimonial-collection form. Self-contained: every style is scoped under the
+  single .tform wrapper (see assets/css/testimonial.css) so nothing leaks into
+  the rest of the site, and nothing from the shared sheets restyles it.
+
+  Submission is a deliberate stub. On a valid submit the page collects a payload
+  keyed by the stable field keys (source, name, credit, role, social, story,
+  headline, email, consent) and calls submitTestimonial(payload), which just
+  resolves in demo mode. Wire that one function to the Google Form later; the
+  field keys are the contract and must stay exactly as named.
+
+  This is the single go-to testimonial form for any context (corporate, a
+  workshop, a jam, a show, Bala's or Arjun's workshops). The person picks which
+  via the "source" dropdown. It is intentionally unlinked from the site nav and
+  footer: it's a share-only link.
+#}
+
+<div class="events-root">
+  <section class="tform" aria-labelledby="tform-title">
+
+    {# Soft spotlight glow behind the form, sitting under the content. #}
+    <div class="tform-glow" aria-hidden="true"></div>
+
+    <header class="tform-head">
+      <p class="tform-eyebrow">ImprovLore</p>
+      <h1 class="tform-title" id="tform-title">Leave a <em>testimonial</em>.</h1>
+      <p class="tform-sub">If you've done a show, jam, or workshop with us, tell us how it went. Takes a couple of minutes.</p>
+    </header>
+
+    {# The live form. novalidate so our own JS check runs instead of the
+       browser's native bubbles, which we want for consistent inline errors. #}
+    <form class="tform-form" id="testimonial-form" novalidate>
+
+      {# 1. Source: what is this testimonial for. The one form serves every
+         context (corporate, workshops, jams, shows, Bala's/Arjun's workshops);
+         the person tells us which here. #}
+      <div class="tform-field" data-field="source" style="--i:1">
+        <label class="tform-label" for="tf-source">What's this about? <span class="tform-req" aria-hidden="true">*</span></label>
+        <p class="tform-help" id="tf-source-help">What you're reviewing.</p>
+        <select
+          class="tform-input tform-select"
+          id="tf-source"
+          name="source"
+          aria-describedby="tf-source-help tf-source-error"
+          aria-required="true">
+          <option value="A show">A show</option>
+          <option value="A jam">A jam</option>
+          <option value="Bala's workshop (International)">Bala's workshop (International)</option>
+          <option value="Arjun's workshop (International)">Arjun's workshop (International)</option>
+          <option value="ImprovLore workshop">ImprovLore workshop</option>
+          <option value="A corporate or team event">A corporate or team event</option>
+          <option value="ImprovLore in general" selected>ImprovLore in general</option>
+        </select>
+        <p class="tform-error" id="tf-source-error" role="alert" hidden></p>
+      </div>
+
+      {# 2. Name #}
+      <div class="tform-field" data-field="name" style="--i:2">
+        <label class="tform-label" for="tf-name">Your name <span class="tform-req" aria-hidden="true">*</span></label>
+        <p class="tform-help" id="tf-name-help">However you'd like to be known.</p>
+        <input
+          class="tform-input"
+          id="tf-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          placeholder="Mohit Gumber"
+          aria-describedby="tf-name-help tf-name-error"
+          aria-required="true">
+        <p class="tform-error" id="tf-name-error" role="alert" hidden></p>
+      </div>
+
+      {# 3. Credit preference: radio group styled as selectable cards. #}
+      <fieldset class="tform-field tform-fieldset" data-field="credit" style="--i:3">
+        <legend class="tform-label">How should we credit you? <span class="tform-req" aria-hidden="true">*</span></legend>
+        <div class="tform-cards" role="radiogroup" aria-describedby="tf-credit-error" aria-required="true">
+          <label class="tform-card">
+            <input class="tform-card-input" type="radio" name="credit" value="Full name">
+            <span class="tform-card-body">
+              <span class="tform-card-title">Full name</span>
+              <span class="tform-card-note">Credited in full.</span>
+            </span>
+          </label>
+          <label class="tform-card">
+            <input class="tform-card-input" type="radio" name="credit" value="First name + last initial">
+            <span class="tform-card-body">
+              <span class="tform-card-title">First name + last initial</span>
+              <span class="tform-card-note">Like "Mohit G."</span>
+            </span>
+          </label>
+          <label class="tform-card">
+            <input class="tform-card-input" type="radio" name="credit" value="Keep me anonymous">
+            <span class="tform-card-body">
+              <span class="tform-card-title">Keep me anonymous</span>
+              <span class="tform-card-note">No name shown.</span>
+            </span>
+          </label>
+        </div>
+        <p class="tform-error" id="tf-credit-error" role="alert" hidden></p>
+      </fieldset>
+
+      {# 4. Connection to ImprovLore (optional) #}
+      <div class="tform-field" data-field="role" style="--i:4">
+        <label class="tform-label" for="tf-role">Your connection to ImprovLore</label>
+        <p class="tform-help" id="tf-role-help">e.g. "Member since 2023", "Wednesday jam regular", "Cast Member", "Attended Workshop at a Festival"</p>
+        <input
+          class="tform-input"
+          id="tf-role"
+          name="role"
+          type="text"
+          placeholder="Workshop regular &amp; occasional performer"
+          aria-describedby="tf-role-help">
+      </div>
+
+      {# 5. Social / link (optional). Any handle or URL. Used to tag/credit them
+         if we feature the testimonial. #}
+      <div class="tform-field" data-field="social" style="--i:5">
+        <label class="tform-label" for="tf-social">Your social or a link</label>
+        <p class="tform-help" id="tf-social-help">Optional. Instagram, LinkedIn, a website: so we can tag you if we feature this.</p>
+        <input
+          class="tform-input"
+          id="tf-social"
+          name="social"
+          type="text"
+          inputmode="url"
+          placeholder="@yourhandle or a link"
+          aria-describedby="tf-social-help">
+      </div>
+
+      {# 6. Story (the testimonial) #}
+      <div class="tform-field" data-field="story" style="--i:6">
+        <label class="tform-label" for="tf-story">Your review <span class="tform-req" aria-hidden="true">*</span></label>
+        <p class="tform-help" id="tf-story-help">What was it like? What would you tell someone thinking of coming?</p>
+        <textarea
+          class="tform-input tform-textarea"
+          id="tf-story"
+          name="story"
+          maxlength="800"
+          placeholder="Came in not knowing anyone, left having laughed more than I had in months..."
+          aria-describedby="tf-story-help tf-story-error tf-story-count"
+          aria-required="true"></textarea>
+        <p class="tform-count" id="tf-story-count" aria-live="polite"><span data-count>0</span>/800</p>
+        <p class="tform-error" id="tf-story-error" role="alert" hidden></p>
+      </div>
+
+      {# 7. One-line headline (optional) #}
+      <div class="tform-field" data-field="headline" style="--i:7">
+        <label class="tform-label" for="tf-headline">One-line version</label>
+        <p class="tform-help" id="tf-headline-help">Optional. A short line we might pull out as a quote.</p>
+        <input
+          class="tform-input"
+          id="tf-headline"
+          name="headline"
+          type="text"
+          maxlength="120"
+          placeholder="&quot;Two hours, no phone, a lot of laughing.&quot;"
+          aria-describedby="tf-headline-help">
+      </div>
+
+      {# 8. Email #}
+      <div class="tform-field" data-field="email" style="--i:8">
+        <label class="tform-label" for="tf-email">Email <span class="tform-req" aria-hidden="true">*</span></label>
+        <p class="tform-help" id="tf-email-help">Not shown publicly. Just so we can reach you if we use this.</p>
+        <input
+          class="tform-input"
+          id="tf-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          placeholder="you@example.com"
+          aria-describedby="tf-email-help tf-email-error"
+          aria-required="true">
+        <p class="tform-error" id="tf-email-error" role="alert" hidden></p>
+      </div>
+
+      {# 9. Consent: hard gate. #}
+      <div class="tform-field tform-field--consent" data-field="consent" style="--i:9">
+        <label class="tform-consent" for="tf-consent">
+          <input class="tform-consent-box" id="tf-consent" name="consent" type="checkbox" aria-describedby="tf-consent-error" aria-required="true">
+          <span class="tform-consent-mark" aria-hidden="true"></span>
+          <span class="tform-consent-text">I'm happy for ImprovLore to share my words (and the name I provided) on its website and social channels.</span>
+        </label>
+        <p class="tform-error" id="tf-consent-error" role="alert" hidden></p>
+      </div>
+
+      {# Cloudflare Turnstile. The token is verified server-side by
+         functions/submit.js before the testimonial reaches the Google Form. #}
+      <div class="tform-field" data-field="turnstile" style="--i:10">
+        <div class="cf-turnstile tform-turnstile"
+             id="tf-turnstile"
+             data-sitekey="{{ site.turnstileSiteKey }}"
+             data-action="testimonial"
+             data-theme="light"></div>
+        <p class="tform-error" id="tf-turnstile-error" role="alert" hidden></p>
+      </div>
+
+      <div class="tform-actions" style="--i:11">
+        <button class="tform-submit" type="submit" id="tf-submit">Send <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+
+    {# Success / thank-you state, swapped in for the form on a successful send. #}
+    <div class="tform-thanks" id="testimonial-thanks" hidden>
+      <h2 class="tform-thanks-title">Got it. Thanks.</h2>
+      <p class="tform-thanks-body">We've got your review. We might check in before using it anywhere.</p>
+      <button class="tform-again" type="button" id="tf-again">Submit another</button>
+    </div>
+
+  </section>
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+(function () {
+  const form = document.getElementById("testimonial-form");
+  if (!form) return;
+
+  const thanks   = document.getElementById("testimonial-thanks");
+  const submitBtn = document.getElementById("tf-submit");
+  const submitLabel = submitBtn.innerHTML;
+
+  // Reset the Turnstile widget so a fresh, single-use token is required next
+  // time. window.turnstile may not have loaded yet; guard for it.
+  const resetTurnstile = () => {
+    if (window.turnstile) {
+      try { window.turnstile.reset("#tf-turnstile"); } catch (e) {}
+    }
+  };
+
+  // --- Live character counter on the story field -------------------------
+  const story = document.getElementById("tf-story");
+  const storyCount = document.querySelector("#tf-story-count [data-count]");
+  const updateCount = () => { storyCount.textContent = String(story.value.length); };
+  story.addEventListener("input", updateCount);
+
+  // --- Validation --------------------------------------------------------
+  // Each entry: the field key, a validator returning true when valid, and the
+  // error message to show otherwise. Keys match the payload contract.
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const rules = [
+    { key: "source",  valid: (v) => !!v,                  msg: "Pick what this is about." },
+    { key: "name",    valid: (v) => v.trim().length > 0,  msg: "Add a name." },
+    { key: "credit",  valid: (v) => !!v,                  msg: "Pick how to credit you." },
+    { key: "story",   valid: (v) => v.trim().length > 0,  msg: "Write a line or two." },
+    { key: "email",   valid: (v) => EMAIL_RE.test(v.trim()), msg: "Enter a valid email." },
+    { key: "consent", valid: (v) => v === true,           msg: "Tick the box so we can use it." },
+  ];
+
+  // Read a field's value by key. Radios return the checked value; the checkbox
+  // returns a boolean; everything else returns its string value.
+  const readValue = (key) => {
+    if (key === "credit") {
+      const checked = form.querySelector('input[name="credit"]:checked');
+      return checked ? checked.value : "";
+    }
+    if (key === "consent") return form.querySelector("#tf-consent").checked;
+    const el = form.querySelector('[name="' + key + '"]');
+    return el ? el.value : "";
+  };
+
+  const fieldWrap = (key) => form.querySelector('[data-field="' + key + '"]');
+
+  const setError = (key, message) => {
+    const wrap = fieldWrap(key);
+    if (!wrap) return;
+    wrap.classList.add("has-error");
+    const err = wrap.querySelector(".tform-error");
+    if (err) { err.textContent = message; err.hidden = false; }
+  };
+
+  const clearError = (key) => {
+    const wrap = fieldWrap(key);
+    if (!wrap) return;
+    wrap.classList.remove("has-error");
+    const err = wrap.querySelector(".tform-error");
+    if (err) { err.hidden = true; err.textContent = ""; }
+  };
+
+  // Clear a field's error the moment the user edits it.
+  rules.forEach(({ key }) => {
+    const wrap = fieldWrap(key);
+    if (!wrap) return;
+    wrap.addEventListener("input", () => clearError(key));
+    wrap.addEventListener("change", () => clearError(key));
+  });
+
+  // --- Submission --------------------------------------------------------
+  // Posts to our own /submit Pages Function, which verifies the Turnstile token
+  // server-side and only then forwards the fields to the Google Form. /submit is
+  // same-origin, so we can read its JSON result (success vs failure). If /submit
+  // is unreachable we fall back to emailing the entry so the words aren't lost.
+  //
+  // The ENTRY map ties each stable payload key to its Google Form entry ID;
+  // /submit forwards every entry.* field through untouched. To change the target
+  // form, update FORM_ACTIONS.testimonial in functions/submit.js and regenerate
+  // these entry IDs from a pre-filled link.
+  const SUBMIT_ACTION = "/submit";
+  const ENTRY = {
+    source:   "entry.1474821228",
+    name:     "entry.2046159549",
+    credit:   "entry.1865196790",
+    role:     "entry.1302076286",
+    social:   "entry.1456596586",
+    story:    "entry.594099532",
+    headline: "entry.1421402817",
+    email:    "entry.1474295924",
+    consent:  "entry.724834524",
+  };
+  // The exact option text the consent checkbox maps to in the Google Form. A
+  // checked box sends this string; unchecked sends nothing.
+  const CONSENT_TEXT = "I'm happy for ImprovLore to share my words (and the name I provided) on its website and social channels.";
+  const FALLBACK_EMAIL = "improvlore@gmail.com";
+
+  function submitTestimonial(payload, token) {
+    const body = new URLSearchParams();
+    // Control fields the Pages Function needs: which form, and the token.
+    body.append("form", "testimonial");
+    body.append("cf-turnstile-response", token);
+
+    const add = (entryId, value) => {
+      if (entryId && value !== "" && value != null) body.append(entryId, value);
+    };
+    add(ENTRY.source,   payload.source);
+    add(ENTRY.name,     payload.name);
+    add(ENTRY.credit,   payload.credit);
+    add(ENTRY.role,     payload.role);
+    add(ENTRY.social,   payload.social);
+    add(ENTRY.story,    payload.story);
+    add(ENTRY.headline, payload.headline);
+    add(ENTRY.email,    payload.email);
+    if (payload.consent) add(ENTRY.consent, CONSENT_TEXT);
+
+    return fetch(SUBMIT_ACTION, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+  }
+
+  // Fallback: open the user's mail client pre-filled with the testimonial as
+  // JSON, addressed to ImprovLore. Used only when the Google Form POST throws.
+  function emailFallback(payload) {
+    const subject = "Testimonial (form fallback): " + (payload.name || "someone");
+    const json = JSON.stringify(payload, null, 2);
+    const intro = "The website couldn't reach the testimonial form, so here's the entry. Please send to file it.\n\n";
+    const href = "mailto:" + FALLBACK_EMAIL +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(intro + json);
+    window.location.href = href;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Run our own check across all required fields.
+    let firstInvalid = null;
+    rules.forEach((rule) => {
+      const value = readValue(rule.key);
+      if (rule.valid(value)) {
+        clearError(rule.key);
+      } else {
+        setError(rule.key, rule.msg);
+        if (!firstInvalid) firstInvalid = fieldWrap(rule.key);
+      }
+    });
+
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+      const focusable = firstInvalid.querySelector("input, textarea, select, button");
+      if (focusable) focusable.focus({ preventScroll: true });
+      return;
+    }
+
+    // Require a solved Turnstile before sending. The widget injects the token as
+    // a cf-turnstile-response field inside the form.
+    const tokenField = form.querySelector('[name="cf-turnstile-response"]');
+    const token = tokenField ? tokenField.value : "";
+    if (!token) {
+      setError("turnstile", "Please complete the verification, then send.");
+      const wrap = fieldWrap("turnstile");
+      if (wrap) wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    clearError("turnstile");
+
+    // Collect the payload, keyed by the stable field keys.
+    const payload = {
+      source:   readValue("source"),
+      name:     readValue("name").trim(),
+      credit:   readValue("credit"),
+      role:     readValue("role").trim(),
+      social:   readValue("social").trim(),
+      story:    readValue("story").trim(),
+      headline: readValue("headline").trim(),
+      email:    readValue("email").trim(),
+      consent:  readValue("consent"),
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    const showThanks = () => {
+      form.hidden = true;
+      thanks.hidden = false;
+      thanks.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    try {
+      const resp = await submitTestimonial(payload, token);
+      const result = await resp.json().catch(() => ({}));
+
+      if (resp.ok && result.ok) {
+        showThanks();
+      } else if (result.error === "turnstile_failed" || result.error === "missing_token") {
+        // The bot gate did its job: make the user solve it again. No email
+        // fallback here, since that would defeat the verification.
+        setError("turnstile", "Verification failed. Complete the check and try again.");
+        resetTurnstile();
+        const wrap = fieldWrap("turnstile");
+        if (wrap) wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        // Server reached us but couldn't forward (Google Form down, config
+        // error). Email the entry so it isn't lost, then show thanks.
+        console.error("Testimonial submit failed:", result);
+        emailFallback(payload);
+        showThanks();
+      }
+    } catch (err) {
+      // /submit unreachable (offline, blocked, deploy down). Email the entry to
+      // ImprovLore so the words aren't lost, then show thanks.
+      console.error("Testimonial form unreachable, using email fallback:", err);
+      emailFallback(payload);
+      showThanks();
+    } finally {
+      resetTurnstile();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = submitLabel;
+    }
+  });
+
+  // --- "Submit another": reset everything and show the form again --------
+  document.getElementById("tf-again").addEventListener("click", () => {
+    form.reset();
+    rules.forEach(({ key }) => clearError(key));
+    clearError("turnstile");
+    resetTurnstile();
+    updateCount();
+    thanks.hidden = true;
+    form.hidden = false;
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+    const firstField = document.getElementById("tf-source");
+    if (firstField) firstField.focus({ preventScroll: true });
+  });
+})();
+</script>
