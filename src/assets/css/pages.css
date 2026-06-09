@@ -68,6 +68,7 @@
 
 /* Compact "up next" card. Square, flat aesthetic to match the event cards. */
 .home-hero-next {
+  position: relative;
   display: flex;
   align-items: stretch;
   background: var(--card-bg-vert);
@@ -92,6 +93,10 @@
   flex: 1 1 60%;
   min-width: 0;
   align-self: stretch;
+  /* Fill the card's flex height and crop, rather than letting the baked-in
+     height attribute drive the image's own (much taller) intrinsic height. */
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   background: var(--ink);
 }
@@ -170,6 +175,7 @@
   .home-hero-next { flex-direction: column; }
   .home-hero-next-poster {
     width: 100%;
+    height: auto;
     aspect-ratio: 4 / 3;
     align-self: stretch;
     object-position: top;
@@ -395,6 +401,89 @@
   color: var(--text-faint);
 }
 
+/* -------------------------------------------------
+   BADGE PILLS
+   Free-text `badges` (from formats.js, the source of truth) render as pills. One
+   shape everywhere, taken from the old on-demand badge: rounded, weight 700,
+   small drop shadow. Tinted by format type. Two containers:
+   - .poster-badges overlays them on the poster (all card grids)
+   - .library-pills lays them out inline under a title (event-detail page)
+------------------------------------------------- */
+
+.library-when {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  margin-bottom: 0.35rem;
+}
+
+/* No scheduled date: same slot, dialled back so it reads as a status note
+   rather than an actual upcoming date. */
+.library-when-none {
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text-faint);
+}
+
+/* Overlay container: pills stack at the poster's top-left and wrap as needed.
+   line-height is reset because some image wrappers (e.g. .event-image) zero it
+   to kill inline-image gaps, which would otherwise collapse the pill text. */
+.poster-badges {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  line-height: 1.3;
+}
+
+/* Inline container under the event-detail title. */
+.library-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Tints are mixed over white so they stay legible whether the pill sits on a
+   poster photo or on a plain card body. */
+.pill-show     { background: color-mix(in srgb, var(--yellow) 22%, #fff); }
+.pill-jam      { background: color-mix(in srgb, var(--green) 20%, #fff); }
+.pill-workshop { background: color-mix(in srgb, var(--blue) 16%, #fff); }
+
+/* The eleventy-img transform wraps every optimised poster in a <picture> (WebP
+   source + JPEG fallback) and bakes width/height onto the <img> to stop layout
+   shift. `display: contents` makes the <picture> transparent to layout, so the
+   inner <img> sits as a direct child of its container again and every existing
+   rule (.about-show-poster, .event-image img, the hover scale, the absolutely-
+   positioned poster badges) keeps working unchanged. The `height: auto` resets
+   below are essential: without them the baked-in height="675" attribute fights
+   the CSS that controls each image's real height (aspect-ratio on cards,
+   object-fit cover on the hero), and the images render at their full intrinsic
+   height. */
+.about-show-poster-wrap picture,
+.event-image picture,
+.event-detail-image picture,
+.home-hero-next picture {
+  display: contents;
+}
+
 .about-show-poster-wrap {
   position: relative;
 }
@@ -402,6 +491,7 @@
 .about-show-poster {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: var(--ink);
@@ -431,30 +521,6 @@
 
 @media (min-width: 960px) {
   .about-shows { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* Marks the formats we tour to international festivals. */
-.festival-badge {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3em;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  background: #f0c419;
-  border-radius: 999px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-}
-
-.festival-badge::before {
-  content: "✦";
-  font-size: 0.85em;
-  line-height: 1;
 }
 
 /* -------------------------------------------------
@@ -545,6 +611,145 @@
   background: #bbb;
 }
 
+/* Home "On the Road" section. The timeline reuses .fest-timeline / .fest-stop;
+   here it goes two-up on wide screens so the four stops stay compact under the
+   stat band rather than running a tall single column down the page. */
+@media (min-width: 700px) {
+  .home-fest-timeline { grid-template-columns: 1fr 1fr; }
+}
+
+/* -------------------------------------------------
+   WORK WITH US PAGE
+------------------------------------------------- */
+
+/* Hero band: a bold, full-width opener so the page leads with a hook instead
+   of a plain heading + paragraph. Tinted to match the promo-card warmth. */
+.work-hero {
+  position: relative;
+  margin: 0 0 2.5rem;
+  padding: 2rem 1.4rem;
+  border: var(--card-border);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(245, 196, 0, 0.12) 0%, rgba(255, 251, 245, 0.7) 60%, rgba(255, 92, 168, 0.08) 100%);
+}
+
+@media (min-width: 760px) {
+  .work-hero { padding: 2.8rem 2.4rem; }
+}
+
+.work-hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 0.6rem;
+}
+
+.work-hero-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0;
+  max-width: 18ch;
+}
+
+@media (min-width: 760px) {
+  .work-hero-heading { font-size: 2.6rem; }
+}
+
+.work-hero-lede {
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 42rem;
+  margin: 0.9rem 0 0;
+}
+
+@media (min-width: 760px) {
+  .work-hero-lede { font-size: 1.1rem; }
+}
+
+.work-hero-cred {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0.9rem 0 0;
+  max-width: 42rem;
+}
+
+.work-hero-cred a {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.work-hero-cta {
+  margin: 1.4rem 0 0;
+}
+
+/* Two-track split: companies vs festivals, side by side on wide screens so
+   each audience sees its own path immediately. */
+.work-tracks {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 820px) {
+  .work-tracks { grid-template-columns: 1fr 1fr; }
+}
+
+.work-track {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.2rem 1.3rem;
+  border: var(--card-border);
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.work-track-tag {
+  align-self: flex-start;
+  display: inline-flex;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--yellow) 22%, #fff);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.work-track-tag-fest {
+  background: color-mix(in srgb, var(--pink) 16%, #fff);
+}
+
+.work-track-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  margin: 0.7rem 0 0.9rem;
+}
+
+/* Lists inside a track shouldn't add their own trailing gap. */
+.work-track .book-offer-list {
+  margin: 0;
+}
+
+.work-track .book-offer-list a {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Closing CTA card: drop the dashed promo border into a plain solid book card
+   so the final call to action reads as a clear panel, not a teaser. */
+.work-close.promo-card {
+  border-style: solid;
+}
+
 /* Wide screens: Book & Visit promos lay out as a grid. The lead "Book Us" card
    spans full width; the two smaller promos sit side by side. */
 @media (min-width: 900px) {
@@ -565,6 +770,17 @@
 
 .event-detail-root {
   margin-top: 1.5rem;
+}
+
+/* The events list goes full-bleed on desktop (it's a grid), but the detail
+   page is a single reading column. Cap it so the card matches the 16:9
+   poster's width instead of stretching wide and letterboxing the poster. */
+@media (min-width: 900px) {
+  .event-detail-root {
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .event-detail {
@@ -598,11 +814,11 @@
   line-height: 0;
 }
 
+/* Posters are 16:9. With the detail card capped to the poster's width, the
+   image fills it edge to edge at its natural ratio. No height cap or crop. */
 .event-detail-image img {
   width: 100%;
   height: auto;
-  max-height: 440px;
-  object-fit: cover;
   display: block;
 }
 

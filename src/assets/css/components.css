@@ -260,6 +260,7 @@ button.event-key-item[aria-pressed="true"] p {
 ------------------------------------------------- */
 
 .event-image {
+  position: relative;
   width: 100%;
   background: #f0f0f0;
   overflow: hidden;
@@ -549,11 +550,6 @@ button.event-key-item[aria-pressed="true"] p {
   border-color: var(--yellow);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
-}
-
-.corporate-banner-icon {
-  font-size: 1.5rem;
-  line-height: 1;
 }
 
 .corporate-banner-text {

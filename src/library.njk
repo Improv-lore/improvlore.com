@@ -1,0 +1,60 @@
+---
+layout: base.njk
+title: Library - Improvlore
+permalink: /library/
+pageDescription: Every Improv Lore format in one place. Our shows, jams, and workshops, with what each one is and when it runs.
+---
+
+{#
+  The full library: every format we run, in one grid. Pulls from `catalog`
+  (formats.js joined to the live feed) so a scheduled format shows its next
+  date. Free-text `badges` from formats.js (cadence included, as the first
+  badge) render as pills overlaid on the poster. Grouped by type so the page
+  reads shows / jams / workshops.
+#}
+{% from "cards.njk" import formatCard with context %}
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-library">
+    <h1 class="section-heading" id="section-library">The Library</h1>
+    <p class="section-sub">The full set: every show, jam, and workshop we run. Where one's on the calendar, you'll see its next date right on the card. Tap any one for the full description and how to join.</p>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-lib-shows">
+    <h2 class="section-heading" id="section-lib-shows">Shows</h2>
+    <p class="section-sub">Built live from what the room gives us, so no two are the same. Some run on a calendar, others we take on the road.</p>
+    <ul class="about-shows" aria-label="Show formats">
+      {% for fmt in catalog %}{% if fmt.type == "show" %}{{ formatCard(fmt, true) }}{% endif %}{% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-lib-jams">
+    <h2 class="section-heading" id="section-lib-jams">Jams</h2>
+    <p class="section-sub">Our open, beginner-friendly nights, and where most people meet improv for the first time. No experience needed, just come play.</p>
+    <ul class="about-shows" aria-label="Jam formats">
+      {% for fmt in catalog %}{% if fmt.type == "jam" %}{{ formatCard(fmt, true) }}{% endif %}{% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-lib-workshops">
+    <h2 class="section-heading" id="section-lib-workshops">Workshops</h2>
+    <p class="section-sub">Learn by doing, over 9 to 12 hours, at a pace that's kind to first-timers. The ones marked on demand run whenever a group is ready, so get in touch.</p>
+    <ul class="about-shows" aria-label="Workshop formats">
+      {% for fmt in catalog %}{% if fmt.type == "workshop" %}{{ formatCard(fmt, true) }}{% endif %}{% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section page-section-info" aria-labelledby="section-lib-teams">
+    <h2 class="section-heading" id="section-lib-teams">For Your Team</h2>
+
+    <a class="corporate-banner" href="/for-teams/">
+      <span class="corporate-banner-text">
+        <strong>Want any of these for your company?</strong>
+        We run our shows and workshops privately too, shaped around your team.
+      </span>
+      <span class="corporate-banner-arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+
+</div>

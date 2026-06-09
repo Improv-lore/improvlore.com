@@ -1,21 +1,38 @@
 ---
 layout: base.njk
-title: Improvlore for Teams - Corporate Shows & Workshops
+title: Work With Improvlore - Corporate & Festival Bookings
 permalink: /for-teams/
-pageDescription: Custom improv shows and team workshops for your workplace, shaped around your team's goals.
+pageDescription: Book Improv Lore for your company or festival. Custom shows, team workshops, and a touring troupe that has played festivals across Asia.
 ---
+{% from "cards.njk" import formatCard with context %}
 
 <div class="events-root">
 
-  <section class="page-section" aria-labelledby="section-for-teams">
-    <h1 class="section-heading" id="section-for-teams">Improv For Your Team</h1>
-    <p class="section-sub">We bring improv to workplaces. Custom shows and workshops, shaped around your team's goals. Whether it's an offsite, a team-building day, or a company event, we'll build something that fits.</p>
+  {# Hero band: gives the page a strong opening hook and front-loads the two
+     things a vetting reader wants. The headline names both audiences (teams
+     and festivals); the credibility line is provably true (resident act since
+     2022, festivals across Asia since 2024) and links to the proof page. #}
+  <section class="work-hero" aria-labelledby="section-for-teams">
+    <p class="work-hero-eyebrow">Book Improvlore</p>
+    <h1 class="work-hero-heading" id="section-for-teams">Bring improv to your team, or your festival.</h1>
+    <p class="work-hero-lede">Custom shows, team workshops, and formats we tour, all shaped around your team, occasion, or line-up. Tell us what you have in mind and we'll build something that fits.</p>
+    <p class="work-hero-cred">A Bangalore troupe since 2022, and since 2024 invited to improv festivals across Asia. <a href="/festivals/">See where we've played →</a></p>
+    <div class="event-buttons work-hero-cta">
+      <a class="btn btn-primary" href="mailto:{{ social.gmail | replace('mailto:', '') }}?subject=Booking enquiry for Improvlore">Email Us</a>
+      <a class="btn btn-primary contact-wa-btn" href="{{ social.whatsappArjun }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+    </div>
+  </section>
 
-    <div class="event-card promo-card book-card">
-      <div class="event-card-body">
-        <span class="event-type-badge">BOOK US</span>
-        <h2 class="event-title">What we can run for you</h2>
+  {# Two clear tracks so each audience (companies vs festivals) sees its own
+     path at a glance, instead of one long list where the festival angle was
+     buried as a single bullet. #}
+  <section class="page-section" aria-labelledby="section-tracks">
+    <h2 class="section-heading" id="section-tracks">What We Can Run For You</h2>
 
+    <div class="work-tracks">
+      <div class="work-track">
+        <span class="work-track-tag">For companies</span>
+        <h3 class="work-track-title">Shows and workshops for your team</h3>
         <ul class="book-offer-list">
           <li>
             <div>
@@ -30,39 +47,68 @@ pageDescription: Custom improv shows and team workshops for your workplace, shap
             </div>
           </li>
         </ul>
+      </div>
 
-        <h3 class="about-subhead">Why improv works for teams</h3>
+      <div class="work-track">
+        <span class="work-track-tag work-track-tag-fest">For festivals</span>
+        <h3 class="work-track-title">A touring troupe for your line-up</h3>
         <ul class="book-offer-list">
           <li>
             <div>
-              <strong>Listening &amp; presence</strong>
-              <p>Improv runs on paying real attention to each other. That muscle carries straight back to the desk.</p>
+              <strong>Festivals &amp; Events</strong>
+              <p>A touring troupe for your festival or event. We bring the formats we've played across Asia, including our Indian-storytelling shows.</p>
             </div>
           </li>
           <li>
             <div>
-              <strong>Saying "yes, and"</strong>
-              <p>People learn to build on each other's ideas instead of shutting them down. Better meetings follow.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Lowering the stakes</strong>
-              <p>A room where it's safe to look silly is a room where people take creative risks the rest of the year.</p>
+              <strong>Played across the region</strong>
+              <p>Singapore, Vietnam, Manila, Hong Kong since 2024. <a href="/festivals/">See where we've played →</a></p>
             </div>
           </li>
         </ul>
+      </div>
+    </div>
+  </section>
 
-        <p class="book-cta-line">Tell us a bit about your team and we'll design something specific. No two sessions are the same.</p>
+  <section class="page-section" aria-labelledby="section-why">
+    <h2 class="section-heading" id="section-why">Why Improv Works For Teams</h2>
+    <ul class="book-offer-list work-why">
+      <li>
+        <div>
+          <strong>Listening &amp; presence</strong>
+          <p>Improv runs on paying real attention to each other. That muscle carries straight back to the desk.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Saying "yes, and"</strong>
+          <p>People learn to build on each other's ideas instead of shutting them down. Better meetings follow.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Lowering the stakes</strong>
+          <p>A room where it's safe to look silly is a room where people take creative risks the rest of the year.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
 
+  {# Closing CTA: a strong, full-width invitation to actually reach out, so the
+     page doesn't trail off after the "why" list. #}
+  <section class="page-section">
+    <div class="event-card promo-card book-card work-close">
+      <div class="event-card-body">
+        <span class="event-type-badge">BOOK US</span>
+        <h2 class="event-title">Tell us what you have in mind</h2>
+        <p class="book-cta-line">Tell us a bit about your team or event and we'll design something specific. No two sessions are the same.</p>
         <div class="event-buttons">
-          <a class="btn btn-primary" href="mailto:{{ social.gmail | replace('mailto:', '') }}?subject=Book Improvlore for our team">Email Us</a>
+          <a class="btn btn-primary" href="mailto:{{ social.gmail | replace('mailto:', '') }}?subject=Booking enquiry for Improvlore">Email Us</a>
           <a class="btn btn-primary contact-wa-btn" href="{{ social.whatsappArjun }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
           <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">DM on Instagram</a>
         </div>
       </div>
     </div>
-
   </section>
 
 </div>

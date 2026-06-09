@@ -4,6 +4,8 @@ title: Festivals - Improvlore
 permalink: /festivals/
 pageDescription: Improv Lore has taken its shows on the road to improv festivals across Asia, from Singapore and Vietnam to Manila and Hong Kong.
 ---
+{% from "cards.njk" import formatCard with context %}
+{% from "badges.njk" import posterBadges %}
 
 <div class="events-root">
 
@@ -57,19 +59,43 @@ pageDescription: Improv Lore has taken its shows on the road to improv festivals
     {% set roadSlugs = ["reincarnations", "panchatantra"] %}
     <ul class="about-shows" aria-label="Formats Improv Lore takes to festivals">
       {% for slug in roadSlugs %}
-      {% for fmt in catalog %}{% if fmt.slug == slug %}
+      {% for fmt in catalog %}{% if fmt.slug == slug %}{{ formatCard(fmt) }}{% endif %}{% endfor %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  {# The marathon: a hometown all-day event, kept short here so the touring
+     story above stays the focus. A taste of the day (three of the eight slots),
+     then out to marathon.improvlore.com for the rest and the next edition. The
+     `marathonTaste` slugs pick which three; full lineup lives in marathon.js. #}
+  <section class="page-section" aria-labelledby="section-marathon">
+    <h2 class="section-heading" id="section-marathon">A Festival at Home</h2>
+    <p class="section-sub">We don't only play other people's festivals. On {{ marathon.meta.date }} we ran our first: <strong>{{ marathon.meta.name }}</strong>, {{ marathon.meta.tagline | lower }} of shows and jams back to back at {{ marathon.meta.venue }}.</p>
+
+    {% set marathonTaste = ["the-great-face-off", "make-an-improv-song", "powerpoint-roulette"] %}
+    <ul class="about-shows" aria-label="A taste of the marathon lineup">
+      {% for slug in marathonTaste %}
+      {% for slot in marathon.lineup %}{% if slot.slug == slug %}
       <li>
-        <a class="about-show-card" href="{{ filters.formatPermalink(fmt) }}">
-          <img class="about-show-poster" src="{{ fmt.image }}" alt="{{ fmt.title }} poster" loading="lazy">
+        <a class="about-show-card" href="/event/{{ slot.slug }}/">
+          <div class="about-show-poster-wrap">
+            <img class="about-show-poster" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 960px) 360px, (min-width: 640px) 50vw, 100vw">
+            {{ posterBadges([slot.type], slot.type) }}
+          </div>
           <div class="about-show-body">
-            <strong>{{ fmt.title }}</strong>
-            <span>{{ fmt.blurb }}</span>
+            <strong>{{ slot.title }}</strong>
+            <span>{{ slot.blurb }}</span>
           </div>
         </a>
       </li>
       {% endif %}{% endfor %}
       {% endfor %}
     </ul>
+
+    <p class="more-line">
+      That's {{ marathonTaste | length }} of {{ marathon.lineup | length }}. The full lineup, and word on when we do it again, lives at
+      <a href="{{ marathon.meta.url }}" target="_blank" rel="noopener">marathon.improvlore.com →</a>
+    </p>
   </section>
 
   <section class="page-section page-section-info" aria-labelledby="section-fest-more">

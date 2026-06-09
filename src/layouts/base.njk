@@ -61,7 +61,7 @@
       {% set n = loop.index0 %}
       {% set shown = ((n - motifSeed) % 16 + 16) % 16 %}
       {% if shown < 9 %}
-      <img class="motif motif-{{ loop.index }}" src="{{ src }}" alt="">
+      <img class="motif motif-{{ loop.index }}" src="{{ src }}" alt="" eleventy:ignore>
       {% endif %}
     {% endfor %}
   </div>
@@ -72,22 +72,26 @@
   <div class="page-frost" aria-hidden="true"></div>
 
   <div class="foreground-motifs" aria-hidden="true">
-    <img class="fg-motif fg-motif-lightning" src="/assets/icons/lightning.png"     alt="">
-    <img class="fg-motif fg-motif-pacman"    src="/assets/icons/pacman-yellow.png" alt="">
+    <img class="fg-motif fg-motif-lightning" src="/assets/icons/lightning.png"     alt="" eleventy:ignore>
+    <img class="fg-motif fg-motif-pacman"    src="/assets/icons/pacman-yellow.png" alt="" eleventy:ignore>
   </div>
 
   {# Top bar: logo left, nav right. Aria labels ensure screen readers understand structure. #}
+  {# "Work With Us" is the single door for audience #2 (someone vetting us for a
+     corporate or festival booking). It points at /for-teams/, which pitches both
+     and links on to /festivals/ as the credibility proof. Festivals keeps its
+     page and footer link, just not its own top-level nav slot. #}
   {% set navLinks = [
     { url: "/", label: "Home" },
     { url: "/about/", label: "About" },
     { url: "/events/", label: "Upcoming" },
-    { url: "/festivals/", label: "Festivals" },
-    { url: "/for-teams/", label: "For Teams" },
+    { url: "/library/", label: "Library" },
+    { url: "/for-teams/", label: "Work With Us" },
     { url: "/contact/", label: "Contact" }
   ] %}
   <header class="site-header" role="banner">
     <a class="site-header-logo" href="/" aria-label="Improv Lore home page">
-      <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore">
+      <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore" eleventy:ignore>
     </a>
     {# On wide screens the links sit inline. Below the breakpoint the button
        shows and the nav collapses to a dropdown panel toggled by it. #}
@@ -121,8 +125,9 @@
           <a href="/">Home</a>
           <a href="/about/">About</a>
           <a href="/events/">Upcoming</a>
+          <a href="/library/">Library</a>
+          <a href="/for-teams/">Work With Us</a>
           <a href="/festivals/">Festivals</a>
-          <a href="/for-teams/">For Teams</a>
           <a href="/contact/">Contact</a>
           <a href="https://underline.center" target="_blank" rel="noopener">Underline Center ↗</a>
         </nav>

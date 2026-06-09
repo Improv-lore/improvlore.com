@@ -1,0 +1,14 @@
+{#
+  Poster-overlay badge pills. One renderer for every card grid (library, about,
+  home) so the markup never drifts. `badges` is a list of free-text strings
+  (the cadence, if any, is just the first badge); `type` (show | jam | workshop)
+  tints the pills. Renders nothing when empty.
+  Import: {% from "badges.njk" import posterBadges %}
+#}
+{% macro posterBadges(badges, type) %}
+  {% if badges and badges.length %}
+    <span class="poster-badges">
+      {% for badge in badges %}<span class="pill pill-{{ type }}">{{ badge }}</span>{% endfor %}
+    </span>
+  {% endif %}
+{% endmacro %}

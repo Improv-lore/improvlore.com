@@ -27,11 +27,13 @@ export default async function () {
       })
       .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))[0] || null;
 
+    const hasUpcoming = !!next;
+
     return {
       ...fmt,
       // Dynamic overlay from the feed (null when nothing is scheduled).
       next,
-      hasUpcoming: !!next,
+      hasUpcoming,
       startsAt: next ? next.event_starts_at : null,
       endsAt: next ? next.event_ends_at : null,
       ticketUrl: next ? next.url : null,
@@ -39,10 +41,7 @@ export default async function () {
       price: next ? next.price || null : null,
       // Prefer the stored local poster (durable, self-hosted). Fall back to
       // the feed image only if a format has no stored poster yet.
-      image:
-        fmt.image ||
-        (next && (next.thumbnails?.[0]?.url || next.image_url)) ||
-        null,
+      image: fmt.image || (next && next.image_url) || null,
     };
   });
 }

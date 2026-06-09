@@ -14,7 +14,7 @@ import { eventJsonLd } from "./_data/jsonld.js";
 const eventImage = (ev) => {
   const fmt = matchFormat((ev && ev.title) || "");
   if (fmt && fmt.image) return fmt.image;
-  return (ev && (ev.thumbnails?.[0]?.url || ev.image_url)) || "";
+  return (ev && ev.image_url) || "";
 };
 
 export default {

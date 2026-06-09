@@ -4,6 +4,8 @@ title: Improvlore - Bangalore
 showCustomEvents: false
 requiresEvents: true
 ---
+{% from "badges.njk" import posterBadges %}
+{% from "cards.njk" import formatCard with context %}
 
 <div class="events-root">
 
@@ -26,7 +28,8 @@ requiresEvents: true
 
     {% if heroNext %}
     <a class="home-hero-next" href="{{ filters.eventPermalink(heroNext) }}">
-      <img class="home-hero-next-poster" src="{{ filters.eventImage(heroNext) }}" alt="{{ heroNext.title }} poster" loading="eager">
+      {{ posterBadges(filters.eventBadges(heroNext.title), filters.eventType(heroNext.title, heroNext.tags)) }}
+      <img class="home-hero-next-poster" src="{{ filters.eventImage(heroNext) }}" alt="{{ filters.workshopName(heroNext.title) }} poster" loading="eager" fetchpriority="high" sizes="(min-width: 760px) 420px, 100vw">
       <span class="home-hero-next-body">
         <span class="home-hero-next-kicker">Up next</span>
         <span class="home-hero-next-title">{{ filters.workshopName(heroNext.title) }}</span>
@@ -45,7 +48,7 @@ requiresEvents: true
       <li>
         <a class="about-path-link" href="/events/?type=show">
           <strong>Watch a show</strong>
-          <p>Sit back and let us build a one-time-only show from your suggestions. No pressure to do a thing.</p>
+          <p>Sit back and let us build a one-time-only show from your suggestions. Nothing for you to do but enjoy it.</p>
         </a>
       </li>
       <li>
@@ -78,33 +81,66 @@ requiresEvents: true
       Weekly jams, workshops, and shows built live from whatever the room gives us.
       <a href="/about/">Read our story →</a>
     </p>
+  </section>
+
+  {# Festivals were only a one-line text mention before. Surfaced here as a
+     proper section (stat band + compact timeline) so the touring story is
+     visible on the home page, with the full account on /festivals/. The
+     timeline reuses the same data + markup as the festivals page so the two
+     never drift. #}
+  <section class="page-section home-fest" aria-labelledby="section-fest">
+    <h2 class="section-heading" id="section-fest">On the Road</h2>
+    <p class="section-sub">A Bangalore troupe, but the shows travel. Since 2024 we've been invited to improv festivals across Asia.</p>
+
+    <ul class="about-stats" aria-label="Improv Lore festivals at a glance">
+      <li>
+        <span class="about-stat-num">4</span>
+        <span class="about-stat-label">Festivals played</span>
+      </li>
+      <li>
+        <span class="about-stat-num">4</span>
+        <span class="about-stat-label">Cities abroad</span>
+      </li>
+      <li>
+        <span class="about-stat-num">2024</span>
+        <span class="about-stat-label">First trip out</span>
+      </li>
+    </ul>
+
+    <ol class="fest-timeline home-fest-timeline" aria-label="Festivals Improv Lore has played">
+      {% for fest in festivals %}
+      <li class="fest-stop">
+        <span class="fest-stop-year">{{ fest.year }}</span>
+        <div class="fest-stop-body">
+          <strong>{{ fest.name }}</strong>
+          <p><span class="fest-stop-city">{{ fest.city }}</span><span class="fest-stop-when">{{ fest.when }}</span></p>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
 
     <p class="more-line">
-      Since 2024 we've packed our shows off to improv festivals across Asia: Singapore, Vietnam, Manila, Hong Kong.
-      <a href="/festivals/">See where we've been →</a>
+      Singapore, Vietnam, Manila, Hong Kong, and counting.
+      <a href="/festivals/">See where we've played →</a>
     </p>
   </section>
 
   <section class="page-section" aria-labelledby="section-shows">
     <h2 class="section-heading" id="section-shows">Shows We Are Known For</h2>
-    <p class="section-sub">Built live from what the room gives us, so no two are the same. A few of the formats we keep coming back to.</p>
+    <p class="section-sub">Built live from what the room gives us, so no two are the same. A taste of the formats we keep coming back to.</p>
 
+    {# Home shows a curated few and defers to the Library for the full set, so the
+       grids don't repeat verbatim across Home / About / Library. The cap is done
+       in the data layer (filters.firstOfType) because this Nunjucks build's
+       selectattr/slice filters don't actually filter. The Library is canonical. #}
     <ul class="about-shows" aria-label="Signature show formats">
-      {% for show in signatureShows %}
-      <li>
-        <a class="about-show-card" href="{{ show.url }}">
-          <div class="about-show-poster-wrap">
-            <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
-            {% if show.festival %}<span class="festival-badge" title="A format we tour to international festivals">International format</span>{% endif %}
-          </div>
-          <div class="about-show-body">
-            <strong>{{ show.title }}</strong>
-            <span>{{ show.blurb }}</span>
-          </div>
-        </a>
-      </li>
-      {% endfor %}
+      {% for fmt in filters.firstOfType(catalog, "show", 3) %}{{ formatCard(fmt) }}{% endfor %}
     </ul>
+
+    <p class="more-line">
+      That's just a few. Every show, jam, and workshop we run lives in
+      <a href="/library/">the library →</a>
+    </p>
   </section>
 
   <section class="page-section page-section-info" aria-labelledby="section-more">

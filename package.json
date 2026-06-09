@@ -1,5 +1,5 @@
 {
-  "name": "improvlore.com",
+  "name": "improvlore",
   "version": "0.0.1",
   "private": true,
   "license": "UNLICENSED",
@@ -13,5 +13,8 @@
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-fetch": "^4.0.0",
     "@11ty/eleventy-plugin-rss": "^3.0.0"
+  },
+  "devDependencies": {
+    "@11ty/eleventy-img": "^6.0.4"
   }
 }

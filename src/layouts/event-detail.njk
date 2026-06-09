@@ -12,7 +12,6 @@
     timeRange   pre-formatted time range, or falsy
     venue       venue string, or falsy
     price       price string, or falsy           (catalog only)
-    recurrence  cadence string, or falsy         (catalog only)
     emptyMeta   truthy to show the "no dates scheduled" block (catalog only)
     bodyParas   list of paragraph strings for the main content
     expect      "what to expect" copy
@@ -22,6 +21,8 @@
     sessions    {note, dates[], extra?} for multi-day workshops, or falsy.
                 Rendered as a schedule list since the feed only carries one
                 date per event (catalog only).
+    badges      optional list of free-text keyword strings, rendered as pills
+                under the title (catalog only).
 #}
 <div class="events-root event-detail-root">
 
@@ -36,13 +37,19 @@
 
     {% if d.image %}
       <div class="event-detail-image">
-        <img src="{{ d.image }}" alt="{{ d.title }}">
+        <img src="{{ d.image }}" alt="{{ d.title }}" loading="eager" fetchpriority="high" sizes="(min-width: 760px) 720px, 100vw">
       </div>
     {% endif %}
 
     <div class="event-detail-body">
       <span class="event-type-badge">{{ d.type }}</span>
       <h1 class="event-detail-title">{{ d.title }}</h1>
+
+      {% if d.badges and d.badges.length %}
+        <span class="library-pills">
+          {% for badge in d.badges %}<span class="pill pill-{{ d.type }}">{{ badge }}</span>{% endfor %}
+        </span>
+      {% endif %}
 
       {% if d.hasWhen %}
         <div class="event-detail-meta">
@@ -52,13 +59,11 @@
           </div>
           {% if d.venue %}<div class="event-detail-where">{{ d.venue }}</div>{% endif %}
           {% if d.price %}<div class="event-detail-price">{{ d.price }}</div>{% endif %}
-          {% if d.recurrence %}<div class="event-detail-cadence">{{ d.recurrence }}</div>{% endif %}
         </div>
       {% elif d.emptyMeta %}
         <div class="event-detail-meta event-detail-meta-empty">
           <strong>No dates scheduled right now</strong>
-          {% if d.recurrence %}<span>{{ d.recurrence }}. Get notified when the next one opens.</span>
-          {% else %}<span>Get notified when the next one opens.</span>{% endif %}
+          <span>Get notified when the next one opens.</span>
         </div>
       {% endif %}
 

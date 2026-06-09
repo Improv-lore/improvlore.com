@@ -1,0 +1,46 @@
+{#
+  Shared format card. One renderer for every catalog-format grid (home, about,
+  library, festivals) so the markup never drifts. Takes a joined `catalog`
+  entry (`fmt`) and links to its /event/<slug>/ page, with the poster, the
+  `badges` pills overlaid, the title, and the blurb.
+
+  `showNext` (library only): when the format has an upcoming date, add a
+  "Next: <date>" line under the title. Other grids don't show dates.
+
+  Import: {% from "cards.njk" import formatCard %}
+#}
+{% from "badges.njk" import posterBadges %}
+
+{% macro formatCard(fmt, showNext=false) %}
+  <li>
+    <a class="about-show-card{% if showNext %} library-card{% endif %}" href="/event/{{ fmt.slug }}/">
+      <div class="about-show-poster-wrap">
+        <img class="about-show-poster" src="{{ fmt.image }}" alt="{{ fmt.title }} poster" loading="lazy" sizes="(min-width: 960px) 360px, (min-width: 640px) 50vw, 100vw">
+        {{ posterBadges(fmt.badges, fmt.type) }}
+      </div>
+      <div class="about-show-body">
+        <strong>{{ fmt.title }}</strong>
+        {% if showNext %}
+          {% if fmt.hasUpcoming %}
+            <span class="library-when">Next: {{ filters.formatDate(fmt.startsAt) }} · {{ filters.formatTime(fmt.startsAt) }}</span>
+          {% else %}
+            {# No scheduled date: say so on purpose, so the card doesn't read as
+               broken next to its dated neighbours. Wording leans on the badges
+               (the source of truth) so it never contradicts the pills. A regular
+               night with no feed match yet shows its cadence rather than reading
+               as "not on" (e.g. the weekly jam between feed listings). #}
+            {% set cadence = filters.cadenceBadge(fmt.badges) %}
+            <span class="library-when library-when-none">
+              {%- if cadence -%}{{ cadence }}
+              {%- elif "Available on demand" in (fmt.badges or []) -%}On request, when a group's ready
+              {%- elif "International format" in (fmt.badges or []) -%}A format we tour
+              {%- else -%}Not on the calendar right now
+              {%- endif -%}
+            </span>
+          {% endif %}
+        {% endif %}
+        <span>{{ fmt.blurb }}</span>
+      </div>
+    </a>
+  </li>
+{% endmacro %}

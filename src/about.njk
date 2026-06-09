@@ -4,6 +4,7 @@ title: About Improvlore - Bangalore's Improv Troupe
 permalink: /about/
 pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. Weekly jams, beginner workshops, and shows made up on the spot.
 ---
+{% from "cards.njk" import formatCard with context %}
 
 <div class="events-root">
 
@@ -60,7 +61,7 @@ pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. We
         <span class="about-ladder-step">1</span>
         <div>
           <strong>Come to a Whimsical Wednesday</strong>
-          <p>Our jam. Leave your inhibitions at the door, play a few games, see what improv actually feels like. No experience, no pressure.</p>
+          <p>Our jam. Leave your inhibitions at the door, play a few games, see what improv actually feels like. No experience needed.</p>
         </div>
       </li>
       <li>
@@ -92,32 +93,38 @@ pageDescription: Improv Lore is a Bangalore improv troupe, around since 2022. We
     </div>
   </section>
 
+  <section class="page-section" aria-labelledby="section-jams">
+    <h2 class="section-heading" id="section-jams">Weekly Jams</h2>
+    <p class="section-sub">Our open, beginner-friendly nights. This is where most people meet improv for the first time. No experience needed, just come play.</p>
+
+    <ul class="about-shows" aria-label="Weekly jams">
+      {% for fmt in catalog %}{% if fmt.type == "jam" %}{{ formatCard(fmt) }}{% endif %}{% endfor %}
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="section-workshops">
+    <h2 class="section-heading" id="section-workshops">Workshops We Offer</h2>
+    <p class="section-sub">A deeper, more theoretical and hands-on take on improv, run over 9 to 12 hours. Learn by doing, at a pace that's kind to first-timers, in a guided room where it's safe to try.</p>
+
+    <ul class="about-shows" aria-label="Workshops we offer">
+      {% for fmt in catalog %}{% if fmt.type == "workshop" %}{{ formatCard(fmt) }}{% endif %}{% endfor %}
+    </ul>
+  </section>
+
   <section class="page-section" aria-labelledby="section-signature">
     <h2 class="section-heading" id="section-signature">Shows We Are Known For</h2>
     <p class="section-sub">Built live from what the room gives us, so no two are the same. A few of the formats we keep coming back to.</p>
 
     <ul class="about-shows" aria-label="Signature show formats">
-      {% for show in signatureShows %}
-      <li>
-        <a class="about-show-card" href="{{ show.url }}">
-          <div class="about-show-poster-wrap">
-            <img class="about-show-poster" src="{{ show.image }}" alt="{{ show.title }} poster" loading="lazy">
-            {% if show.festival %}<span class="festival-badge" title="A format we tour to international festivals">International format</span>{% endif %}
-          </div>
-          <div class="about-show-body">
-            <strong>{{ show.title }}</strong>
-            <span>{{ show.blurb }}</span>
-          </div>
-        </a>
-      </li>
-      {% endfor %}
+      {% for fmt in catalog %}{% if fmt.type == "show" %}{{ formatCard(fmt) }}{% endif %}{% endfor %}
     </ul>
   </section>
 
   <section class="page-section" aria-labelledby="section-improvathon">
     <h2 class="section-heading" id="section-improvathon">The Improvathon</h2>
     <div class="about-intro">
-      <p class="about-where">Every so often we hand the venue over to improv for a full day, marathon included. We kick off with TheatreSports to set the tone, then run jams, intros, and signature formats back to back into the night. It is the easiest day to wander into and stay longer than you planned.</p>
+      <p class="about-where">Now and then we give improv a full day to itself. Our first, {{ marathon.meta.name }} on {{ marathon.meta.date }}, was {{ marathon.meta.tagline | lower }}: we kicked off with TheatreSports to set the tone, then ran jams, intros, and signature formats back to back into the night. It is the easiest day to wander into and stay longer than you planned.</p>
+      <p class="more-line">A taste of it is on the <a href="/festivals/#section-marathon">festivals page</a>, with the full lineup, and word on when we do it again, at <a href="{{ marathon.meta.url }}" target="_blank" rel="noopener">marathon.improvlore.com →</a></p>
     </div>
   </section>
 

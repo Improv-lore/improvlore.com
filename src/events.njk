@@ -4,6 +4,7 @@ title: Upcoming - Improvlore
 permalink: /events/index.html
 showCustomEvents: false
 ---
+{% from "badges.njk" import posterBadges %}
 
 <div class="events-root">
 
@@ -61,13 +62,14 @@ showCustomEvents: false
 
         {% if img %}
           <div class="event-image">
-            <img src="{{ img }}" alt="{{ ev.title }}">
+            <img src="{{ img }}" alt="{{ filters.workshopName(ev.title) }} poster" loading="lazy" sizes="(min-width: 640px) 50vw, 100vw">
+            {{ posterBadges(filters.eventBadges(ev.title), evType) }}
           </div>
         {% endif %}
 
         <div class="event-card-body">
           <span class="event-type-badge">{{ evType }}</span>
-          <h2 class="event-title">{{ ev.title }}</h2>
+          <h2 class="event-title">{{ filters.workshopName(ev.title) }}</h2>
 
           {% if dateLabel %}
             <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
@@ -90,8 +92,8 @@ showCustomEvents: false
   </div>
 
   <p class="events-more">
-    Looking for past shows? See the formats we run again and again in
-    <a href="/about/#section-signature">Shows We Are Known For</a>.
+    Looking past what's scheduled? Every show, jam, and workshop we run lives in
+    <a href="/library/">the library →</a>
   </p>
 
   </section>

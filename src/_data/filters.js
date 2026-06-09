@@ -4,13 +4,6 @@ import { eventSlug, shortText, cardText } from "./slug.js";
 const IST = { timeZone: "Asia/Kolkata" };
 
 export default {
-  // True if a feed event is covered by a recurring catalog format.
-  // Such events get their page from catalog.njk, so event.njk skips them
-  // to avoid two templates writing the same /event/<slug>/ path.
-  isInCatalog(title = "") {
-    return matchFormat(title) !== null;
-  },
-
   formatDate(dateStr) {
     if (!dateStr) return "";
     const d = new Date(dateStr);
@@ -56,11 +49,10 @@ export default {
 
   eventImage(ev = {}) {
     // Prefer the self-hosted format poster so the image survives the event
-    // leaving the feed (feed thumbnails are hotlinked from underline.center
-    // and die when the listing ages out). One-offs fall back to the feed.
+    // leaving the feed (feed images are hotlinked from underline.center and
+    // die when the listing ages out). One-offs fall back to the feed image.
     const fmt = matchFormat(ev.title || "");
     if (fmt && fmt.image) return fmt.image;
-    if (ev.thumbnails && ev.thumbnails.length) return ev.thumbnails[0].url;
     return ev.image_url || "";
   },
 
@@ -85,6 +77,14 @@ export default {
   eventSessions(title = "") {
     const fmt = matchFormat(title);
     return (fmt && fmt.sessions) || null;
+  },
+
+  // Keyword badges for a feed event, pulled from its matching format in
+  // formats.js (the source of truth). Genuine one-offs with no format get
+  // none. Lets the upcoming-event cards show the same pills as the library.
+  eventBadges(title = "") {
+    const fmt = matchFormat(title);
+    return (fmt && fmt.badges) || [];
   },
 
   // Next upcoming event of any type, so the hero's featured card always has
@@ -117,6 +117,23 @@ export default {
     if (t.includes("jam")) return "jam";
     if (t.includes("workshop")) return "workshop";
     return "show";
+  },
+
+  // The cadence badge for a format, if it carries one (e.g. "Every alternate
+  // Wednesday", "Every Friday"). Lets a recurring night with no live feed match
+  // yet show its cadence on the library card instead of "not on the calendar".
+  // Matched by keyword so it never mistakes a non-cadence first badge (like
+  // "Beginner friendly") for one. Returns the badge string or null.
+  cadenceBadge(badges = []) {
+    return (badges || []).find((b) => /\b(every|weekly|daily|alternate|wednesday|thursday|friday|saturday|sunday|monday|tuesday)\b/i.test(b)) || null;
+  },
+
+  // First N catalog entries of a given type, in catalog order. Used by the
+  // home page to show a curated few shows and defer to the Library for the full
+  // set. Done here in JS because this Nunjucks build's `selectattr`/`slice`
+  // filters don't actually filter, and an in-loop counter won't persist.
+  firstOfType(catalog = [], type = "", n = 3) {
+    return catalog.filter((f) => f.type === type).slice(0, n);
   },
 
   workshopName(title = "") {
