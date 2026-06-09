@@ -217,7 +217,6 @@ const formats = [
       dates: ["Sat 13 June", "Sun 14 June", "Sat 20 June"],
       extra: "Showcase: Sun 21 June, 7pm to 9pm. Test your musical improv skills on World Music Day.",
     },
-    badges: ["Few Spots left", "Multi-day course"],
     blurb:
       "Think you're not musical enough for musical improv? This one's for you. Listening, storytelling, and play.",
     expect:

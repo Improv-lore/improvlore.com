@@ -98,8 +98,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
   background: var(--ink);
 }
+
+/* Desktop side-by-side: the body content (title, pills, date, button) makes the
+   card fairly tall, and a narrow `cover` slot crops the portrait poster to a
+   thin strip. Show the whole poster instead (contain on the ink backing) so it
+   reads as a real poster and scales cleanly when the root font size grows.
+   Centred so the ink framing sits evenly around it. */
+@media (min-width: 760px) {
+  .home-hero-next-poster {
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
 
 .home-hero-next-body {
   display: flex;
@@ -119,11 +133,20 @@
   color: var(--text-faint);
 }
 
+/* The hero body is a flex column, which stretches its children full width by
+   default. Keep the type badge and the inline pill row hugging their content
+   so the JAM/SHOW pill doesn't balloon into a full-width bar. */
+.home-hero-next-body .event-type-badge,
+.home-hero-next-body .poster-badges-inline {
+  align-self: flex-start;
+}
+
 .home-hero-next-title {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.15;
+  text-decoration: none;
 }
 
 .home-hero-next-title::after {
@@ -131,10 +154,57 @@
   color: var(--text-faint);
 }
 
+/* The title is a "stretched link": its ::before covers the whole card so a
+   click anywhere (except interactive children) goes to the event page. The
+   card itself is no longer an <a>, leaving room for the Buy Ticket button. */
+.home-hero-next-stretch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Buy Ticket sits above the stretched link so it keeps its own click target. */
+.home-hero-next-cta {
+  position: relative;
+  z-index: 2;
+  margin-top: 0.6rem;
+}
+
+/* Prominent date + time on the hero card, reusing the events-page .event-when
+   tile and time chip (components.css) so the two never drift. Tuned a touch
+   tighter for the smaller hero card and given top spacing of its own. The full
+   date sits on its own line above the time chip. */
+.home-hero-when {
+  margin-top: 0.2rem;
+}
+
+.home-hero-when .event-when-date {
+  font-size: 0.95rem;
+}
+
+.home-hero-when .event-when-detail {
+  gap: 0.35rem;
+}
+
+.home-hero-when .event-when-time {
+  align-self: flex-start;
+}
+
+/* Fallback hero card shown when nothing is on the live feed. No poster, so the
+   body fills the card and the blurb carries it. */
+.home-hero-next-empty .home-hero-next-body {
+  padding: 1.6rem 1.5rem;
+}
+
 .home-hero-next-blurb {
   font-size: 1rem;
   line-height: 1.55;
   color: var(--text-muted);
+}
+
+@media (min-width: 760px) {
+  .home-hero-next-empty .home-hero-next-blurb { font-size: 1.08rem; }
 }
 
 /* Same "+N more dates" flag on the home hero card. Plain text (whole card is
@@ -166,7 +236,6 @@
   .home-hero-heading { font-size: 2.5rem; }
   .home-hero-lede { font-size: 1.1rem; }
   .home-hero-next-title { font-size: 1.6rem; }
-  .home-hero-next-blurb { font-size: 1.08rem; }
 }
 
 /* Mobile: a side-by-side card crops the portrait poster to a thin strip. Stack
@@ -438,6 +507,20 @@
   flex-wrap: wrap;
   gap: 0.3rem;
   line-height: 1.3;
+}
+
+/* Inline variant: pills sit as a static row under the poster (in the card
+   body), so they never cover the poster art. Used by every card grid. The
+   pills lose their poster drop-shadow here since they're on the card surface,
+   not floating over a photo. */
+.poster-badges-inline {
+  position: static;
+  margin-bottom: 0.5rem;
+}
+
+.poster-badges-inline .pill {
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Inline container under the event-detail title. */

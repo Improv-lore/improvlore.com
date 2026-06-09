@@ -95,7 +95,7 @@
 
       <div class="event-buttons">
         {% if d.notify %}
-          <a class="btn btn-primary" href="/contact/">Get in touch</a>
+          <a class="btn btn-primary" href="{{ filters.contactUrl(d.title, 'on demand') }}">Get in touch</a>
           <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">DM on Instagram</a>
         {% else %}
           {% if d.ticketUrl %}<a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>{% endif %}
@@ -103,7 +103,10 @@
             <a class="btn btn-ghost" href="{{ page.url }}event.ics" download>Add to calendar</a>
           {% endif %}
           {% if d.venue %}
-            <a class="btn btn-ghost" href="https://www.google.com/maps/search/{{ d.venue | urlencode }}" target="_blank" rel="noopener">View on Maps</a>
+            {# Prefer the exact pin for our home venue; fall back to a name
+               search for one-offs elsewhere. See filters.venueMapUrl. #}
+            {% set mapUrl = filters.venueMapUrl(d.venue) or "https://www.google.com/maps/search/" ~ (d.venue | urlencode) %}
+            <a class="btn btn-ghost" href="{{ mapUrl }}" target="_blank" rel="noopener">View on Maps</a>
           {% endif %}
         {% endif %}
       </div>

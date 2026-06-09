@@ -80,9 +80,9 @@ pageDescription: Improv Lore has taken its shows on the road to improv festivals
         <a class="about-show-card" href="/event/{{ slot.slug }}/">
           <div class="about-show-poster-wrap">
             <img class="about-show-poster" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 960px) 360px, (min-width: 640px) 50vw, 100vw">
-            {{ posterBadges([slot.type], slot.type) }}
           </div>
           <div class="about-show-body">
+            {{ posterBadges([slot.type], slot.type, true) }}
             <strong>{{ slot.title }}</strong>
             <span>{{ slot.blurb }}</span>
           </div>

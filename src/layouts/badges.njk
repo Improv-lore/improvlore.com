@@ -5,9 +5,9 @@
   tints the pills. Renders nothing when empty.
   Import: {% from "badges.njk" import posterBadges %}
 #}
-{% macro posterBadges(badges, type) %}
+{% macro posterBadges(badges, type, inline=false) %}
   {% if badges and badges.length %}
-    <span class="poster-badges">
+    <span class="poster-badges{% if inline %} poster-badges-inline{% endif %}">
       {% for badge in badges %}<span class="pill pill-{{ type }}">{{ badge }}</span>{% endfor %}
     </span>
   {% endif %}

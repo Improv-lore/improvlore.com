@@ -13,12 +13,13 @@
 
 {% macro formatCard(fmt, showNext=false) %}
   <li>
-    <a class="about-show-card{% if showNext %} library-card{% endif %}" href="/event/{{ fmt.slug }}/">
+    <a class="about-show-card event-type-{{ fmt.type }}{% if showNext %} library-card{% endif %}" href="/event/{{ fmt.slug }}/">
       <div class="about-show-poster-wrap">
         <img class="about-show-poster" src="{{ fmt.image }}" alt="{{ fmt.title }} poster" loading="lazy" sizes="(min-width: 960px) 360px, (min-width: 640px) 50vw, 100vw">
-        {{ posterBadges(fmt.badges, fmt.type) }}
       </div>
       <div class="about-show-body">
+        <span class="event-type-badge">{{ fmt.type }}</span>
+        {{ posterBadges(fmt.badges, fmt.type, true) }}
         <strong>{{ fmt.title }}</strong>
         {% if showNext %}
           {% if fmt.hasUpcoming %}

@@ -7,10 +7,159 @@
 .event-card { scroll-margin-top: 1rem; }
 
 /* -------------------------------------------------
+   ANNOUNCEMENT BANNER (marquee under the navbar)
+   Toggle + content live in _data/banner.js; markup in banner.njk.
+------------------------------------------------- */
+
+.site-banner {
+  position: relative;
+  background: var(--ink);
+  color: #fff;
+  border-bottom: 2px solid rgba(26, 26, 26, 0.2);
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+
+/* Clips the marquee and fades both edges so items slide in/out softly rather
+   than popping at the hard edge of the strip. */
+.banner-viewport {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent);
+  mask: linear-gradient(90deg, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent);
+}
+
+/* Two identical tracks sit side by side and the pair slides left by exactly one
+   track width, then loops, so the content scrolls forever with no visible seam. */
+.banner-marquee {
+  display: flex;
+  width: max-content;
+  animation: banner-scroll 55s linear infinite;
+}
+
+.banner-track {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@keyframes banner-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Pause when the visitor hovers, so they can read and click an item. */
+.site-banner:hover .banner-marquee {
+  animation-play-state: paused;
+}
+
+.banner-lead {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 1.1rem;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  /* Outlined rather than a solid yellow fill, to keep the strip restrained. */
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+}
+
+.banner-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+a.banner-item:hover {
+  opacity: 0.7;
+}
+
+/* Faint divider before each item (not the first in a track), so messages and
+   events read as separate beats without extra markup. */
+.banner-item + .banner-item::before {
+  content: "";
+  width: 1px;
+  height: 0.85rem;
+  margin-right: 1.1rem;
+  margin-left: -0.1rem;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* The event name carries the type colour as a background highlight behind the
+   text, instead of a separate dot. One restrained splash of colour per item. */
+.banner-item-name {
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  color: var(--ink);
+}
+
+.banner-event.event-type-show     .banner-item-name { background: var(--yellow); }
+.banner-event.event-type-jam       .banner-item-name { background: var(--green); }
+.banner-event.event-type-workshop  .banner-item-name { background: var(--blue); color: #fff; }
+
+.banner-item-date {
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.banner-message {
+  font-style: italic;
+  opacity: 0.95;
+}
+
+/* Roomier on desktop: larger text, more breathing room, and a relaxed scroll. */
+@media (min-width: 900px) {
+  .site-banner { padding: 0.7rem 0; }
+  .banner-item { font-size: 0.95rem; margin: 0 1.5rem; }
+  .banner-item + .banner-item::before { margin-right: 1.5rem; }
+  .banner-lead { font-size: 0.72rem; margin: 0 1.5rem; }
+  .banner-marquee { animation-duration: 70s; }
+}
+
+/* Smaller and tighter on phones so it doesn't dominate the viewport. A much
+   longer duration here: narrow screens show fewer items at once, so the same
+   travel reads as faster. Slow it right down. */
+@media (max-width: 600px) {
+  .banner-item,
+  .banner-lead { margin: 0 0.7rem; }
+  .banner-item { font-size: 0.78rem; gap: 0.3rem; }
+  .banner-lead { font-size: 0.62rem; padding: 0.12rem 0.5rem; }
+  .banner-marquee { animation-duration: 75s; }
+}
+
+/* Honour reduced-motion: stop the scroll and let the strip scroll manually. */
+@media (prefers-reduced-motion: reduce) {
+  .banner-marquee {
+    animation: none;
+    overflow-x: auto;
+  }
+  .banner-viewport {
+    -webkit-mask: none;
+    mask: none;
+  }
+  /* The duplicate track is only for the seamless loop; hide it when static. */
+  .banner-track[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* -------------------------------------------------
    EVENT CARDS
 ------------------------------------------------- */
 
 .event-card {
+  position: relative;
   border: var(--card-border);
   padding: 0;
   border-radius: 0;
@@ -19,6 +168,29 @@
   overflow: hidden;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   box-shadow: var(--card-shadow);
+}
+
+/* Whole-card tap target: the title link's ::before covers the card so a tap
+   anywhere opens the event detail page (great on phones, where the poster is
+   the obvious thing to tap). Interactive children (venue link, buttons) raise
+   themselves above it below, so they keep their own taps. */
+.event-card-stretch {
+  color: inherit;
+  text-decoration: none;
+}
+
+.event-card-stretch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Keep the real controls clickable above the stretched overlay. */
+.event-card .event-venue-link,
+.event-card .event-buttons {
+  position: relative;
+  z-index: 2;
 }
 
 .event-card:hover {
@@ -55,6 +227,38 @@
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
   }
+}
+
+/* Time buckets ("This week" / "Next week" / "Coming up"). Splits the single
+   long grid into dated sections so the page scans instead of sprawling. */
+.event-bucket + .event-bucket {
+  margin-top: 2.6rem;
+}
+
+.event-bucket-heading {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  line-height: 1.1;
+  display: inline-block;
+  position: relative;
+  /* Hand-drawn highlighter swipe, same motif as .section-heading. */
+  background-image: linear-gradient(transparent 58%, var(--swipe, rgba(245, 196, 0, 0.55)) 58%, var(--swipe, rgba(245, 196, 0, 0.55)) 92%, transparent 92%);
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.15em 0.1em 0;
+}
+
+.event-bucket:nth-of-type(3n+1) .event-bucket-heading { --swipe: rgba(245, 196, 0, 0.55); }
+.event-bucket:nth-of-type(3n+2) .event-bucket-heading { --swipe: rgba(46, 204, 113, 0.45); }
+.event-bucket:nth-of-type(3n+3) .event-bucket-heading { --swipe: rgba(37, 99, 235, 0.30); }
+
+@media (min-width: 900px) {
+  .event-bucket-heading { font-size: 1.4rem; }
 }
 
 /* Closing link below the grid: a quiet pointer toward past/recurring formats. */
@@ -94,6 +298,12 @@
 .empty-state h2 {
   color: var(--ink);
   margin-bottom: 0.5rem;
+}
+
+/* Action row inside the empty-state: centred so it sits under the message. */
+.empty-state-cta {
+  justify-content: center;
+  margin-top: 1.4rem;
 }
 
 .warning {
@@ -230,6 +440,14 @@ button.event-key-item[aria-pressed="true"] p {
   display: none;
 }
 
+/* When a type filter is active, hide whole time buckets that hold none of that
+   type so we never strand a "Next week" heading above an empty grid. */
+.events-root.filter-show     .event-bucket:not(:has(.event-flip.event-type-show)),
+.events-root.filter-jam      .event-bucket:not(:has(.event-flip.event-type-jam)),
+.events-root.filter-workshop .event-bucket:not(:has(.event-flip.event-type-workshop)) {
+  display: none;
+}
+
 /* -------------------------------------------------
    EVENT TYPE BADGE + STRIP
 ------------------------------------------------- */
@@ -237,6 +455,16 @@ button.event-key-item[aria-pressed="true"] p {
 .event-type-show     { border-top: 4px solid var(--yellow); }
 .event-type-jam      { border-top: 4px solid var(--green); }
 .event-type-workshop { border-top: 4px solid var(--blue); }
+
+/* Format cards (library / festivals / home) carry the type class for the badge
+   colour, but their poster sits flush at the top, so the 4px accent bar above
+   would read as a stray line. The type badge in the body already conveys the
+   type, so drop the bar here. */
+.about-show-card.event-type-show,
+.about-show-card.event-type-jam,
+.about-show-card.event-type-workshop {
+  border-top: none;
+}
 
 .event-type-badge {
   display: inline-block;
@@ -312,6 +540,145 @@ button.event-key-item[aria-pressed="true"] p {
 @media (min-width: 1200px) {
   .event-title { font-size: 1.8rem; }
 }
+
+/* Prominent date block: a calendar tile (weekday / day number / month) paired
+   with the full date and time+venue line. The tile borrows the event-type
+   accent so the date reads as the card's anchor, not an afterthought. */
+.event-when {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.event-when-cal {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.4rem;
+  padding: 0.35rem 0.45rem 0.5rem;
+  background: var(--surface);
+  border: 2.5px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--when-accent, var(--yellow));
+  line-height: 1;
+}
+
+.event-when-dow {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--when-accent-deep, var(--ink));
+}
+
+.event-when-day {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0.05rem 0;
+}
+
+.event-when-mon {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.event-when-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.event-when-date {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+/* Time given the same weight as the date: an accent-colored chip with a clock
+   glyph so the start time reads at a glance, not buried in the venue line. */
+.event-when-time {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--when-accent-deep, var(--ink));
+  background: var(--when-tint, #fbf6e0);
+  border: 1.5px solid var(--when-accent, var(--yellow));
+  padding: 0.12rem 0.5rem;
+  line-height: 1.25;
+}
+
+.event-when-time::before {
+  content: "";
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  background: currentColor;
+  /* Inline clock face. mask keeps it crisp and recolors with the chip. */
+  -webkit-mask: var(--clock-icon) center / contain no-repeat;
+  mask: var(--clock-icon) center / contain no-repeat;
+}
+
+/* Venue line: a quiet location note sitting just above the ticket button,
+   with a small pin glyph. Pulled out of the date block to keep it tight. */
+.event-venue {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.event-venue::before {
+  content: "";
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  background: currentColor;
+  -webkit-mask: var(--pin-icon) center / contain no-repeat;
+  mask: var(--pin-icon) center / contain no-repeat;
+  --pin-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+}
+
+/* When the venue is one we can map, it becomes a link to Google Maps. Quiet by
+   default, underlines on hover so it reads as the obvious "get directions" tap. */
+a.event-venue-link {
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a.event-venue-link:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Shared clock glyph for the time chip. */
+.event-when-detail {
+  --clock-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+}
+
+/* Accent tracks the event type, matching the card's top border. Set on the
+   whole block so both the calendar tile and the time chip inherit it. */
+.event-type-show     .event-when { --when-accent: var(--yellow); --when-accent-deep: #c9a100;    --when-tint: #fbf6e0; }
+.event-type-jam      .event-when { --when-accent: var(--green);  --when-accent-deep: #1faa58;    --when-tint: #e8f8ee; }
+.event-type-workshop .event-when { --when-accent: var(--blue);   --when-accent-deep: var(--blue); --when-tint: #eaf0fe; }
 
 .event-date {
   display: inline-flex;
@@ -566,6 +933,18 @@ button.event-key-item[aria-pressed="true"] p {
   border-color: var(--yellow);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(245, 196, 0, 0.15);
+}
+
+/* Standing "join WhatsApp for updates" banner on the events page. Separated
+   from the grid above, with a WhatsApp-green hover instead of the default
+   yellow so the channel reads at a glance. */
+.events-updates {
+  margin-top: 1.4rem;
+}
+
+.events-updates:hover {
+  border-color: #25d366;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.18);
 }
 
 .corporate-banner-text {

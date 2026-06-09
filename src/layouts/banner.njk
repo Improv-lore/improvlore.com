@@ -1,0 +1,52 @@
+{#
+  Announcement ticker that runs under the navbar. Config (on/off, lead label,
+  and the ordered items) lives in _data/banner.js so it's editable without
+  touching this markup. Rendered by base.njk between header and main, but only
+  on the homepage by default; a page opts in/out with `showBanner: true/false`
+  in its front matter (see the gate in base.njk).
+
+  The strip is built once into a macro, then output twice inside the marquee so
+  the CSS animation can loop seamlessly (the second copy slides in as the first
+  slides out). aria-hidden on the duplicate keeps screen readers from reading it
+  twice; the live region semantics sit on the first copy's container.
+
+  Include: {% include "banner.njk" %}
+#}
+{% if banner.enabled %}
+
+  {# One pass over the configured items, expanding { type: "events" } into the
+     live upcoming UC list. Reused for the visible and the duplicated track. #}
+  {% macro bannerTrack() %}
+    {% if banner.lead %}<span class="banner-lead">{{ banner.lead }}</span>{% endif %}
+
+    {% for item in banner.items %}
+      {% if item.type == "events" %}
+        {% for ev in events %}
+          {% if (ev.tags and "UC" in ev.tags) and ev.event_starts_at %}
+            {% set evType = filters.eventType(ev.title, ev.tags) %}
+            <a class="banner-item banner-event event-type-{{ evType }}" href="{{ filters.eventPermalink(ev) }}">
+              <span class="banner-item-name">{{ filters.workshopName(ev.title) }}</span>
+              <span class="banner-item-date">{{ filters.formatDate(ev.event_starts_at) }}</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% elif item.type == "message" and item.text %}
+        {% if item.href %}
+          <a class="banner-item banner-message" href="{{ item.href }}"{% if "http" in item.href %} target="_blank" rel="noopener"{% endif %}>{{ item.text }}</a>
+        {% else %}
+          <span class="banner-item banner-message">{{ item.text }}</span>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endmacro %}
+
+  <aside class="site-banner" aria-label="Announcements">
+    <div class="banner-viewport">
+      <div class="banner-marquee">
+        <div class="banner-track">{{ bannerTrack() }}</div>
+        <div class="banner-track" aria-hidden="true">{{ bannerTrack() }}</div>
+      </div>
+    </div>
+  </aside>
+
+{% endif %}

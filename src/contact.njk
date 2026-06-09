@@ -149,6 +149,29 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
   // back to opening the user's mail client pre-filled with the message, so the
   // enquiry isn't lost. Native validation (no novalidate) still gates required
   // fields; we run reportValidity() before sending.
+  // Prefill from URL params. A dead ticket button (sold out / coming soon)
+  // links here with ?topic=&message= so the visitor lands on a started enquiry
+  // about that specific event instead of a blank form. Only known fields are
+  // touched, and a select value is applied only if it's a real option.
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    if (![...params.keys()].length) return;
+
+    const setInput = (id, value) => {
+      const el = document.getElementById(id);
+      if (el && value) el.value = value;
+    };
+    const setSelect = (id, value) => {
+      const el = document.getElementById(id);
+      if (el && value && [...el.options].some((o) => o.value === value)) {
+        el.value = value;
+      }
+    };
+
+    setSelect("cf-topic", params.get("topic"));
+    setInput("cf-message", params.get("message"));
+  })();
+
   (function () {
     const form = document.querySelector(".contact-form");
     if (!form) return;

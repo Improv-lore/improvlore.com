@@ -48,10 +48,12 @@
 
     if (state === "sold_out" || (state === "available" && !hasAvailableTickets(data))) {
       setDisabled(btn, "Sold Out");
+      addContactButton(btn, "sold out");
       return;
     }
     if (state === "coming_soon" || state === "tba") {
       setDisabled(btn, "Tickets coming soon");
+      addContactButton(btn, "coming soon");
       return;
     }
 
@@ -67,6 +69,52 @@
     // Neutralise the link without removing it from the DOM.
     btn.removeAttribute("href");
     btn.removeAttribute("target");
+  }
+
+  // The card/section title nearest a ticket button, so the contact link can
+  // tell the form which event the enquiry is about. Scoped to the enclosing
+  // card first (events grid, home hero, detail page) and only falling back to
+  // the document when there's no card, so it never grabs the page <h1>.
+  function eventTitleFor(btn) {
+    const scope =
+      btn.closest(".event-flip") ||
+      btn.closest(".event-card") ||
+      btn.closest(".home-hero-next") ||
+      document;
+    const el = scope.querySelector(
+      ".event-title, .event-detail-title, .home-hero-next-title, h1, h2"
+    );
+    return el ? el.textContent.trim() : "";
+  }
+
+  // When the primary "Buy Ticket" button goes dead (sold out or not yet on
+  // sale), give people a live path forward: a primary "Get in touch" button
+  // next to it. The link carries a topic and a prefilled message (naming the
+  // event and why it's dead) as query params so the contact form fills itself
+  // in (see contact.njk), turning a dead end into a started enquiry.
+  function addContactButton(btn, reason) {
+    const row = btn.parentElement;
+    if (!row || row.querySelector("[data-ticket-contact]")) return;
+
+    const title = eventTitleFor(btn);
+    const params = new URLSearchParams({ topic: "General Question" });
+    if (title) {
+      // Wording mirrors filters.contactUrl so the static "Get in touch" button
+      // (event-detail) and this injected one read the same.
+      const ask =
+        reason === "coming soon"
+          ? `tickets for "${title}"`
+          : `when "${title}" runs again`;
+      params.set("message", `Hi, I'd like to know about ${ask} (${reason}).`);
+    }
+
+    const link = document.createElement("a");
+    link.className = "btn btn-primary";
+    link.href = "/contact/?" + params.toString();
+    link.textContent = "Get in touch";
+    link.setAttribute("data-ticket-contact", "");
+    // Sits where the dead Buy button used to draw the eye.
+    btn.insertAdjacentElement("afterend", link);
   }
 
   async function enhance(btn) {

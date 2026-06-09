@@ -85,11 +85,12 @@
      corporate or festival booking). It points at /for-teams/, which pitches both
      and links on to /festivals/ as the credibility proof. Festivals keeps its
      page and footer link, just not its own top-level nav slot. #}
+  {# Library lives in the footer "Explore" nav, not the top bar, to keep the top
+     nav lean. The footer link is the canonical entry point for it. #}
   {% set navLinks = [
     { url: "/", label: "Home" },
     { url: "/about/", label: "About" },
     { url: "/events/", label: "Upcoming" },
-    { url: "/library/", label: "Library" },
     { url: "/for-teams/", label: "Work With Us" },
     { url: "/contact/", label: "Contact" }
   ] %}
@@ -109,16 +110,14 @@
     </nav>
   </header>
 
+  {# Announcement ticker. Homepage only by default; any page can opt in by
+     setting `showBanner: true` in its front matter, or opt out with false. #}
+  {% if showBanner or (showBanner is undefined and page.url == "/") %}
+    {% include "banner.njk" %}
+  {% endif %}
+
   <main>
-    {% if events.length > 0 or not requiresEvents %}
-      {{ content | safe }}
-    {% else %}
-      <div class="empty-state">
-        <h2>No upcoming events</h2>
-        <p>join our socials in the meantime!</p>
-        <p class="warning">if you think this is an error please contact us.</p>
-      </div>
-    {% endif %}
+    {{ content | safe }}
   </main>
 
   <footer class="footer">

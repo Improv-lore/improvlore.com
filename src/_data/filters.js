@@ -1,5 +1,6 @@
 import { matchFormat } from "./formats.js";
 import { eventSlug, shortText, cardText } from "./slug.js";
+import social from "./social.js";
 
 const IST = { timeZone: "Asia/Kolkata" };
 
@@ -56,6 +57,42 @@ export default {
     return ev.image_url || "";
   },
 
+  // Google Maps URL for a venue, if we have one. Only Underline Center (our
+  // home venue) is mapped; one-offs elsewhere get no link rather than a wrong
+  // pin. URL lives in social.js. Matched loosely so "Underline Center,
+  // Indiranagar" and any future phrasing of it still resolve.
+  venueMapUrl(venue = "") {
+    return /underline/i.test(venue) ? social.underlineMap : "";
+  },
+
+  // A /contact/ link that prefills the form for an enquiry about a specific
+  // event/format. `reason` ("coming soon", "sold out", "on demand", ...) shapes
+  // the message so the form opens on a started enquiry instead of blank. Kept
+  // here so the static "Get in touch" button (event-detail) and the JS-injected
+  // one (ticket-button.js) speak the same language. The contact page reads the
+  // `topic`/`message` params; see contact.njk.
+  contactUrl(title = "", reason = "") {
+    const params = new URLSearchParams({ topic: "General Question" });
+    if (title) {
+      let ask;
+      if (reason === "coming soon") ask = `tickets for "${title}"`;
+      else if (reason === "sold out") ask = `when "${title}" runs again`;
+      else if (reason === "on demand") ask = `running "${title}" for a group`;
+      else ask = `"${title}"`;
+      const suffix = reason ? ` (${reason})` : "";
+      params.set("message", `Hi, I'd like to know about ${ask}${suffix}.`);
+    }
+    return "/contact/?" + params.toString();
+  },
+
+  // A /contact/ link that just preselects the "What's this about?" topic, for
+  // generic CTAs (e.g. the for-teams "Enquire Now"). `topic` must match a form
+  // option value exactly (see contact.njk) or the prefill is silently ignored.
+  contactTopicUrl(topic = "") {
+    if (!topic) return "/contact/";
+    return "/contact/?" + new URLSearchParams({ topic }).toString();
+  },
+
   eventSlug(ev = {}) {
     return eventSlug(ev);
   },
@@ -100,6 +137,36 @@ export default {
         return showCustom || tags.includes("UC");
       })
       .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))[0] || null;
+  },
+
+  // Buckets an event into "this-week", "next-week", or "later" by its start
+  // date, in IST, with weeks running Monday–Sunday. Anything already past (or
+  // undated) falls into "later" so it never shows above genuinely upcoming
+  // events. Used to split the cluttered single grid into time sections.
+  weekBucket(dateStr) {
+    if (!dateStr) return "later";
+    const start = new Date(dateStr);
+    if (isNaN(start)) return "later";
+
+    // Day index in IST, Monday = 0 ... Sunday = 6.
+    const istNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+    const istEvent = new Date(start.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
+    const dayOfWeek = (d) => (d.getDay() + 6) % 7;
+
+    const startOfWeek = new Date(istNow);
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(startOfWeek.getDate() - dayOfWeek(istNow));
+
+    const startOfNextWeek = new Date(startOfWeek);
+    startOfNextWeek.setDate(startOfWeek.getDate() + 7);
+
+    const startOfWeekAfter = new Date(startOfWeek);
+    startOfWeekAfter.setDate(startOfWeek.getDate() + 14);
+
+    if (istEvent < startOfNextWeek) return "this-week";
+    if (istEvent < startOfWeekAfter) return "next-week";
+    return "later";
   },
 
   shortText(text, n = 140) {

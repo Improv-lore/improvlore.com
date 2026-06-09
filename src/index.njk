@@ -2,7 +2,6 @@
 layout: base.njk
 title: Improvlore - Bangalore
 showCustomEvents: false
-requiresEvents: true
 ---
 {% from "badges.njk" import posterBadges %}
 {% from "cards.njk" import formatCard with context %}
@@ -27,14 +26,45 @@ requiresEvents: true
     </div>
 
     {% if heroNext %}
-    <a class="home-hero-next" href="{{ filters.eventPermalink(heroNext) }}">
-      {{ posterBadges(filters.eventBadges(heroNext.title), filters.eventType(heroNext.title, heroNext.tags)) }}
+    {% set heroType = filters.eventType(heroNext.title, heroNext.tags) %}
+    {# Card body is a plain container, not a link, so the Buy Ticket button can
+       live inside it. The title is a "stretched link" (::after covers the whole
+       card) so the card still clicks through to the detail page, while the Buy
+       button sits above it with its own click. #}
+    <div class="home-hero-next event-type-{{ heroType }}">
       <img class="home-hero-next-poster" src="{{ filters.eventImage(heroNext) }}" alt="{{ filters.workshopName(heroNext.title) }} poster" loading="eager" fetchpriority="high" sizes="(min-width: 760px) 420px, 100vw">
-      <span class="home-hero-next-body">
+      <div class="home-hero-next-body">
         <span class="home-hero-next-kicker">Up next</span>
-        <span class="home-hero-next-title">{{ filters.workshopName(heroNext.title) }}</span>
+        <span class="event-type-badge">{{ heroType }}</span>
+        {{ posterBadges(filters.eventBadges(heroNext.title), heroType, true) }}
+        <a class="home-hero-next-title home-hero-next-stretch" href="{{ filters.eventPermalink(heroNext) }}">{{ filters.workshopName(heroNext.title) }}</a>
         {% set heroSessions = filters.eventSessions(heroNext.title) %}
-        <span class="home-hero-next-blurb">{{ filters.formatDay(heroNext.event_starts_at) }}, {{ filters.formatDayNum(heroNext.event_starts_at) }} {{ filters.formatMonth(heroNext.event_starts_at) }} at {{ filters.formatTime(heroNext.event_starts_at) }}{% if heroSessions and heroSessions.dates and heroSessions.dates.length > 1 %} <span class="home-hero-next-tag">+{{ heroSessions.dates.length - 1 }} more dates</span>{% endif %}</span>
+        <div class="event-when home-hero-when">
+          <span class="event-when-cal">
+            <span class="event-when-dow">{{ filters.formatDay(heroNext.event_starts_at) }}</span>
+            <span class="event-when-day">{{ filters.formatDayNum(heroNext.event_starts_at) }}</span>
+            <span class="event-when-mon">{{ filters.formatMonth(heroNext.event_starts_at) }}</span>
+          </span>
+          <span class="event-when-detail">
+            <span class="event-when-date">{{ filters.formatDateFull(heroNext.event_starts_at) }}</span>
+            <span class="event-when-time">{{ filters.formatTime(heroNext.event_starts_at) }}</span>
+            {% if heroSessions and heroSessions.dates and heroSessions.dates.length > 1 %}<span class="home-hero-next-tag">+{{ heroSessions.dates.length - 1 }} more dates</span>{% endif %}
+          </span>
+        </div>
+        <div class="event-buttons home-hero-next-cta">
+          <a class="btn btn-ghost" {% if "district.in" in heroNext.url %}data-ticket-slug {% endif %}href="{{ heroNext.url }}" target="_blank" rel="noopener">Buy Ticket</a>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    {# Nothing on the live feed (between listings, or the fetch failed). Keep the
+       hero balanced with a quiet card pointing to where shows live, instead of
+       leaving the column empty or blanking the whole page. #}
+    <a class="home-hero-next home-hero-next-empty" href="/library/">
+      <span class="home-hero-next-body">
+        <span class="home-hero-next-kicker">What we run</span>
+        <span class="home-hero-next-title">Shows, jams, and workshops</span>
+        <span class="home-hero-next-blurb">Nothing on the public calendar this minute. Browse every format we run, and check back soon for dates.</span>
       </span>
     </a>
     {% endif %}
@@ -74,11 +104,10 @@ requiresEvents: true
     <h2 class="section-heading" id="section-about">Who We Are</h2>
 
     <div class="about-intro">
-      <p class="about-lede">We make up theatre on the spot, with no script and no second take. Around since 2022, building stories that never existed before and never will again, and letting a room feel its way through them together.</p>
+      <p class="about-lede">A Bangalore improv troupe since 2022, now playing festivals across Asia. The same group of people you'll meet at a jam, hosting a workshop, or on stage at a show.</p>
     </div>
 
     <p class="more-line">
-      Weekly jams, workshops, and shows built live from whatever the room gives us.
       <a href="/about/">Read our story →</a>
     </p>
   </section>
@@ -153,8 +182,6 @@ requiresEvents: true
       </span>
       <span class="corporate-banner-arrow" aria-hidden="true">→</span>
     </a>
-
-    
   </section>
 
 </div>

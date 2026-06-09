@@ -44,14 +44,8 @@ showCustomEvents: false
     <p>Nothing of that kind on the calendar right now. Try the other type or clear the filter.</p>
   </div>
 
-  <div class="event-grid">
-  {% for ev in events %}
-  {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
-    {% set dateLabel = "" %}
-    {% if ev.event_starts_at %}
-      {% set dateLabel = filters.formatDate(ev.event_starts_at) ~ " · " ~ filters.formatTime(ev.event_starts_at) %}
-    {% endif %}
-
+  {# One card. Shared across the time buckets below so the markup lives once. #}
+  {% macro eventCard(ev) %}
     {# Prefers the self-hosted format poster, falls back to the feed image
        for genuine one-offs. See filters.eventImage. #}
     {% set img = filters.eventImage(ev) %}
@@ -63,21 +57,45 @@ showCustomEvents: false
         {% if img %}
           <div class="event-image">
             <img src="{{ img }}" alt="{{ filters.workshopName(ev.title) }} poster" loading="lazy" sizes="(min-width: 640px) 50vw, 100vw">
-            {{ posterBadges(filters.eventBadges(ev.title), evType) }}
           </div>
         {% endif %}
 
         <div class="event-card-body">
           <span class="event-type-badge">{{ evType }}</span>
-          <h2 class="event-title">{{ filters.workshopName(ev.title) }}</h2>
+          {{ posterBadges(filters.eventBadges(ev.title), evType, true) }}
+          {# Title is a "stretched link": its ::before covers the whole card so a
+             tap anywhere (except the buttons/venue link) opens the detail page.
+             Especially helps on phones, where the big poster is the obvious tap
+             target. The explicit buttons below sit above it and keep their own
+             clicks. #}
+          <h2 class="event-title"><a class="event-card-stretch" href="{{ filters.eventPermalink(ev) }}">{{ filters.workshopName(ev.title) }}</a></h2>
 
-          {% if dateLabel %}
-            <div class="event-date">{{ dateLabel }} — {{ ev.venue }}</div>
+          {% if ev.event_starts_at %}
+            <div class="event-when">
+              <span class="event-when-cal" aria-hidden="true">
+                <span class="event-when-dow">{{ filters.formatDay(ev.event_starts_at) }}</span>
+                <span class="event-when-day">{{ filters.formatDayNum(ev.event_starts_at) }}</span>
+                <span class="event-when-mon">{{ filters.formatMonth(ev.event_starts_at) }}</span>
+              </span>
+              <span class="event-when-detail">
+                <span class="event-when-date">{{ filters.formatDateFull(ev.event_starts_at) }}</span>
+                <span class="event-when-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
+              </span>
+            </div>
           {% endif %}
 
           <p class="event-excerpt">
             {{ filters.cardText(ev.full_content or ev.excerpt, 260) }}
           </p>
+
+          {% if ev.venue %}
+            {% set mapUrl = filters.venueMapUrl(ev.venue) %}
+            {% if mapUrl %}
+              <a class="event-venue event-venue-link" href="{{ mapUrl }}" target="_blank" rel="noopener">{{ ev.venue }}</a>
+            {% else %}
+              <p class="event-venue">{{ ev.venue }}</p>
+            {% endif %}
+          {% endif %}
 
           <div class="event-buttons">
             <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}" target="_blank">Buy Ticket</a>
@@ -87,14 +105,75 @@ showCustomEvents: false
 
       </div>
     </div>
-  {% endif %}
-  {% endfor %}
-  </div>
+  {% endmacro %}
 
+  {# Group events into time buckets. The feed is already sorted by date, so each
+     bucket stays in order. Hidden UC filter mirrors the macro's caller guard. #}
+  {% set buckets = [
+    { key: "this-week", label: "This week" },
+    { key: "next-week", label: "Next week" },
+    { key: "later",     label: "Coming up" }
+  ] %}
+
+  {# Total shown across all buckets, so we can fall back to an empty-state when
+     the feed is empty (between listings, or the fetch failed) instead of an
+     awkward gap. #}
+  {% set total = 0 %}
+  {% for ev in events %}
+    {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}{% set total = total + 1 %}{% endif %}
+  {% endfor %}
+
+  {% if total > 0 %}
+    {% for bucket in buckets %}
+      {% set count = 0 %}
+      {% for ev in events %}
+        {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
+          {% if filters.weekBucket(ev.event_starts_at) == bucket.key %}{% set count = count + 1 %}{% endif %}
+        {% endif %}
+      {% endfor %}
+
+      {% if count > 0 %}
+        <div class="event-bucket">
+          <h2 class="event-bucket-heading">{{ bucket.label }}</h2>
+          <div class="event-grid">
+          {% for ev in events %}
+            {% if showCustomEvents or (ev.tags and "UC" in ev.tags) %}
+              {% if filters.weekBucket(ev.event_starts_at) == bucket.key %}
+                {{ eventCard(ev) }}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      <h2>Nothing on the calendar right now</h2>
+      <p>No public dates this minute. Browse every show, jam, and workshop we run in <a href="/library/">the library</a>, or join the WhatsApp group to catch the next drop.</p>
+      <div class="event-buttons empty-state-cta">
+        <a class="btn btn-primary contact-wa-btn" href="{{ social.whatsapp }}" target="_blank" rel="noopener">Join the WhatsApp group</a>
+        <a class="btn btn-ghost" href="/library/">Browse the library</a>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if total > 0 %}
   <p class="events-more">
     Looking past what's scheduled? Every show, jam, and workshop we run lives in
     <a href="/library/">the library →</a>
   </p>
+  {% endif %}
+
+  {# Standing prompt so visitors can subscribe to drops whether or not anything
+     is listed right now. WhatsApp community is where new dates are announced. #}
+  <a class="corporate-banner events-updates" href="{{ social.whatsapp }}" target="_blank" rel="noopener">
+    <span class="corporate-banner-text">
+      <strong>Get new dates first.</strong>
+      Join the WhatsApp group for the latest shows, jams, and workshops.
+    </span>
+    <span class="corporate-banner-arrow" aria-hidden="true">→</span>
+  </a>
 
   </section>
 
