@@ -278,6 +278,11 @@ button.event-key-item[aria-pressed="true"] p {
   transition: transform 0.35s ease;
 }
 
+.event-image img:not([width]) {
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
 .event-card:hover .event-image img {
   transform: scale(1.025);
 }
@@ -435,6 +440,17 @@ button.event-key-item[aria-pressed="true"] p {
   perspective: 1600px;
   border-radius: 0;
   transition: box-shadow 0.3s ease;
+}
+
+/* Skip rendering off-screen cards, but only where the reserved placeholder
+   roughly matches a real card. Single-column mobile cards are much taller
+   than the desktop estimate, so an off guess there causes scroll jumps and
+   oversized gaps. The perf win is marginal on small viewports anyway. */
+@media (min-width: 640px) {
+  .event-flip {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
 }
 
 .event-flip.event-type-show {
@@ -928,7 +944,7 @@ button.event-key-item[aria-pressed="true"] p {
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: center;
-    gap: 0.3rem 1rem;
+    gap: 0.8rem 1rem;
   }
 
   .footer-col + .footer-col {

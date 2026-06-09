@@ -319,7 +319,7 @@ pageStyles:
   // The exact option text the consent checkbox maps to in the Google Form. A
   // checked box sends this string; unchecked sends nothing.
   const CONSENT_TEXT = "I'm happy for ImprovLore to share my words (and the name I provided) on its website and social channels.";
-  const FALLBACK_EMAIL = "improvlore@gmail.com";
+  const FALLBACK_EMAIL = "improvlore" + "@" + "gmail.com";
 
   function submitTestimonial(payload, token) {
     const body = new URLSearchParams();
@@ -353,7 +353,7 @@ pageStyles:
     const subject = "Testimonial (form fallback): " + (payload.name || "someone");
     const json = JSON.stringify(payload, null, 2);
     const intro = "The website couldn't reach the testimonial form, so here's the entry. Please send to file it.\n\n";
-    const href = "mailto:" + FALLBACK_EMAIL +
+    const href = "mail" + "to:" + FALLBACK_EMAIL +
       "?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(intro + json);
     window.location.href = href;

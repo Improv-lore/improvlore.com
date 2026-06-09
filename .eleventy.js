@@ -1,8 +1,22 @@
 import { dateToRfc3339 } from "@11ty/eleventy-plugin-rss";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import fs from "fs";
 
 export default function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
+
+    eleventyConfig.addFilter("inlineCss", function(filePath) {
+        if (!fs.existsSync(filePath)) return "";
+        const raw = fs.readFileSync(filePath, "utf8");
+        return raw
+            .replace(/\/\*[\s\S]*?\*\//g, '') // strip comments
+            .replace(/\s+/g, ' ')             // collapse whitespace
+            .replace(/\{\s+/g, '{')
+            .replace(/\}\s+/g, '}')
+            .replace(/;\s+/g, ';')
+            .replace(/,\s+/g, ',')
+            .trim();
+    });
 
     // Posters ship as 1600x900-ish JPGs but render in ~360px cards, so we resize
     // them at build time and serve modern WebP with a JPEG fallback. This runs as

@@ -156,7 +156,7 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
     const errorBox = form.querySelector(".contact-error");
     const button = form.querySelector('button[type="submit"]');
     const action = form.getAttribute("action");
-    const FALLBACK_EMAIL = "{{ social.gmail | replace('mailto:', '') }}";
+    const FALLBACK_EMAIL = "{{ social.gmail | replace('mailto:', '') | replace('@', '\" + \"@\" + \"') | safe }}";
 
     // Reset the Turnstile widget so a fresh token is required for the next try
     // (tokens are single-use). turnstile may not be loaded yet; guard for it.
@@ -200,7 +200,7 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
         "Message:",
         data.message,
       ];
-      const href = "mailto:" + FALLBACK_EMAIL +
+      const href = "mail" + "to:" + FALLBACK_EMAIL +
         "?subject=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(lines.join("\n"));
       window.location.href = href;

@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
-  {% if pageDescription %}<meta name="description" content="{{ pageDescription }}">{% endif %}
+  {% set desc = pageDescription or "Improv Lore: Live improv theatre, jams, and workshops in Bangalore and beyond. No script, no second take, made up on the spot." %}
+  <meta name="description" content="{{ desc }}">
   <link rel="canonical" href="{{ site.absUrl(canonicalUrl or page.url) }}">
   <meta property="og:title" content="{{ title }}">
-  {% if pageDescription %}<meta property="og:description" content="{{ pageDescription }}">{% endif %}
+  <meta property="og:description" content="{{ desc }}">
   <meta property="og:url" content="{{ site.absUrl(page.url) }}">
   <meta property="og:site_name" content="{{ site.name }}">
   {% set ogImage = pageImage or "/assets/logo.png" %}
@@ -20,14 +21,17 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="alternate" type="application/atom+xml" title="Improvlore upcoming events" href="/feed.xml">
   {% if jsonLd %}<script type="application/ld+json">{{ jsonLd | safe }}</script>{% endif %}
-  <link rel="stylesheet" href="/assets/css/base.css">
-  <link rel="stylesheet" href="/assets/css/motifs.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/pages.css">
+  <style>
+    {{ "src/assets/css/base.css" | inlineCss | safe }}
+    {{ "src/assets/css/motifs.css" | inlineCss | safe }}
+    {{ "src/assets/css/components.css" | inlineCss | safe }}
+    {{ "src/assets/css/pages.css" | inlineCss | safe }}
+  </style>
   {% if pageStyles %}{% for href in pageStyles %}<link rel="stylesheet" href="{{ href }}">{% endfor %}{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet"></noscript>
 </head>
 
 <body>
@@ -61,7 +65,7 @@
       {% set n = loop.index0 %}
       {% set shown = ((n - motifSeed) % 16 + 16) % 16 %}
       {% if shown < 9 %}
-      <img class="motif motif-{{ loop.index }}" src="{{ src }}" alt="" eleventy:ignore>
+      <img class="motif motif-{{ loop.index }}" src="{{ src }}" alt="" loading="lazy" decoding="async" eleventy:ignore>
       {% endif %}
     {% endfor %}
   </div>
@@ -72,8 +76,8 @@
   <div class="page-frost" aria-hidden="true"></div>
 
   <div class="foreground-motifs" aria-hidden="true">
-    <img class="fg-motif fg-motif-lightning" src="/assets/icons/lightning.png"     alt="" eleventy:ignore>
-    <img class="fg-motif fg-motif-pacman"    src="/assets/icons/pacman-yellow.png" alt="" eleventy:ignore>
+    <img class="fg-motif fg-motif-lightning" src="/assets/icons/lightning.png"     alt="" loading="lazy" decoding="async" eleventy:ignore>
+    <img class="fg-motif fg-motif-pacman"    src="/assets/icons/pacman-yellow.png" alt="" loading="lazy" decoding="async" eleventy:ignore>
   </div>
 
   {# Top bar: logo left, nav right. Aria labels ensure screen readers understand structure. #}
@@ -91,7 +95,7 @@
   ] %}
   <header class="site-header" role="banner">
     <a class="site-header-logo" href="/" aria-label="Improv Lore home page">
-      <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore" eleventy:ignore>
+      <img class="hero-logo" src="/assets/logo.png" alt="Improv Lore" width="245" height="36" eleventy:ignore>
     </a>
     {# On wide screens the links sit inline. Below the breakpoint the button
        shows and the nav collapses to a dropdown panel toggled by it. #}
@@ -137,7 +141,7 @@
           <a href="{{ social.instagram }}" target="_blank" rel="noopener">Instagram</a>
           <a href="{{ social.whatsapp }}" target="_blank" rel="noopener">WhatsApp Community</a>
           <a href="{{ social.youtube }}" target="_blank" rel="noopener">YouTube</a>
-          <a href="{{ social.gmail }}">Email</a>
+          <a href="/contact/">Contact Form</a>
         </nav>
 
         <nav class="footer-col" aria-label="Legal">
@@ -151,7 +155,7 @@
 
       <div class="footer-legal">
         <p>&copy; {{ site.year }} Improvlore. All rights reserved.</p>
-        <p>Based in Bangalore, India. Questions? <a href="{{ social.gmail }}?subject=Improvlore website enquiry">{{ social.gmail | replace('mailto:', '') }}</a></p>
+        <p>Based in Bangalore, India. Questions? <a href="/contact/">Contact us</a></p>
       </div>
     </div>
   </footer>

@@ -22,7 +22,7 @@
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--text-muted);
   margin: 0 0 0.5rem;
 }
 
@@ -812,6 +812,7 @@
   margin-top: 1rem;
   background: #f0f0f0;
   line-height: 0;
+  aspect-ratio: 16 / 9;
 }
 
 /* Posters are 16:9. With the detail card capped to the poster's width, the

@@ -14,7 +14,7 @@
   --yellow-deep: #f0b800;
   --green: #2ecc71;
   --blue: #2563eb;
-  --pink: #ff5ca8;
+  --pink: #e03e85;
 
   /* Text greys */
   --text-body: #333;
@@ -313,7 +313,7 @@ html { scroll-behavior: smooth; }
   .site-nav-link {
     border-bottom: none;
     border-radius: 6px;
-    padding: 0.8rem 0.9rem;
+    padding: 0.95rem 1rem;
     font-size: 1rem;
   }
 
