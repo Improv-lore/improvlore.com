@@ -18,12 +18,25 @@ const eventImage = (ev) => {
 };
 
 export default {
+  // Paginate here (not in front matter) with a `before` filter that drops
+  // events owned by a catalog format, so this template only ever produces
+  // genuine one-off pages. Mirrors event-ics.11tydata.js. Keeping the filter
+  // out and relying on `permalink: false` per page tripped Eleventy into
+  // skipping the one event with a real permalink (TheatreSports), since a
+  // computed permalink that is `false` for some pages and a string for others
+  // is treated as "not written".
+  pagination: {
+    data: "events",
+    size: 1,
+    alias: "ev",
+    addAllPagesToCollections: true,
+    before: (arr) => arr.filter((ev) => matchFormat(ev.title || "") === null),
+  },
   eleventyComputed: {
     permalink(data) {
       const ev = data.ev;
       if (!ev) return false;
-      const covered = matchFormat(ev.title || "") !== null;
-      return covered ? false : `/event/${eventSlug(ev)}/index.html`;
+      return `/event/${eventSlug(ev)}/index.html`;
     },
     title: (data) => (data.ev ? `${data.ev.title} – Improvlore` : data.title),
     pageDescription: (data) =>

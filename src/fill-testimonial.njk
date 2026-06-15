@@ -319,7 +319,9 @@ pageStyles:
   // The exact option text the consent checkbox maps to in the Google Form. A
   // checked box sends this string; unchecked sends nothing.
   const CONSENT_TEXT = "I'm happy for ImprovLore to share my words (and the name I provided) on its website and social channels.";
-  const FALLBACK_EMAIL = "improvlore" + "@" + "gmail.com";
+  // Base wa.me link to Arjun (social.whatsappArjun minus its prefilled text),
+  // used to hand off a testimonial to WhatsApp if the form POST throws.
+  const FALLBACK_WHATSAPP = "{{ social.whatsappArjun | safe }}".split("?")[0];
 
   function submitTestimonial(payload, token) {
     const body = new URLSearchParams();
@@ -347,15 +349,12 @@ pageStyles:
     });
   }
 
-  // Fallback: open the user's mail client pre-filled with the testimonial as
-  // JSON, addressed to ImprovLore. Used only when the Google Form POST throws.
-  function emailFallback(payload) {
-    const subject = "Testimonial (form fallback): " + (payload.name || "someone");
+  // Fallback: hand the testimonial to WhatsApp (chat with Arjun), prefilled.
+  // Used only when the Google Form POST throws.
+  function whatsappFallback(payload) {
     const json = JSON.stringify(payload, null, 2);
-    const intro = "The website couldn't reach the testimonial form, so here's the entry. Please send to file it.\n\n";
-    const href = "mail" + "to:" + FALLBACK_EMAIL +
-      "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(intro + json);
+    const intro = "Hi Arjun, the Improvlore website couldn't reach the testimonial form, so here's my entry:\n\n";
+    const href = FALLBACK_WHATSAPP + "?text=" + encodeURIComponent(intro + json);
     window.location.href = href;
   }
 
@@ -430,16 +429,16 @@ pageStyles:
         if (wrap) wrap.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
         // Server reached us but couldn't forward (Google Form down, config
-        // error). Email the entry so it isn't lost, then show thanks.
+        // error). Hand the entry to WhatsApp so it isn't lost, then show thanks.
         console.error("Testimonial submit failed:", result);
-        emailFallback(payload);
+        whatsappFallback(payload);
         showThanks();
       }
     } catch (err) {
-      // /submit unreachable (offline, blocked, deploy down). Email the entry to
-      // ImprovLore so the words aren't lost, then show thanks.
-      console.error("Testimonial form unreachable, using email fallback:", err);
-      emailFallback(payload);
+      // /submit unreachable (offline, blocked, deploy down). Hand the entry to
+      // WhatsApp so the words aren't lost, then show thanks.
+      console.error("Testimonial form unreachable, using WhatsApp fallback:", err);
+      whatsappFallback(payload);
       showThanks();
     } finally {
       resetTurnstile();

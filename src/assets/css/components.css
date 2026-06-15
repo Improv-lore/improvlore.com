@@ -799,6 +799,18 @@ a.event-venue-link:hover {
   color: #444;
 }
 
+/* Larger primary CTA, e.g. the "browse the full library" button on About. */
+.btn-lg {
+  padding: 0.85rem 1.8rem;
+  font-size: 1.05rem;
+}
+
+/* Wrapper that centres a single big CTA and gives it room to breathe. */
+.about-library-cta {
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
 /* -------------------------------------------------
    FLIP CARD
 ------------------------------------------------- */

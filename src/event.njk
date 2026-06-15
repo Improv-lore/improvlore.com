@@ -1,10 +1,5 @@
 ---
 layout: base.njk
-pagination:
-  data: events
-  size: 1
-  alias: ev
-  addAllPagesToCollections: true
 ---
 
 {% set evType = filters.eventType(ev.title, ev.tags) %}
