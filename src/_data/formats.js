@@ -76,6 +76,22 @@ const formats = [
       "A live improv show built entirely from your suggestions. Riddles, tongue twisters, and plenty of mischief, made in the moment, in front of you.",
   },
   {
+    slug: "musical-improv-show",
+    short: "musical-show",
+    title: "Musical Improv Show",
+    type: "show",
+    // "musical improv show" is more specific than the "musical improv:"
+    // workshop and the "make an improv song" jam, so it won't collide.
+    // Slug matches the feed event slug so the catalog owns /event/musical-improv-show/.
+    feedMatch: "musical improv show",
+    image: "/assets/posters/musical-improv-show.jpg",
+    badges: ["World Music Day"],
+    blurb:
+      "A regular improv show, but with a lot more singing. Scenes, characters, and songs, all made up on the spot from your suggestions.",
+    expect:
+      "Using your suggestions as inspiration, our performers build scenes, create characters, and sing songs improvised in the moment. Expect classic musical improv games in the spirit of Whose Line Is It Anyway?, like the Hoedown and the Irish Drinking Song. Some songs are heartfelt, some surprisingly catchy, all of them made up on the spot.",
+  },
+  {
     slug: "yes-and-dragons",
     title: "Yes, And Dragons",
     type: "show",
@@ -207,7 +223,10 @@ const formats = [
     short: "musical",
     title: "Musical Improv: An Introduction",
     type: "workshop",
-    feedMatch: "musical improv",
+    // Match on the colon so the bare "Musical Improv Show ..." one-off show
+    // (and "Make an Improv Song: Musical Improv Jam") don't get swallowed by
+    // this workshop. matchFormat returns the first hit, so keep this specific.
+    feedMatch: "musical improv:",
     image: "/assets/posters/musical-improv.jpg",
     // Multi-day workshop plus a showcase; the feed only carries one date, so
     // the full schedule lives here. Keep in sync with the UC listing until the
