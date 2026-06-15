@@ -169,6 +169,33 @@ export default {
     return "later";
   },
 
+  // Single-pass grouping for the events page: filter to the shown set (UC, or
+  // everything when showCustom), drop past/undated events, then bucket by
+  // weekBucket. Returns the non-empty buckets in display order as
+  // [{ key, label, events }]. Replaces events.njk's seven separate walks of
+  // the array (one total + three counts + three renders). The t < now guard
+  // here means past events are dropped outright, not mislabelled as "Coming up"
+  // (weekBucket alone sends past dates to "later"); mirrors nextEvent/catalog.js.
+  bucketedEvents(events = [], showCustom = false) {
+    const now = Date.now();
+    const order = [
+      { key: "this-week", label: "This week" },
+      { key: "next-week", label: "Next week" },
+      { key: "later", label: "Coming up" },
+    ];
+    const groups = { "this-week": [], "next-week": [], later: [] };
+    for (const ev of events) {
+      const tags = ev.tags || [];
+      if (!(showCustom || tags.includes("UC"))) continue;
+      const t = new Date(ev.event_starts_at).getTime();
+      if (isNaN(t) || t < now) continue;
+      groups[this.weekBucket(ev.event_starts_at)].push(ev);
+    }
+    return order
+      .map((b) => ({ ...b, events: groups[b.key] }))
+      .filter((b) => b.events.length > 0);
+  },
+
   shortText(text, n = 140) {
     return shortText(text, n);
   },
@@ -196,9 +223,12 @@ export default {
   },
 
   // First N catalog entries of a given type, in catalog order. Used by the
-  // home page to show a curated few shows and defer to the Library for the full
-  // set. Done here in JS because this Nunjucks build's `selectattr`/`slice`
-  // filters don't actually filter, and an in-loop counter won't persist.
+  // home and About pages to show a curated few and defer to the Library for the
+  // full set. Done here in JS because the obvious template forms misbehave in
+  // this Nunjucks build: `selectattr("type","equalto",t)` runs but returns the
+  // whole list unfiltered (silently, no error), and the Python-style `[:n]`
+  // slice is a parse error. (`selectattr("attr")` truthiness filtering does
+  // work -- see feed.njk -- it's the equality test that doesn't.)
   firstOfType(catalog = [], type = "", n = 3) {
     return catalog.filter((f) => f.type === type).slice(0, n);
   },
