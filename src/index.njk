@@ -160,8 +160,9 @@ showCustomEvents: false
 
     {# Home shows a curated few and defers to the Library for the full set, so the
        grids don't repeat verbatim across Home / About / Library. The cap is done
-       in the data layer (filters.firstOfType) because this Nunjucks build's
-       selectattr/slice filters don't actually filter. The Library is canonical. #}
+       in the data layer (filters.firstOfType) because the template forms misbehave
+       here: selectattr's equality test returns the list unfiltered and the [:n]
+       slice won't parse (see the filter's comment). The Library is canonical. #}
     <ul class="about-shows" aria-label="Signature show formats">
       {% for fmt in filters.firstOfType(catalog, "show", 3) %}{{ formatCard(fmt) }}{% endfor %}
     </ul>
