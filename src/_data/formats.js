@@ -77,7 +77,7 @@ const formats = [
   },
   {
     slug: "musical-improv-show",
-    short: "musical-show",
+    short: "musical",
     title: "Musical Improv Show",
     type: "show",
     // "musical improv show" is more specific than the "musical improv:"
@@ -220,7 +220,7 @@ const formats = [
   },
   {
     slug: "musical-improv",
-    short: "musical",
+    short: "musical-workshop",
     title: "Musical Improv: An Introduction",
     type: "workshop",
     // Match on the colon so the bare "Musical Improv Show ..." one-off show
