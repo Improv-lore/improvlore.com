@@ -5,7 +5,6 @@ export default {
   // Prefilled text so Arjun has context on where the chat came from.
   whatsappArjun: "https://wa.me/919986634297?text=" + encodeURIComponent("Hi Arjun, got your number from the Improvlore website."),
   youtube: "https://youtube.com/@improvlore",
-  gmail: "mailto:improvlore@gmail.com",
   notifyForm: "https://docs.google.com/forms/d/e/1FAIpQLScVGlLUHvSgII5k7CeEijb48vaqdK9OcHr0Awx6KKIiHDujog/viewform",
   // Google Maps for Underline Center, our home venue. Linked from event venue
   // lines via filters.venueMapUrl so the URL lives in one place.
