@@ -179,7 +179,9 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
     const errorBox = form.querySelector(".contact-error");
     const button = form.querySelector('button[type="submit"]');
     const action = form.getAttribute("action");
-    const FALLBACK_EMAIL = "improvlore@gmail.com";
+    // Base wa.me link to Arjun (social.whatsappArjun minus its prefilled text),
+    // used to hand off an enquiry to WhatsApp if /submit can't be reached.
+    const FALLBACK_WHATSAPP = "{{ social.whatsappArjun | safe }}".split("?")[0];
 
     // Reset the Turnstile widget so a fresh token is required for the next try
     // (tokens are single-use). turnstile may not be loaded yet; guard for it.
@@ -208,11 +210,11 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
       message:   (document.getElementById("cf-message")   || {}).value || "",
     });
 
-    // Plain-text (non-JSON) email body for the contact enquiry.
-    const emailFallback = (data) => {
-      const subject = "Website enquiry: " + (data.topic || "general") + " from " + (data.name || "someone");
+    // Hand the enquiry to WhatsApp (chat with Arjun) if the form can't be
+    // reached, prefilled so it isn't lost.
+    const whatsappFallback = (data) => {
       const lines = [
-        "The website couldn't reach the contact form, so here's the enquiry:",
+        "Hi Arjun, the Improvlore website couldn't reach the contact form, so here's my enquiry:",
         "",
         "Name: " + data.name,
         "WhatsApp: " + (data.whatsapp || "-"),
@@ -223,9 +225,7 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
         "Message:",
         data.message,
       ];
-      const href = "mail" + "to:" + FALLBACK_EMAIL +
-        "?subject=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent(lines.join("\n"));
+      const href = FALLBACK_WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n"));
       window.location.href = href;
     };
 
@@ -272,15 +272,15 @@ pageDescription: Questions, show bookings, performing at your venue, or anything
           resetTurnstile();
         } else {
           // Server reached us but couldn't forward (Google Form down, config
-          // error). Hand the enquiry to the mail client so it isn't lost.
+          // error). Hand the enquiry to WhatsApp so it isn't lost.
           console.error("Contact submit failed:", result);
-          emailFallback(data);
+          whatsappFallback(data);
           showSent();
         }
       } catch (err) {
-        // /submit unreachable (offline, deploy down): email fallback.
-        console.error("Contact form unreachable, using email fallback:", err);
-        emailFallback(data);
+        // /submit unreachable (offline, deploy down): WhatsApp fallback.
+        console.error("Contact form unreachable, using WhatsApp fallback:", err);
+        whatsappFallback(data);
         showSent();
       } finally {
         if (button) {
