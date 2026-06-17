@@ -7,8 +7,10 @@
 //   - items: the ordered ticker content. Each item is one of:
 //       { type: "events" }
 //           Expands, in place, to every upcoming UC show/jam/workshop pulled
-//           live from the feed. Each becomes a link to its detail page with its
-//           date. Put this wherever you want the auto list to appear.
+//           live from the feed -- the same set the /events page lists (past and
+//           undated events are dropped, kept in date order). Each becomes a link
+//           to its detail page with its date. Put this wherever you want the
+//           auto list to appear.
 //       { type: "message", text: "...", href: "/somewhere/" }
 //           A custom message. `href` is optional; with it the whole message is
 //           a link (internal path or full URL), without it it's plain text.

@@ -21,14 +21,18 @@
 
     {% for item in banner.items %}
       {% if item.type == "events" %}
-        {% for ev in events %}
-          {% if (ev.tags and "UC" in ev.tags) and ev.event_starts_at %}
+        {# Same upcoming set as the events page: filters.bucketedEvents applies
+           the UC filter and drops past/undated events, in display order. We
+           flatten its buckets since the ticker is one flat strip (no week
+           headings). Keeps the banner and events page on one source of truth. #}
+        {% for bucket in filters.bucketedEvents(events, false) %}
+          {% for ev in bucket.events %}
             {% set evType = filters.eventType(ev.title, ev.tags) %}
             <a class="banner-item banner-event event-type-{{ evType }}" href="{{ filters.eventPermalink(ev) }}">
               <span class="banner-item-name">{{ filters.workshopName(ev.title) }}</span>
               <span class="banner-item-date">{{ filters.formatDate(ev.event_starts_at) }}</span>
             </a>
-          {% endif %}
+          {% endfor %}
         {% endfor %}
       {% elif item.type == "message" and item.text %}
         {% if item.href %}
