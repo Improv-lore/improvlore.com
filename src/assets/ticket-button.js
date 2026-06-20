@@ -66,6 +66,12 @@
     btn.textContent = label;
     btn.setAttribute("aria-disabled", "true");
     btn.classList.add("btn-disabled");
+    // Demote a dead button (Sold Out / coming soon) to the ghost style so it
+    // reads as secondary next to the live primary "Get in touch" CTA, and the
+    // pair stays narrow enough to sit on one line in the compact hero card
+    // instead of wrapping.
+    btn.classList.remove("btn-primary");
+    btn.classList.add("btn-ghost");
     // Neutralise the link without removing it from the DOM.
     btn.removeAttribute("href");
     btn.removeAttribute("target");

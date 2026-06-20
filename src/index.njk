@@ -9,10 +9,54 @@ showCustomEvents: false
 <div class="events-root">
 
   {# Hero answers "who are you / is this for me / where do I go" for a new
-     visitor, while keeping a fast path into events. The featured card shows
-     the single next upcoming event of any type, with a copy fallback if
+     visitor, while keeping a fast path into events. The featured cards show
+     the next two upcoming events of any type, stacked, with a copy fallback if
      nothing is scheduled so the hero never renders half-empty. #}
-  {% set heroNext = filters.nextEvent(events, showCustomEvents) %}
+  {% set heroEvents = filters.nextEvents(events, showCustomEvents, 2) %}
+
+  {# One "up next" card. Shared by both hero slots so the markup lives once.
+     `kicker` labels the slot ("Up next" / "Then"). Body is a plain container,
+     not a link, so the Buy Ticket button can live inside it; the title is a
+     "stretched link" (::before covers the card) so the card still clicks
+     through to the detail page while the Buy button keeps its own click. #}
+  {% macro heroCard(ev, kicker) %}
+    {% set evType = filters.eventType(ev.title, ev.tags) %}
+    <div class="home-hero-next event-type-{{ evType }}">
+      {# Poster gets a positioned wrapper so the keyword pills overlay the
+         artwork (top-left) the same way the events/library cards do, instead of
+         taking up room in the card body. The SHOW/JAM/WORKSHOP type badge stays
+         in the body. #}
+      <div class="home-hero-next-media">
+        <img class="home-hero-next-poster" src="{{ filters.eventImage(ev) }}" alt="{{ filters.workshopName(ev.title) }} poster" loading="eager" fetchpriority="high" sizes="(min-width: 760px) 420px, 100vw">
+        {{ posterBadges(filters.eventBadges(ev.title), evType) }}
+      </div>
+      <div class="home-hero-next-body">
+        <span class="home-hero-next-kicker">{{ kicker }}</span>
+        <span class="event-type-badge">{{ evType }}</span>
+        <a class="home-hero-next-title home-hero-next-stretch" href="{{ filters.eventPermalink(ev) }}">{{ filters.workshopName(ev.title) }}</a>
+        {% set sessions = filters.eventSessions(ev.title) %}
+        {# Calendar tile + time only. The full text date is dropped here since
+           the tile already carries the date; keeps the card compact. #}
+        <div class="event-when home-hero-when">
+          <span class="event-when-cal">
+            <span class="event-when-dow">{{ filters.formatDay(ev.event_starts_at) }}</span>
+            <span class="event-when-day">{{ filters.formatDayNum(ev.event_starts_at) }}</span>
+            <span class="event-when-mon">{{ filters.formatMonth(ev.event_starts_at) }}</span>
+          </span>
+          <span class="event-when-detail">
+            <span class="event-when-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
+            {% if sessions and sessions.dates and sessions.dates.length > 1 %}<span class="home-hero-next-tag">+{{ sessions.dates.length - 1 }} more dates</span>{% endif %}
+          </span>
+        </div>
+        {# Buy button on its own row directly under the date, so when the live
+           ticket check swaps in "Sold Out" + "Get in touch" the pair sits
+           together on one line instead of fighting the date tile for width. #}
+        <div class="event-buttons home-hero-next-cta">
+          <a class="btn btn-primary" {% if "district.in" in ev.url %}data-ticket-slug {% endif %}href="{{ ev.url }}" target="_blank" rel="noopener">Buy Ticket</a>
+        </div>
+      </div>
+    </div>
+  {% endmacro %}
 
   <section class="home-hero" aria-labelledby="hero-heading">
     <div class="home-hero-intro">
@@ -25,36 +69,14 @@ showCustomEvents: false
       </div>
     </div>
 
-    {% if heroNext %}
-    {% set heroType = filters.eventType(heroNext.title, heroNext.tags) %}
-    {# Card body is a plain container, not a link, so the Buy Ticket button can
-       live inside it. The title is a "stretched link" (::after covers the whole
-       card) so the card still clicks through to the detail page, while the Buy
-       button sits above it with its own click. #}
-    <div class="home-hero-next event-type-{{ heroType }}">
-      <img class="home-hero-next-poster" src="{{ filters.eventImage(heroNext) }}" alt="{{ filters.workshopName(heroNext.title) }} poster" loading="eager" fetchpriority="high" sizes="(min-width: 760px) 420px, 100vw">
-      <div class="home-hero-next-body">
-        <span class="home-hero-next-kicker">Up next</span>
-        <span class="event-type-badge">{{ heroType }}</span>
-        {{ posterBadges(filters.eventBadges(heroNext.title), heroType, true) }}
-        <a class="home-hero-next-title home-hero-next-stretch" href="{{ filters.eventPermalink(heroNext) }}">{{ filters.workshopName(heroNext.title) }}</a>
-        {% set heroSessions = filters.eventSessions(heroNext.title) %}
-        <div class="event-when home-hero-when">
-          <span class="event-when-cal">
-            <span class="event-when-dow">{{ filters.formatDay(heroNext.event_starts_at) }}</span>
-            <span class="event-when-day">{{ filters.formatDayNum(heroNext.event_starts_at) }}</span>
-            <span class="event-when-mon">{{ filters.formatMonth(heroNext.event_starts_at) }}</span>
-          </span>
-          <span class="event-when-detail">
-            <span class="event-when-date">{{ filters.formatDateFull(heroNext.event_starts_at) }}</span>
-            <span class="event-when-time">{{ filters.formatTime(heroNext.event_starts_at) }}</span>
-            {% if heroSessions and heroSessions.dates and heroSessions.dates.length > 1 %}<span class="home-hero-next-tag">+{{ heroSessions.dates.length - 1 }} more dates</span>{% endif %}
-          </span>
-        </div>
-        <div class="event-buttons home-hero-next-cta">
-          <a class="btn btn-ghost" {% if "district.in" in heroNext.url %}data-ticket-slug {% endif %}href="{{ heroNext.url }}" target="_blank" rel="noopener">Buy Ticket</a>
-        </div>
-      </div>
+    {% if heroEvents | length > 0 %}
+    {# The next two upcoming events, stacked. First slot is "Up next", the
+       second "Then". CSS stacks them in the hero column and tightens each card
+       so both fit (see .home-hero-cards). #}
+    <div class="home-hero-cards">
+      {% for ev in heroEvents %}
+        {{ heroCard(ev, "Up next" if loop.first else "Then") }}
+      {% endfor %}
     </div>
     {% else %}
     {# Nothing on the live feed (between listings, or the fetch failed). Keep the

@@ -66,6 +66,30 @@
   margin: 1.4rem 0 0;
 }
 
+/* Holds the (up to two) stacked "up next" cards in the hero's right column.
+   On desktop it's the flex child of .home-hero (see the 760px block); the
+   cards stack inside it. The cards are deliberately more compact than the
+   single-card hero so two fit without towering over the intro. */
+.home-hero-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Smaller stacked cards: trimmer poster share, tighter body, smaller title. */
+.home-hero-cards .home-hero-next-media {
+  flex-basis: 42%;
+}
+
+.home-hero-cards .home-hero-next-body {
+  padding: 0.9rem 1rem;
+  gap: 0.3rem;
+}
+
+.home-hero-cards .home-hero-next-title {
+  font-size: 1.15rem;
+}
+
 /* Compact "up next" card. Square, flat aesthetic to match the event cards. */
 .home-hero-next {
   position: relative;
@@ -86,15 +110,21 @@
   box-shadow: var(--card-shadow-lift);
 }
 
-/* Poster is the hero of the card: larger share of the width, fills edge to
-   edge (cover, no letterbox). The info column gets the smaller remainder. */
-.home-hero-next-poster {
-  display: block;
+/* Poster wrapper: takes the larger share of the card width and is the
+   positioning context for the keyword pills overlaid on the artwork. The info
+   column gets the smaller remainder. */
+.home-hero-next-media {
+  position: relative;
   flex: 1 1 60%;
   min-width: 0;
   align-self: stretch;
-  /* Fill the card's flex height and crop, rather than letting the baked-in
-     height attribute drive the image's own (much taller) intrinsic height. */
+  background: var(--ink);
+  line-height: 0;
+}
+
+/* Poster fills its wrapper (cover, no letterbox by default). */
+.home-hero-next-poster {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -134,10 +164,9 @@
 }
 
 /* The hero body is a flex column, which stretches its children full width by
-   default. Keep the type badge and the inline pill row hugging their content
-   so the JAM/SHOW pill doesn't balloon into a full-width bar. */
-.home-hero-next-body .event-type-badge,
-.home-hero-next-body .poster-badges-inline {
+   default. Keep the type badge hugging its content so the JAM/SHOW pill doesn't
+   balloon into a full-width bar. */
+.home-hero-next-body .event-type-badge {
   align-self: flex-start;
 }
 
@@ -164,23 +193,33 @@
   z-index: 1;
 }
 
-/* Buy Ticket sits above the stretched link so it keeps its own click target. */
+/* Buy Ticket sits on its own row just under the date, lifted above the
+   stretched-link title so it keeps its own click. When the live ticket check
+   swaps in "Sold Out" + an injected "Get in touch", the two share this row:
+   nowrap keeps them side by side on one line instead of stacking, and the
+   buttons shrink to fit rather than wrapping. */
 .home-hero-next-cta {
   position: relative;
   z-index: 2;
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+/* Trim the buttons so "Sold Out" + "Get in touch" both fit the narrow card
+   without wrapping. Smaller padding/font than the default .btn. */
+.home-hero-next-cta .btn {
+  padding: 0.45rem 0.7rem;
+  font-size: 0.82rem;
 }
 
 /* Prominent date + time on the hero card, reusing the events-page .event-when
    tile and time chip (components.css) so the two never drift. Tuned a touch
-   tighter for the smaller hero card and given top spacing of its own. The full
-   date sits on its own line above the time chip. */
+   tighter for the smaller hero card. */
 .home-hero-when {
   margin-top: 0.2rem;
-}
-
-.home-hero-when .event-when-date {
-  font-size: 0.95rem;
+  margin-bottom: 0;
 }
 
 .home-hero-when .event-when-detail {
@@ -229,7 +268,11 @@
     gap: 2.5rem;
   }
   .home-hero-intro { flex: 1 1 48%; }
-  .home-hero-next {
+  /* The cards wrapper is the flex child when events exist; the bare
+     .home-hero-next is the flex child in the empty-state fallback (no
+     wrapper). Both take the column and stretch full height. */
+  .home-hero-cards,
+  .home-hero > .home-hero-next {
     flex: 1 1 52%;
     align-self: stretch;
   }
@@ -238,16 +281,18 @@
   .home-hero-next-title { font-size: 1.6rem; }
 }
 
-/* Mobile: a side-by-side card crops the portrait poster to a thin strip. Stack
-   it instead so the portrait crops far less. */
+/* Mobile: stack poster over body. Show the whole poster (contain, its own
+   portrait ratio) so the artwork is never cropped; the ink backing frames any
+   letterboxing. Capped height keeps the stacked cards from running long. */
 @media (max-width: 759px) {
   .home-hero-next { flex-direction: column; }
+  .home-hero-next-media { align-self: stretch; }
   .home-hero-next-poster {
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
-    align-self: stretch;
-    object-position: top;
+    max-height: 60vh;
+    object-fit: contain;
+    object-position: center;
   }
   .home-hero-next-body { padding: 1rem 1.2rem 1.2rem; }
 }

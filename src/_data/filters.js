@@ -124,9 +124,11 @@ export default {
     return (fmt && fmt.badges) || [];
   },
 
-  // Next upcoming event of any type, so the hero's featured card always has
-  // something to show as long as anything is scheduled.
-  nextEvent(events = [], showCustom = false) {
+  // The next N upcoming events of any type, soonest first, for the hero's
+  // featured cards. Same filter as bucketedEvents (UC-or-showCustom, past and
+  // undated dropped); the feed is pre-sorted but we sort again so the cap is
+  // honest regardless of feed order. nextEvent is the n=1 case.
+  nextEvents(events = [], showCustom = false, n = 2) {
     const now = Date.now();
     return events
       .filter(ev => {
@@ -136,7 +138,14 @@ export default {
         const tags = ev.tags || [];
         return showCustom || tags.includes("UC");
       })
-      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))[0] || null;
+      .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
+      .slice(0, n);
+  },
+
+  // Single next upcoming event, or null. Thin wrapper over nextEvents for
+  // callers that only want one (kept so existing call sites don't change).
+  nextEvent(events = [], showCustom = false) {
+    return this.nextEvents(events, showCustom, 1)[0] || null;
   },
 
   // Buckets an event into "this-week", "next-week", or "later" by its start
