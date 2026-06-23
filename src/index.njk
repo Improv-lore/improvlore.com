@@ -129,6 +129,26 @@ showCustomEvents: false
       <p class="about-lede">A Bangalore improv troupe since 2022, now playing festivals across Asia. The same group of people you'll meet at a jam, hosting a workshop, or on stage at a show.</p>
     </div>
 
+    {# Latest blog post, pulled from blog.improvlore.com at build time. Sits in
+       "Who We Are" since the blog is the troupe's own voice. Hidden entirely
+       when the feed is unreachable so the section never half-renders. #}
+    {% if latestPost %}
+    <a class="blog-card" href="{{ latestPost.url }}">
+      {% if latestPost.cover %}
+      <div class="blog-card-media">
+        <img class="blog-card-cover" src="{{ latestPost.cover }}" alt="{{ latestPost.coverAlt or '' }}" loading="lazy" sizes="(min-width: 720px) 680px, 100vw">
+        <span class="blog-card-kicker">From the blog</span>
+      </div>
+      {% endif %}
+      <div class="blog-card-body">
+        {% if not latestPost.cover %}<span class="blog-card-kicker blog-card-kicker-inline">From the blog</span>{% endif %}
+        <strong class="blog-card-title">{{ latestPost.title }}</strong>
+        {% if latestPost.excerpt %}<span class="blog-card-excerpt">{{ latestPost.excerpt }}</span>{% endif %}
+        <span class="blog-card-meta">{{ filters.formatDate(latestPost.date) }}{% if latestPost.author %} · {{ latestPost.author }}{% endif %}</span>
+      </div>
+    </a>
+    {% endif %}
+
     <p class="more-line">
       <a href="/about/">Read our story →</a>
     </p>

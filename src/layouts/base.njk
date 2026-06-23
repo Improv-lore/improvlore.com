@@ -92,6 +92,7 @@
     { url: "/about/", label: "About" },
     { url: "/events/", label: "Upcoming" },
     { url: "/for-teams/", label: "Work With Us" },
+    { url: "https://blog.improvlore.com", label: "Blog", external: true },
     { url: "/contact/", label: "Contact" }
   ] %}
   <header class="site-header" role="banner">
@@ -105,7 +106,11 @@
     </button>
     <nav class="site-nav" id="site-nav" aria-label="Main navigation">
       {% for link in navLinks %}
+      {% if link.external %}
+      <a class="site-nav-link" href="{{ link.url }}" target="_blank" rel="noopener">{{ link.label }} ↗</a>
+      {% else %}
       <a class="site-nav-link{% if page.url == link.url %} is-active{% endif %}" href="{{ link.url }}"{% if page.url == link.url %} aria-current="page"{% endif %}>{{ link.label }}</a>
+      {% endif %}
       {% endfor %}
     </nav>
   </header>
@@ -132,6 +137,7 @@
           <a href="/for-teams/">Work With Us</a>
           <a href="/festivals/">Festivals</a>
           <a href="/contact/">Contact</a>
+          <a href="https://blog.improvlore.com" target="_blank" rel="noopener">Blog ↗</a>
           <a href="https://underline.center" target="_blank" rel="noopener">Underline Center ↗</a>
         </nav>
 
