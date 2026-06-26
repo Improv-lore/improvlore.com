@@ -117,7 +117,7 @@ showCustomEvents: false
       </li>
     </ul>
 
-    <p class="book-cta-line">Pricing and venue are listed on each event, so you always know before you go.</p>
+    <p class="book-cta-line">Pricing and venue are listed on each event, so you always know before you go. First time? <a href="/faq/">Read the FAQ →</a></p>
   </section>
 
   <p class="yesand-shout" aria-hidden="true"><span class="yesand-yes">WHIM</span><span class="yesand-and">SY</span></p>
@@ -129,29 +129,53 @@ showCustomEvents: false
       <p class="about-lede">A Bangalore improv troupe since 2022, now playing festivals across Asia. The same group of people you'll meet at a jam, hosting a workshop, or on stage at a show.</p>
     </div>
 
-    {# Latest blog post, pulled from blog.improvlore.com at build time. Sits in
-       "Who We Are" since the blog is the troupe's own voice. Hidden entirely
-       when the feed is unreachable so the section never half-renders. #}
-    {% if latestPost %}
-    <a class="blog-card" href="{{ latestPost.url }}">
-      {% if latestPost.cover %}
-      <div class="blog-card-media">
-        <img class="blog-card-cover" src="{{ latestPost.cover }}" alt="{{ latestPost.coverAlt or '' }}" loading="lazy" sizes="(min-width: 720px) 680px, 100vw">
-        <span class="blog-card-kicker">From the blog</span>
-      </div>
-      {% endif %}
-      <div class="blog-card-body">
-        {% if not latestPost.cover %}<span class="blog-card-kicker blog-card-kicker-inline">From the blog</span>{% endif %}
-        <strong class="blog-card-title">{{ latestPost.title }}</strong>
-        {% if latestPost.excerpt %}<span class="blog-card-excerpt">{{ latestPost.excerpt }}</span>{% endif %}
-        <span class="blog-card-meta">{{ filters.formatDate(latestPost.date) }}{% if latestPost.author %} · {{ latestPost.author }}{% endif %}</span>
-      </div>
-    </a>
-    {% endif %}
+    {# Primary CTA for the section, lifted above the blog/testimonials so the
+       "read our story" path is the first thing the eye lands on here. #}
+    <div class="event-buttons who-cta">
+      <a class="btn btn-primary btn-lg" href="/about/">Read our story →</a>
+    </div>
 
-    <p class="more-line">
-      <a href="/about/">Read our story →</a>
-    </p>
+    {# Latest blog post (the troupe's own voice) next to the top few
+       testimonials (others' voices). Two-column on wide screens, stacked on
+       narrow. The blog comes from blog.improvlore.com at build time and is
+       hidden entirely when the feed is unreachable; testimonials come from
+       _data/testimonials.json and we show at most the first three. The
+       wrapper collapses to a single column gracefully if either side is
+       empty. #}
+    {% set topTestimonials = (testimonials.items or []).slice(0, 3) %}
+    <div class="who-cols">
+      {% if latestPost %}
+      <a class="blog-card who-blog" href="{{ latestPost.url }}">
+        {% if latestPost.cover %}
+        <div class="blog-card-media">
+          <img class="blog-card-cover" src="{{ latestPost.cover }}" alt="{{ latestPost.coverAlt or '' }}" loading="lazy" sizes="(min-width: 720px) 680px, 100vw">
+          <span class="blog-card-kicker">From the blog</span>
+        </div>
+        {% endif %}
+        <div class="blog-card-body">
+          {% if not latestPost.cover %}<span class="blog-card-kicker blog-card-kicker-inline">From the blog</span>{% endif %}
+          <strong class="blog-card-title">{{ latestPost.title }}</strong>
+          {% if latestPost.excerpt %}<span class="blog-card-excerpt">{{ latestPost.excerpt }}</span>{% endif %}
+          <span class="blog-card-meta">{{ filters.formatDate(latestPost.date) }}{% if latestPost.author %} · {{ latestPost.author }}{% endif %}</span>
+        </div>
+      </a>
+      {% endif %}
+
+      {% if topTestimonials.length %}
+      <aside class="who-quotes" aria-label="What people say about Improvlore">
+        <span class="who-quotes-kicker">Testimonials</span>
+        <ul class="who-quotes-list">
+          {% for t in topTestimonials %}
+          <li class="who-quote">
+            <p class="who-quote-text">{{ t.story }}</p>
+            <p class="who-quote-by"><span class="who-quote-name">{{ t.name }}</span>{% if t.subtitle %}<span class="who-quote-sub">{{ t.subtitle }}</span>{% endif %}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        <a class="who-quotes-more" href="/testimonials/">Read more →</a>
+      </aside>
+      {% endif %}
+    </div>
   </section>
 
   {# Festivals were only a one-line text mention before. Surfaced here as a

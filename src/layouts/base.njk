@@ -6,6 +6,7 @@
   <title>{{ title }}</title>
   {% set desc = pageDescription or "Improv Lore: Live improv theatre, jams, and workshops in Bangalore and beyond. No script, no second take, made up on the spot." %}
   <meta name="description" content="{{ desc }}">
+  {% if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
   <link rel="canonical" href="{{ site.absUrl(canonicalUrl or page.url) }}">
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ desc }}">
@@ -134,6 +135,7 @@
           <a href="/about/">About</a>
           <a href="/events/">Upcoming</a>
           <a href="/library/">Library</a>
+          <a href="/faq/">FAQ</a>
           <a href="/for-teams/">Work With Us</a>
           <a href="/festivals/">Festivals</a>
           <a href="/contact/">Contact</a>

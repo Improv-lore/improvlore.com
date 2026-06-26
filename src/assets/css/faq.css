@@ -1,0 +1,127 @@
+/*
+  FAQ page. Every rule is scoped under .faq-list / .faq-item so nothing leaks
+  into the rest of the site. Each Q/A is a native <details>/<summary>: the
+  summary is the question (click to toggle), the answer sits in .faq-a. No JS.
+*/
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.faq-item {
+  background: var(--card-bg-vert);
+  border: var(--card-border);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.faq-item[open] {
+  border-color: var(--border-hover);
+  box-shadow: var(--card-shadow-yellow);
+}
+
+/* The question. Flex so the marker sits at the right, vertically centred. */
+.faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem 1.25rem;
+  margin: 0;
+  font-family: var(--font-display, inherit);
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.35;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none; /* hide default disclosure triangle (most browsers) */
+}
+
+/* Hide the default triangle in WebKit/Blink too. */
+.faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.faq-q:hover {
+  color: var(--pink);
+}
+
+/* Custom +/- marker drawn with a pseudo-element so it animates on toggle. */
+.faq-q::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat;
+  transition: transform 0.2s ease;
+  opacity: 0.75;
+}
+
+.faq-item[open] .faq-q::after {
+  /* Collapse the vertical bar so + becomes - (and a slight spin for polish). */
+  transform: rotate(90deg);
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat;
+}
+
+.faq-a {
+  padding: 0 1.25rem 1.15rem;
+}
+
+.faq-a p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.faq-a p + p {
+  margin-top: 0.7rem;
+}
+
+.faq-a a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.faq-a a:hover {
+  color: var(--pink);
+}
+
+/* Bulleted answers ("Good to know", "Specifics"). */
+.faq-points {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.faq-points li {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 0.55rem;
+}
+
+.faq-points li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 560px) {
+  .faq-q {
+    font-size: 0.98rem;
+    padding: 0.95rem 1.05rem;
+  }
+
+  .faq-a {
+    padding: 0 1.05rem 1.05rem;
+  }
+}

@@ -4,6 +4,16 @@ import social from "./social.js";
 
 const IST = { timeZone: "Asia/Kolkata" };
 
+// Badges for recurring feed-only shows that deliberately have no catalog entry
+// (e.g. TheatreSports, which shares the Great Face-Off format page rather than
+// duplicating it — see marathon.js). Keyed by a lowercase substring of the feed
+// title. Catalog formats still own their own badges in formats.js; this only
+// fills the gap for one-offs. Same pill strings as formats.js so they tint and
+// read identically.
+const ONE_OFF_BADGES = {
+  theatresports: ["Licensed format"],
+};
+
 export default {
   formatDate(dateStr) {
     if (!dateStr) return "";
@@ -117,11 +127,16 @@ export default {
   },
 
   // Keyword badges for a feed event, pulled from its matching format in
-  // formats.js (the source of truth). Genuine one-offs with no format get
-  // none. Lets the upcoming-event cards show the same pills as the library.
+  // formats.js (the source of truth). Genuine one-offs with no format fall
+  // back to ONE_OFF_BADGES below (keyed by a lowercase title substring), so a
+  // recurring feed-only show can still carry a pill without a duplicate catalog
+  // entry. Lets the upcoming-event cards show the same pills as the library.
   eventBadges(title = "") {
     const fmt = matchFormat(title);
-    return (fmt && fmt.badges) || [];
+    if (fmt && fmt.badges) return fmt.badges;
+    const t = (title || "").toLowerCase();
+    const hit = Object.keys(ONE_OFF_BADGES).find((k) => t.includes(k));
+    return hit ? ONE_OFF_BADGES[hit] : [];
   },
 
   // The next N upcoming events of any type, soonest first, for the hero's

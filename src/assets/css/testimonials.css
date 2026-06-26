@@ -1,0 +1,106 @@
+/* =================================================
+   TESTIMONIALS WALL
+   Display grid for /testimonials/. Scoped under .tw-* so it doesn't touch
+   the rest of the site. Intentionally brutalist (hard offset shadow, thick
+   ink border, square corners) to match the testimonial *form* (testimonial.css)
+   it pairs with. Brand colours/fonts come from base.css :root tokens; the
+   component-specific brutalist values are defined once below so the card and
+   any future additions stay in sync.
+   ================================================= */
+
+.tw-grid {
+  --tw-paper: #fffdf8;                 /* warm paper tone, matches --tf-paper */
+  --tw-border: 2.5px solid var(--ink);
+  --tw-shadow: 5px 5px 0 var(--ink);
+
+  list-style: none;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.4rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.tw-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.2rem, 3vw, 1.6rem);
+  background: var(--tw-paper);
+  border: var(--tw-border);
+  box-shadow: var(--tw-shadow);
+}
+
+.tw-quote {
+  margin: 0;
+  position: relative;
+  flex: 1;
+}
+
+/* Oversized opening quote mark as a soft brand flourish. */
+.tw-quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.5rem;
+  left: -0.25rem;
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  line-height: 1;
+  color: var(--yellow);
+  z-index: 0;
+}
+
+.tw-quote p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.tw-attr {
+  border-top: 2px solid var(--ink);
+  padding-top: 0.8rem;
+}
+
+.tw-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.tw-sub {
+  margin: 0.15rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+}
+
+.tw-social {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.tw-social:hover,
+.tw-social:focus-visible {
+  border-bottom-color: var(--blue);
+}
+
+/* Closing call to action: invite the reader to add their own. */
+.tw-cta {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.tw-cta-text {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--text-muted);
+}

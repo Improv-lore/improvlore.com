@@ -1,0 +1,51 @@
+---
+layout: base.njk
+title: Testimonials - Improvlore
+permalink: /testimonials/
+pageDescription: What performers, students, and audiences say about doing improv with Improvlore in Bangalore.
+eleventyExcludeFromCollections: true
+robots: noindex
+pageStyles:
+  - /assets/css/testimonials.css
+---
+{#
+  Testimonials wall. Data comes from src/_data/testimonials.json, which is
+  filled from the external collection form (see /fill-testimonial/). This page
+  is deliberately unlinked from nav/footer for now and kept out of the sitemap
+  (eleventyExcludeFromCollections) and search (robots: noindex) — share the
+  direct link only.
+
+  Each item: name, subtitle (the credit / relation-to-improvlore line),
+  social (a handle, with or without a leading @), story (the quote). A social
+  handle links to Instagram; leave it "" to omit.
+#}
+
+<div class="events-root">
+  <section class="page-section" aria-labelledby="section-testimonials">
+    <h1 class="section-heading" id="section-testimonials">In Their Words</h1>
+    <p class="section-sub">The people who jam, perform, and learn with us, on what it's been like.</p>
+
+    <ul class="tw-grid" aria-label="Testimonials">
+      {% for t in testimonials.items %}
+        <li class="tw-card">
+          <blockquote class="tw-quote">
+            <p>{{ t.story }}</p>
+          </blockquote>
+          <div class="tw-attr">
+            <p class="tw-name">{{ t.name }}</p>
+            {% if t.subtitle %}<p class="tw-sub">{{ t.subtitle }}</p>{% endif %}
+            {% if t.social %}
+              {% set handle = t.social | replace("@", "") %}
+              <a class="tw-social" href="https://instagram.com/{{ handle }}" target="_blank" rel="noopener">@{{ handle }}</a>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="tw-cta">
+      <p class="tw-cta-text">Done a show, jam, or workshop with us? We'd love to hear how it went.</p>
+      <a class="btn btn-primary btn-lg" href="/fill-testimonial/">Leave a testimonial</a>
+    </div>
+  </section>
+</div>
