@@ -71,8 +71,13 @@ body > *:not(.page-motifs):not(.page-frost) {
 
 /* The header (and its mobile dropdown) must sit above page content, so it
    overrides the blanket z-index:1 above. The :not() pairs match the specificity
-   of the rule above; declared later, so this wins the tie. */
+   of the rule above; declared later, so this wins the tie. It also re-asserts
+   position:sticky here: the blanket rule above sets position:relative on every
+   body child, which would otherwise beat the lower-specificity .site-header
+   sticky rule in base.css and leave the nav non-sticky. */
 body > .site-header:not(.page-motifs):not(.page-frost) {
+  position: sticky;
+  top: 0;
   z-index: 30;
 }
 

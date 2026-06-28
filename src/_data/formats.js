@@ -32,7 +32,7 @@ const formats = [
       "Bring a friend, a date, or a group. Our brave space is for everyone!",
     ].join("\n"),
     expect:
-      "Our facilitators guide you through engaging improv exercises, help you explore new characters, and set up scenarios that make your inner wit shine, all on the spot. Come as you are, leave your inhibitions at the door.",
+      "A relaxed, off-stage room where you play, not perform. Short games and prompts, plenty of laughing at yourself, and no one keeping score. Wear something comfy and expect to be on your feet.",
   },
   {
     slug: "make-friends-with-the-stage",
@@ -41,7 +41,7 @@ const formats = [
     type: "jam",
     feedMatch: "make friends with the stage",
     image: "/assets/posters/make-friends-with-the-stage.jpg",
-    badges: ["Every alternate Wednesday","Beginner friendly"],
+    badges: ["On Weekend","Beginner friendly"],
     blurb:
       "The next step, on-stage. Short scenes in a supportive room, designed to help you take the leap into performing.",
     expect:
@@ -109,11 +109,11 @@ const formats = [
     type: "show",
     feedMatch: "powerpoint roulette",
     image: "/assets/posters/powerpoint-roulette.jpg",
-    badges: ["Corporate Favourite"],
+    badges: ["Unrehearsed slides","Corporate Favourite"],
     blurb:
       "Presentations from slides nobody has seen before. Business pitches, eulogies, TED talks, and conspiracy theories, all made up on the spot.",
     expect:
-      "Our players present slide decks they have never laid eyes on, building the argument in real time as the next slide lands. Expect business pitches, eulogies, TED talks, and conspiracy theories, none of it rehearsed, all of it committed to.",
+      "Total commitment to slides nobody has seen, with the next one always threatening to derail the point. Half the joy is watching a presenter recover from an image they never expected. Audience suggestions feed the topics, so the deck is partly yours.",
   },
   {
     slug: "maestro-impro",
@@ -139,7 +139,7 @@ const formats = [
     blurb:
       "Bold choices, quick comebacks, friendly face-offs. Come cheer, gasp, and lean in through an evening of high-energy improv.",
     expect:
-      "Two sides, bold choices, and quick comebacks, with you deciding who takes it. A high-energy evening built to be cheered through, gasped at, and leaned into.",
+      "A competitive, game-driven night where the room is loud and your vote decides who advances. Come ready to pick sides, heckle a little, and watch players swing for the big choice because the safe one rarely wins here.",
   },
   // Festival formats: the two we take on the road, drawing on traditional
   // Indian storytelling. feedMatch is the slug so it won't collide with the
@@ -297,7 +297,7 @@ const formats = [
       "We run it on demand. When there's a group ready, we open the next one. Get in touch to put your name down or gather a few friends.",
     ].join("\n"),
     expect:
-      "Six hours over a weekend, the quick path from never having performed to enjoying the stage. Stagecraft, trusting your instincts, playing with others, short-form games, and a taste of longform, plus cast-only jam access and a discount on the next intensive.",
+      "A small group, lots of time on your feet, and exercises that build on each other across the weekend. You'll leave with a working feel for how scenes start, how to listen, and how to keep a moment alive, brave enough to come back for more.",
   },
 ];
 

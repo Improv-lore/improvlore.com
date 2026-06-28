@@ -14,6 +14,7 @@ permalink: "{{ filters.formatPermalink(fmt) }}index.html"
   image: fmt.image,
   title: fmt.title,
   hasWhen: fmt.hasUpcoming,
+  startsRaw: fmt.startsAt,
   startsAt: filters.formatDateFull(fmt.startsAt),
   timeRange: filters.formatTimeRange(fmt.startsAt, fmt.endsAt),
   venue: fmt.venue,

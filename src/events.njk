@@ -70,6 +70,10 @@ showCustomEvents: false
              clicks. #}
           <h2 class="event-title"><a class="event-card-stretch" href="{{ filters.eventPermalink(ev) }}">{{ filters.workshopName(ev.title) }}</a></h2>
 
+          {# The calendar tile already carries the date, so we don't repeat it as
+             plain text; the detail column shows the time, then the venue
+             underneath in a smaller font (and as the Maps link where we have
+             one). Mirrors the per-event detail page. #}
           {% if ev.event_starts_at %}
             <div class="event-when">
               <span class="event-when-cal" aria-hidden="true">
@@ -78,8 +82,15 @@ showCustomEvents: false
                 <span class="event-when-mon">{{ filters.formatMonth(ev.event_starts_at) }}</span>
               </span>
               <span class="event-when-detail">
-                <span class="event-when-date">{{ filters.formatDateFull(ev.event_starts_at) }}</span>
                 <span class="event-when-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
+                {% if ev.venue %}
+                  {% set mapUrl = filters.venueMapUrl(ev.venue) %}
+                  {% if mapUrl %}
+                    <a class="event-venue event-venue-link" href="{{ mapUrl }}" target="_blank" rel="noopener">{{ ev.venue }}</a>
+                  {% else %}
+                    <span class="event-venue">{{ ev.venue }}</span>
+                  {% endif %}
+                {% endif %}
               </span>
             </div>
           {% endif %}
@@ -88,18 +99,9 @@ showCustomEvents: false
             {{ filters.cardText(ev.full_content or ev.excerpt, 260) }}
           </p>
 
-          {% if ev.venue %}
-            {% set mapUrl = filters.venueMapUrl(ev.venue) %}
-            {% if mapUrl %}
-              <a class="event-venue event-venue-link" href="{{ mapUrl }}" target="_blank" rel="noopener">{{ ev.venue }}</a>
-            {% else %}
-              <p class="event-venue">{{ ev.venue }}</p>
-            {% endif %}
-          {% endif %}
-
           <div class="event-buttons">
-            <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-            <a class="btn btn-ghost" href="{{ filters.eventPermalink(ev) }}">Learn More</a>
+            <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}" target="_blank" rel="noopener">Buy Ticket</a>
+            <a class="btn btn-ghost event-learn-more" href="{{ filters.eventPermalink(ev) }}" aria-label="Learn more about {{ filters.workshopName(ev.title) }}"><span aria-hidden="true">→</span></a>
           </div>
         </div>
 
@@ -150,6 +152,18 @@ showCustomEvents: false
     </span>
     <span class="corporate-banner-arrow" aria-hidden="true">→</span>
   </a>
+
+  {# One download with every upcoming event, built from the same set shown
+     above (see events-ics.11tydata.js). Only offered when there's something
+     to add. #}
+  {% if buckets | length > 0 %}
+  <p class="events-add-all">
+    <a class="btn btn-ghost events-add-all-btn" href="/events.ics" download>
+      <img src="/assets/calendar-heart.svg" alt="" width="20" height="20" loading="lazy">
+      Add all to calendar
+    </a>
+  </p>
+  {% endif %}
 
   </section>
 

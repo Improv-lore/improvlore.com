@@ -18,6 +18,7 @@ layout: base.njk
   image: filters.eventImage(ev),
   title: ev.title,
   hasWhen: ev.event_starts_at,
+  startsRaw: ev.event_starts_at,
   startsAt: filters.formatDateFull(ev.event_starts_at),
   timeRange: filters.formatTimeRange(ev.event_starts_at, ev.event_ends_at),
   venue: ev.venue,

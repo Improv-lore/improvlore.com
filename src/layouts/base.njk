@@ -116,9 +116,12 @@
     </nav>
   </header>
 
-  {# Announcement ticker. Homepage only by default; any page can opt in by
-     setting `showBanner: true` in its front matter, or opt out with false. #}
-  {% if showBanner or (showBanner is undefined and page.url == "/") %}
+  {# Announcement ticker. Shown on every page by default, except the homepage,
+     the events list, and per-event pages (those already foreground upcoming
+     events, so the ticker would be redundant there). Any page can still force
+     it on/off with `showBanner: true/false` in its front matter. #}
+  {% set bannerHidden = page.url == "/" or page.url == "/events/" or ("/event/" in page.url) %}
+  {% if showBanner or (showBanner is undefined and not bannerHidden) %}
     {% include "banner.njk" %}
   {% endif %}
 
@@ -130,7 +133,7 @@
     <div class="footer-inner">
       <div class="footer-cols">
         <nav class="footer-col" aria-label="Explore">
-          <h3 class="footer-col-title">Explore</h3>
+          <h2 class="footer-col-title">Explore</h2>
           <a href="/">Home</a>
           <a href="/about/">About</a>
           <a href="/events/">Upcoming</a>
@@ -140,24 +143,28 @@
           <a href="/festivals/">Festivals</a>
           <a href="/contact/">Contact</a>
           <a href="https://blog.improvlore.com" target="_blank" rel="noopener">Blog ↗</a>
-          <a href="https://underline.center" target="_blank" rel="noopener">Underline Center ↗</a>
-        </nav>
-
-        <nav class="footer-col" aria-label="Connect">
-          <h3 class="footer-col-title">Connect</h3>
-          <a href="{{ social.instagram }}" target="_blank" rel="noopener">Instagram</a>
-          <a href="{{ social.whatsapp }}" target="_blank" rel="noopener">WhatsApp Community</a>
-          <a href="{{ social.youtube }}" target="_blank" rel="noopener">YouTube</a>
-          <a href="/contact/">Contact Form</a>
         </nav>
 
         <nav class="footer-col" aria-label="Legal">
-          <h3 class="footer-col-title">Legal</h3>
+          <h2 class="footer-col-title">Legal</h2>
           <a href="/code-of-conduct/">Code of Conduct</a>
           <a href="/privacy/">Privacy</a>
           <a href="/terms/">Terms</a>
           <a href="/refunds/">Refunds</a>
         </nav>
+      </div>
+
+      {# Social links, icon-only, sit with the copyright row at the foot. #}
+      <div class="footer-socials" aria-label="Social links">
+        <a class="footer-social" href="{{ social.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+          <img class="footer-social-icon" src="/assets/icons/instagram.svg" alt="" width="20" height="20" loading="lazy">
+        </a>
+        <a class="footer-social" href="{{ social.whatsapp }}" target="_blank" rel="noopener" aria-label="WhatsApp Community">
+          <img class="footer-social-icon" src="/assets/icons/whatsapp.svg" alt="" width="20" height="20" loading="lazy">
+        </a>
+        <a class="footer-social" href="{{ social.youtube }}" target="_blank" rel="noopener" aria-label="YouTube">
+          <img class="footer-social-icon" src="/assets/icons/youtube.svg" alt="" width="20" height="20" loading="lazy">
+        </a>
       </div>
 
       <div class="footer-legal">

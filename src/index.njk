@@ -3,7 +3,6 @@ layout: base.njk
 title: Improvlore - Bangalore
 showCustomEvents: false
 ---
-{% from "badges.njk" import posterBadges %}
 {% from "cards.njk" import formatCard with context %}
 
 <div class="events-root">
@@ -22,21 +21,23 @@ showCustomEvents: false
   {% macro heroCard(ev, kicker) %}
     {% set evType = filters.eventType(ev.title, ev.tags) %}
     <div class="home-hero-next event-type-{{ evType }}">
-      {# Poster gets a positioned wrapper so the keyword pills overlay the
-         artwork (top-left) the same way the events/library cards do, instead of
-         taking up room in the card body. The SHOW/JAM/WORKSHOP type badge stays
-         in the body. #}
       <div class="home-hero-next-media">
         <img class="home-hero-next-poster" src="{{ filters.eventImage(ev) }}" alt="{{ filters.workshopName(ev.title) }} poster" loading="eager" fetchpriority="high" sizes="(min-width: 760px) 420px, 100vw">
-        {{ posterBadges(filters.eventBadges(ev.title), evType) }}
       </div>
       <div class="home-hero-next-body">
         <span class="home-hero-next-kicker">{{ kicker }}</span>
-        <span class="event-type-badge">{{ evType }}</span>
+        {# Type badge and keyword pills share a row here (homepage only), instead
+           of overlaying the poster like the /events and library cards. #}
+        {% set badges = filters.eventBadges(ev.title) %}
+        <span class="home-hero-next-tags">
+          <span class="event-type-badge">{{ evType }}</span>
+          {% for badge in badges %}<span class="pill pill-{{ evType }}">{{ badge }}</span>{% endfor %}
+        </span>
         <a class="home-hero-next-title home-hero-next-stretch" href="{{ filters.eventPermalink(ev) }}">{{ filters.workshopName(ev.title) }}</a>
         {% set sessions = filters.eventSessions(ev.title) %}
-        {# Calendar tile + time only. The full text date is dropped here since
-           the tile already carries the date; keeps the card compact. #}
+        {# Calendar tile carries the date; under the time we show the venue (as a
+           Maps link where we have one), matching the /events and detail cards.
+           No repeated plain-text date. #}
         <div class="event-when home-hero-when">
           <span class="event-when-cal">
             <span class="event-when-dow">{{ filters.formatDay(ev.event_starts_at) }}</span>
@@ -46,6 +47,14 @@ showCustomEvents: false
           <span class="event-when-detail">
             <span class="event-when-time">{{ filters.formatTime(ev.event_starts_at) }}</span>
             {% if sessions and sessions.dates and sessions.dates.length > 1 %}<span class="home-hero-next-tag">+{{ sessions.dates.length - 1 }} more dates</span>{% endif %}
+            {% if ev.venue %}
+              {% set mapUrl = filters.venueMapUrl(ev.venue) %}
+              {% if mapUrl %}
+                <a class="event-venue event-venue-link" href="{{ mapUrl }}" target="_blank" rel="noopener">{{ ev.venue }}</a>
+              {% else %}
+                <span class="event-venue">{{ ev.venue }}</span>
+              {% endif %}
+            {% endif %}
           </span>
         </div>
         {# Buy button on its own row directly under the date, so when the live

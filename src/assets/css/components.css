@@ -160,14 +160,19 @@ a.banner-item:hover {
 
 .event-card {
   position: relative;
-  border: var(--card-border);
+  border: 3px solid var(--ink);
   padding: 0;
-  border-radius: 0;
+  border-radius: 14px;
   margin-bottom: 1.6rem;
   background: var(--card-bg-vert);
   overflow: hidden;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-  box-shadow: var(--card-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 6px 6px 0 var(--accent, var(--ink));
+  /* A full-height flex column: the poster sits at the top and the body grows to
+     fill the rest, so cards in a row align and their CTAs line up at the foot. */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Whole-card tap target: the title link's ::before covers the card so a tap
@@ -194,9 +199,8 @@ a.banner-item:hover {
 }
 
 .event-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-hover);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 9px 0 var(--accent, var(--ink));
 }
 
 /* The .event-flip wrapper carries the bottom margin; the card fills it. */
@@ -206,6 +210,29 @@ a.banner-item:hover {
 
 .event-card-body {
   padding: 1.3rem 1.5rem 1.4rem;
+  /* Grow to fill the card height; lay the contents in a column so the ticket
+     buttons can be pushed to the bottom (see .event-card .event-buttons).
+     align-items:flex-start keeps children at their natural width — without it
+     the flex column stretches the type badge and pills to full card width. */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Block-level body children should still span the card width (align-items on
+   the body keeps the badge/pills narrow, so opt these back into full width). */
+.event-card-body > .event-title,
+.event-card-body > .event-excerpt,
+.event-card-body > .event-when,
+.event-card-body > .event-buttons {
+  align-self: stretch;
+}
+
+/* Pin the ticket/learn-more row to the foot of the card so CTAs align across a
+   row regardless of how long each description is. */
+.event-card .event-buttons {
+  margin-top: auto;
 }
 
 @media (max-width: 480px) {
@@ -225,7 +252,9 @@ a.banner-item:hover {
 @media (min-width: 720px) {
   .event-grid {
     grid-template-columns: repeat(2, 1fr);
-    align-items: start;
+    /* stretch (the default) so both cards in a row share the height of the
+       taller one — they no longer come out at different sizes when one has a
+       longer description or extra metadata. */
   }
 }
 
@@ -308,7 +337,7 @@ a.banner-item:hover {
 
 .warning {
   font-size: 0.88rem;
-  color: #999;
+  color: var(--text-muted);
   margin-top: 0.8rem;
 }
 
@@ -452,20 +481,6 @@ button.event-key-item[aria-pressed="true"] p {
    EVENT TYPE BADGE + STRIP
 ------------------------------------------------- */
 
-.event-type-show     { border-top: 4px solid var(--yellow); }
-.event-type-jam      { border-top: 4px solid var(--green); }
-.event-type-workshop { border-top: 4px solid var(--blue); }
-
-/* Format cards (library / festivals / home) carry the type class for the badge
-   colour, but their poster sits flush at the top, so the 4px accent bar above
-   would read as a stray line. The type badge in the body already conveys the
-   type, so drop the bar here. */
-.about-show-card.event-type-show,
-.about-show-card.event-type-jam,
-.about-show-card.event-type-workshop {
-  border-top: none;
-}
-
 .event-type-badge {
   display: inline-block;
   font-size: 0.7rem;
@@ -479,9 +494,11 @@ button.event-key-item[aria-pressed="true"] p {
   transform: rotate(-2deg);
 }
 
-.event-type-show     .event-type-badge { color: #c9a100; }
-.event-type-jam      .event-type-badge { color: #1faa58; }
-.event-type-workshop .event-type-badge { color: var(--blue); }
+/* Badge colour tracks the shared per-type accent so the SHOW/JAM/WORKSHOP pill
+   reads identically on the home hero, /events cards, and the detail page. */
+.event-type-show     .event-type-badge,
+.event-type-jam      .event-type-badge,
+.event-type-workshop .event-type-badge { color: var(--accent-ink, var(--ink)); }
 
 /* -------------------------------------------------
    EVENT IMAGE (POSTER)
@@ -493,6 +510,8 @@ button.event-key-item[aria-pressed="true"] p {
   background: #f0f0f0;
   overflow: hidden;
   line-height: 0;
+  /* Ink divider under the poster, matching the per-event detail card. */
+  border-bottom: 3px solid var(--ink);
 }
 
 .event-image img {
@@ -632,14 +651,15 @@ button.event-key-item[aria-pressed="true"] p {
   mask: var(--clock-icon) center / contain no-repeat;
 }
 
-/* Venue line: a quiet location note sitting just above the ticket button,
-   with a small pin glyph. Pulled out of the date block to keep it tight. */
+/* Venue line: a quiet location note with a small pin glyph. Sits under the time
+   inside the date tile's detail column. */
 .event-venue {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  margin: 0 0 0.9rem;
-  font-size: 0.85rem;
+  gap: 0.3rem;
+  width: fit-content;
+  margin: 0.3rem 0 0;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
   line-height: 1.3;
@@ -651,9 +671,9 @@ button.event-key-item[aria-pressed="true"] p {
   height: 0.85rem;
   flex-shrink: 0;
   background: currentColor;
+  /* --pin-icon defined in base.css :root */
   -webkit-mask: var(--pin-icon) center / contain no-repeat;
   mask: var(--pin-icon) center / contain no-repeat;
-  --pin-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
 }
 
 /* When the venue is one we can map, it becomes a link to Google Maps. Quiet by
@@ -669,16 +689,22 @@ a.event-venue-link:hover {
   text-underline-offset: 3px;
 }
 
-/* Shared clock glyph for the time chip. */
-.event-when-detail {
-  --clock-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
-}
 
 /* Accent tracks the event type, matching the card's top border. Set on the
    whole block so both the calendar tile and the time chip inherit it. */
 .event-type-show     .event-when { --when-accent: var(--yellow); --when-accent-deep: #c9a100;    --when-tint: #fbf6e0; }
 .event-type-jam      .event-when { --when-accent: var(--green);  --when-accent-deep: #1faa58;    --when-tint: #e8f8ee; }
 .event-type-workshop .event-when { --when-accent: var(--blue);   --when-accent-deep: var(--blue); --when-tint: #eaf0fe; }
+
+/* Shared per-type accent tokens for the whole event-card family (home hero,
+   /events list, and the per-event detail card), so the ink border + hard
+   offset shadow + tinted panels read identically across all three surfaces.
+   --accent      the type colour (border shadow, chips)
+   --accent-soft a near-white tint for panel fills
+   --accent-ink  a darker, legible variant for small text/labels */
+.event-type-show     { --accent: var(--yellow); --accent-soft: color-mix(in srgb, var(--yellow) 16%, #fff); --accent-ink: #9a7c00; }
+.event-type-jam      { --accent: var(--green);  --accent-soft: color-mix(in srgb, var(--green) 14%, #fff);  --accent-ink: #1faa58; }
+.event-type-workshop { --accent: var(--blue);   --accent-soft: color-mix(in srgb, var(--blue) 12%, #fff);   --accent-ink: var(--blue); }
 
 .event-date {
   display: inline-flex;
@@ -786,7 +812,9 @@ a.event-venue-link:hover {
 
 .btn-ghost {
   border: none;
-  color: #999;
+  /* AA-legible quiet grey (was #999, ~2.8:1 on cream — too faint for an
+     interactive label). text-soft clears 4.5:1 while staying secondary. */
+  color: var(--text-soft);
   background: transparent;
   font-weight: 500;
   text-decoration: underline;
@@ -796,7 +824,29 @@ a.event-venue-link:hover {
 }
 
 .btn-ghost:hover {
-  color: #444;
+  color: var(--ink);
+}
+
+/* Arrow-only "learn more" on the /events cards: a quiet text arrow next to the
+   primary Buy Ticket button, not a competing chip. Nudges right on hover. */
+.event-learn-more {
+  display: inline-grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  text-decoration: none;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.event-learn-more:hover {
+  color: var(--ink);
+  transform: translateX(3px);
 }
 
 /* Larger primary CTA, e.g. the "browse the full library" button on About. */
@@ -819,6 +869,8 @@ a.event-venue-link:hover {
   perspective: 1600px;
   border-radius: 0;
   transition: box-shadow 0.3s ease;
+  /* Fill the (stretched) grid cell so two cards in a row match height. */
+  height: 100%;
 }
 
 /* Skip rendering off-screen cards, but only where the reserved placeholder
@@ -829,32 +881,17 @@ a.event-venue-link:hover {
   .event-flip {
     content-visibility: auto;
     contain-intrinsic-size: auto 500px;
+    /* content-visibility:auto applies paint containment while a card is off
+       screen, which clips the card's offset hard shadow (6px, 9px on hover).
+       Reserve room on the right/bottom so the shadow always paints in full.
+       Mobile (<640px) has no content-visibility, so it keeps its flush layout. */
+    padding: 0 12px 12px 0;
   }
 }
 
-.event-flip.event-type-show {
-  box-shadow: 0 0 0 4px rgba(245, 196, 0, 0.18), 0 8px 28px rgba(245, 196, 0, 0.22);
-}
-
-.event-flip.event-type-jam {
-  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.18), 0 8px 28px rgba(46, 204, 113, 0.22);
-}
-
-.event-flip.event-type-workshop {
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18), 0 8px 28px rgba(37, 99, 235, 0.22);
-}
-
-.event-flip.event-type-show:hover {
-  box-shadow: 0 0 0 4px rgba(245, 196, 0, 0.28), 0 14px 38px rgba(245, 196, 0, 0.32);
-}
-
-.event-flip.event-type-jam:hover {
-  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.28), 0 14px 38px rgba(46, 204, 113, 0.32);
-}
-
-.event-flip.event-type-workshop:hover {
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.28), 0 14px 38px rgba(37, 99, 235, 0.32);
-}
+/* The accent now lives on the .event-card itself (ink border + hard offset
+   shadow tinted to --accent). The .event-flip wrapper no longer carries its own
+   glow ring, which used to double up with the card's shadow. */
 
 /* -------------------------------------------------
    PROMO / BOOK CARDS
@@ -957,6 +994,30 @@ a.event-venue-link:hover {
 .events-updates:hover {
   border-color: #25d366;
   box-shadow: 0 4px 12px rgba(37, 211, 102, 0.18);
+}
+
+/* "Add all to calendar": a quiet, centred download sitting under the WhatsApp
+   banner. The heart-calendar glyph ties it to the per-event add buttons. */
+.events-add-all {
+  margin: 0.9rem 0 0;
+  text-align: center;
+}
+
+.events-add-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-soft);
+  text-decoration: none;
+}
+
+.events-add-all-btn img {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.events-add-all-btn:hover {
+  color: var(--ink);
 }
 
 .corporate-banner-text {
@@ -1317,6 +1378,24 @@ a.event-venue-link:hover {
   color: var(--text-muted);
 }
 
+/* Badge row: the question-mark glyph sits beside the "SAY HELLO" badge as a
+   small graphic cue that this card is where you ask us things. */
+.contact-badge-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-q-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contact-badge-row .event-type-badge {
+  margin-bottom: 0;
+}
+
 .contact-quick {
   display: flex;
   flex-wrap: wrap;
@@ -1367,9 +1446,6 @@ a.event-venue-link:hover {
   padding: 0.55rem 0.7rem;
   box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.12);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-.contact-field textarea {
   resize: vertical;
   min-height: 7rem;
 }
@@ -1438,7 +1514,7 @@ a.event-venue-link:hover {
 
 .footer-cols {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(2, auto);
   justify-content: center;
   gap: 1.4rem 3.5rem;
   text-align: left;
@@ -1462,6 +1538,36 @@ a.event-venue-link:hover {
 .footer-col a {
   font-weight: 600;
   font-size: 0.9rem;
+}
+
+/* Icon-only social links: a centred row sitting above the copyright line. */
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--surface-warm);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.footer-social:hover {
+  transform: translateY(-2px);
+  background: #fff;
+}
+
+.footer-social-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
 }
 
 .footer a {
@@ -1515,7 +1621,9 @@ a.event-venue-link:hover {
 
 .footer-legal {
   font-size: 0.78rem;
-  color: #b0a09a;
+  /* Was #b0a09a (~2.4:1 on the light footer) — too faint for legal copy.
+     text-soft clears AA while staying visually secondary. */
+  color: var(--text-soft);
   line-height: 1.6;
 }
 

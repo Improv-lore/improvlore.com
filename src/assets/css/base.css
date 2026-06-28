@@ -43,12 +43,23 @@
   /* Accent pill (year markers, ladder steps, etc.) */
   --pill-yellow: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-deep) 100%);
 
+  /* Inline icon glyphs, used as mask images so they recolor with currentColor.
+     Single source so the venue pin / time clock never drift between the cards
+     and the per-event page. Apply with:  background: currentColor;
+     mask: var(--pin-icon) center / contain no-repeat; (+ -webkit-mask). */
+  --pin-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+  --clock-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+
   --font-display: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
   --font-body: 'Archivo', system-ui, sans-serif;
 }
 
 body {
   font-family: var(--font-body);
+  /* Reading text sits at 500 rather than 400 for a more substantial feel; the
+     Archivo 500 weight is loaded. Headings and labels set their own heavier
+     weights, so this only affects body/paragraph copy. */
+  font-weight: 500;
   margin: 0;
   padding: 0;
   background: var(--cream);
@@ -63,15 +74,15 @@ html { scroll-behavior: smooth; }
    past the layout breakpoints. Everything (body copy, buttons, headings, the
    banner) scales with it, since the site is built in rem/em. Phones keep 16px. */
 @media (min-width: 900px) {
-  html { font-size: 17px; }
+  html { font-size: 19px; }
 }
 
 @media (min-width: 1200px) {
-  html { font-size: 18px; }
+  html { font-size: 20px; }
 }
 
 @media (min-width: 1600px) {
-  html { font-size: 19px; }
+  html { font-size: 21px; }
 }
 
 /* Headings carry the display face for personality; body copy stays Archivo
@@ -169,8 +180,15 @@ html { scroll-behavior: smooth; }
   gap: 1rem;
   flex-wrap: wrap;
   padding: 1.2rem 1.5rem;
-  position: relative;
+  /* Sticky so the nav stays reachable as you scroll. Sticky still establishes
+     the containing block for the absolutely-positioned mobile dropdown, so the
+     menu tracks the header. z-index (30) is set in motifs.css. */
+  position: sticky;
+  top: 0;
+  /* Frosted translucent bar over scrolling content. */
   background: linear-gradient(to bottom, rgba(255, 251, 245, 0.95), rgba(255, 251, 245, 0.9));
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
   border-bottom: 2px solid rgba(26, 26, 26, 0.12);
   box-shadow: 0 2px 8px rgba(26, 26, 26, 0.08);
 }

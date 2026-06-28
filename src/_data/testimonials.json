@@ -15,14 +15,23 @@
     {
       "name": "Saloni Singh",
       "subtitle": "Regular performer since 2025",
+      "cast":"yes",
       "social": "@salonisingh489",
       "story": "I gained a lot of confidence in being on stage and learnt a lot about the craft of improv from Bala and Arjun which was quite fun. A life changing experience for me. Would highly recommend 10/10"
     },
     {
       "name": "Rohit Iyengar",
       "subtitle": "Regular performer since 2024",
+      "cast":"yes",
       "social": "@rohit.explores",
       "story": "I knew only Arjun, because we had performed together in Dubai and now I have the best set of co-performers on stage and friends off-stage. They have brought so much joy and fun to my life in Bangalore. I'd highly recommend giving improvlore a try!"
+    },
+    {
+      "name": "Ishan",
+      "subtitle": "Regular performer since 2025",
+      "cast":"yes",
+      "social": "@ishan1310",
+      "story": "Sometimes I can’t believe I get to play and share the stage with some of the most talented and kind performers in Bangalore. Improv Lore has introduced me to an incredible, warm and welcoming community, and if you’re curious about improv, or just want some magic and whimsy in your life, it’s a wonderful place to start!"
     }
   ]
 }

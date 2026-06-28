@@ -25,23 +25,44 @@ pageStyles:
     <h1 class="section-heading" id="section-testimonials">In Their Words</h1>
     <p class="section-sub">The people who jam, perform, and learn with us, on what it's been like.</p>
 
-    <ul class="tw-grid" aria-label="Testimonials">
-      {% for t in testimonials.items %}
-        <li class="tw-card">
-          <blockquote class="tw-quote">
-            <p>{{ t.story }}</p>
-          </blockquote>
-          <div class="tw-attr">
-            <p class="tw-name">{{ t.name }}</p>
-            {% if t.subtitle %}<p class="tw-sub">{{ t.subtitle }}</p>{% endif %}
-            {% if t.social %}
-              {% set handle = t.social | replace("@", "") %}
-              <a class="tw-social" href="https://instagram.com/{{ handle }}" target="_blank" rel="noopener">@{{ handle }}</a>
-            {% endif %}
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+    {# Two groups, shown as separate sub-walls. The non-cast (audience / student)
+       voices lead: they read as the more independent, trustworthy word to
+       someone deciding whether to come. A divider then introduces the cast's
+       own words as the warmer insider view, tinted differently. Splitting is
+       done here so the JSON stays a simple append-only list. #}
+    {% set publicVoices = testimonials.items | rejectattr("cast", "equalto", "yes") | list %}
+    {% set castVoices = testimonials.items | selectattr("cast", "equalto", "yes") | list %}
+
+    {% macro twCard(t, isCast) %}
+      <li class="tw-card{% if isCast %} tw-card--cast{% endif %}">
+        <blockquote class="tw-quote">
+          <p>{{ t.story }}</p>
+        </blockquote>
+        <div class="tw-attr">
+          <p class="tw-name">{{ t.name }}</p>
+          {% if t.subtitle %}<p class="tw-sub">{{ t.subtitle }}</p>{% endif %}
+          {% if t.social %}
+            {% set handle = t.social | replace("@", "") %}
+            <a class="tw-social" href="https://instagram.com/{{ handle }}" target="_blank" rel="noopener">@{{ handle }}</a>
+          {% endif %}
+        </div>
+      </li>
+    {% endmacro %}
+
+    {% if publicVoices | length %}
+      <ul class="tw-grid" aria-label="Testimonials">
+        {% for t in publicVoices %}{{ twCard(t, false) }}{% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if castVoices | length %}
+      <div class="tw-divider" role="separator">
+        <span class="tw-divider-label">From our cast</span>
+      </div>
+      <ul class="tw-grid tw-grid--cast" aria-label="Testimonials from our cast">
+        {% for t in castVoices %}{{ twCard(t, true) }}{% endfor %}
+      </ul>
+    {% endif %}
 
     <div class="tw-cta">
       <p class="tw-cta-text">Done a show, jam, or workshop with us? We'd love to hear how it went.</p>

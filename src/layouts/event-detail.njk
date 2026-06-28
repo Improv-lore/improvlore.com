@@ -26,14 +26,27 @@
 #}
 <div class="events-root event-detail-root">
 
+  {# Back link sits outside the card, between the nav and the article. Returns
+     you to wherever you came from (history.back) rather than always /events/,
+     since evergreen format pages may not be on the upcoming-only events list.
+     Falls back to /events/ for direct landings, new tabs, or external
+     referrers, and stays a real link so it works without JS and on right-click
+     / open-in-new-tab. #}
+  <a class="event-detail-back" href="/events/" data-back-link aria-label="Back to events">←</a>
+
   <article class="event-detail event-type-{{ d.type }}">
 
-    {# Back link returns you to wherever you came from (history.back) rather
-       than always /events/, since evergreen format pages may not be on the
-       upcoming-only events list. Falls back to /events/ for direct landings,
-       new tabs, or external referrers, and stays a real link so it works
-       without JS and on right-click / open-in-new-tab. #}
-    <a class="event-detail-back" href="/events/" data-back-link>← Back</a>
+    {# Header leads with the type badge and title so they read before the
+       artwork. #}
+    <div class="event-detail-header">
+      <span class="event-type-badge">{{ d.type }}</span>
+      <h1 class="event-detail-title">{{ d.title }}</h1>
+      {% if d.badges and d.badges.length %}
+        <span class="library-pills">
+          {% for badge in d.badges %}<span class="pill pill-{{ d.type }}">{{ badge }}</span>{% endfor %}
+        </span>
+      {% endif %}
+    </div>
 
     {% if d.image %}
       <div class="event-detail-image">
@@ -42,24 +55,47 @@
     {% endif %}
 
     <div class="event-detail-body">
-      <span class="event-type-badge">{{ d.type }}</span>
-      <h1 class="event-detail-title">{{ d.title }}</h1>
-
-      {% if d.badges and d.badges.length %}
-        <span class="library-pills">
-          {% for badge in d.badges %}<span class="pill pill-{{ d.type }}">{{ badge }}</span>{% endfor %}
-        </span>
-      {% endif %}
-
+      {# Booking facts: date, venue, price, schedule, and the Buy CTA. On desktop
+         this sits beside the poster (the "at a glance" panel); on mobile it
+         stacks under the poster as before. #}
+      <div class="event-detail-facts">
       {% if d.hasWhen %}
-        <div class="event-detail-meta">
-          <div class="event-detail-when">
-            <strong>{{ d.startsAt }}</strong>
-            {% if d.timeRange %}<span>{{ d.timeRange }}</span>{% endif %}
-          </div>
-          {% if d.venue %}<div class="event-detail-where">{{ d.venue }}</div>{% endif %}
-          {% if d.price %}<div class="event-detail-price">{{ d.price }}</div>{% endif %}
+        {# Reuse the calendar-tile date block from the /events cards. The tile
+           already carries the date, so we don't repeat it as plain text; the
+           detail column shows the time, then the venue underneath in a smaller
+           font (and as the Maps link). #}
+        <div class="event-when event-detail-when">
+          <span class="event-when-cal" aria-hidden="true">
+            <span class="event-when-dow">{{ filters.formatDay(d.startsRaw) }}</span>
+            <span class="event-when-day">{{ filters.formatDayNum(d.startsRaw) }}</span>
+            <span class="event-when-mon">{{ filters.formatMonth(d.startsRaw) }}</span>
+          </span>
+          <span class="event-when-detail">
+            {% if d.timeRange %}<span class="event-when-time">{{ d.timeRange }}</span>{% endif %}
+            {% if d.venue %}
+              {# The venue doubles as the Maps link: exact pin for our home
+                 venue, name-search fallback elsewhere. See filters.venueMapUrl. #}
+              {% set mapUrl = filters.venueMapUrl(d.venue) or "https://www.google.com/maps/search/" ~ (d.venue | urlencode) %}
+              <a class="event-detail-where-link" href="{{ mapUrl }}" target="_blank" rel="noopener">{{ d.venue }}</a>
+            {% endif %}
+          </span>
+          {# Add-to-calendar lives next to the date it adds, as a heart-calendar
+             icon button. Only for scheduled events (the .ics needs a date). #}
+          {% if not d.notify %}
+            <a class="event-detail-cal" href="{{ page.url }}event.ics" download aria-label="Add to calendar" title="Add to calendar">
+              <img src="/assets/calendar-heart.svg" alt="" width="24" height="24" loading="lazy">
+            </a>
+          {% endif %}
         </div>
+
+        {% if d.price %}
+          <div class="event-detail-meta">
+            <div class="event-detail-meta-item event-detail-price">
+              <span class="event-detail-meta-label">Price</span>
+              <strong>{{ d.price }}</strong>
+            </div>
+          </div>
+        {% endif %}
       {% elif d.emptyMeta %}
         <div class="event-detail-meta event-detail-meta-empty">
           <strong>No dates scheduled right now</strong>
@@ -82,42 +118,42 @@
         </div>
       {% endif %}
 
-      <div class="event-detail-content">
-        {% for para in d.bodyParas %}
-          {% if para | trim %}<p>{{ para | trim }}</p>{% endif %}
-        {% endfor %}
-      </div>
-
-      <div class="event-detail-expect">
-        <h2>What to expect</h2>
-        <p>{{ d.expect }}</p>
-      </div>
-
-      <div class="event-buttons">
+      {# Primary CTA sits high — right under the date/venue — so the ticket
+         button is reachable without scrolling past the description. The utility
+         links (add to calendar, original listing) live in a footer below. #}
+      <div class="event-buttons event-detail-actions">
         {% if d.notify %}
           <a class="btn btn-primary" href="{{ filters.contactUrl(d.title, 'on demand') }}">Get in touch</a>
           <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">DM on Instagram</a>
-        {% else %}
-          {% if d.ticketUrl %}<a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>{% endif %}
-          {% if d.hasWhen %}
-            <a class="btn btn-ghost" href="{{ page.url }}event.ics" download>Add to calendar</a>
-          {% endif %}
-          {% if d.venue %}
-            {# Prefer the exact pin for our home venue; fall back to a name
-               search for one-offs elsewhere. See filters.venueMapUrl. #}
-            {% set mapUrl = filters.venueMapUrl(d.venue) or "https://www.google.com/maps/search/" ~ (d.venue | urlencode) %}
-            <a class="btn btn-ghost" href="{{ mapUrl }}" target="_blank" rel="noopener">View on Maps</a>
-          {% endif %}
+        {% elif d.ticketUrl %}
+          <a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
         {% endif %}
       </div>
+      </div>{# /event-detail-facts #}
 
-      {% if d.learnMore %}
-        <p class="event-detail-source">
-          <a href="{{ d.learnMore }}" target="_blank" rel="noopener">Original listing ↗</a>
-        </p>
-      {% endif %}
+      {# Narrative: the long-form reading content. Full card width on desktop,
+         below the poster + facts row. #}
+      <div class="event-detail-read">
+        <div class="event-detail-content">
+          {% for para in d.bodyParas %}
+            {% if para | trim %}<p>{{ para | trim }}</p>{% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="event-detail-expect">
+          <h2>What to expect</h2>
+          <p>{{ d.expect }}</p>
+        </div>
+      </div>
     </div>
 
   </article>
+
+  {# Original listing sits outside the card, a quiet footnote under it. #}
+  {% if d.learnMore %}
+    <p class="event-detail-source">
+      <a href="{{ d.learnMore }}" target="_blank" rel="noopener">Original listing ↗</a>
+    </p>
+  {% endif %}
 
 </div>

@@ -17,11 +17,26 @@
   margin: 1.6rem 0 0;
   padding: 0;
   display: grid;
-  gap: 1.4rem;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.6rem;
+  /* Wider cards: a larger minimum track means fewer, roomier columns (about two
+     on a typical desktop, three on very wide screens) instead of a row of thin
+     ones. auto-fit collapses empty tracks so a short wall still fills the row. */
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+}
+
+/* Cap the wall width on large screens so the cards stay a comfortable reading
+   measure rather than stretching edge to edge (the events-root shell goes
+   near full-bleed on desktop). */
+@media (min-width: 1100px) {
+  .tw-grid {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .tw-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -29,6 +44,54 @@
   background: var(--tw-paper);
   border: var(--tw-border);
   box-shadow: var(--tw-shadow);
+}
+
+/* Cast testimonials sit in their own sub-wall under the "From our cast"
+   divider, and read as the warmer "insider" voice. They're tinted blue to set
+   them apart from the (independent, more credible to a newcomer) public cards,
+   which keep the default warm-paper + yellow look and lead the page. */
+.tw-card--cast {
+  --tw-paper: color-mix(in srgb, var(--blue) 6%, #fff);
+  --tw-shadow: 5px 5px 0 var(--blue);
+  border-color: var(--blue);
+}
+
+.tw-card--cast .tw-quote::before {
+  color: var(--blue);
+}
+
+/* Divider introducing the cast sub-wall: a hairline rule with a centred label
+   sitting over it. */
+.tw-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.6rem 0 0.4rem;
+}
+
+.tw-divider::before,
+.tw-divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--ink);
+}
+
+.tw-divider-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+@media (min-width: 1100px) {
+  .tw-divider {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .tw-quote {
