@@ -16,13 +16,24 @@ eleventyExcludeFromCollections: true
   </author>
 {%- for ev in sorted %}
   {%- set evUrl = site.absUrl(filters.eventPermalink(ev)) %}
+  {%- set evDate = filters.formatDateFull(ev.event_starts_at) %}
+  {%- set evTime = filters.formatTimeRange(ev.event_starts_at, ev.event_ends_at) %}
+  {%- set evWhen = evDate + (", " + evTime if evTime else "") %}
+  {#- Mirror the event page body: the full description (same source the page
+      uses — full_content, falling back to excerpt), split into paragraphs, led
+      by the date/venue and followed by the ticket + more-info links. Atom
+      content type="html" wants the markup escaped; Nunjucks auto-escapes the
+      {{ }} interpolations, so the assembled string renders as entities. -#}
+  {%- set bodyText = ev.full_content or ev.excerpt or "" %}
+  {%- set body %}<p><strong>{{ evWhen }}</strong>{% if ev.venue %}<br/>{{ ev.venue }}{% endif %}</p>{% for para in bodyText.split("\n") %}{% if para | trim %}<p>{{ para | trim }}</p>{% endif %}{% endfor %}<p>{% if ev.url %}<a href="{{ ev.url }}">Buy tickets</a> &middot; {% endif %}<a href="{{ evUrl }}">More info</a></p>{% endset %}
   <entry>
     <title>{{ ev.title }}</title>
     <link href="{{ evUrl }}"/>
     <id>{{ evUrl }}</id>
     <updated>{{ ev.event_starts_at | dateToRfc3339 }}</updated>
     <published>{{ ev.event_starts_at | dateToRfc3339 }}</published>
-    <summary>{{ filters.shortText(ev.excerpt or ev.full_content, 280) }}</summary>
+    <summary>{{ evWhen }} — {{ filters.shortText(ev.excerpt or ev.full_content, 280) }}</summary>
+    <content type="html">{{ body }}</content>
   </entry>
 {%- endfor %}
 </feed>

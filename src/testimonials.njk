@@ -17,7 +17,11 @@ pageStyles:
 
   Each item: name, subtitle (the credit / relation-to-improvlore line),
   social (a handle, with or without a leading @), story (the quote). A social
-  handle links to Instagram; leave it "" to omit.
+  handle links to Instagram; leave it "" to omit. Set cast: "yes" to group a
+  testimonial under "From our cast".
+
+  `story` may be a single string, or a list of strings for multiple paragraphs:
+    "story": ["First paragraph.", "Second paragraph."]
 #}
 
 <div class="events-root">
@@ -36,7 +40,12 @@ pageStyles:
     {% macro twCard(t, isCast) %}
       <li class="tw-card{% if isCast %} tw-card--cast{% endif %}">
         <blockquote class="tw-quote">
-          <p>{{ t.story }}</p>
+          {# `story` may be a single string or a list of paragraph strings. Treat
+             a string as a one-item list so both render as one <p> per paragraph. #}
+          {% set paras = t.story if (t.story is iterable and t.story is not string) else [t.story] %}
+          {% for para in paras %}
+            {% if para | trim %}<p>{{ para | trim }}</p>{% endif %}
+          {% endfor %}
         </blockquote>
         <div class="tw-attr">
           <p class="tw-name">{{ t.name }}</p>

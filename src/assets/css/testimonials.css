@@ -122,6 +122,11 @@
   color: var(--ink);
 }
 
+/* Space between paragraphs when a story has more than one. */
+.tw-quote p + p {
+  margin-top: 0.7rem;
+}
+
 .tw-attr {
   border-top: 2px solid var(--ink);
   padding-top: 0.8rem;

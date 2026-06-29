@@ -56,7 +56,7 @@ const formats = [
     // (matchFormat returns the first hit), so match on the distinctive title.
     feedMatch: "make an improv song",
     image: "/assets/posters/make-an-improv-song.jpg",
-    badges: ["marathon exclusive"],
+    badges: ["No musical experience needed", "off-stage"],
     blurb:
       "Ease into singing, rhythm, and making things up with a bit of melody. Even if you think you can't sing, especially then.",
     expect:
