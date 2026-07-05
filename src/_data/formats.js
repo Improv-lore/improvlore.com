@@ -41,7 +41,7 @@ const formats = [
     type: "jam",
     feedMatch: "make friends with the stage",
     image: "/assets/posters/make-friends-with-the-stage.jpg",
-    badges: ["On Weekend","Beginner friendly"],
+    badges: ["Beginner friendly"],
     blurb:
       "The next step, on-stage. Short scenes in a supportive room, designed to help you take the leap into performing.",
     expect:

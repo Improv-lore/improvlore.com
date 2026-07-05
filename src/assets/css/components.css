@@ -1337,6 +1337,8 @@ a.event-venue-link:hover {
 
 .social-link--whatsapp  { --social-accent: #25d366; --social-glow: rgba(37, 211, 102, 0.22); }
 .social-link--instagram { --social-accent: #e4405f; --social-glow: rgba(228, 64, 95, 0.22); }
+.social-link--faq       { --social-accent: #2563eb; --social-glow: rgba(37, 99, 235, 0.22); }
+.social-link--events    { --social-accent: #f5c400; --social-glow: rgba(245, 196, 0, 0.28); }
 
 .social-link-icon {
   flex-shrink: 0;
@@ -1380,6 +1382,37 @@ a.event-venue-link:hover {
 
 /* Badge row: the question-mark glyph sits beside the "SAY HELLO" badge as a
    small graphic cue that this card is where you ask us things. */
+/* Contact page: form card + quick-links rail. One column on mobile (rail stacks
+   below the form); on desktop the form takes a fixed readable width and the rail
+   fills the space beside it instead of the card sprawling across the viewport. */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+  align-items: start;
+}
+
+.contact-layout .book-card {
+  margin-bottom: 0;
+}
+
+/* The rail's own list margin is redundant inside the layout grid gap. */
+.contact-links {
+  margin: 0;
+}
+
+@media (min-width: 860px) {
+  .contact-layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  /* Rail becomes a single stacked column beside the form. */
+  .contact-links {
+    grid-template-columns: 1fr;
+  }
+}
+
 .contact-badge-row {
   display: inline-flex;
   align-items: center;
@@ -1394,6 +1427,14 @@ a.event-venue-link:hover {
 
 .contact-badge-row .event-type-badge {
   margin-bottom: 0;
+}
+
+/* The contact card sits inside .event-card-body, whose align-items:flex-start
+   shrinks children to their natural width. Opt the quick-links row and the form
+   back into the full card width so the fields aren't a narrow sliver. */
+.contact-quick,
+.contact-form {
+  align-self: stretch;
 }
 
 .contact-quick {
@@ -1446,6 +1487,9 @@ a.event-venue-link:hover {
   padding: 0.55rem 0.7rem;
   box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.12);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.contact-field textarea {
   resize: vertical;
   min-height: 7rem;
 }
