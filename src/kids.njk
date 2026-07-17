@@ -1,0 +1,247 @@
+---
+layout: base.njk
+title: Kids Improv Workshop (7-16) - Improvlore
+permalink: /kids/
+pageDescription: We're building a new improv workshop for children aged 7-16. Tell us about your child and help us shape it, then subscribe for updates.
+showBanner: false
+---
+
+{#
+  Kids-workshop interest page. Same pattern as contact.njk: the form posts
+  straight to a Google Form's formResponse endpoint via our /submit Pages
+  Function (Turnstile-verified), targeting a hidden iframe so the page
+  doesn't navigate away. We show our own thank-you instead.
+
+  Entry IDs are mapped from the form's pre-filled link. Field order in the
+  Google Form: Parent name, WhatsApp number, Email, Child's name, Child's
+  age, What would help your child / workshop ideas, Subscribe for updates.
+#}
+{% set formAction = "https://docs.google.com/forms/d/e/1FAIpQLSfWgXGZe0Jq6s_8xtX0lPF-L1tbToff21c9kd8CNe03pBMUUw/formResponse" %}
+{% set entryParentName = "entry.1897942700" %}
+{% set entryWhatsapp = "entry.548224812" %}
+{% set entryEmail = "entry.1576746095" %}
+{% set entryChildName = "entry.1697223085" %}
+{% set entryChildAge = "entry.1324461797" %}
+{% set entryIdeas = "entry.1740896385" %}
+{% set entrySubscribe = "entry.1065678303" %}
+
+<div class="events-root">
+
+  <section class="page-section" aria-labelledby="section-kids">
+    <span class="kids-hero-badge">For parents</span>
+    <h1 class="section-heading" id="section-kids">A new improv workshop, built with your child in mind</h1>
+    <p class="section-sub">We're designing a brand-new workshop for kids aged 7&ndash;16, and we want it shaped by the families who'll actually show up. Tell us a bit about your child below, and we'll keep you posted as the workshop comes together.</p>
+
+    <div class="contact-layout">
+
+      <div class="event-card promo-card book-card">
+        <div class="event-card-body">
+          <span class="contact-badge-row">
+            <span class="event-type-badge">KIDS WORKSHOP</span>
+          </span>
+
+          <form class="contact-form" action="/submit" method="post">
+            <input type="hidden" name="form" value="kids">
+
+            <div class="contact-field">
+              <label for="kf-parent-name">Your name (parent/guardian)</label>
+              <input id="kf-parent-name" name="{{ entryParentName }}" type="text" autocomplete="name" required>
+            </div>
+
+            <div class="contact-field">
+              <label for="kf-whatsapp">WhatsApp number</label>
+              <input id="kf-whatsapp" name="{{ entryWhatsapp }}" type="tel" autocomplete="tel" inputmode="tel" placeholder="+91..." required>
+            </div>
+
+            <div class="contact-field">
+              <label for="kf-email">Email</label>
+              <input id="kf-email" name="{{ entryEmail }}" type="email" autocomplete="email" required>
+            </div>
+
+            <div class="contact-field">
+              <label for="kf-child-name">Child's name</label>
+              <input id="kf-child-name" name="{{ entryChildName }}" type="text" required>
+            </div>
+
+            <div class="contact-field">
+              <label for="kf-child-age">Child's age</label>
+              <input id="kf-child-age" name="{{ entryChildAge }}" type="number" inputmode="numeric" required>
+            </div>
+
+            <div class="contact-field">
+              <label for="kf-ideas">What would you love a workshop to cover?</label>
+              <textarea id="kf-ideas" name="{{ entryIdeas }}" rows="4" placeholder="Their interests, what you'd want them to get out of it, days/times that work, anything else"></textarea>
+            </div>
+
+            <div class="contact-field contact-field-checkbox">
+              <label for="kf-subscribe">
+                <input id="kf-subscribe" name="{{ entrySubscribe }}" type="checkbox" value="Yes" checked>
+                Subscribe me for updates on the kids workshop
+              </label>
+            </div>
+
+            <div class="cf-turnstile contact-turnstile"
+                 data-sitekey="{{ site.turnstileSiteKey }}"
+                 data-action="kids"
+                 data-theme="light"></div>
+
+            <div class="event-buttons">
+              <button class="btn btn-primary" type="submit">Send &amp; subscribe</button>
+            </div>
+
+            <p class="contact-error" role="alert" aria-live="assertive" hidden></p>
+            <p class="contact-status" role="status" aria-live="polite" hidden>Thanks! We've got your details and will be in touch as the workshop takes shape.</p>
+          </form>
+        </div>
+      </div>
+
+      <ul class="social-row contact-links" aria-label="Other ways to reach us">
+        <li>
+          <a class="social-link social-link--whatsapp" href="{{ social.whatsappArjun }}" target="_blank" rel="noopener">
+            <span class="social-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </span>
+            <span class="social-link-text">
+              <strong>Chat on WhatsApp</strong>
+              <span>Ask us anything about the workshop</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="social-link social-link--instagram" href="{{ social.instagram }}" target="_blank" rel="noopener">
+            <span class="social-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>
+            </span>
+            <span class="social-link-text">
+              <strong>Instagram</strong>
+              <span>See what our workshops look like</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="social-link social-link--faq" href="/faq/">
+            <span class="social-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </span>
+            <span class="social-link-text">
+              <strong>Read the FAQ</strong>
+              <span>New to improv? Start here</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+  // Mirrors contact.njk's submit flow: POST to /submit (Turnstile-verified),
+  // which forwards entry.* fields to the Google Form set up for this "form"
+  // key. Falls back to a prefilled WhatsApp message if /submit can't be
+  // reached, so an enquiry is never silently lost.
+  (function () {
+    const form = document.querySelector(".contact-form");
+    if (!form) return;
+    const status = form.querySelector(".contact-status");
+    const errorBox = form.querySelector(".contact-error");
+    const button = form.querySelector('button[type="submit"]');
+    const action = form.getAttribute("action");
+    const FALLBACK_WHATSAPP = "{{ social.whatsappArjun | safe }}".split("?")[0];
+
+    const resetTurnstile = () => {
+      if (window.turnstile) {
+        try { window.turnstile.reset(); } catch (e) {}
+      }
+    };
+
+    const showError = (msg) => {
+      if (!errorBox) return;
+      errorBox.textContent = msg;
+      errorBox.hidden = false;
+    };
+    const clearError = () => {
+      if (errorBox) errorBox.hidden = true;
+    };
+
+    const readForm = () => ({
+      parentName: (document.getElementById("kf-parent-name") || {}).value || "",
+      whatsapp:   (document.getElementById("kf-whatsapp")    || {}).value || "",
+      email:      (document.getElementById("kf-email")       || {}).value || "",
+      childName:  (document.getElementById("kf-child-name")  || {}).value || "",
+      childAge:   (document.getElementById("kf-child-age")   || {}).value || "",
+      ideas:      (document.getElementById("kf-ideas")       || {}).value || "",
+    });
+
+    const whatsappFallback = (data) => {
+      const lines = [
+        "Hi Arjun, the Improvlore website couldn't reach the kids workshop form, so here's my info:",
+        "",
+        "Parent name: " + data.parentName,
+        "WhatsApp: " + data.whatsapp,
+        "Email: " + data.email,
+        "Child's name: " + data.childName,
+        "Child's age: " + data.childAge,
+        "",
+        "What would help: " + (data.ideas || "-"),
+      ];
+      const href = FALLBACK_WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n"));
+      window.location.href = href;
+    };
+
+    const showSent = () => {
+      if (status) status.hidden = false;
+      form.reset();
+      resetTurnstile();
+    };
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      clearError();
+      if (!form.reportValidity()) return;
+
+      const formData = new FormData(form);
+      if (!formData.get("cf-turnstile-response")) {
+        showError("Please complete the verification above, then send again.");
+        return;
+      }
+
+      const data = readForm();
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Sending...";
+      }
+
+      try {
+        const resp = await fetch(action, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData).toString(),
+        });
+        const result = await resp.json().catch(() => ({}));
+
+        if (resp.ok && result.ok) {
+          showSent();
+        } else if (result.error === "turnstile_failed" || result.error === "missing_token") {
+          showError("Verification failed. Please complete the check and try again.");
+          resetTurnstile();
+        } else {
+          console.error("Kids form submit failed:", result);
+          whatsappFallback(data);
+          showSent();
+        }
+      } catch (err) {
+        console.error("Kids form unreachable, using WhatsApp fallback:", err);
+        whatsappFallback(data);
+        showSent();
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = "Send & subscribe";
+        }
+      }
+    });
+  })();
+</script>

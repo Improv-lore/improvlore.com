@@ -1,0 +1,68 @@
+{#
+  Kids-workshop popup. Content and the enabled/disabled toggle live in
+  _data/kidsPopup.js. Include: {% include "kids-popup.njk" %}
+
+  Shown only on the homepage (not site-wide, and not on /kids/ itself, since
+  that page already IS this pitch), at most once per browser session
+  (sessionStorage) -- closing it (X, "Not now", overlay click, Escape) or
+  clicking through to the CTA marks it seen so it won't reappear until the
+  tab/browser is closed and reopened.
+#}
+{% if kidsPopup.enabled and page.url == "/" %}
+<div class="kids-popup-overlay" data-kids-popup-overlay hidden>
+  <div class="kids-popup" role="dialog" aria-modal="true" aria-labelledby="kids-popup-heading">
+    <button class="kids-popup-close" type="button" data-kids-popup-close aria-label="Close">&times;</button>
+    <span class="kids-popup-badge">For parents</span>
+    <h2 class="kids-popup-heading" id="kids-popup-heading">{{ kidsPopup.heading }}</h2>
+    <p class="kids-popup-body">{{ kidsPopup.body }}</p>
+    <div class="kids-popup-actions">
+      <a class="btn btn-primary" href="{{ kidsPopup.ctaHref }}">{{ kidsPopup.ctaLabel }}</a>
+      <button class="btn btn-ghost" type="button" data-kids-popup-close>{{ kidsPopup.dismissLabel }}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var SEEN_KEY = "kidsPopupSeen";
+    var overlay = document.querySelector("[data-kids-popup-overlay]");
+    if (!overlay) return;
+
+    var alreadySeen = function () {
+      try {
+        return sessionStorage.getItem(SEEN_KEY) === "1";
+      } catch (e) {
+        return false;
+      }
+    };
+    var markSeen = function () {
+      try {
+        sessionStorage.setItem(SEEN_KEY, "1");
+      } catch (e) {}
+    };
+
+    if (alreadySeen()) return;
+
+    var open = function () {
+      overlay.hidden = false;
+      document.body.classList.add("kids-popup-lock");
+    };
+    var close = function () {
+      overlay.hidden = true;
+      document.body.classList.remove("kids-popup-lock");
+      markSeen();
+    };
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay || e.target.closest("[data-kids-popup-close]")) close();
+      else if (e.target.closest(".kids-popup-actions a")) markSeen();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !overlay.hidden) close();
+    });
+
+    // Small delay so the popup doesn't compete with the first paint.
+    window.setTimeout(open, 600);
+  })();
+</script>
+{% endif %}

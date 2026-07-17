@@ -29,6 +29,8 @@ const FORM_ACTIONS = {
     "https://docs.google.com/forms/d/e/1FAIpQLScVGlLUHvSgII5k7CeEijb48vaqdK9OcHr0Awx6KKIiHDujog/formResponse",
   testimonial:
     "https://docs.google.com/forms/d/e/1FAIpQLSdSgJSgBZzuny-0SxhF04B5r0SzPd0MagNcDVQdKehYQuqjrg/formResponse",
+  kids:
+    "https://docs.google.com/forms/d/e/1FAIpQLSfWgXGZe0Jq6s_8xtX0lPF-L1tbToff21c9kd8CNe03pBMUUw/formResponse",
 };
 
 const json = (status, body) =>

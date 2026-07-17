@@ -5,6 +5,7 @@ _site/
 .wrangler/
 .claude/
 .env
+.dev.vars
 .DS_Store
 *.log
 improv-lore-underline-content-pack.md
