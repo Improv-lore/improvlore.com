@@ -15,10 +15,10 @@
 export default {
   enabled: true,
 
-  heading: "Got a kid aged 7–16?",
+  heading: "Theatre and storytelling for children and young adults",
   body: "We're building a brand-new improv workshop just for children. Help us shape it: tell us about your child and what you'd love a workshop to cover, and we'll keep you posted as it comes together.",
 
-  ctaLabel: "Tell us about your child",
+  ctaLabel: "Put me on the list",
   ctaHref: "/kids/",
   dismissLabel: "Not now",
 };
