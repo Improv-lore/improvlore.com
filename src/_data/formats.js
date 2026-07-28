@@ -184,6 +184,18 @@ const formats = [
       "A fable cycle built live, set loose in the animal kingdom. A creature and a problem open the night, then one tale nests into the next until a moral lands. Talking animals, and side stories within side stories.",
   },
   {
+    slug: "and-then",
+    short: "and-then",
+    title: "And, Then?: An Improv Show",
+    type: "show",
+    feedMatch: "and then",
+    // No local poster yet; catalog.js falls back to the feed's image_url.
+    blurb:
+      "Some of Improv Lore's most experienced performers, an evening of unscripted theatre. Familiar formats or something entirely new, built live with curiosity and play.",
+    expect:
+      "A night of unscripted theatre from our most experienced performers. Expect scenes built live from your suggestions, some revisiting formats they love, others exploring something entirely new.",
+  },
+  {
     slug: "the-turing-twist",
     short: "turing",
     title: "The Turing Twist",
