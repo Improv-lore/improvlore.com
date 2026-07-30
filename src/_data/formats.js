@@ -320,7 +320,12 @@ export default formats;
 // slug) or null. Used by catalog.js, filters.js, and event.11tydata.js so the
 // matching rule can never drift between the join, the permalinks, and the
 // page-skipping logic.
+// Feed titles occasionally carry stray punctuation (e.g. "And, Then?" for
+// "And Then?"), so strip it before the substring check rather than let a
+// comma break the match and drop the event into the one-off pagination path.
+const normalize = (s) => s.toLowerCase().replace(/[^a-z0-9\s]+/g, "");
+
 export function matchFormat(title = "") {
-  const t = title.toLowerCase();
-  return formats.find((f) => t.includes(f.feedMatch.toLowerCase())) || null;
+  const t = normalize(title);
+  return formats.find((f) => t.includes(normalize(f.feedMatch))) || null;
 }

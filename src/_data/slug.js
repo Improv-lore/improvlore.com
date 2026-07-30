@@ -33,5 +33,11 @@ export function eventSlug(ev = {}) {
     .replace(/^-+|-+$/g, "")
     .slice(0, 60)
     .replace(/-+$/, "");
-  return base || "event";
+  const slug = base || "event";
+  // Recurring one-off events (same title, not a formats.js catalog entry)
+  // come through as separate feed entries per date, so the title alone isn't
+  // unique. Suffix with the start date to keep each date's /event/ page and
+  // .ics distinct instead of colliding on one output path.
+  const datePart = ev.event_starts_at ? String(ev.event_starts_at).slice(0, 10) : "";
+  return datePart ? `${slug}-${datePart}` : slug;
 }
