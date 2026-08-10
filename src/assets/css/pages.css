@@ -349,6 +349,87 @@
 .prose-gap   { margin-top: 0.8rem; }
 .prose-gap-l { margin-top: 1rem; }
 
+/* Single-video link card (about page): YouTube thumbnail + play badge, same
+   card language as .blog-card but simpler since there's no excerpt/meta. */
+.ted-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  max-width: 480px;
+  margin: 1rem 0 0;
+  background: var(--card-bg);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ted-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-lift);
+}
+
+.ted-card-media {
+  position: relative;
+  flex-shrink: 0;
+  width: 40%;
+}
+
+.ted-card-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--ink);
+}
+
+.ted-card-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.75);
+  color: #fff;
+  font-size: 0.85rem;
+  padding-left: 0.15rem;
+}
+
+.ted-card-body {
+  padding: 0.75rem 0.9rem 0.75rem 0;
+  min-width: 0;
+}
+
+.ted-card-kicker {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--yellow);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-bottom: 0.35rem;
+}
+
+.ted-card-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
 .about-subhead {
   font-size: 1.05rem;
   font-weight: 700;

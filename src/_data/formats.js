@@ -189,7 +189,7 @@ const formats = [
     title: "And, Then?: An Improv Show",
     type: "show",
     feedMatch: "and then",
-    // No local poster yet; catalog.js falls back to the feed's image_url.
+    image: "/assets/posters/and-then.jpg",
     blurb:
       "Some of Improv Lore's most experienced performers, an evening of unscripted theatre. Familiar formats or something entirely new, built live with curiosity and play.",
     expect:
@@ -323,7 +323,7 @@ export default formats;
 // Feed titles occasionally carry stray punctuation (e.g. "And, Then?" for
 // "And Then?"), so strip it before the substring check rather than let a
 // comma break the match and drop the event into the one-off pagination path.
-const normalize = (s) => s.toLowerCase().replace(/[^a-z0-9\s]+/g, "");
+export const normalize = (s) => s.toLowerCase().replace(/[^a-z0-9\s]+/g, "");
 
 export function matchFormat(title = "") {
   const t = normalize(title);

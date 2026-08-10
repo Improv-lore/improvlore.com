@@ -5,7 +5,7 @@
 // Output is consumed by catalog.njk to generate one evergreen page per
 // format at /event/<slug>/, scheduled or not.
 
-import formats from "./formats.js";
+import formats, { normalize } from "./formats.js";
 import getEvents from "./events.js";
 
 export default async function () {
@@ -13,7 +13,7 @@ export default async function () {
   const now = Date.now();
 
   return formats.map((fmt) => {
-    const match = fmt.feedMatch.toLowerCase();
+    const match = normalize(fmt.feedMatch);
 
     // Next upcoming feed occurrence whose title contains this format's match
     // string. (Per-format here, so matchFormat — which finds *any* format —
@@ -23,7 +23,7 @@ export default async function () {
         if (!ev.event_starts_at) return false;
         const t = new Date(ev.event_starts_at).getTime();
         if (isNaN(t) || t < now) return false;
-        return (ev.title || "").toLowerCase().includes(match);
+        return normalize(ev.title || "").includes(match);
       })
       .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))[0] || null;
 
