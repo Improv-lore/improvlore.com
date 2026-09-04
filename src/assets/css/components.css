@@ -798,6 +798,25 @@ a.event-venue-link:hover {
   box-shadow: 1px 1px 0 var(--ink) !important;
 }
 
+.btn-secondary {
+  background: #ffffff;
+  color: var(--ink);
+  border: 2.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.btn-secondary:hover {
+  background: var(--cream);
+  border-color: var(--ink);
+  transform: translate(-2px, -2px) rotate(1.5deg);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.btn-secondary:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0 var(--ink) !important;
+}
+
 /* Applied client-side when District reports an event sold out / not on sale. */
 .btn-disabled,
 .btn-disabled:hover {
@@ -1709,3 +1728,113 @@ a.event-venue-link:hover {
     margin: 0;
   }
 }
+
+/* -------------------------------------------------
+   ROOM GALLERY & CANDID SNAPSHOTS
+   Live photos from jams, shows, and workshops
+   (pulls from img.improvlore.com/random).
+   Styled to seamlessly match the site's card language:
+   3px ink border, 14px radius, brand accent block shadows.
+------------------------------------------------- */
+
+.photo-strip {
+  margin: 1.8rem 0 2.2rem;
+}
+
+.photo-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.polaroid-card {
+  position: relative;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 5px 5px 0 var(--accent, var(--ink));
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.photo-strip-grid .polaroid-card:nth-child(3n+1) { --accent: var(--yellow); }
+.photo-strip-grid .polaroid-card:nth-child(3n+2) { --accent: var(--green); }
+.photo-strip-grid .polaroid-card:nth-child(3n+3) { --accent: var(--blue); }
+
+.polaroid-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--accent, var(--ink));
+}
+
+.polaroid-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.polaroid-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.polaroid-card:hover .polaroid-media img {
+  transform: scale(1.035);
+}
+
+.photo-strip-caption {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0.9rem 0 0;
+  line-height: 1.4;
+}
+
+/* Two-photo variant */
+.photo-strip-grid--two {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+}
+
+.photo-strip-grid--two .polaroid-card:nth-child(1) { --accent: var(--yellow); }
+.photo-strip-grid--two .polaroid-card:nth-child(2) { --accent: var(--blue); }
+
+/* Responsive adjustments */
+@media (max-width: 720px) {
+  .photo-strip-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .polaroid-card {
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--accent, var(--ink));
+  }
+}
+
+@media (max-width: 540px) {
+  .photo-strip-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0.85rem;
+    padding-bottom: 0.8rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .photo-strip-grid .polaroid-card {
+    flex: 0 0 80%;
+    scroll-snap-align: center;
+  }
+  .photo-strip-grid--two .polaroid-card {
+    flex: 0 0 85%;
+  }
+}
+
