@@ -223,7 +223,7 @@ const formats = [
     // underline.center/t/.../809
     sessions: {
       note: "Four sessions, 10am to 1pm on all four days.",
-      dates: ["Sat 20 June", "Sun 21 June", "Sat 27 June", "Sun 28 June"],
+      dates: ["Sat 19 Sept", "Sun 20 Sept", "Sat 26 Sept", "Sun 27 Sept"],
     },
     blurb:
       "A hands-on intro workshop for first-timers. Learn the basics and shake off the stage fright.",
