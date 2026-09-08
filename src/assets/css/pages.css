@@ -1075,6 +1075,7 @@
     border-top: 3px solid var(--ink);
     padding: 1.8rem 1.8rem 2rem;
   }
+  .event-detail-read .event-detail-sessions,
   .event-detail-read .event-detail-content,
   .event-detail-read .event-detail-expect {
     max-width: 68ch;
