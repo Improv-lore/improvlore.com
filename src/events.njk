@@ -51,8 +51,7 @@ showCustomEvents: false
     {% set img = filters.eventImage(ev) %}
 
     {% set evType = filters.eventType(ev.title, ev.tags) %}
-    <div id="{{ filters.eventSlug(ev) }}" class="event-flip event-type-{{ evType }}">
-      <div class="event-card event-type-{{ evType }}">
+    <div id="{{ filters.eventSlug(ev) }}" class="event-card event-type-{{ evType }}">
 
         {% if img %}
           <div class="event-image">
@@ -105,7 +104,6 @@ showCustomEvents: false
           </div>
         </div>
 
-      </div>
     </div>
   {% endmacro %}
 
@@ -168,3 +166,62 @@ showCustomEvents: false
   </section>
 
 </div>
+
+<script>
+  // Keep the URL's ?type= in sync with the visible filter, using
+  // replaceState so changing/clearing a filter never adds a history entry.
+  const syncFilterUrl = (filter) => {
+    const url = new URL(window.location.href);
+    if (filter) {
+      url.searchParams.set("type", filter);
+    } else {
+      url.searchParams.delete("type");
+    }
+    history.replaceState(history.state, "", url);
+  };
+
+  const applyFilter = (filter, syncUrl = true) => {
+    const root = document.querySelector(".events-root");
+    if (!root) return;
+    root.querySelectorAll(".event-key-item[data-filter]").forEach((b) => {
+      b.setAttribute("aria-pressed", b.dataset.filter === filter ? "true" : "false");
+    });
+    root.classList.remove("filter-show", "filter-jam", "filter-workshop");
+    const clearBtn = root.querySelector("[data-filter-clear]");
+    const empty = root.querySelector(".filter-empty");
+    if (filter) {
+      root.classList.add("filter-" + filter);
+      if (clearBtn) clearBtn.hidden = false;
+      if (empty) {
+        const visibleCards = root.querySelectorAll(
+          ".event-card.event-type-" + filter
+        ).length;
+        empty.hidden = visibleCards > 0;
+        const label = empty.querySelector(".filter-empty-type");
+        if (label) label.textContent = filter + "s";
+      }
+    } else {
+      if (clearBtn) clearBtn.hidden = true;
+      if (empty) empty.hidden = true;
+    }
+    if (syncUrl) syncFilterUrl(filter);
+  };
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-filter-clear]")) {
+      applyFilter(null);
+      return;
+    }
+    const btn = e.target.closest(".event-key-item[data-filter]");
+    if (!btn) return;
+    const isActive = btn.getAttribute("aria-pressed") === "true";
+    applyFilter(isActive ? null : btn.dataset.filter);
+  });
+
+  // Preselect a filter from ?type= so links like /events/?type=workshop land
+  // on the events page with that type already filtered.
+  const initialType = new URLSearchParams(window.location.search).get("type");
+  if (initialType && ["show", "jam", "workshop"].includes(initialType)) {
+    applyFilter(initialType, false);
+  }
+</script>

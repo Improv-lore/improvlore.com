@@ -6,6 +6,8 @@ pagination:
   alias: fmt
   addAllPagesToCollections: true
 permalink: "{{ filters.formatPermalink(fmt) }}index.html"
+pageStyles:
+  - /assets/css/event-detail.css
 ---
 
 {% set bodyText = fmt.next.full_content or fmt.fullText or fmt.blurb %}

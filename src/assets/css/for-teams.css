@@ -1,0 +1,131 @@
+/* -------------------------------------------------
+   WORK WITH US PAGE (/for-teams/)
+------------------------------------------------- */
+
+/* Hero band: a bold, full-width opener so the page leads with a hook instead
+   of a plain heading + paragraph. Tinted to match the promo-card warmth. */
+.work-hero {
+  position: relative;
+  margin: 0 0 2.5rem;
+  padding: 2rem 1.4rem;
+  border: var(--card-border);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(245, 196, 0, 0.12) 0%, rgba(255, 251, 245, 0.7) 60%, rgba(255, 92, 168, 0.08) 100%);
+}
+
+@media (min-width: 760px) {
+  .work-hero { padding: 2.8rem 2.4rem; }
+}
+
+.work-hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 0.6rem;
+}
+
+.work-hero-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0;
+  max-width: 18ch;
+}
+
+@media (min-width: 760px) {
+  .work-hero-heading { font-size: 2.6rem; }
+}
+
+.work-hero-lede {
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 42rem;
+  margin: 0.9rem 0 0;
+}
+
+@media (min-width: 760px) {
+  .work-hero-lede { font-size: 1.1rem; }
+}
+
+.work-hero-cred {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0.9rem 0 0;
+  max-width: 42rem;
+}
+
+.work-hero-cred a {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.work-hero-cta {
+  margin: 1.4rem 0 0;
+}
+
+/* Two-track split: companies vs festivals, side by side on wide screens so
+   each audience sees its own path immediately. */
+.work-tracks {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 820px) {
+  .work-tracks { grid-template-columns: 1fr 1fr; }
+}
+
+.work-track {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.2rem 1.3rem;
+  border: var(--card-border);
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.work-track-tag {
+  align-self: flex-start;
+  display: inline-flex;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--yellow) 22%, #fff);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.work-track-tag-fest {
+  background: color-mix(in srgb, var(--pink) 16%, #fff);
+}
+
+.work-track-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  margin: 0.7rem 0 0.9rem;
+}
+
+/* Lists inside a track shouldn't add their own trailing gap. */
+.work-track .book-offer-list {
+  margin: 0;
+}
+
+.work-track .book-offer-list a {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Closing CTA card: drop the dashed promo border into a plain solid book card
+   so the final call to action reads as a clear panel, not a teaser. */
+.work-close.promo-card {
+  border-style: solid;
+}

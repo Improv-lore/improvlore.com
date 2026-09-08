@@ -99,33 +99,6 @@ html { scroll-behavior: smooth; }
 }
 
 /* -------------------------------------------------
-   SHARED CARD SURFACE
-   A reusable hover-lift card. Component classes can either use .surface-card
-   directly or compose the look via the --card-* tokens above.
-------------------------------------------------- */
-
-.surface-card {
-  background: var(--card-bg);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.surface-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--card-shadow-lift);
-}
-
-/* A lighter variant that warms the border to yellow on hover instead of the
-   rose tone. Used by the list-style cards (stats, ladder, offers). */
-.surface-card--yellow:hover {
-  border-color: var(--yellow);
-  box-shadow: var(--card-shadow-yellow);
-  transform: none;
-}
-
-/* -------------------------------------------------
    PAGE SHELL
 ------------------------------------------------- */
 

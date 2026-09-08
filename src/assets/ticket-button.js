@@ -83,7 +83,6 @@
   // the document when there's no card, so it never grabs the page <h1>.
   function eventTitleFor(btn) {
     const scope =
-      btn.closest(".event-flip") ||
       btn.closest(".event-card") ||
       btn.closest(".home-hero-next") ||
       document;

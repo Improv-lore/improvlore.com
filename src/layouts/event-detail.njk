@@ -157,3 +157,29 @@
   {% endif %}
 
 </div>
+
+<script>
+  // Event-page back link: if you arrived from within the site, go back to the
+  // exact page you came from (history.back) instead of the href fallback of
+  // /events/, which is upcoming-only and may not list this event. Direct
+  // landings / new tabs / external referrers keep the plain /events/ link.
+  document.addEventListener("click", (e) => {
+    const backLink = e.target.closest("a[data-back-link]");
+    if (!backLink || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
+    let cameFromSite = false;
+    try {
+      cameFromSite =
+        window.history.length > 1 &&
+        !!document.referrer &&
+        new URL(document.referrer).origin === window.location.origin;
+    } catch (err) {
+      cameFromSite = false;
+    }
+    if (cameFromSite) {
+      e.preventDefault();
+      history.back();
+    }
+  });
+</script>

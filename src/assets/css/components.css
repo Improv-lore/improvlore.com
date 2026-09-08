@@ -203,10 +203,7 @@ a.banner-item:hover {
   box-shadow: 9px 9px 0 var(--accent, var(--ink));
 }
 
-/* The .event-flip wrapper carries the bottom margin; the card fills it. */
-.event-flip > .event-card {
-  margin-bottom: 0;
-}
+
 
 .event-card-body {
   padding: 1.3rem 1.5rem 1.4rem;
@@ -335,11 +332,7 @@ a.banner-item:hover {
   margin-top: 1.4rem;
 }
 
-.warning {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  margin-top: 0.8rem;
-}
+
 
 .filter-empty {
   text-align: center;
@@ -463,17 +456,17 @@ button.event-key-item[aria-pressed="true"] p {
   line-height: 1;
 }
 
-.events-root.filter-show     .event-flip:not(.event-type-show),
-.events-root.filter-jam      .event-flip:not(.event-type-jam),
-.events-root.filter-workshop .event-flip:not(.event-type-workshop) {
+.events-root.filter-show     .event-card:not(.event-type-show),
+.events-root.filter-jam      .event-card:not(.event-type-jam),
+.events-root.filter-workshop .event-card:not(.event-type-workshop) {
   display: none;
 }
 
 /* When a type filter is active, hide whole time buckets that hold none of that
    type so we never strand a "Next week" heading above an empty grid. */
-.events-root.filter-show     .event-bucket:not(:has(.event-flip.event-type-show)),
-.events-root.filter-jam      .event-bucket:not(:has(.event-flip.event-type-jam)),
-.events-root.filter-workshop .event-bucket:not(:has(.event-flip.event-type-workshop)) {
+.events-root.filter-show     .event-bucket:not(:has(.event-card.event-type-show)),
+.events-root.filter-jam      .event-bucket:not(:has(.event-card.event-type-jam)),
+.events-root.filter-workshop .event-bucket:not(:has(.event-card.event-type-workshop)) {
   display: none;
 }
 
@@ -706,41 +699,6 @@ a.event-venue-link:hover {
 .event-type-jam      { --accent: var(--green);  --accent-soft: color-mix(in srgb, var(--green) 14%, #fff);  --accent-ink: #1faa58; }
 .event-type-workshop { --accent: var(--blue);   --accent-soft: color-mix(in srgb, var(--blue) 12%, #fff);   --accent-ink: var(--blue); }
 
-.event-date {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--ink);
-  background: #f5f5f5;
-  border: 1px solid var(--border-soft);
-  border-radius: 0;
-  padding: 0.22rem 0.65rem;
-  margin-bottom: 0.8rem;
-}
-
-/* "+N more dates" tag for multi-day workshops. Sits inside the date pill,
-   carries the workshop blue, and links to the full schedule. */
-.event-date-tag {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--blue);
-  background: #eaf0fe;
-  border: 1px solid #cfddfb;
-  border-radius: 999px;
-  padding: 0.1rem 0.5rem;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.event-date-tag:hover {
-  background: var(--blue);
-  color: #fff;
-  border-color: var(--blue);
-}
-
 .event-excerpt {
   font-size: 0.92rem;
   line-height: 1.55;
@@ -880,37 +838,7 @@ a.event-venue-link:hover {
   margin-top: 1.8rem;
 }
 
-/* -------------------------------------------------
-   FLIP CARD
-------------------------------------------------- */
 
-.event-flip {
-  perspective: 1600px;
-  border-radius: 0;
-  transition: box-shadow 0.3s ease;
-  /* Fill the (stretched) grid cell so two cards in a row match height. */
-  height: 100%;
-}
-
-/* Skip rendering off-screen cards, but only where the reserved placeholder
-   roughly matches a real card. Single-column mobile cards are much taller
-   than the desktop estimate, so an off guess there causes scroll jumps and
-   oversized gaps. The perf win is marginal on small viewports anyway. */
-@media (min-width: 640px) {
-  .event-flip {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 500px;
-    /* content-visibility:auto applies paint containment while a card is off
-       screen, which clips the card's offset hard shadow (6px, 9px on hover).
-       Reserve room on the right/bottom so the shadow always paints in full.
-       Mobile (<640px) has no content-visibility, so it keeps its flush layout. */
-    padding: 0 12px 12px 0;
-  }
-}
-
-/* The accent now lives on the .event-card itself (ink border + hard offset
-   shadow tinted to --accent). The .event-flip wrapper no longer carries its own
-   glow ring, which used to double up with the card's shadow. */
 
 /* -------------------------------------------------
    PROMO / BOOK CARDS
@@ -939,11 +867,7 @@ a.event-venue-link:hover {
   box-shadow: var(--card-shadow-yellow);
 }
 
-.book-offer-icon {
-  flex-shrink: 0;
-  font-size: 1.15rem;
-  line-height: 1.2;
-}
+
 
 .book-offer-list strong {
   display: block;
@@ -1056,216 +980,6 @@ a.event-venue-link:hover {
   font-size: 1.1rem;
 }
 
-/* Latest blog post card on the home page. A full vertical card in the same
-   idiom as the format/event cards (cover on top, body below) so it carries
-   real visual weight rather than reading as a thin banner. */
-.blog-card {
-  display: flex;
-  flex-direction: column;
-  max-width: 340px;
-  margin-top: 1rem;
-  border: var(--card-border);
-  background: var(--card-bg);
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--ink);
-  box-shadow: var(--card-shadow);
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.blog-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--card-shadow-lift);
-}
-
-.blog-card-media {
-  position: relative;
-}
-
-.blog-card-cover {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  background: var(--ink);
-}
-
-.blog-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.75rem 0.85rem 0.9rem;
-}
-
-/* Kicker overlays the cover top-left like the poster badges; the -inline
-   variant is a fallback that sits in the body when a post has no cover. */
-.blog-card-kicker {
-  position: absolute;
-  top: 0.7rem;
-  left: 0.7rem;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--yellow);
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-}
-
-.blog-card-kicker-inline {
-  position: static;
-  align-self: flex-start;
-  box-shadow: none;
-}
-
-.blog-card-title {
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--ink);
-}
-
-.blog-card-excerpt {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--text-muted);
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.blog-card-meta {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-soft);
-}
-
-/* "Who We Are": blog card (our voice) beside the top testimonials (others').
-   Two columns on wide screens, stacked below. Either side may be absent, so
-   the grid is fine collapsing to one populated column. */
-.who-cols {
-  display: grid;
-  gap: 1.4rem;
-  margin-top: 1rem;
-  align-items: start;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 760px) {
-  .who-cols {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
-}
-
-/* Inside the grid the blog card fills its column instead of capping at 340px. */
-.who-blog {
-  max-width: none;
-  margin-top: 0;
-}
-
-/* Section CTA: lifted above the blog/testimonials and given room to breathe so
-   it reads as the primary action of "Who We Are". */
-.who-cta {
-  margin: 0.25rem 0 1.5rem;
-}
-
-.who-quotes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.who-quotes-kicker {
-  align-self: flex-start;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--yellow);
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-}
-
-.who-quotes-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-/* Each quote is now a filled, highlighted card (soft yellow wash, border, hard
-   shadow, oversized quote mark) rather than a bare left-rule, so the
-   testimonials hold their own next to the blog card. */
-.who-quote {
-  position: relative;
-  background: var(--card-bg);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
-  padding: 1rem 1.05rem 0.95rem;
-}
-
-/* Oversized opening quote mark, top-left, as a brand flourish. */
-.who-quote::before {
-  content: "\201C";
-  position: absolute;
-  top: 0.1rem;
-  left: 0.55rem;
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-  font-size: 2.4rem;
-  line-height: 1;
-  color: var(--yellow);
-  opacity: 0.7;
-}
-
-.who-quote-text {
-  position: relative;
-  margin: 0;
-  font-size: 0.94rem;
-  line-height: 1.55;
-  font-weight: 500;
-  color: var(--ink);
-}
-
-.who-quote-by {
-  margin: 0.4rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.45rem;
-  font-size: 0.8rem;
-}
-
-.who-quote-name {
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.who-quote-sub {
-  color: var(--text-soft);
-}
-
-.who-quotes-more {
-  align-self: flex-start;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--blue);
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-}
-
-.who-quotes-more:hover,
-.who-quotes-more:focus-visible {
-  border-bottom-color: var(--blue);
-}
-
 .more-line {
   font-size: 0.92rem;
   color: var(--text-muted);
@@ -1280,191 +994,9 @@ a.event-venue-link:hover {
   white-space: nowrap;
 }
 
-.section-jump {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin: 1.5rem 0 0;
-  padding: 0.9rem 1.1rem;
-  background: linear-gradient(135deg, #fffdfb 0%, #fff 100%);
-  border: 1.5px dashed var(--yellow);
-  color: var(--ink);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.15s ease;
-}
 
-.section-jump:hover {
-  color: #fff;
-  border-color: var(--yellow);
-  background: var(--pill-yellow);
-}
 
-.section-jump-arrow {
-  font-size: 1rem;
-  transition: transform 0.2s ease;
-}
-
-.section-jump:hover .section-jump-arrow {
-  transform: translateY(3px);
-}
-
-/* -------------------------------------------------
-   CONTACT
-------------------------------------------------- */
-
-/* Socials row at the top of the contact page: whole-card links with a
-   brand-colored icon, one per social channel. Each link borrows the shared
-   card surface and lights up in its channel's brand color on hover. */
-.social-row {
-  list-style: none;
-  margin: 0 0 1.4rem;
-  padding: 0;
-  display: grid;
-  gap: 0.7rem;
-}
-
-@media (min-width: 560px) {
-  .social-row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  height: 100%;
-  padding: 0.85rem 1rem;
-  background: var(--card-bg);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
-  text-decoration: none;
-  color: var(--ink);
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.social-link:hover {
-  transform: translateY(-2px);
-  border-color: var(--social-accent, var(--border-hover));
-  box-shadow: 0 8px 24px var(--social-glow, rgba(245, 196, 0, 0.15));
-}
-
-.social-link--whatsapp  { --social-accent: #25d366; --social-glow: rgba(37, 211, 102, 0.22); }
-.social-link--instagram { --social-accent: #e4405f; --social-glow: rgba(228, 64, 95, 0.22); }
-.social-link--faq       { --social-accent: #2563eb; --social-glow: rgba(37, 99, 235, 0.22); }
-.social-link--events    { --social-accent: #f5c400; --social-glow: rgba(245, 196, 0, 0.28); }
-
-.social-link-icon {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 50%;
-  background: var(--surface-warm);
-  color: var(--social-accent, var(--ink));
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.social-link:hover .social-link-icon {
-  background: var(--social-accent, var(--yellow));
-  color: #fff;
-}
-
-.social-link-icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  display: block;
-}
-
-.social-link-text strong {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.2;
-}
-
-.social-link-text span {
-  display: block;
-  margin-top: 0.1rem;
-  font-size: 0.8rem;
-  line-height: 1.35;
-  color: var(--text-muted);
-}
-
-/* Badge row: the question-mark glyph sits beside the "SAY HELLO" badge as a
-   small graphic cue that this card is where you ask us things. */
-/* Contact page: form card + quick-links rail. One column on mobile (rail stacks
-   below the form); on desktop the form takes a fixed readable width and the rail
-   fills the space beside it instead of the card sprawling across the viewport. */
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.6rem;
-  align-items: start;
-}
-
-.contact-layout .book-card {
-  margin-bottom: 0;
-}
-
-/* The rail's own list margin is redundant inside the layout grid gap. */
-.contact-links {
-  margin: 0;
-}
-
-@media (min-width: 860px) {
-  .contact-layout {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 2rem;
-  }
-
-  /* Rail becomes a single stacked column beside the form. */
-  .contact-links {
-    grid-template-columns: 1fr;
-  }
-}
-
-.contact-badge-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.contact-q-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-}
-
-.contact-badge-row .event-type-badge {
-  margin-bottom: 0;
-}
-
-/* The contact card sits inside .event-card-body, whose align-items:flex-start
-   shrinks children to their natural width. Opt the quick-links row and the form
-   back into the full card width so the fields aren't a narrow sliver. */
-.contact-quick,
-.contact-form {
-  align-self: stretch;
-}
-
-.contact-quick {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem 0.9rem;
-  margin: 0.4rem 0 1.4rem;
-}
-
-/* WhatsApp green accent so the direct-chat CTA reads as a phone action. */
+/* WhatsApp green accent button (used on events empty state) */
 .contact-wa-btn {
   background: linear-gradient(135deg, #25d366 0%, #1ebe5b 100%);
   color: #fff;
@@ -1473,75 +1005,6 @@ a.event-venue-link:hover {
 .contact-wa-btn:hover {
   background: linear-gradient(135deg, #2ee571 0%, #25d366 100%);
   color: #fff;
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.contact-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.contact-field label {
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-}
-
-.contact-field input,
-.contact-field select,
-.contact-field textarea {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: var(--ink);
-  background: var(--surface);
-  border: 2.5px solid var(--ink);
-  border-radius: 0;
-  padding: 0.55rem 0.7rem;
-  box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.12);
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-.contact-field textarea {
-  resize: vertical;
-  min-height: 7rem;
-}
-
-.contact-field input:focus,
-.contact-field select:focus,
-.contact-field textarea:focus {
-  outline: none;
-  border-color: var(--blue);
-  box-shadow: 4px 4px 0 rgba(37, 99, 235, 0.35);
-  transform: translate(-1px, -1px);
-}
-
-.contact-status {
-  margin: 0.2rem 0 0;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #1a7a3c;
-}
-
-/* Turnstile widget sits between the last field and the send button. The widget
-   itself is a fixed-size iframe Cloudflare renders; we just give it breathing
-   room and stop it overflowing on narrow screens. */
-.contact-turnstile {
-  margin: 0.4rem 0 0.2rem;
-  min-height: 65px;
-}
-
-.contact-error {
-  margin: 0.2rem 0 0;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #c0392b;
 }
 
 /* -------------------------------------------------
