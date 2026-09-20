@@ -13,7 +13,7 @@ export default {
     size: 1,
     alias: "ev",
     before: (arr) =>
-      arr.filter((ev) => ev.event_starts_at && matchFormat(ev.title || "") === null),
+      arr.filter((ev) => ev.event_starts_at && matchFormat(ev.title || "") === null && ev.permalink !== "/marathon/"),
   },
   eleventyComputed: {
     icsBody(data) {

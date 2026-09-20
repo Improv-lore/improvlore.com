@@ -1,0 +1,318 @@
+---
+layout: base.njk
+permalink: /marathon/
+canonicalUrl: /marathon/
+pageStyles:
+  - /assets/css/marathon.css
+---
+
+<div class="events-root">
+
+  {# HERO CONTAINER #}
+  <header class="marathon-hero-wrap" aria-label="All Play No Work Marathon Header">
+    <div class="marathon-hero-content">
+
+      <div class="marathon-hero-topbar">
+        <div class="marathon-status-tags" aria-label="Event highlights">
+          <span class="marathon-tag marathon-tag--edition">{{ marathon.upcoming.edition }} · 2nd Oct</span>
+        </div>
+
+        <div class="marathon-hero-countdown-wrap" aria-label="Countdown to marathon kickoff">
+          <span class="marathon-countdown-label">Kickoff In</span>
+          <div class="marathon-hero-timer" id="hero-marathon-countdown" data-target="2026-10-02T14:00:00+05:30">
+            <span class="timer-segment"><span class="timer-digit" data-unit="days">--</span><span class="timer-unit">d</span></span>
+            <span class="timer-colon">:</span>
+            <span class="timer-segment"><span class="timer-digit" data-unit="hours">--</span><span class="timer-unit">h</span></span>
+            <span class="timer-colon">:</span>
+            <span class="timer-segment"><span class="timer-digit" data-unit="minutes">--</span><span class="timer-unit">m</span></span>
+            <span class="timer-colon">:</span>
+            <span class="timer-segment"><span class="timer-digit" data-unit="seconds">--</span><span class="timer-unit">s</span></span>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        (function() {
+          var timer = document.getElementById('hero-marathon-countdown');
+          if (!timer) return;
+          var target = new Date(timer.dataset.target).getTime();
+          var d = timer.querySelector('[data-unit="days"]');
+          var h = timer.querySelector('[data-unit="hours"]');
+          var m = timer.querySelector('[data-unit="minutes"]');
+          var s = timer.querySelector('[data-unit="seconds"]');
+
+          function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+          function tick() {
+            var diff = target - Date.now();
+            if (diff <= 0) {
+              timer.innerHTML = '<span class="timer-live">Festival Live Now!</span>';
+              return;
+            }
+            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            var minutes = Math.floor((diff / (1000 * 60)) % 60);
+            var seconds = Math.floor((diff / 1000) % 60);
+
+            if (d) d.textContent = pad(days);
+            if (h) h.textContent = pad(hours);
+            if (m) m.textContent = pad(minutes);
+            if (s) s.textContent = pad(seconds);
+          }
+          tick();
+          setInterval(tick, 1000);
+        })();
+      </script>
+
+      <div class="marathon-hero-split">
+
+        <div class="marathon-poster-frame">
+          <img class="marathon-poster-img" src="/assets/apnw-c.png" alt="All Play No Work 12-Hour Improv Marathon emblem" width="360" height="360" loading="eager" fetchpriority="high">
+        </div>
+
+        <div class="marathon-hero-text">
+          <p class="marathon-hero-kicker">An unscripted theatre marathon · Bangalore</p>
+          <h1 class="marathon-hero-title">{{ marathon.upcoming.name }}</h1>
+
+          <div class="marathon-hero-timing">
+            <span>{{ marathon.upcoming.dateFormatted }}</span>
+            <span class="marathon-timing-sep" aria-hidden="true">·</span>
+            <span>{{ marathon.upcoming.timing }}</span>
+            <span class="marathon-timing-sep" aria-hidden="true">·</span>
+            <span>{{ marathon.upcoming.venueShort }}</span>
+          </div>
+
+          <p class="marathon-hero-lede">{{ marathon.upcoming.intro }}</p>
+
+          <div class="marathon-hero-actions">
+            <a class="btn-apnw-primary" href="#schedule">See the Lineup ↓</a>
+            <a class="btn-apnw-ghost" href="#passes">Get a Pass →</a>
+            <a class="btn-apnw-ghost" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community ↗</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  {# AT A GLANCE NUMBERS #}
+  <section class="page-section" aria-label="Marathon at a glance">
+    <div class="marathon-stats-grid">
+      {% for st in marathon.upcoming.stats %}
+      <div class="marathon-stat-card">
+        <span class="marathon-stat-num">{{ st.value }}</span>
+        <span class="marathon-stat-label">{{ st.label }}</span>
+        <span class="marathon-stat-sub">{{ st.sub }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {# HOW THE DAY WORKS #}
+  <section class="page-section marathon-formats-wrap" aria-labelledby="formats-heading">
+    <h2 class="section-heading" id="formats-heading">How the Day Works</h2>
+    <p class="section-sub">12 continuous hours of live improv theatre. Drop in when you want, stay as long as you like.</p>
+
+    <div class="marathon-formats-grid">
+      <div class="marathon-format-card">
+        <div class="marathon-format-header">
+          <span class="marathon-format-pill pill-show">7 Shows</span>
+        </div>
+        <h3 class="marathon-format-title">The Shows</h3>
+        <p class="marathon-format-desc">Seven unscripted performances taking the stage back to back. Quickfire comedy matches, PowerPoint roulette, narrative drama, and late-night musical madness. Completely made up on the spot from audience suggestions.</p>
+      </div>
+
+      <div class="marathon-format-card">
+        <div class="marathon-format-header">
+          <span class="marathon-format-pill pill-jam">2 Jams (Pick 1)</span>
+        </div>
+        <h3 class="marathon-format-title">The 8 PM Community Jams</h3>
+        <p class="marathon-format-desc">At 8:00 PM, two dedicated community jams run at the same time in separate rooms: choose spontaneous singing in <em>Make an Improv Song</em>, or friendly, low-stakes scene games in <em>Make Friends with the Stage</em>. Zero experience needed.</p>
+      </div>
+    </div>
+  </section>
+
+  {# THE 12-HOUR OFFICIAL SCHEDULE #}
+  <section class="page-section marathon-timeline-wrap" id="schedule" aria-labelledby="schedule-heading">
+    <h2 class="section-heading" id="schedule-heading">The Lineup (2 PM to 2 AM)</h2>
+    <p class="section-sub">{{ marathon.upcoming.scheduleNote }}</p>
+
+    {# SCHEDULE CALLOUT #}
+    <div class="marathon-lineup-notice">
+      <div class="marathon-lineup-notice-left">
+        <span class="marathon-lineup-badge">7 Shows &amp; 2 Jams</span>
+        <h3 class="marathon-lineup-notice-title">From Afternoon Laughs to 2 AM Midnight Chaos</h3>
+        <p class="marathon-lineup-notice-desc">
+          Grab a flexible 4-Show Pass to catch your favorite block of shows, or drop in for single show and jam tickets.
+        </p>
+      </div>
+      <div class="marathon-lineup-notice-right">
+        <a class="btn-apnw-primary" href="#passes">Get Marathon Passes →</a>
+      </div>
+    </div>
+
+    {# CHRONOLOGICAL SCHEDULE LIST #}
+    <div class="marathon-schedule-list" aria-label="Official marathon schedule timeline">
+      {% for slot in marathon.upcoming.schedule %}
+      <article class="marathon-schedule-card{% if slot.formatClass == 'latenight' %} marathon-schedule-card--latenight{% endif %}">
+
+        {# TIME COLUMN #}
+        <div class="marathon-schedule-time-col">
+          <span class="marathon-schedule-time-main">{{ slot.time }}</span>
+          <span class="marathon-schedule-time-end">until {{ slot.endTime }}</span>
+          {% if slot.dateLabel %}
+          <span class="marathon-schedule-date-badge">{{ slot.dateLabel }}</span>
+          {% endif %}
+          <div class="marathon-schedule-pill-wrap">
+            <span class="marathon-format-pill pill-{{ slot.formatClass }}">{{ slot.format }}</span>
+          </div>
+        </div>
+
+        {# POSTER COLUMN #}
+        <div class="marathon-schedule-poster-col">
+          {% if slot.isEitherOrJam %}
+          <div class="marathon-either-or-posters">
+            <span class="marathon-either-or-pill">Pick 1 of 2 Concurrent Jams</span>
+            <a class="marathon-poster-link" href="/event/make-an-improv-song/" title="Make an Improv Song details">
+              <img class="marathon-schedule-poster-img" src="/assets/posters/make-an-improv-song.jpg" alt="Make an Improv Song poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
+            </a>
+            <span class="marathon-either-or-mini-or">OR</span>
+            <a class="marathon-poster-link" href="/event/make-friends-with-the-stage/" title="Make Friends with the Stage details">
+              <img class="marathon-schedule-poster-img" src="/assets/posters/make-friends-with-the-stage.jpg" alt="Make Friends with the Stage poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
+            </a>
+          </div>
+          {% else %}
+          <a class="marathon-poster-link" href="/event/{{ slot.slug }}/" title="{{ slot.title }} details">
+            <img class="marathon-schedule-poster-img" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
+          </a>
+          {% endif %}
+        </div>
+
+        {# CONTENT BODY #}
+        <div class="marathon-schedule-body">
+          <span class="marathon-schedule-kicker">{{ slot.kicker }}</span>
+          <h3 class="marathon-schedule-title">
+            {% if slot.isEitherOrJam %}
+            <span>Make an Improv Song <span class="title-or-accent">OR</span> Make Friends with the Stage</span>
+            {% else %}
+            <a href="/event/{{ slot.slug }}/">{{ slot.title }}</a>
+            {% endif %}
+          </h3>
+
+          <p class="marathon-schedule-blurb">{{ slot.blurb }}</p>
+
+          {% if slot.isEitherOrJam %}
+          <div class="marathon-either-or-grid">
+            {% for j in slot.jams %}
+            <div class="marathon-either-or-option">
+              <div class="marathon-either-or-opt-header">
+                <span class="marathon-either-or-chip">{{ j.label }}</span>
+                <h4 class="marathon-either-or-opt-title"><a href="/event/{{ j.slug }}/">{{ j.name }}</a></h4>
+              </div>
+              <p class="marathon-either-or-opt-desc">{{ j.desc }}</p>
+              <div class="marathon-either-or-actions">
+                {% if j.ticketUrl %}
+                <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ j.ticketUrl }}" target="_blank" rel="noopener">Book {{ j.name }} →</a>
+                {% endif %}
+                <a class="marathon-either-or-btn" href="/event/{{ j.slug }}/">About {{ j.name }} →</a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="marathon-schedule-actions">
+            {% if slot.ticketUrl %}
+            <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
+            {% endif %}
+            <a class="marathon-schedule-link" href="/event/{{ slot.slug }}/">About {{ slot.title }} →</a>
+          </div>
+          {% endif %}
+        </div>
+
+      </article>
+      {% endfor %}
+    </div>
+
+  </section>
+
+  {# PASSES & TICKETS #}
+  <section class="page-section marathon-passes-wrap" id="passes" aria-labelledby="passes-heading">
+    <h2 class="section-heading" id="passes-heading">Support Local Theatre: Passes &amp; Tickets</h2>
+    <p class="section-sub">Every pass directly supports Underline Center and keeps independent, grassroots theatre alive in Bangalore.</p>
+
+    <div class="marathon-passes-grid">
+      {% for pass in marathon.upcoming.passes %}
+      <div class="marathon-pass-card{% if loop.first %} marathon-pass-card--featured{% endif %}">
+        {% if pass.tag %}
+        <span class="marathon-pass-badge">{{ pass.tag }}</span>
+        {% endif %}
+        <h3 class="marathon-pass-title">{{ pass.name }}</h3>
+        <p class="marathon-pass-desc">{{ pass.desc }}</p>
+        <ul class="marathon-pass-perks">
+          {% for perk in pass.perks %}
+          <li>{{ perk }}</li>
+          {% endfor %}
+        </ul>
+        <div class="event-buttons">
+          {% if pass.ticketUrl %}
+          <a class="btn btn-primary" href="{{ pass.ticketUrl }}" target="_blank" rel="noopener">Book {{ pass.name }} →</a>
+          {% else %}
+          <a class="btn btn-primary" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Get Pass Updates on WhatsApp →</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {# COMMON QUESTIONS #}
+  <section class="page-section marathon-faq-wrap" aria-labelledby="faq-heading">
+    <h2 class="section-heading" id="faq-heading">Common Questions</h2>
+    <p class="section-sub">Everything you might wonder about dropping by for the marathon.</p>
+
+    <div class="marathon-faq-grid">
+      {% for item in marathon.upcoming.faqs %}
+      <div class="marathon-faq-card">
+        <h3>{{ item.q }}</h3>
+        <p>{{ item.a }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {# VENUE & DIRECTIONS #}
+  <section class="page-section" aria-labelledby="venue-heading">
+    <h2 class="section-heading" id="venue-heading">The Venue</h2>
+    <p class="section-sub">Our home base for the marathon.</p>
+
+    <div class="marathon-venue-card">
+      <div class="marathon-venue-info">
+        <h3>{{ marathon.upcoming.venue }}</h3>
+        <p>A cozy community space tucked away in Indiranagar. Warm, welcoming, steps away from Indiranagar 12th Main cafes and food, and just a short walk from Indiranagar Metro Station.</p>
+      </div>
+      <div class="event-buttons">
+        <a class="btn btn-primary" href="{{ marathon.upcoming.venueMapsUrl }}" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+      </div>
+    </div>
+  </section>
+
+  {# SUPPORT LOCAL THEATRE COMMUNITY CALLOUT #}
+  <section class="page-section" aria-labelledby="community-heading">
+    <div class="marathon-community-card">
+      <span class="marathon-community-tag">All Play No Work</span>
+      <h2 class="marathon-community-title" id="community-heading">Support Your Local Theatre</h2>
+      <p class="marathon-community-copy">
+        Grassroots improv only happens because people in Bangalore show up, buy tickets, and tell your friends. Every ticket goes directly toward supporting Underline Center as a cozy community space and improvlore.
+      </p>
+      <p class="marathon-community-subcopy">
+        Bring a friend who needs a break from work, share the schedule, or join our community WhatsApp circle to stay in touch.
+      </p>
+      <div class="event-buttons">
+        <a class="btn-apnw-primary" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Join WhatsApp Community ↗</a>
+        <a class="btn-apnw-ghost" href="#schedule">Browse the Shows ↑</a>
+      </div>
+    </div>
+  </section>
+
+</div>

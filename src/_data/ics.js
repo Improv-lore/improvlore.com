@@ -40,7 +40,7 @@ const fold = (line) => {
 // The VEVENT block for one event. Returns null without a title + start time.
 // Shared by the single-event and all-events calendars so the formatting never
 // drifts between them.
-function vevent({ title, description, startsAt, endsAt, venue, url, slug }) {
+function vevent({ title, description, startsAt, endsAt, venue, url, slug, pageUrl }) {
   const dtStart = toICSDate(startsAt);
   if (!title || !dtStart) return null; // no point without a title + start time
 
@@ -52,8 +52,8 @@ function vevent({ title, description, startsAt, endsAt, venue, url, slug }) {
   }
 
   const uid = `${slug || toICSDate(startsAt)}@improvlore.com`;
-  const pageUrl = `${SITE_URL}/event/${slug || ""}/`;
-  const desc = [description, "", `Details: ${pageUrl}`].filter((l) => l !== undefined).join("\n");
+  const targetUrl = pageUrl || `${SITE_URL}/event/${slug || ""}/`;
+  const desc = [description, "", `Details: ${targetUrl}`].filter((l) => l !== undefined).join("\n");
 
   return [
     "BEGIN:VEVENT",

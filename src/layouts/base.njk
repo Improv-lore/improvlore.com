@@ -6,22 +6,37 @@
   <title>{{ title }}</title>
   {% set desc = pageDescription or "Improv Lore: Live improv theatre, jams, and workshops in Bangalore and beyond. No script, no second take, made up on the spot." %}
   <meta name="description" content="{{ desc }}">
+  {% if pageKeywords %}<meta name="keywords" content="{{ pageKeywords }}">{% endif %}
   {% if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
   <link rel="canonical" href="{{ site.absUrl(canonicalUrl or page.url) }}">
-  <meta property="og:title" content="{{ title }}">
-  <meta property="og:description" content="{{ desc }}">
-  <meta property="og:url" content="{{ site.absUrl(page.url) }}">
+
+  {# Open Graph / Facebook / WhatsApp #}
   <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:url" content="{{ site.absUrl(page.url) }}">
+  <meta property="og:title" content="{{ ogTitle or title }}">
+  <meta property="og:description" content="{{ ogDescription or desc }}">
   {% set ogImage = pageImage or "/assets/logo.png" %}
   <meta property="og:image" content="{{ site.absUrl(ogImage) }}">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="{% if pageImage %}summary_large_image{% else %}summary{% endif %}">
+  {% if pageImageAlt %}<meta property="og:image:alt" content="{{ pageImageAlt }}">{% endif %}
+  {% if pageImageWidth %}<meta property="og:image:width" content="{{ pageImageWidth }}">{% endif %}
+  {% if pageImageHeight %}<meta property="og:image:height" content="{{ pageImageHeight }}">{% endif %}
+
+  {# Twitter / X Cards #}
+  <meta name="twitter:card" content="{{ twitterCard or (pageImage and 'summary_large_image' or 'summary') }}">
+  <meta name="twitter:title" content="{{ twitterTitle or ogTitle or title }}">
+  <meta name="twitter:description" content="{{ twitterDescription or ogDescription or desc }}">
+  <meta name="twitter:image" content="{{ site.absUrl(ogImage) }}">
+  {% if pageImageAlt %}<meta name="twitter:image:alt" content="{{ pageImageAlt }}">{% endif %}
+
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="alternate" type="application/atom+xml" title="Improvlore upcoming events" href="/feed.xml">
   {% if jsonLd %}<script type="application/ld+json">{{ jsonLd | safe }}</script>{% endif %}
+  {% block headExtra %}{% endblock %}
   <style>
     {{ "src/assets/css/base.css" | inlineCss | safe }}
     {{ "src/assets/css/motifs.css" | inlineCss | safe }}
@@ -137,6 +152,7 @@
           <a href="/">Home</a>
           <a href="/about/">About</a>
           <a href="/events/">Upcoming</a>
+          <a href="/marathon/">Marathon (2nd Oct)</a>
           <a href="/library/">Library</a>
           <a href="/faq/">FAQ</a>
           <a href="/for-teams/">Work With Us</a>

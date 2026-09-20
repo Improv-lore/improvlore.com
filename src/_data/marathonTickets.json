@@ -1,0 +1,60 @@
+{
+  "_instructions": "Add your ticketing or booking URLs to the 'url' fields below (e.g. Townscript, Insider, Underline Center). If left empty, the site falls back to WhatsApp community updates.",
+  "passes": {
+    "fourShowPass": {
+      "name": "4-Show Pass (Pick Any 4 Shows)",
+      "url": ""
+    },
+    "singleSession": {
+      "name": "Single Session Tickets",
+      "url": ""
+    }
+  },
+  "events": {
+    "powerpoint-roulette": {
+      "title": "PowerPoint Roulette",
+      "time": "02:00 PM",
+      "url": ""
+    },
+    "maestro-impro": {
+      "title": "Maestro Impro™",
+      "time": "03:30 PM",
+      "url": ""
+    },
+    "yes-and-dragons": {
+      "title": "Yes, And Dragons",
+      "time": "05:00 PM",
+      "url": ""
+    },
+    "and-then": {
+      "title": "And, Then?",
+      "time": "06:30 PM",
+      "url": ""
+    },
+    "make-an-improv-song": {
+      "title": "Make an Improv Song (Musical Jam)",
+      "time": "08:00 PM",
+      "url": ""
+    },
+    "make-friends-with-the-stage": {
+      "title": "Make Friends with the Stage (Scene Jam)",
+      "time": "08:00 PM",
+      "url": ""
+    },
+    "musical-improv-show": {
+      "title": "Musical Improv Show",
+      "time": "09:30 PM",
+      "url": ""
+    },
+    "the-great-face-off": {
+      "title": "TheatreSports™",
+      "time": "11:00 PM",
+      "url": ""
+    },
+    "the-silliest-show-tonight": {
+      "title": "The Silliest Show Tonight: After Dark Edition",
+      "time": "12:30 AM",
+      "url": ""
+    }
+  }
+}

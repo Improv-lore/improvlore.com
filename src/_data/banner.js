@@ -26,6 +26,11 @@ export default {
   lead: "What's on",
 
   items: [
+    {
+      type: "message",
+      text: "12-Hour Improvathon: All Play No Work · 2nd Oct (2 PM – 2 AM)",
+      href: "/marathon/",
+    },
     { type: "events" },
     {
       type: "message",

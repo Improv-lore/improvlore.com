@@ -12,6 +12,8 @@ const IST = { timeZone: "Asia/Kolkata" };
 // read identically.
 const ONE_OFF_BADGES = {
   theatresports: ["Licensed format"],
+  "all play no work": ["12-hour festival", "7 Shows · 2 Jams"],
+  marathon: ["12-hour festival", "7 Shows · 2 Jams"],
 };
 
 export default {
@@ -108,6 +110,10 @@ export default {
   },
 
   eventPermalink(ev = {}) {
+    if (ev.permalink) return ev.permalink;
+    if (ev.slug === "all-play-no-work-marathon" || (ev.title || "").toLowerCase().includes("all play no work")) {
+      return "/marathon/";
+    }
     // Catalog formats own the canonical /event/<catalog-slug>/ page, so a
     // feed event that matches one links there. One-offs use the derived slug.
     const fmt = matchFormat(ev.title || "");
