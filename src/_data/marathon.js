@@ -140,6 +140,8 @@ const upcoming = {
     "Doors open at 1:30 PM. Seven shows and two jams from 2:00 in the afternoon until 2:00 in the morning.",
   schedule: [
     {
+      thumpnEventId: "evt-J8SBG6",
+      thumpnEmbedToken: "09jsJ1o08dLrD9S9nr5Zv-Qcuh0JRjixjVw9XaxmzNQ",
       time: "02:00 PM",
       endTime: "03:15 PM",
       title: "PowerPoint Roulette",
@@ -316,4 +318,3 @@ const eventsConf = ticketsConfig.events || {};
 });
 
 export default { meta, lineup, upcoming };
-

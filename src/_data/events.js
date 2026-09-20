@@ -65,12 +65,10 @@ export default async function () {
   );
 
   if (!hasMainMarathon) {
-    collapsed.push(MARATHON_EVENT);
+    // collapsed.push(MARATHON_EVENT);
   }
 
   return collapsed.sort(
     (a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at)
   );
 }
-
-

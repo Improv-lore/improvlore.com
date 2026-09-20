@@ -90,9 +90,7 @@ pageStyles:
             <a class="btn-apnw-ghost" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community ↗</a>
           </div>
         </div>
-
       </div>
-
     </div>
   </header>
 
@@ -222,8 +220,9 @@ pageStyles:
           </div>
           {% else %}
           <div class="marathon-schedule-actions">
-            {% if slot.ticketUrl %}
-            <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
+            {% if slot.thumpnEventId %}
+            <!--<a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>-->
+            <script src="https://thumpn.com/embed.js" data-event-id="{{ slot.thumpnEventId }}" data-embed-token="{{slot.thumpnEmbedToken}}" defer></script>
             {% endif %}
             <a class="marathon-schedule-link" href="/event/{{ slot.slug }}/">About {{ slot.title }} →</a>
           </div>
