@@ -290,7 +290,9 @@ pageStyles:
         <div class="event-buttons">
           {% if pass.razorpay %}
           <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
-        {% endif %}
+          {% else %}
+          <a class="btn-apnw-primary" href="#schedule">Browse Sessions ↑</a
+          {% endif %}
         </div>
       </div>
       {% endfor %}
