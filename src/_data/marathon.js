@@ -275,10 +275,10 @@ const upcoming = {
     {
       name: "4-Show Pass",
       tag: "Best for Most People",
-      desc: "Pick any 4 shows across the day that match your schedule. Catch an afternoon block, step out to 12th Main for food, and head back for prime-time and late-night sets.",
+      desc: "Pick any 4 shows across the day that match your schedule. Catch an afternoon block, step out for a break, and head back for prime-time and late-night sets.",
       perks: [
         "Entry to any 4 shows of your choice",
-        "Come and go freely between your chosen sets",
+        "Come and go freely between your chosen sessions",
         "Better value than single session tickets",
         "Directly supports Underline Center & independent local theatre"
           ],
