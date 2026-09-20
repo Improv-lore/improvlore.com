@@ -216,6 +216,9 @@ pageStyles:
               <p class="marathon-either-or-opt-desc">{{ j.desc }}</p>
               <div class="marathon-either-or-actions">
                 {% if j.thumpnEventId %}
+                {% if marathon.upcoming.skipThumpnEmbed %}
+                <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ 'https://thumpn.com/event/' + j.thumpnEventId + '/tickets'}}" target="_blank" rel="noopener">Book Tickets →</a>
+                {% else %}
                 <button type="button"
                         class="marathon-either-or-btn marathon-either-or-btn--book js-thumpn-modal-open"
                         data-event-id="{{ j.thumpnEventId }}"
@@ -223,6 +226,7 @@ pageStyles:
                         data-event-title="{{ j.name }}">
                   Book Tickets →
                 </button>
+                {% endif %}
                 {% elif j.ticketUrl %}
                 <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ j.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
                 {% endif %}
@@ -238,7 +242,11 @@ pageStyles:
           {% if slot.isEitherOrJam %}
 
           {% elif slot.thumpnEventId %}
+
           <div class="marathon-schedule-tickets-col">
+              {% if marathon.upcoming.skipThumpnEmbed %}
+              <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ 'https://thumpn.com/event/' + slot.thumpnEventId + '/tickets'}}" target="_blank" rel="noopener">Book Tickets →</a>
+              {% else %}
           <button type="button"
                   class="marathon-schedule-book-btn js-thumpn-modal-open"
                   data-event-id="{{ slot.thumpnEventId }}"
@@ -246,6 +254,7 @@ pageStyles:
                   data-event-title="{{ slot.title }}">
             Book Tickets →
           </button>
+          {% endif %}
           {% elif slot.ticketUrl %}
           <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
           {% else %}

@@ -134,6 +134,7 @@ const upcoming = {
   venueMapsUrl: "https://maps.google.com/?q=Underline+Center+Indiranagar",
   rsvpUrl: "https://chat.whatsapp.com/CRv3J3K0xRG8iQnTBI4hMa",
   ticketUrl: "https://underline.center",
+  skipThumpnEmbed: false, // Set to true if embed is having an issue and we want to link to the event page directly
   intro:
     "Bangalore spends too much time staring at screens and rushing through deadlines. This Gandhi Jayanti, we're doing the opposite: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness in a cozy community space in Indiranagar. Seven shows, two community jams, and zero scripts. Pull up a chair, support your local theatre, and come play.",
   scheduleNote:
