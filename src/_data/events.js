@@ -65,7 +65,7 @@ export default async function () {
   );
 
   if (!hasMainMarathon) {
-    // collapsed.push(MARATHON_EVENT);
+    collapsed.push(MARATHON_EVENT);
   }
 
   return collapsed.sort(
