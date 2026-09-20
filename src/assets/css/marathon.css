@@ -1025,6 +1025,13 @@
   }
 }
 
+.razorpay-embed-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensures the container spans full width */
+}
+
 .marathon-schedule-dual-item {
   display: flex;
   flex-direction: column;

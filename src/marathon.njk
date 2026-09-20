@@ -146,7 +146,7 @@ pageStyles:
         </p>
       </div>
       <div class="marathon-lineup-notice-right">
-        <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
+        <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
       </div>
     </div>
 
@@ -226,7 +226,6 @@ pageStyles:
                 {% elif j.ticketUrl %}
                 <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ j.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
                 {% endif %}
-                <a class="marathon-either-or-btn" href="/event/{{ j.slug }}/">About {{ j.name }} →</a>
               </div>
             </div>
             {% endfor %}
@@ -235,24 +234,11 @@ pageStyles:
         </div>
 
         {# TICKETS COLUMN #}
-        <div class="marathon-schedule-tickets-col">
+
           {% if slot.isEitherOrJam %}
-            <div class="marathon-schedule-either-or-tickets">
-              {% for j in slot.jams %}
-                {% if j.thumpnEventId %}
-                <button type="button"
-                        class="marathon-schedule-book-btn js-thumpn-modal-open"
-                        data-event-id="{{ j.thumpnEventId }}"
-                        data-embed-token="{{ j.thumpnEmbedToken }}"
-                        data-event-title="{{ j.name }}">
-                  Book: {{ j.name }} →
-                </button>
-                {% elif j.ticketUrl %}
-                <a class="marathon-schedule-book-btn" href="{{ j.ticketUrl }}" target="_blank" rel="noopener">Book: {{ j.name }} →</a>
-                {% endif %}
-              {% endfor %}
-            </div>
+
           {% elif slot.thumpnEventId %}
+          <div class="marathon-schedule-tickets-col">
           <button type="button"
                   class="marathon-schedule-book-btn js-thumpn-modal-open"
                   data-event-id="{{ slot.thumpnEventId }}"
@@ -264,8 +250,9 @@ pageStyles:
           <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
           {% else %}
           <a class="marathon-schedule-book-btn" href="#passes">Get Passes / Tickets →</a>
+          </div>
           {% endif %}
-        </div>
+
 
       </article>
       {% endfor %}
@@ -292,11 +279,9 @@ pageStyles:
           {% endfor %}
         </ul>
         <div class="event-buttons">
-          {% if pass.ticketUrl %}
-          <a class="btn btn-primary" href="{{ pass.ticketUrl }}" target="_blank" rel="noopener">Book {{ pass.name }} →</a>
-          {% else %}
-          <a class="btn btn-primary" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Get Pass Updates on WhatsApp →</a>
-          {% endif %}
+          {% if pass.razorpay %}
+          <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
+        {% endif %}
         </div>
       </div>
       {% endfor %}

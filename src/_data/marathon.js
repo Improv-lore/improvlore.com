@@ -280,7 +280,8 @@ const upcoming = {
         "Come and go freely between your chosen sets",
         "Better value than single session tickets",
         "Directly supports Underline Center & independent local theatre"
-      ]
+          ],
+      razorpay: true,
     },
     {
       name: "Single Session Tickets",
