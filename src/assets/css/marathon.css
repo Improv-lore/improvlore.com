@@ -638,8 +638,8 @@
 @media (min-width: 860px) {
   .marathon-schedule-card {
     display: grid;
-    grid-template-columns: 130px 340px 1fr;
-    gap: 1.75rem;
+    grid-template-columns: 130px 280px 1fr 160px;
+    gap: 1.5rem;
     padding: 1.6rem 1.75rem;
     align-items: center;
   }
@@ -647,8 +647,8 @@
 
 @media (min-width: 1140px) {
   .marathon-schedule-card {
-    grid-template-columns: 140px 400px 1fr;
-    gap: 2rem;
+    grid-template-columns: 140px 340px 1fr 180px;
+    gap: 1.75rem;
   }
 }
 
@@ -942,7 +942,15 @@
   font-weight: 800;
   color: var(--ink);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.marathon-schedule-title-text {
+  display: inline;
 }
 
 .marathon-schedule-title a {
@@ -955,6 +963,33 @@
 .marathon-schedule-title a:hover {
   color: var(--apnw-blue-dark);
   border-bottom-color: var(--apnw-blue-dark);
+}
+
+.marathon-schedule-about-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface-warm);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  box-shadow: 1.5px 1.5px 0 var(--ink);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+  vertical-align: middle;
+}
+
+.marathon-schedule-about-icon:hover {
+  background: var(--apnw-yellow);
+  transform: translate(-1px, -1px);
+  color: var(--ink);
+}
+
+.marathon-schedule-about-icon svg {
+  display: block;
 }
 
 .marathon-schedule-blurb {
@@ -1052,24 +1087,83 @@
 .marathon-schedule-book-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.3rem;
-  font-size: 0.82rem;
+  font-family: inherit;
+  font-size: 0.85rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--ink);
   background: var(--apnw-yellow);
-  border: 1.5px solid var(--ink);
-  border-radius: 6px;
-  padding: 0.3rem 0.75rem;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
   text-decoration: none;
   box-shadow: 2px 2px 0 var(--ink);
-  transition: transform 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .marathon-schedule-book-btn:hover {
   background: var(--apnw-yellow-bright);
   transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.marathon-schedule-book-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+/* Tickets Column */
+.marathon-schedule-tickets-col {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0.5rem;
+  border-top: 2px dashed var(--border-soft);
+}
+
+@media (min-width: 860px) {
+  .marathon-schedule-tickets-col {
+    padding-top: 0;
+    border-top: none;
+    border-left: 2px dashed var(--border-soft);
+    padding-left: 1.25rem;
+    height: 100%;
+    align-items: center;
+  }
+
+  .marathon-schedule-tickets-col .marathon-schedule-book-btn {
+    width: 100%;
+    max-width: 170px;
+  }
+}
+
+.marathon-schedule-either-or-tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+@media (min-width: 860px) {
+  .marathon-schedule-either-or-tickets {
+    align-items: center;
+  }
+
+  .marathon-schedule-either-or-tickets .marathon-schedule-book-btn {
+    font-size: 0.76rem;
+    padding: 0.48rem 0.7rem;
+    text-align: center;
+    line-height: 1.25;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1104,6 +1198,125 @@
     box-sizing: border-box;
     min-height: 44px;
     padding: 0.65rem 0.85rem;
+  }
+}
+
+/* -------------------------------------------------
+   THUMPN TICKETS MODAL
+------------------------------------------------- */
+
+body.thumpn-modal-open {
+  overflow: hidden;
+}
+
+body > .thumpn-modal-backdrop,
+.thumpn-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100000 !important;
+  background: rgba(8, 76, 108, 0.78);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+body > .thumpn-modal-backdrop[hidden],
+.thumpn-modal-backdrop[hidden] {
+  display: none !important;
+}
+
+.thumpn-modal-dialog {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 var(--ink);
+  width: 100%;
+  max-width: 540px;
+  max-height: 92vh;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.thumpn-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--surface-warm);
+  flex-shrink: 0;
+}
+
+.thumpn-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.thumpn-modal-close {
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  box-shadow: 1.5px 1.5px 0 var(--ink);
+  transition: transform 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.thumpn-modal-close:hover {
+  background: var(--apnw-yellow);
+  transform: translate(-1px, -1px);
+}
+
+.thumpn-modal-body {
+  padding: 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.thumpn-modal-body iframe {
+  width: 100% !important;
+  min-height: 600px !important;
+  border: none !important;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(20px) scale(0.97);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 

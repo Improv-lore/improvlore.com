@@ -140,8 +140,8 @@ const upcoming = {
     "Doors open at 1:30 PM. Seven shows and two jams from 2:00 in the afternoon until 2:00 in the morning.",
   schedule: [
     {
-      thumpnEventId: "evt-J8SBG6",
-      thumpnEmbedToken: "09jsJ1o08dLrD9S9nr5Zv-Qcuh0JRjixjVw9XaxmzNQ",
+      thumpnEventId: "evt-KMWNG3",
+      thumpnEmbedToken: "eZ3yz_p1lDTy0NRD8wFTb9oYoEnXvPq3XbTyql_YOTU",
       time: "02:00 PM",
       endTime: "03:15 PM",
       title: "PowerPoint Roulette",
@@ -153,6 +153,8 @@ const upcoming = {
       blurb: "Improvisers present pitch decks, TED talks, and conspiracy theories from slides they have never seen before. Panic on stage, pure joy in the room."
     },
     {
+      thumpnEventId: "evt-MXNHFG",
+      thumpnEmbedToken: "KsD4M6rQ-1QY7_Lb6yAZumOjLm99_cx0mcRy4VOy6to",
       time: "03:30 PM",
       endTime: "04:45 PM",
       title: "Maestro Impro™",
@@ -164,6 +166,8 @@ const upcoming = {
       blurb: "Twelve actors walk in. You shout suggestions, score every scene, and eliminate players until only one survivor is crowned Maestro."
     },
     {
+      thumpnEventId: "evt-X7JFNA",
+      thumpnEmbedToken: "vVhQvk7oH18YUNQO85wUDanz4d4aafKJu32r-BCCpuw",
       time: "05:00 PM",
       endTime: "06:15 PM",
       title: "Yes, and Dragons",
@@ -175,6 +179,8 @@ const upcoming = {
       blurb: "Dungeons & Dragons meets live storytelling. Giant dice, improvised dungeon masters, and heroes running headfirst into audience curveballs."
     },
     {
+      thumpnEventId: "evt-TVQ8VE",
+      thumpnEmbedToken: "GzY3xpi7vsxdFB1pWF_5bAkC7x58mCleSHaoWsgF3hI",
       time: "06:30 PM",
       endTime: "07:45 PM",
       title: "And, Then?",
@@ -198,6 +204,8 @@ const upcoming = {
       isEitherOrJam: true,
       jams: [
         {
+          thumpnEventId: "evt-EZP5Y4",
+          thumpnEmbedToken: "fUNSXZIzj_ogM3kErowmWrX17x6EDSzNBzud36CM_EQ",
           label: "Option A · Sing & Rhyme",
           name: "Make an Improv Song",
           slug: "make-an-improv-song",
@@ -205,6 +213,8 @@ const upcoming = {
           desc: "Make up songs with live piano, silly hooks, and zero pressure. Can't sing? Even better."
         },
         {
+          thumpnEventId: "evt-J8SBG6",
+          thumpnEmbedToken: "qLl5fLDt86NXKmFf4W8jykafyTVZfs9eZfT-7kMTft8",
           label: "Option B · Stage Games",
           name: "Make Friends with the Stage",
           slug: "make-friends-with-the-stage",
@@ -215,6 +225,8 @@ const upcoming = {
       blurb: "Two friendly jams happening at the same time in separate rooms. Pick the room that sounds fun, or grab a chair and cheer from the sidelines."
     },
     {
+      thumpnEventId: "evt-E8WF7R",
+      thumpnEmbedToken: "94l7DAgjG7HSVFiGJc3TKpQKT22nP278AIpHMm8hwgU",
       time: "09:30 PM",
       endTime: "10:45 PM",
       title: "The Musical Improv Show",
@@ -226,6 +238,8 @@ const upcoming = {
       blurb: "A brand new Broadway-style musical, built live with a pianist from whatever prompt you shout out. Catchy melodies, zero scripts."
     },
     {
+      thumpnEventId: "evt-PUDQUN",
+      thumpnEmbedToken: "AuD31j0Knv4EpU66S2ujTrlzZDwpQ4yoYIBZWNtRPkM",
       time: "11:00 PM",
       endTime: "12:15 AM",
       title: "TheatreSports™",
@@ -237,6 +251,8 @@ const upcoming = {
       blurb: "Two teams battle it out in lightning-fast comedy rounds. Referee whistles, penalty fouls, and you scoring the winners."
     },
     {
+      thumpnEventId: "evt-9QDCJB",
+      thumpnEmbedToken: "SDGhvx3gIvvaT-CSxswrK_HjWNOYoyrZWNY9UohCZHs",
       time: "12:30 AM",
       endTime: "02:00 AM",
       dateLabel: "Sat 3 Oct",
