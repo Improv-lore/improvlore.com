@@ -31,6 +31,7 @@ export default {
             venue: ev.venue,
             url: ev.url,
             slug: (fmt && fmt.slug) || eventSlug(ev),
+            pageUrl: ev.permalink ? `https://improvlore.com${ev.permalink}` : null,
           };
         });
       return eventsIcs(upcoming) || "";

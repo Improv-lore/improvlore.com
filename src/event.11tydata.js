@@ -30,7 +30,7 @@ export default {
     size: 1,
     alias: "ev",
     addAllPagesToCollections: true,
-    before: (arr) => arr.filter((ev) => matchFormat(ev.title || "") === null),
+    before: (arr) => arr.filter((ev) => matchFormat(ev.title || "") === null && ev.permalink !== "/marathon/"),
   },
   eleventyComputed: {
     permalink(data) {

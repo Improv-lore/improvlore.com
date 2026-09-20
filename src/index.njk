@@ -4,10 +4,93 @@ title: Improvlore - Bangalore
 showCustomEvents: false
 pageStyles:
   - /assets/css/home.css
+  - /assets/css/marathon.css
 ---
 {% from "cards.njk" import formatCard with context %}
 
 <div class="events-root">
+
+  {# All Play No Work 12-Hour Marathon Countdown Banner #}
+  <!--<div class="home-marathon-compact-wrap" aria-label="Special Event: All Play No Work 12-Hour Improv Marathon">
+    <a class="home-marathon-compact" href="/marathon/">
+      <div class="home-marathon-compact-left">
+        <div class="home-marathon-compact-tag-row">
+          <span class="home-marathon-compact-badge">All Play No Work</span>
+          <span class="home-marathon-compact-date">2nd Oct · 2 PM – 2 AM</span>
+        </div>
+        <div class="home-marathon-compact-title-wrap">
+          <span class="home-marathon-compact-title">12-Hour Improv Marathon</span>
+          <span class="home-marathon-compact-sub">7 Shows · 2 Jams · Underline Center</span>
+        </div>
+      </div>
+
+      <div class="home-marathon-compact-right">
+        <div class="home-marathon-countdown-block">
+          <span class="home-marathon-timer-label">
+            <span class="timer-live-dot" aria-hidden="true"></span>Starts In
+          </span>
+          <div class="home-marathon-timer-pods" id="marathon-countdown" data-target="2026-10-02T14:00:00+05:30" aria-label="Countdown to marathon kickoff">
+            <div class="timer-pod">
+              <span class="timer-pod-num" data-unit="days">--</span>
+              <span class="timer-pod-unit">Days</span>
+            </div>
+            <span class="timer-pod-sep" aria-hidden="true">:</span>
+            <div class="timer-pod">
+              <span class="timer-pod-num" data-unit="hours">--</span>
+              <span class="timer-pod-unit">Hours</span>
+            </div>
+            <span class="timer-pod-sep" aria-hidden="true">:</span>
+            <div class="timer-pod">
+              <span class="timer-pod-num" data-unit="minutes">--</span>
+              <span class="timer-pod-unit">Mins</span>
+            </div>
+            <span class="timer-pod-sep" aria-hidden="true">:</span>
+            <div class="timer-pod timer-pod--sec">
+              <span class="timer-pod-num" data-unit="seconds">--</span>
+              <span class="timer-pod-unit">Secs</span>
+            </div>
+          </div>
+        </div>
+
+        <span class="home-marathon-compact-cta">
+          <span>See Lineup</span>
+          <span class="home-marathon-cta-arrow" aria-hidden="true">→</span>
+        </span>
+      </div>
+    </a>
+  </div>
+  <script>
+    (function() {
+      var timer = document.getElementById('marathon-countdown');
+      if (!timer) return;
+      var target = new Date(timer.dataset.target).getTime();
+      var d = timer.querySelector('[data-unit="days"]');
+      var h = timer.querySelector('[data-unit="hours"]');
+      var m = timer.querySelector('[data-unit="minutes"]');
+      var s = timer.querySelector('[data-unit="seconds"]');
+
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          timer.innerHTML = '<span class="timer-live">Live Now!</span>';
+          return;
+        }
+        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        var minutes = Math.floor((diff / (1000 * 60)) % 60);
+        var seconds = Math.floor((diff / 1000) % 60);
+
+        if (d) d.textContent = pad(days);
+        if (h) h.textContent = pad(hours);
+        if (m) m.textContent = pad(minutes);
+        if (s) s.textContent = pad(seconds);
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>-->
 
   {# Hero answers "who are you / is this for me / where do I go" for a new
      visitor, while keeping a fast path into events. The featured cards show
