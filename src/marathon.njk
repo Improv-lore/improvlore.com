@@ -180,6 +180,15 @@ pageStyles:
               <img class="marathon-schedule-poster-img" src="/assets/posters/make-friends-with-the-stage.jpg" alt="Make Friends with the Stage poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
             </a>
           </div>
+          {% elif slot.posterAfterDark %}
+          <div class="marathon-poster-after-dark-wrap" data-after-dark-swap>
+            <a class="marathon-poster-link" href="/event/{{ slot.slug }}/" title="{{ slot.title }} details">
+              <div class="marathon-after-dark-stage">
+                <img class="marathon-schedule-poster-img poster-day" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
+                <img class="marathon-schedule-poster-img poster-night" src="{{ slot.posterAfterDark }}" alt="{{ slot.title }} After Dark poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
+              </div>
+            </a>
+          </div>
           {% else %}
           <a class="marathon-poster-link" href="/event/{{ slot.slug }}/" title="{{ slot.title }} details">
             <img class="marathon-schedule-poster-img" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
@@ -193,6 +202,13 @@ pageStyles:
           <h3 class="marathon-schedule-title">
             {% if slot.isEitherOrJam %}
             <span>Make an Improv Song <span class="title-or-accent">OR</span> Make Friends with the Stage</span>
+            {% elif slot.formatClass == 'latenight' %}
+            <span class="marathon-schedule-title-text"><a href="/event/{{ slot.slug }}/">The Silliest Show Tonight <span class="neon-text-afterdark">: After Dark</span></a></span>
+            <a class="marathon-schedule-about-icon" href="/event/{{ slot.slug }}/" title="About {{ slot.title }}" aria-label="About {{ slot.title }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20c0,13.88-11.83,21.36-19.89,26.47C124,139.63,120,143.43,120,152a8,8,0,0,0,16,0c0-3.32,1.87-5.59,6.71-8.67C152.06,137.4,168,127.24,168,108,168,88.15,150.06,72,128,72Zm100,56A100,100,0,1,1,128,28,100.11,100.11,0,0,1,228,128Zm-16,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Z"/>
+              </svg>
+            </a>
             {% else %}
             <span class="marathon-schedule-title-text"><a href="/event/{{ slot.slug }}/">{{ slot.title }}</a></span>
             <a class="marathon-schedule-about-icon" href="/event/{{ slot.slug }}/" title="About {{ slot.title }}" aria-label="About {{ slot.title }}">
@@ -336,7 +352,7 @@ pageStyles:
       <span class="marathon-community-tag">All Play No Work</span>
       <h2 class="marathon-community-title" id="community-heading">Support Your Local Theatre</h2>
       <p class="marathon-community-copy">
-        Grassroots improv only happens because people in Bangalore show up, buy tickets, and tell your friends. Every ticket goes directly toward supporting Underline Center as a cozy community space and improvlore.
+        Grassroots improv only happens because people in Bangalore show up, buy tickets, and tell their friends. Every ticket goes directly toward supporting Underline Center as a cozy community space and improvlore.
       </p>
       <p class="marathon-community-subcopy">
         Bring a friend who needs a break from work, share the schedule, or join our community WhatsApp circle to stay in touch.
@@ -362,6 +378,11 @@ pageStyles:
     </div>
   </div>
 </div>
+
+{# FLOATING SUN OVERLAY BUTTON (Where scroll-to-top sits, appears only in After Dark mode) #}
+<button type="button" class="after-dark-sun-btn js-after-dark-return" aria-label="Return to Day Mode" title="Return to Day Mode">
+  <span class="sun-icon" aria-hidden="true">☀️</span>
+</button>
 
 <script>
   (function() {
@@ -425,5 +446,78 @@ pageStyles:
         closeModal();
       }
     });
+  })();
+
+  // After Dark Whole Website Inversion & Poster Transition
+  (function() {
+    var swapWraps = document.querySelectorAll('[data-after-dark-swap]');
+    var sunBtn = document.querySelector('.after-dark-sun-btn');
+    var html = document.documentElement;
+    var triggered = false;
+
+    // Portal sun button directly to body so it floats reliably above all stacking contexts
+    if (sunBtn && sunBtn.parentNode !== document.body) {
+      document.body.appendChild(sunBtn);
+    }
+
+    function activateAfterDark() {
+      if (sunBtn && sunBtn.parentNode !== document.body) {
+        document.body.appendChild(sunBtn);
+      }
+      html.classList.add('is-after-dark');
+      swapWraps.forEach(function(wrap) {
+        wrap.classList.add('is-after-dark');
+      });
+      if (sunBtn) {
+        sunBtn.classList.add('is-visible');
+        sunBtn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    function activateDay() {
+      html.classList.remove('is-after-dark');
+      swapWraps.forEach(function(wrap) {
+        wrap.classList.remove('is-after-dark');
+      });
+      if (sunBtn) {
+        sunBtn.classList.remove('is-visible');
+        sunBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    if (sunBtn) {
+      sunBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        triggered = true; // User explicitly exited After Dark
+        activateDay();
+      });
+    }
+
+    // Check if user prefers reduced motion
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    // Trigger transition smoothly after exactly 1 second in viewport
+    if (swapWraps.length && 'IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting && !triggered) {
+            triggered = true;
+            setTimeout(function() {
+              if (!html.classList.contains('is-after-dark')) {
+                activateAfterDark();
+              }
+            }, 1000); // 1-second delay
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      swapWraps.forEach(function(wrap) {
+        observer.observe(wrap);
+      });
+    }
   })();
 </script>

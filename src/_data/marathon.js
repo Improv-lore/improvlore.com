@@ -136,7 +136,7 @@ const upcoming = {
   ticketUrl: "https://underline.center",
   skipThumpnEmbed: false, // Set to true if embed is having an issue and we want to link to the event page directly
   intro:
-    "Bangalore spends too much time staring at screens and rushing through deadlines. This Gandhi Jayanti, we're doing the opposite: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness in a cozy community space in Indiranagar. Seven shows, two community jams, and zero scripts. Pull up a chair, support your local theatre, and come play.",
+    "Are you tired of staring at screens and rushing to meet deadlines? This Gandhi Jayanti, we're making the antidote: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness in a cozy community space in Indiranagar. Seven shows, two community jams, and zero scripts. Pull up a chair, support your local theatre, and come play.",
   scheduleNote:
     "Doors open at 1:30 PM. Seven shows and two jams from 2:00 in the afternoon until 2:00 in the morning.",
   schedule: [
@@ -223,7 +223,7 @@ const upcoming = {
           desc: "Warm up, step onto the floorboards, and play easy theatre games with friendly strangers."
         }
       ],
-      blurb: "Two friendly jams happening at the same time in separate rooms. Pick the room that sounds fun, or grab a chair and cheer from the sidelines."
+      blurb: "Two friendly jams happening at the same time in separate rooms. Pick the room that sounds fun and jump right in—no experience needed."
     },
     {
       thumpnEventId: "evt-E8WF7R",
@@ -236,7 +236,7 @@ const upcoming = {
       formatClass: "show",
       kicker: "Prime Time Musical",
       poster: "/assets/posters/musical-improv-show.jpg",
-      blurb: "A brand new Broadway-style musical, built live with a pianist from whatever prompt you shout out. Catchy melodies, zero scripts."
+      blurb: "Unscripted melodies, songs, and scenes created live with a pianist from your prompts and suggestions right on the spot. Zero scripts, all made up live."
     },
     {
       thumpnEventId: "evt-PUDQUN",
@@ -261,8 +261,9 @@ const upcoming = {
       slug: "the-silliest-show-tonight",
       format: "Late Night Finale",
       formatClass: "latenight",
-      kicker: "The 2 AM Grand Finale",
+      kicker: "The 12:30 AM Finale",
       poster: "/assets/posters/the-silliest-show-tonight.jpg",
+      posterAfterDark: "/assets/posters/silliest-show-tonight-after-dark.jpg",
       blurb: "What happens to improvisors after ten hours of adrenaline. Callbacks to the whole day, absurd characters, and not our regular family friendly show."
     }
   ],
@@ -281,7 +282,7 @@ const upcoming = {
         "Come and go freely between your chosen sessions",
         "Better value than single session tickets",
         "Directly supports Underline Center & independent local theatre"
-          ],
+      ],
       razorpay: true,
     },
     {
@@ -302,7 +303,7 @@ const upcoming = {
     },
     {
       q: "Can I leave and come back later?",
-      a: "Yes, that's why we made it 12 hours. Catch an afternoon show, head out to Indiranagar for lunch or drinks, and pop back in for the prime-time musical and midnight madness."
+      a: "Yes, that's why we made it 12 hours. Catch an afternoon show, head out to the terrace for food and drink with our F&B partners, and pop back in for the prime-time musical and midnight madness."
     },
     {
       q: "Never watched improv before. Will I follow along?",

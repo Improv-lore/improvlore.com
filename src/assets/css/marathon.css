@@ -511,8 +511,13 @@
 }
 
 .pill-latenight {
-  background: #6b21a8;
-  color: #fff;
+  background: #18072b;
+  color: #fdf4ff;
+  border: 1.5px solid #d946ef;
+  box-shadow: 0 0 10px rgba(217, 70, 239, 0.55), 2px 2px 0 var(--ink);
+  text-shadow: 0 0 6px rgba(217, 70, 239, 0.8);
+  font-weight: 800;
+  letter-spacing: 0.05em;
 }
 
 .marathon-format-title {
@@ -658,8 +663,28 @@
 }
 
 .marathon-schedule-card--latenight {
-  background: linear-gradient(135deg, #fbf7ff 0%, var(--surface) 100%);
-  border-color: var(--ink);
+  background: linear-gradient(135deg, #fdf8ff 0%, var(--surface) 100%);
+  border-color: #a855f7;
+  box-shadow: 6px 6px 0 var(--ink), 0 0 24px rgba(168, 85, 247, 0.2);
+  position: relative;
+}
+
+.marathon-schedule-card--latenight:hover {
+  box-shadow: 8px 8px 0 var(--ink), 0 0 32px rgba(168, 85, 247, 0.35);
+}
+
+.marathon-schedule-card--latenight .marathon-schedule-kicker {
+  color: #c026d3;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-shadow: 0 0 10px rgba(217, 70, 239, 0.45);
+}
+
+.neon-text-afterdark {
+  color: #9333ea;
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.7), 0 0 20px rgba(168, 85, 247, 0.4);
+  font-style: italic;
+  font-weight: 900;
 }
 
 /* Time Column */
@@ -754,6 +779,190 @@
 .marathon-schedule-card:hover .marathon-schedule-poster-img {
   transform: scale(1.02);
   box-shadow: 6px 6px 0 var(--ink);
+}
+
+/* After Dark Interactive Poster Swap (1-second delay transition) */
+.marathon-poster-after-dark-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.marathon-after-dark-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  background: #0d0614;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.marathon-schedule-card:hover .marathon-after-dark-stage {
+  transform: scale(1.02);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.marathon-after-dark-stage picture {
+  display: contents;
+}
+
+.marathon-after-dark-stage .marathon-schedule-poster-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none !important;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Day Poster (Default state) */
+.marathon-after-dark-stage .poster-day {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Night Poster (After Dark state) */
+.marathon-after-dark-stage .poster-night {
+  opacity: 0;
+  z-index: 2;
+}
+
+/* Active State: The Shift to After Dark */
+.marathon-poster-after-dark-wrap.is-after-dark .marathon-after-dark-stage .poster-day {
+  opacity: 0;
+}
+
+.marathon-poster-after-dark-wrap.is-after-dark .marathon-after-dark-stage .poster-night {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   WHOLE WEBSITE INVERSION (AFTER DARK MODE)
+   ========================================================================== */
+
+body {
+  transition: background-color 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body > *:not(.after-dark-sun-btn):not(#thumpn-ticket-modal) {
+  transition: filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.is-after-dark body {
+  background-color: #0d0614 !important;
+}
+
+/* Invert all page content layers except the floating sun button, ticket modal, and page frost.
+   Applying the filter here (and NOT on html or body) ensures the viewport remains
+   the containing block for position: fixed, so the sun button floats reliably
+   in the corner of the screen without getting trapped at the bottom of the document. */
+html.is-after-dark body > *:not(.after-dark-sun-btn):not(#thumpn-ticket-modal):not(.page-frost) {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Maintain dark obsidian frosted pane in After Dark mode */
+html.is-after-dark .page-frost {
+  filter: none !important;
+  background: rgba(13, 6, 20, 0.5) !important;
+}
+
+/* Counter-invert imagery, posters, video and iframes so artwork retains natural colors */
+html.is-after-dark main img,
+html.is-after-dark main video,
+html.is-after-dark main iframe {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Let the black header logo naturally invert into crisp white on dark header */
+html.is-after-dark .hero-logo {
+  filter: none !important;
+}
+
+/* Counter-invert any nested modals or overlays if triggered inside main */
+html.is-after-dark .thumpn-modal-backdrop {
+  filter: none;
+}
+
+/* Floating Sun Overlay Return Button (Where scroll-to-top sits, appears only in After Dark mode) */
+.after-dark-sun-btn {
+  position: fixed !important;
+  bottom: 2rem !important;
+  right: 2rem !important;
+  z-index: 2147483647 !important;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #15072b;
+  border: 2.5px solid #ffe642;
+  box-shadow: 0 4px 20px rgba(255, 230, 66, 0.5), 3px 3px 0 #000000;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(18px) scale(0.75);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              background 0.25s ease;
+  user-select: none;
+}
+
+.after-dark-sun-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.after-dark-sun-btn:hover {
+  transform: translateY(-3px) scale(1.12);
+  background: #240c42;
+  box-shadow: 0 6px 28px rgba(255, 230, 66, 0.75), 4px 4px 0 #000000;
+}
+
+.after-dark-sun-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.after-dark-sun-btn .sun-icon {
+  font-size: 1.55rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 230, 66, 0.6));
+  transition: transform 0.3s ease;
+}
+
+.after-dark-sun-btn:hover .sun-icon {
+  transform: rotate(20deg) scale(1.08);
+}
+
+@media (max-width: 640px) {
+  .after-dark-sun-btn {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 48px;
+    height: 48px;
+  }
+
+  .after-dark-sun-btn .sun-icon {
+    font-size: 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marathon-after-dark-stage .marathon-schedule-poster-img {
+    transition: none !important;
+  }
+  .after-dark-flash {
+    display: none !important;
+  }
 }
 
 /* Either / Or Jam specific poster stack */
