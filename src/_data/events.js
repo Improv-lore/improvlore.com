@@ -12,7 +12,7 @@ const MARATHON_EVENT = {
   title: "All Play No Work: 12-Hour Improv Marathon",
   author: "improvlore",
   excerpt:
-    "Twelve hours straight of unscripted theatre: 7 shows and 2 community jams from 2:00 PM to 2:00 AM at Underline Center. Grab a 4-show pass, drop in for single sessions, or stay the whole day.",
+    "Twelve hours straight of unscripted theatre: 7 shows and 2 community jams from 2:00 PM to 2:00 AM at Underline Center. Grab an all-access or 4-show pass, drop in for single sessions, or stay the whole day.",
   full_content:
     "We're giving improv a full day to itself again. Twelve hours straight of unscripted theatre: 7 original shows, 2 community jams, and late-night madness. Drop in for an hour, hang around after dinner, or stay from 2:00 in the afternoon until 2:00 in the morning at Underline Center. Zero scripts, all play.",
   image_url: "/assets/apnw-c.png",

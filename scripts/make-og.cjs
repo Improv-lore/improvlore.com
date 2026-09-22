@@ -85,7 +85,7 @@ async function generate() {
           <text x="272" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">2 COMMUNITY JAMS</text>
 
           <rect x="374" y="0" width="160" height="38" rx="8" fill="rgba(8, 76, 108, 0.85)" stroke="#ffe642" stroke-width="1.5"/>
-          <text x="454" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#ffe642" text-anchor="middle" letter-spacing="0.5">4-SHOW PASSES</text>
+          <text x="454" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#ffe642" text-anchor="middle" letter-spacing="0.5">MARATHON PASSES</text>
         </g>
 
         <!-- Host and URL line -->

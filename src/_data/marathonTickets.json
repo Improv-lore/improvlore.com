@@ -1,6 +1,10 @@
 {
   "_instructions": "Add your ticketing or booking URLs to the 'url' fields below (e.g. Townscript, Insider, Underline Center). If left empty, the site falls back to WhatsApp community updates.",
   "passes": {
+    "allAccessPass": {
+      "name": "All-Access Pass (All 7 Shows + Jam)",
+      "url": ""
+    },
     "fourShowPass": {
       "name": "4-Show Pass (Pick Any 4 Shows)",
       "url": ""

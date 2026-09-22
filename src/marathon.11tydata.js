@@ -6,7 +6,7 @@ import { eventJsonLd } from "./_data/jsonld.js";
 export default {
   eleventyComputed: {
     title: "All Play No Work – 12-Hour Improv Marathon Bangalore | Improvlore",
-    pageDescription: "12 hours of non-stop unscripted comedy, musical improv, storytelling & community jams at Underline Center, Indiranagar, Bangalore. 2nd Oct 2026, 2:00 PM – 2:00 AM. 7 shows, 2 jams, 4-show passes.",
+    pageDescription: "12 hours of non-stop unscripted comedy, musical improv, storytelling & community jams at Underline Center, Indiranagar, Bangalore. 2nd Oct 2026, 2:00 PM – 2:00 AM. 7 shows, 2 jams, all-access & 4-show passes.",
     pageKeywords: "improv Bangalore, improv marathon Bangalore, All Play No Work, Underline Center Indiranagar, comedy shows Bangalore, things to do in Bangalore, theatre festival Bangalore, unscripted comedy Bangalore, Improvlore",
     pageImage: "/assets/apnw-og.png",
     pageImageAlt: "All Play No Work – 12-Hour Improv Marathon on 2nd October at Underline Center, Indiranagar, Bangalore",

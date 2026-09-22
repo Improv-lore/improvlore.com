@@ -274,11 +274,27 @@ const upcoming = {
   ],
   passes: [
     {
+      id: "all-access",
+      name: "All-Access Pass",
+      tag: "Full Marathon",
+      desc: "Stay for the entire 12-hour ride or come and go as you like. Complete access to all 7 shows across the day and night, plus your choice of the 8 PM community jam.",
+      perks: [
+        "Entry to all 7 shows across the day & night (2 PM to 2 AM)",
+        "Your choice of 8 PM concurrent jam (Singing or Scene Games)",
+        "Freedom to come and go throughout all 12 hours",
+        "Best overall value for a full day of unscripted theatre",
+        "Directly supports Underline Center & independent local theatre"
+      ],
+      razorpay: true,
+      featured: true,
+    },
+    {
+      id: "four-show",
       name: "4-Show Pass",
-      tag: "Best for Most People",
+      tag: "Flexible Block",
       desc: "Pick any 4 shows across the day that match your schedule. Catch an afternoon block, step out for a break, and head back for prime-time and late-night sets.",
       perks: [
-        "Entry to any 4 shows of your choice",
+        "Entry to any 4 shows of your choice across the lineup",
         "Come and go freely between your chosen sessions",
         "Better value than single session tickets",
         "Directly supports Underline Center & independent local theatre"
@@ -286,6 +302,7 @@ const upcoming = {
       razorpay: true,
     },
     {
+      id: "single-session",
       name: "Single Session Tickets",
       tag: "Drop-In",
       desc: "Got an hour or two? Pick any individual show or jam slot. Perfect if you're dropping in after work or heading over for the midnight set.",
@@ -303,7 +320,7 @@ const upcoming = {
     },
     {
       q: "Can I leave and come back later?",
-      a: "Yes, that's why we made it 12 hours. Catch an afternoon show, head out to the terrace for food and drink with our F&B partners, and pop back in for the prime-time musical and midnight madness."
+      a: "Yes, that's why we made it 12 hours. Catch an afternoon show, head out to the terrace for food and drink with our F&B partners, and pop back in for the prime-time musical and midnight madness. Both All-Access and 4-Show passes give you the freedom to come and go as you like."
     },
     {
       q: "Never watched improv before. Will I follow along?",
@@ -321,9 +338,15 @@ const ticketsConfig = loadTicketsConfig();
 upcoming.ticketLinks = ticketsConfig;
 
 const passesConf = ticketsConfig.passes || {};
-if (upcoming.passes && upcoming.passes.length >= 2) {
-  upcoming.passes[0].ticketUrl = resolveUrl(passesConf.fourShowPass || passesConf["4-show-pass"]);
-  upcoming.passes[1].ticketUrl = resolveUrl(passesConf.singleSession || passesConf["single-session"]);
+if (upcoming.passes) {
+  const allAccess = upcoming.passes.find((p) => p.id === "all-access");
+  if (allAccess) allAccess.ticketUrl = resolveUrl(passesConf.allAccessPass || passesConf["all-access-pass"]);
+
+  const fourShow = upcoming.passes.find((p) => p.id === "four-show");
+  if (fourShow) fourShow.ticketUrl = resolveUrl(passesConf.fourShowPass || passesConf["4-show-pass"]);
+
+  const single = upcoming.passes.find((p) => p.id === "single-session");
+  if (single) single.ticketUrl = resolveUrl(passesConf.singleSession || passesConf["single-session"]);
 }
 
 const eventsConf = ticketsConfig.events || {};

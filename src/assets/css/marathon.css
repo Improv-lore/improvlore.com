@@ -1580,15 +1580,30 @@ body > .thumpn-modal-backdrop[hidden],
   grid-template-columns: 1fr;
   gap: 1.5rem;
   margin-top: 1.5rem;
-  max-width: 900px;
+  max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 680px) and (max-width: 1023px) {
   .marathon-passes-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem;
+    gap: 1.5rem;
+  }
+
+  .marathon-passes-grid > .marathon-pass-card:last-child:nth-child(odd) {
+    grid-column: span 2;
+    max-width: 520px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .marathon-passes-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
   }
 }
 
@@ -1603,18 +1618,24 @@ body > .thumpn-modal-backdrop[hidden],
   flex-direction: column;
 }
 
+.marathon-pass-card .event-buttons {
+  width: 100%;
+  margin-top: auto;
+}
+
+.marathon-pass-card .event-buttons .btn-apnw-primary,
+.marathon-pass-card .event-buttons a,
+.marathon-pass-card .event-buttons button {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
 @media (max-width: 600px) {
   .marathon-pass-card {
     padding: 1.5rem 1.2rem;
-  }
-
-  .marathon-pass-card .event-buttons,
-  .marathon-pass-card .event-buttons a {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    box-sizing: border-box;
-    min-height: 48px;
   }
 }
 
@@ -1637,6 +1658,11 @@ body > .thumpn-modal-backdrop[hidden],
   border-radius: 999px;
   border: 2px solid var(--ink);
   box-shadow: 2px 2px 0 var(--ink);
+}
+
+.marathon-pass-card:not(.marathon-pass-card--featured) .marathon-pass-badge {
+  background: var(--apnw-yellow-bright, #ffe642);
+  color: var(--ink);
 }
 
 .marathon-pass-title {

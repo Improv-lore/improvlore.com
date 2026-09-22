@@ -142,7 +142,7 @@ pageStyles:
         <span class="marathon-lineup-badge">7 Shows &amp; 2 Jams</span>
         <h3 class="marathon-lineup-notice-title">From Afternoon Laughs to 2 AM Midnight Chaos</h3>
         <p class="marathon-lineup-notice-desc">
-          Grab a flexible 4-Show Pass to catch your favorite block of shows, or drop in for single show and jam tickets.
+          Grab an All-Access Pass for the full 12 hours, a flexible 4-Show Pass to catch your favorite block, or drop in for single show and jam tickets.
         </p>
       </div>
       <div class="marathon-lineup-notice-right">
@@ -292,7 +292,7 @@ pageStyles:
 
     <div class="marathon-passes-grid">
       {% for pass in marathon.upcoming.passes %}
-      <div class="marathon-pass-card{% if loop.first %} marathon-pass-card--featured{% endif %}">
+      <div class="marathon-pass-card{% if pass.featured or loop.first %} marathon-pass-card--featured{% endif %}">
         {% if pass.tag %}
         <span class="marathon-pass-badge">{{ pass.tag }}</span>
         {% endif %}
@@ -447,6 +447,7 @@ pageStyles:
       }
     });
   })();
+
 
   // After Dark Whole Website Inversion & Poster Transition
   (function() {
