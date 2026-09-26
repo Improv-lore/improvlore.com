@@ -107,6 +107,7 @@
     { url: "/", label: "Home" },
     { url: "/about/", label: "About" },
     { url: "/events/", label: "Upcoming" },
+    { url: "/marathon/", label: "Marathon" },
     { url: "/for-teams/", label: "Work With Us" },
     { url: "https://blog.improvlore.com", label: "Blog", external: true },
     { url: "/contact/", label: "Contact" }
@@ -125,7 +126,7 @@
       {% if link.external %}
       <a class="site-nav-link" href="{{ link.url }}" target="_blank" rel="noopener">{{ link.label }} ↗</a>
       {% else %}
-      <a class="site-nav-link{% if page.url == link.url %} is-active{% endif %}" href="{{ link.url }}"{% if page.url == link.url %} aria-current="page"{% endif %}>{{ link.label }}</a>
+      <a class="site-nav-link{% if page.url == link.url %} is-active{% endif %}" href="{{ link.url }}"{% if page.url == link.url %} aria-current="page"{% endif %}>{{ link.label }}{% if link.badge %}<span class="site-nav-badge">{{ link.badge }}</span>{% endif %}</a>
       {% endif %}
       {% endfor %}
     </nav>

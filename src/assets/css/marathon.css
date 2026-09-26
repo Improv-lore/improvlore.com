@@ -31,15 +31,16 @@
   border: 3px solid var(--ink);
   border-radius: 20px;
   box-shadow: 6px 6px 0 var(--ink);
-  padding: 2.2rem 1.6rem;
+  padding: 1.5rem 1.25rem;
   color: var(--apnw-text-light);
   overflow: hidden;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
   .marathon-hero-wrap {
-    padding: 3rem 2.5rem;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
   }
 }
 
@@ -71,7 +72,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.15rem;
 }
 
 .marathon-status-tags {
@@ -101,6 +102,12 @@
   color: var(--ink);
 }
 
+.marathon-tag--venue {
+  background: rgba(6, 40, 58, 0.7);
+  color: var(--apnw-yellow);
+  border-color: var(--apnw-cyan-soft);
+}
+
 .marathon-tag--highlight {
   background: var(--apnw-red);
   color: #fff;
@@ -116,109 +123,434 @@
   color: #fff;
 }
 
-.marathon-hero-countdown-wrap {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(6, 40, 58, 0.75);
-  border: 2px solid var(--apnw-cyan-soft);
-  border-radius: 999px;
-  padding: 0.3rem 0.85rem;
-  box-shadow: 2.5px 2.5px 0 var(--ink);
-  backdrop-filter: blur(4px);
-}
-
-.marathon-countdown-label {
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--apnw-yellow);
-}
-
-.marathon-hero-timer {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.88rem;
-  font-weight: 800;
-  color: #fff;
-}
-
-.marathon-hero-timer .timer-digit {
-  font-size: 0.95rem;
-  font-weight: 900;
-  color: var(--apnw-yellow);
-  min-width: 1.3ch;
-  text-align: right;
-}
-
-.marathon-hero-timer .timer-unit {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--apnw-text-muted);
-  margin-left: 1px;
-}
-
-.marathon-hero-timer .timer-colon {
-  font-size: 0.75rem;
-  opacity: 0.6;
-  color: #fff;
-}
-
-.marathon-hero-timer .timer-live {
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--apnw-yellow);
-  text-transform: uppercase;
-}
-
-@media (max-width: 540px) {
-  .marathon-hero-topbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.65rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .marathon-hero-countdown-wrap {
-    width: 100%;
-    justify-content: space-between;
-    box-sizing: border-box;
-  }
-}
-
 /* -------------------------------------------------
-   HERO SPLIT (Poster + Story)
+   HERO 2-COLUMN LAYOUT & BRAND ROW
 ------------------------------------------------- */
 
 .marathon-hero-split {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1.75rem;
   align-items: center;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 960px) {
   .marathon-hero-split {
-    grid-template-columns: 320px 1fr;
-    gap: 3rem;
+    grid-template-columns: 1fr 1.22fr;
+    gap: 2.25rem;
+    align-items: center;
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
   .marathon-hero-split {
-    grid-template-columns: 360px 1fr;
-    gap: 3.5rem;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 2.75rem;
   }
+}
+
+.marathon-hero-intro-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.marathon-hero-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.marathon-hero-headings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .marathon-poster-frame {
   position: relative;
-  max-width: 340px;
-  margin: 0 auto;
+  max-width: 120px;
+  flex-shrink: 0;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .marathon-hero-brand-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .marathon-poster-frame {
+    max-width: 90px;
+  }
+}
+
+/* -------------------------------------------------
+   BOLD NON-LINEAR FESTIVAL COUNTDOWN CANVAS
+------------------------------------------------- */
+
+.marathon-nonlinear-timer {
+  background: linear-gradient(150deg, #092c42 0%, #031622 55%, #010a10 100%);
+  border: 3.5px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 7px 7px 0 var(--ink), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+  padding: 1.1rem 1.15rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(12px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Vibrant warm ambient burst */
+.marathon-nonlinear-timer::before {
+  content: "";
+  position: absolute;
+  top: -25%;
+  right: -20%;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(255, 230, 66, 0.22) 0%, rgba(32, 178, 226, 0.12) 45%, transparent 70%);
+  pointer-events: none;
+}
+
+/* -------------------------------------------------
+   ASYMMETRICAL MOSAIC GRID
+------------------------------------------------- */
+
+.timer-mosaic-grid {
+  display: grid;
+  grid-template-columns: 1.18fr 0.95fr 0.95fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.85rem;
+  position: relative;
+  z-index: 1;
+}
+
+.timer-block {
+  position: relative;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+  box-sizing: border-box;
+}
+
+/* 1. DAYS BLOCK: Large Asymmetrical Hero */
+.timer-block--days {
+  grid-row: 1 / span 2;
+  grid-column: 1;
+  background: var(--apnw-yellow);
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 1.1rem 1.15rem;
+  transform: rotate(-1.5deg);
+}
+
+.timer-block--days:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.timer-block--days .timer-badge-pill {
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: var(--ink);
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.timer-block--days .timer-num {
+  font-family: var(--font-display);
+  font-size: clamp(4.4rem, 6.5vw, 6.8rem);
+  font-weight: 900;
+  line-height: 0.86;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  display: block;
+  margin: 0.35rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-block--days .timer-block-foot {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: rgba(26, 26, 26, 0.82);
+  text-transform: uppercase;
+}
+
+/* 2. HOURS BLOCK: Vivid Festival Cyan */
+.timer-block--hours {
+  grid-row: 1;
+  grid-column: 2 / span 2;
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 0.85rem 1.1rem;
+  transform: rotate(1deg);
+}
+
+.timer-block--hours:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.timer-block--hours .timer-block-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.timer-block--hours .timer-badge-pill {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  background: #fff;
+  padding: 0.18rem 0.55rem;
+  border-radius: 6px;
+  border: 1.5px solid var(--ink);
+  text-transform: uppercase;
+}
+
+.timer-mini-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timer-block--hours .timer-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 4.4vw, 4.2rem);
+  font-weight: 900;
+  line-height: 0.9;
+  color: #fff;
+  text-shadow: 2.5px 2.5px 0 var(--ink);
+  letter-spacing: -0.03em;
+  display: block;
+  margin-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 3. MINUTES BLOCK: Warm Clean Cream */
+.timer-block--minutes {
+  grid-row: 2;
+  grid-column: 2;
+  background: #fffbf2;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 0.75rem 0.95rem;
+  transform: rotate(-1.2deg);
+}
+
+.timer-block--minutes:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.timer-block--minutes .timer-badge-pill {
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.timer-block--minutes .timer-num {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 3.8vw, 3.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  display: block;
+  margin-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 4. SECONDS LIVE BLOCK: Electric Coral Red */
+.timer-block--seconds {
+  grid-row: 2;
+  grid-column: 3;
+  background: linear-gradient(135deg, #ff5757 0%, #e11d48 100%);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 0.75rem 0.95rem;
+  transform: rotate(1.5deg);
+}
+
+.timer-block--seconds:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.timer-block--seconds .timer-badge-pill--live {
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.timer-block--seconds .timer-num {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 3.8vw, 3.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  color: #ffe642;
+  text-shadow: 2px 2px 0 var(--ink);
+  letter-spacing: -0.03em;
+  display: block;
+  margin-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tablet Layout (768px - 959px) */
+@media (min-width: 768px) and (max-width: 959px) {
+  .marathon-hero-split {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .marathon-nonlinear-timer {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .timer-mosaic-grid {
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 0.85rem;
+  }
+}
+
+/* Mobile Layout (<768px) - Compact & Sleek */
+@media (max-width: 767px) {
+  .marathon-hero-split {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .marathon-nonlinear-timer {
+    padding: 0.65rem 0.75rem;
+    border-radius: 16px;
+    border-width: 2.5px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .timer-mosaic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 0.45rem;
+  }
+
+  /* Compact DAYS banner spanning all 3 columns */
+  .timer-block--days {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    padding: 0.5rem 0.85rem;
+    transform: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .timer-block--days:hover {
+    transform: translateY(-2px);
+  }
+
+  .timer-block--days .timer-num {
+    font-size: 2.85rem;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .timer-block--days .timer-badge-pill {
+    font-size: 0.68rem;
+    padding: 0.18rem 0.55rem;
+  }
+
+  /* Compact 3-column row for HOURS, MINUTES, SECONDS */
+  .timer-block--hours {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 0.45rem 0.35rem;
+    transform: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .timer-block--hours:hover {
+    transform: translateY(-2px);
+  }
+
+  .timer-block--hours .timer-num {
+    font-size: 1.95rem;
+    margin-top: 0.1rem;
+    line-height: 1;
+  }
+
+  .timer-block--hours .timer-badge-pill {
+    font-size: 0.6rem;
+    padding: 0.12rem 0.35rem;
+  }
+
+  .timer-block--minutes {
+    grid-column: 2;
+    grid-row: 2;
+    padding: 0.45rem 0.35rem;
+    transform: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .timer-block--minutes:hover {
+    transform: translateY(-2px);
+  }
+
+  .timer-block--minutes .timer-num {
+    font-size: 1.95rem;
+    margin-top: 0.1rem;
+    line-height: 1;
+  }
+
+  .timer-block--minutes .timer-badge-pill {
+    font-size: 0.6rem;
+  }
+
+  .timer-block--seconds {
+    grid-column: 3;
+    grid-row: 2;
+    padding: 0.45rem 0.35rem;
+    transform: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .timer-block--seconds:hover {
+    transform: translateY(-2px);
+  }
+
+  .timer-block--seconds .timer-num {
+    font-size: 1.95rem;
+    margin-top: 0.1rem;
+    line-height: 1;
+  }
+
+  .timer-block--seconds .timer-badge-pill--live {
+    font-size: 0.6rem;
+  }
 }
 
 .marathon-poster-img {
@@ -226,47 +558,39 @@
   height: auto;
   object-fit: contain;
   display: block;
-  border-radius: 16px;
-  border: 3px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);
-  background: var(--apnw-navy-card);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
 }
 
 .marathon-poster-frame:hover .marathon-poster-img {
-  transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0 var(--ink);
-}
-
-.marathon-hero-kicker {
-  font-size: 0.85rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--apnw-yellow);
-  margin: 0 0 0.5rem;
+  transform: scale(1.04) rotate(-1.5deg);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
 }
 
 .marathon-hero-title {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: #fff;
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.45rem;
   text-shadow: 2px 2px 0 var(--ink);
 }
 
 @media (min-width: 768px) {
   .marathon-hero-title {
-    font-size: 3.4rem;
+    font-size: 2.35rem;
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
   .marathon-hero-title {
-    font-size: 4rem;
+    font-size: 2.65rem;
   }
 }
 
@@ -274,30 +598,55 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1.05rem;
+  gap: 0.4rem 0.6rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--apnw-yellow);
-  background: rgba(8, 76, 108, 0.6);
+  color: var(--apnw-text-light);
+  background: rgba(6, 40, 58, 0.65);
   border: 2px solid var(--apnw-cyan-soft);
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
-  margin-bottom: 1.2rem;
+  border-radius: 10px;
+  padding: 0.35rem 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.timing-chip {
+  white-space: nowrap;
+}
+
+.timing-chip--highlight {
+  color: var(--apnw-yellow);
+  font-weight: 800;
 }
 
 .marathon-hero-lede {
-  font-size: 1.12rem;
-  line-height: 1.55;
+  font-size: 1.02rem;
+  line-height: 1.45;
   color: var(--apnw-text-muted);
-  max-width: 38rem;
-  margin: 0 0 1.6rem;
+  max-width: 44rem;
+  margin: 0 0 1.15rem;
 }
 
 .marathon-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.85rem;
+  gap: 0.75rem;
   align-items: center;
+}
+
+.marathon-hero-community {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--apnw-yellow);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 0.4rem 0.6rem;
+  transition: color 0.15s ease;
+}
+
+.marathon-hero-community:hover {
+  color: #fff;
 }
 
 @media (max-width: 560px) {
@@ -311,7 +660,12 @@
   .marathon-hero-actions .btn-apnw-ghost {
     width: 100%;
     min-height: 48px;
-    font-size: 1.05rem;
+    font-size: 1.02rem;
+    text-align: center;
+  }
+
+  .marathon-hero-community {
+    justify-content: center;
   }
 }
 
@@ -541,7 +895,11 @@
 ------------------------------------------------- */
 
 .marathon-timeline-wrap {
-  margin: 3.5rem 0;
+  margin: 1.5rem 0 3.5rem;
+}
+
+.marathon-schedule-intro {
+  margin-bottom: 0.5rem;
 }
 
 /* -------------------------------------------------
@@ -551,17 +909,18 @@
 .marathon-lineup-notice {
   background: radial-gradient(circle at 15% 50%, #2099c2 0%, var(--apnw-blue-dark) 50%, var(--apnw-navy) 100%);
   border: 3px solid var(--ink);
-  border-radius: 16px;
-  box-shadow: 5px 5px 0 var(--ink);
-  padding: 1.6rem 1.4rem;
+  border-radius: 18px;
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 1.5rem 1.4rem;
   color: #fff;
-  margin: 1.5rem 0 2.5rem;
+  margin: 1rem 0 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  align-items: center;
 }
 
-@media (min-width: 820px) {
+@media (min-width: 900px) {
   .marathon-lineup-notice {
     flex-direction: row;
     align-items: center;
@@ -572,7 +931,8 @@
 }
 
 .marathon-lineup-notice-left {
-  max-width: 44rem;
+  max-width: 32rem;
+  flex: 1 1 auto;
 }
 
 .marathon-lineup-badge {
@@ -612,8 +972,44 @@
   margin: 0;
 }
 
+/* Lineup notice ticket preview */
+.marathon-lineup-notice-ticket {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.marathon-ticket-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.marathon-ticket-preview-img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+  transform: rotate(-2.5deg);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+}
+
+.marathon-ticket-preview-wrap:hover .marathon-ticket-preview-img {
+  transform: rotate(0deg) scale(1.05);
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.6));
+}
+
 .marathon-lineup-notice-right {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* -------------------------------------------------
@@ -1663,6 +2059,68 @@ body > .thumpn-modal-backdrop[hidden],
 .marathon-pass-card:not(.marathon-pass-card--featured) .marathon-pass-badge {
   background: var(--apnw-yellow-bright, #ffe642);
   color: var(--ink);
+}
+
+/* Pass card ticket embed */
+.marathon-pass-card-ticket {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 0.5rem;
+  background: linear-gradient(145deg, rgba(6, 40, 58, 0.05) 0%, rgba(6, 40, 58, 0.1) 100%);
+  border: 2px dashed rgba(6, 40, 58, 0.22);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.marathon-pass-ticket-graphic {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+
+.marathon-pass-card:hover .marathon-pass-ticket-graphic {
+  transform: translateY(-4px) scale(1.03);
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.28));
+}
+
+.marathon-pass-card-ticket--generic {
+  min-height: 110px;
+  box-sizing: border-box;
+}
+
+.marathon-single-stub-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.stub-badge-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.stub-badge-label {
+  font-family: var(--font-display, inherit);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.stub-badge-sub {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .marathon-pass-title {

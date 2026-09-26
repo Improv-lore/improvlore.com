@@ -12,23 +12,86 @@ pageStyles:
   <header class="marathon-hero-wrap" aria-label="All Play No Work Marathon Header">
     <div class="marathon-hero-content">
 
-      <div class="marathon-hero-topbar">
-        <div class="marathon-status-tags" aria-label="Event highlights">
-          <span class="marathon-tag marathon-tag--edition">{{ marathon.upcoming.edition }} · 2nd Oct</span>
-        </div>
+      <div class="marathon-hero-split">
 
-        <div class="marathon-hero-countdown-wrap" aria-label="Countdown to marathon kickoff">
-          <span class="marathon-countdown-label">Kickoff In</span>
-          <div class="marathon-hero-timer" id="hero-marathon-countdown" data-target="2026-10-02T14:00:00+05:30">
-            <span class="timer-segment"><span class="timer-digit" data-unit="days">--</span><span class="timer-unit">d</span></span>
-            <span class="timer-colon">:</span>
-            <span class="timer-segment"><span class="timer-digit" data-unit="hours">--</span><span class="timer-unit">h</span></span>
-            <span class="timer-colon">:</span>
-            <span class="timer-segment"><span class="timer-digit" data-unit="minutes">--</span><span class="timer-unit">m</span></span>
-            <span class="timer-colon">:</span>
-            <span class="timer-segment"><span class="timer-digit" data-unit="seconds">--</span><span class="timer-unit">s</span></span>
+        {# LEFT: FESTIVAL INTRO #}
+        <div class="marathon-hero-intro-col">
+          <div class="marathon-hero-brand-row">
+            <div class="marathon-poster-frame">
+              <img class="marathon-poster-img" src="/assets/apnw-c.png" alt="All Play No Work 12-Hour Improv Marathon emblem" width="130" height="130" loading="eager" fetchpriority="high">
+            </div>
+            <div class="marathon-hero-headings">
+              <div class="marathon-status-tags" aria-label="Event edition">
+                <span class="marathon-tag marathon-tag--edition">{{ marathon.upcoming.edition }} · 2nd Oct</span>
+              </div>
+              <h1 class="marathon-hero-title">{{ marathon.upcoming.name }}</h1>
+            </div>
+          </div>
+
+          <div class="marathon-hero-timing">
+            <span class="timing-chip">{{ marathon.upcoming.dateFormatted }}</span>
+            <span class="marathon-timing-sep" aria-hidden="true">·</span>
+            <span class="timing-chip">{{ marathon.upcoming.timing }}</span>
+            <span class="marathon-timing-sep" aria-hidden="true">·</span>
+            <span class="timing-chip">{{ marathon.upcoming.venueShort }}</span>
+          </div>
+
+          <p class="marathon-hero-lede">
+            Are you tired of staring at screens and rushing to meet deadlines? This Gandhi Jayanti, we're making the antidote: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness. Grab an All-Access Pass for the full run, or drop in for individual shows below.
+          </p>
+
+          <div class="marathon-hero-actions">
+            <a class="btn-apnw-primary" href="#passes">Get Passes (from ₹999) →</a>
+            <a class="btn-apnw-ghost" href="#schedule">View Schedule ↓</a>
+            <a class="marathon-hero-community" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community ↗</a>
           </div>
         </div>
+
+        {# RIGHT: BOLD NON-LINEAR COUNTDOWN CANVAS #}
+        <aside class="marathon-nonlinear-timer" id="hero-marathon-countdown" data-target="2026-10-02T14:00:00+05:30" aria-label="Countdown to festival kickoff">
+          <div class="timer-mosaic-grid">
+            {# HERO DAYS BLOCK (MASSIVE ASYMMETRICAL CARD) #}
+            <div class="timer-block timer-block--days">
+              <div class="timer-block-top">
+                <span class="timer-badge-pill">DAYS TO GO</span>
+              </div>
+              <div class="timer-block-main">
+                <span class="timer-num" data-unit="days">--</span>
+              </div>
+            </div>
+
+            {# HOURS BLOCK #}
+            <div class="timer-block timer-block--hours">
+              <div class="timer-block-top">
+                <span class="timer-badge-pill">HOURS</span>
+              </div>
+              <div class="timer-block-main">
+                <span class="timer-num" data-unit="hours">--</span>
+              </div>
+            </div>
+
+            {# MINUTES BLOCK #}
+            <div class="timer-block timer-block--minutes">
+              <div class="timer-block-top">
+                <span class="timer-badge-pill">MINUTES</span>
+              </div>
+              <div class="timer-block-main">
+                <span class="timer-num" data-unit="minutes">--</span>
+              </div>
+            </div>
+
+            {# SECONDS LIVE BLOCK #}
+            <div class="timer-block timer-block--seconds">
+              <div class="timer-block-top">
+                <span class="timer-badge-pill timer-badge-pill--live">SECONDS</span>
+              </div>
+              <div class="timer-block-main">
+                <span class="timer-num timer-num--pulse" data-unit="seconds">--</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
       </div>
 
       <script>
@@ -46,7 +109,7 @@ pageStyles:
           function tick() {
             var diff = target - Date.now();
             if (diff <= 0) {
-              timer.innerHTML = '<span class="timer-live">Festival Live Now!</span>';
+              timer.innerHTML = '<div class="big-timer-live">Festival Live Now!</div>';
               return;
             }
             var days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -63,88 +126,32 @@ pageStyles:
           setInterval(tick, 1000);
         })();
       </script>
-
-      <div class="marathon-hero-split">
-
-        <div class="marathon-poster-frame">
-          <img class="marathon-poster-img" src="/assets/apnw-c.png" alt="All Play No Work 12-Hour Improv Marathon emblem" width="360" height="360" loading="eager" fetchpriority="high">
-        </div>
-
-        <div class="marathon-hero-text">
-          <p class="marathon-hero-kicker">An unscripted theatre marathon · Bangalore</p>
-          <h1 class="marathon-hero-title">{{ marathon.upcoming.name }}</h1>
-
-          <div class="marathon-hero-timing">
-            <span>{{ marathon.upcoming.dateFormatted }}</span>
-            <span class="marathon-timing-sep" aria-hidden="true">·</span>
-            <span>{{ marathon.upcoming.timing }}</span>
-            <span class="marathon-timing-sep" aria-hidden="true">·</span>
-            <span>{{ marathon.upcoming.venueShort }}</span>
-          </div>
-
-          <p class="marathon-hero-lede">{{ marathon.upcoming.intro }}</p>
-
-          <div class="marathon-hero-actions">
-            <a class="btn-apnw-primary" href="#schedule">See the Lineup ↓</a>
-            <a class="btn-apnw-ghost" href="#passes">Get a Pass →</a>
-            <a class="btn-apnw-ghost" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community ↗</a>
-          </div>
-        </div>
-      </div>
     </div>
   </header>
 
-  {# AT A GLANCE NUMBERS #}
-  <section class="page-section" aria-label="Marathon at a glance">
-    <div class="marathon-stats-grid">
-      {% for st in marathon.upcoming.stats %}
-      <div class="marathon-stat-card">
-        <span class="marathon-stat-num">{{ st.value }}</span>
-        <span class="marathon-stat-label">{{ st.label }}</span>
-        <span class="marathon-stat-sub">{{ st.sub }}</span>
-      </div>
-      {% endfor %}
-    </div>
-  </section>
-
-  {# HOW THE DAY WORKS #}
-  <section class="page-section marathon-formats-wrap" aria-labelledby="formats-heading">
-    <h2 class="section-heading" id="formats-heading">How the Day Works</h2>
-    <p class="section-sub">12 continuous hours of live improv theatre. Drop in when you want, stay as long as you like.</p>
-
-    <div class="marathon-formats-grid">
-      <div class="marathon-format-card">
-        <div class="marathon-format-header">
-          <span class="marathon-format-pill pill-show">7 Shows</span>
-        </div>
-        <h3 class="marathon-format-title">The Shows</h3>
-        <p class="marathon-format-desc">Seven unscripted performances taking the stage back to back. Quickfire comedy matches, PowerPoint roulette, narrative drama, and late-night musical madness. Completely made up on the spot from audience suggestions.</p>
-      </div>
-
-      <div class="marathon-format-card">
-        <div class="marathon-format-header">
-          <span class="marathon-format-pill pill-jam">2 Jams (Pick 1)</span>
-        </div>
-        <h3 class="marathon-format-title">The 8 PM Community Jams</h3>
-        <p class="marathon-format-desc">At 8:00 PM, two dedicated community jams run at the same time in separate rooms: choose spontaneous singing in <em>Make an Improv Song</em>, or friendly, low-stakes scene games in <em>Make Friends with the Stage</em>. Zero experience needed.</p>
-      </div>
-    </div>
-  </section>
-
   {# THE 12-HOUR OFFICIAL SCHEDULE #}
   <section class="page-section marathon-timeline-wrap" id="schedule" aria-labelledby="schedule-heading">
-    <h2 class="section-heading" id="schedule-heading">The Lineup (2 PM to 2 AM)</h2>
-    <p class="section-sub">{{ marathon.upcoming.scheduleNote }}</p>
+    <div class="marathon-schedule-intro">
+      <h2 class="section-heading" id="schedule-heading">The Lineup (2 PM to 2 AM)</h2>
+      <p class="section-sub">{{ marathon.upcoming.scheduleNote }}</p>
+    </div>
 
-    {# SCHEDULE CALLOUT #}
+    {# SCHEDULE CALLOUT / ALL-ACCESS PASS #}
     <div class="marathon-lineup-notice">
       <div class="marathon-lineup-notice-left">
-        <span class="marathon-lineup-badge">7 Shows &amp; 2 Jams</span>
-        <h3 class="marathon-lineup-notice-title">From Afternoon Laughs to 2 AM Midnight Chaos</h3>
+        <span class="marathon-lineup-badge">All-Access Pass · Full Marathon</span>
+        <h3 class="marathon-lineup-notice-title">One Pass. 12 Hours. All 7 Shows + Community Jam.</h3>
         <p class="marathon-lineup-notice-desc">
-          Grab an All-Access Pass for the full 12 hours, a flexible 4-Show Pass to catch your favorite block, or drop in for single show and jam tickets.
+          Drop in whenever you want, stay as long as you like, or grab a 4-show pass. Single-show tickets can also be booked on each slot below.
         </p>
       </div>
+
+      <div class="marathon-lineup-notice-ticket">
+        <a href="#passes" class="marathon-ticket-preview-wrap" title="View official marathon passes">
+          <img class="marathon-ticket-preview-img" src="/assets/tickets/all-day-pass.png" alt="All-Day Pass ticket" width="280" height="105" loading="lazy">
+        </a>
+      </div>
+
       <div class="marathon-lineup-notice-right">
         <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
       </div>
@@ -288,7 +295,7 @@ pageStyles:
   {# PASSES & TICKETS #}
   <section class="page-section marathon-passes-wrap" id="passes" aria-labelledby="passes-heading">
     <h2 class="section-heading" id="passes-heading">Support Local Theatre: Passes &amp; Tickets</h2>
-    <p class="section-sub">Every pass directly supports Underline Center and keeps independent, grassroots theatre alive in Bangalore.</p>
+    <p class="section-sub">Every pass directly supports Improvlore and Underline Center and keeps independent, grassroots theatre alive in Bangalore.</p>
 
     <div class="marathon-passes-grid">
       {% for pass in marathon.upcoming.passes %}
@@ -296,6 +303,25 @@ pageStyles:
         {% if pass.tag %}
         <span class="marathon-pass-badge">{{ pass.tag }}</span>
         {% endif %}
+
+        {% if pass.id == "all-access" %}
+        <div class="marathon-pass-card-ticket">
+          <img src="/assets/tickets/all-day-pass.png" alt="All-Day Pass ticket graphic" width="340" height="128" class="marathon-pass-ticket-graphic" loading="lazy">
+        </div>
+        {% elif pass.id == "four-show" %}
+        <div class="marathon-pass-card-ticket">
+          <img src="/assets/tickets/four-show-pass.png" alt="4-Show Pass ticket graphic" width="340" height="128" class="marathon-pass-ticket-graphic" loading="lazy">
+        </div>
+        {% else %}
+        <div class="marathon-pass-card-ticket marathon-pass-card-ticket--generic">
+          <div class="marathon-single-stub-badge">
+            <span class="stub-badge-icon" aria-hidden="true">🎟️</span>
+            <span class="stub-badge-label">Individual Show Ticket</span>
+            <span class="stub-badge-sub">Book per session below</span>
+          </div>
+        </div>
+        {% endif %}
+
         <h3 class="marathon-pass-title">{{ pass.name }}</h3>
         <p class="marathon-pass-desc">{{ pass.desc }}</p>
         <ul class="marathon-pass-perks">
@@ -352,7 +378,7 @@ pageStyles:
       <span class="marathon-community-tag">All Play No Work</span>
       <h2 class="marathon-community-title" id="community-heading">Support Your Local Theatre</h2>
       <p class="marathon-community-copy">
-        Grassroots improv only happens because people in Bangalore show up, buy tickets, and tell their friends. Every ticket goes directly toward supporting Underline Center as a cozy community space and improvlore.
+        Grassroots improv only happens because people in Bangalore show up, buy tickets, and tell their friends. Every ticket goes directly toward supporting Improvlore and Underline Center.
       </p>
       <p class="marathon-community-subcopy">
         Bring a friend who needs a break from work, share the schedule, or join our community WhatsApp circle to stay in touch.

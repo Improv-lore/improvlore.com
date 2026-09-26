@@ -129,11 +129,11 @@ const formats = [
       "A dozen improvisers take the stage and the audience keeps voting players out, round by round, until one is left standing as the Maestro. Scenes and games come straight from the crowd, so the night is yours to shape.",
   },
   {
-    slug: "the-great-face-off",
-    short: "faceoff",
-    title: "The Great Face-Off",
+    slug: "theatresports",
+    short: "ts",
+    title: "TheatreSports™",
     type: "show",
-    feedMatch: "great face-off",
+    feedMatch: ["theatresports", "great face-off"],
     image: "/assets/posters/great-face-off.jpg",
     badges: ["Licensed format"],
     blurb:
@@ -235,10 +235,9 @@ const formats = [
     short: "musical-workshop",
     title: "Musical Improv: An Introduction",
     type: "workshop",
-    // Match on the colon so the bare "Musical Improv Show ..." one-off show
-    // (and "Make an Improv Song: Musical Improv Jam") don't get swallowed by
-    // this workshop. matchFormat returns the first hit, so keep this specific.
-    feedMatch: "musical improv:",
+    // Match on full subtitle so neither "Musical Improv Show" nor
+    // "Make an Improv Song" gets swallowed by this workshop.
+    feedMatch: "musical improv: an introduction",
     image: "/assets/posters/musical-improv.jpg",
     // Multi-day workshop plus a showcase; the feed only carries one date, so
     // the full schedule lives here. Keep in sync with the UC listing until the
@@ -327,5 +326,10 @@ export const normalize = (s) => s.toLowerCase().replace(/[^a-z0-9\s]+/g, "");
 
 export function matchFormat(title = "") {
   const t = normalize(title);
-  return formats.find((f) => t.includes(normalize(f.feedMatch))) || null;
+  return (
+    formats.find((f) => {
+      const matches = Array.isArray(f.feedMatch) ? f.feedMatch : [f.feedMatch];
+      return matches.some((m) => t.includes(normalize(m)));
+    }) || null
+  );
 }

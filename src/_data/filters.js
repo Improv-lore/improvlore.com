@@ -4,12 +4,10 @@ import social from "./social.js";
 
 const IST = { timeZone: "Asia/Kolkata" };
 
-// Badges for recurring feed-only shows that deliberately have no catalog entry
-// (e.g. TheatreSports, which shares the Great Face-Off format page rather than
-// duplicating it — see marathon.js). Keyed by a lowercase substring of the feed
-// title. Catalog formats still own their own badges in formats.js; this only
-// fills the gap for one-offs. Same pill strings as formats.js so they tint and
-// read identically.
+// Badges for recurring feed-only shows that have no catalog entry. Keyed by a
+// lowercase substring of the feed title. Catalog formats own their own badges
+// in formats.js; this only fills the gap for one-offs. Same pill strings as
+// formats.js so they tint and read identically.
 const ONE_OFF_BADGES = {
   theatresports: ["Licensed format"],
   "all play no work": ["12-hour festival", "7 Shows · 2 Jams"],

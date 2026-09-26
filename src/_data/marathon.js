@@ -55,7 +55,7 @@ const meta = {
 const lineup = [
   {
     title: "TheatreSports™",
-    slug: "the-great-face-off",
+    slug: "theatresports",
     type: "show",
     time: "12:00 pm",
     poster: "/assets/posters/great-face-off.jpg",
@@ -244,7 +244,7 @@ const upcoming = {
       time: "11:00 PM",
       endTime: "12:15 AM",
       title: "TheatreSports™",
-      slug: "the-great-face-off",
+      slug: "theatresports",
       format: "Show",
       formatClass: "show",
       kicker: "Late Night Comedy Clash",
@@ -283,7 +283,7 @@ const upcoming = {
         "Your choice of 8 PM concurrent jam (Singing or Scene Games)",
         "Freedom to come and go throughout all 12 hours",
         "Best overall value for a full day of unscripted theatre",
-        "Directly supports Underline Center & independent local theatre"
+        "Directly supports Improvlore and Underline Center"
       ],
       razorpay: true,
       featured: true,
@@ -297,7 +297,7 @@ const upcoming = {
         "Entry to any 4 shows of your choice across the lineup",
         "Come and go freely between your chosen sessions",
         "Better value than single session tickets",
-        "Directly supports Underline Center & independent local theatre"
+        "Directly supports Improvlore and Underline Center"
       ],
       razorpay: true,
     },
@@ -359,4 +359,29 @@ const eventsConf = ticketsConfig.events || {};
   }
 });
 
-export default { meta, lineup, upcoming };
+function getMarathonSlot(slug) {
+  for (const slot of upcoming.schedule || []) {
+    if (slot.isEitherOrJam && Array.isArray(slot.jams)) {
+      const j = slot.jams.find((jam) => jam.slug === slug);
+      if (j) return j;
+    }
+    if (slot.slug === slug) return slot;
+  }
+  return null;
+}
+
+function getMarathonTicketUrl(slug) {
+  const slot = getMarathonSlot(slug);
+  if (!slot) return "/marathon/#passes";
+  if (slot.ticketUrl) return slot.ticketUrl;
+  if (slot.thumpnEventId) return `https://thumpn.com/event/${slot.thumpnEventId}/tickets`;
+  return "/marathon/#passes";
+}
+
+export default {
+  meta,
+  lineup,
+  upcoming,
+  getSlot: getMarathonSlot,
+  getTicketUrl: getMarathonTicketUrl,
+};

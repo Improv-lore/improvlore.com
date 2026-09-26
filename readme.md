@@ -36,11 +36,11 @@ Vanity short links live in `src/_redirects.njk` (built to a Cloudflare Pages `_r
 | `/musical` | Musical Improv Show |
 | `/ppt` | PowerPoint Roulette |
 | `/maestro` | Maestro Impro |
-| `/faceoff` | The Great Face-Off |
+| `/ts` | TheatreSports™ |
+| `/faceoff` | TheatreSports™ (legacy alias) |
 | `/reincarnations` | Reincarnations |
 | `/panchatantra` | Panchatantra |
 | `/turing` | The Turing Twist |
-| `/ts` | TheatreSports (one-off, hand-written) |
 
 **Jams**
 

@@ -72,7 +72,7 @@ pageDescription: Improv Lore has taken its shows on the road to improv festivals
     <h2 class="section-heading" id="section-marathon">A Festival at Home</h2>
     <p class="section-sub">We don't only play other people's festivals. On {{ marathon.meta.date }} we ran our first: <strong>{{ marathon.meta.name }}</strong>, {{ marathon.meta.tagline | lower }} of shows and jams back to back at {{ marathon.meta.venue }}.</p>
 
-    {% set marathonTaste = ["the-great-face-off", "make-an-improv-song", "powerpoint-roulette"] %}
+    {% set marathonTaste = ["theatresports", "make-an-improv-song", "powerpoint-roulette"] %}
     <ul class="about-shows" aria-label="A taste of the marathon lineup">
       {% for slug in marathonTaste %}
       {% for slot in marathon.lineup %}{% if slot.slug == slug %}

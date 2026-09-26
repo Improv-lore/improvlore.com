@@ -43,8 +43,7 @@ async function getRawEvents() {
   return list;
 }
 
-
-export default async function () {
+async function getEvents() {
   const list = await getRawEvents();
 
   // Sub-events belonging to the All Play No Work marathon (Oct 2)
@@ -72,3 +71,7 @@ export default async function () {
     (a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at)
   );
 }
+
+getEvents.getRawEvents = getRawEvents;
+
+export default getEvents;
