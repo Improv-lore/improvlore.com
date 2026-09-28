@@ -237,21 +237,25 @@ pageStyles:
                 <h4 class="marathon-either-or-opt-title"><a href="/event/{{ j.slug }}/">{{ j.name }}</a></h4>
               </div>
               <p class="marathon-either-or-opt-desc">{{ j.desc }}</p>
-              <div class="marathon-either-or-actions">
+              <div class="marathon-either-or-actions marathon-dual-actions">
                 {% if j.thumpnEventId %}
-                {% if marathon.upcoming.skipThumpnEmbed %}
-                <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ 'https://thumpn.com/event/' + j.thumpnEventId + '/tickets'}}" target="_blank" rel="noopener">Book Tickets →</a>
-                {% else %}
-                <button type="button"
-                        class="marathon-either-or-btn marathon-either-or-btn--book js-thumpn-modal-open"
-                        data-event-id="{{ j.thumpnEventId }}"
-                        data-embed-token="{{ j.thumpnEmbedToken }}"
-                        data-event-title="{{ j.name }}">
-                  Book Tickets →
-                </button>
+                  {% if marathon.upcoming.skipThumpnEmbed %}
+                    <a class="marathon-either-or-btn btn-thumpn" href="{{ j.thumpnUrl or ('https://thumpn.com/event/' + j.thumpnEventId + '/tickets') }}" target="_blank" rel="noopener">Book on Thumpn</a>
+                  {% else %}
+                    <button type="button"
+                            class="marathon-either-or-btn btn-thumpn js-thumpn-modal-open"
+                            data-event-id="{{ j.thumpnEventId }}"
+                            data-embed-token="{{ j.thumpnEmbedToken }}"
+                            data-event-title="{{ j.name }}">
+                      Book on Thumpn
+                    </button>
+                  {% endif %}
+                {% elif j.thumpnUrl %}
+                  <a class="marathon-either-or-btn btn-thumpn" href="{{ j.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
                 {% endif %}
-                {% elif j.ticketUrl %}
-                <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ j.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
+
+                {% if j.districtUrl %}
+                  <a class="marathon-either-or-btn btn-district" href="{{ j.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
                 {% endif %}
               </div>
             </div>
@@ -261,29 +265,29 @@ pageStyles:
         </div>
 
         {# TICKETS COLUMN #}
-
-          {% if slot.isEitherOrJam %}
-
-          {% elif slot.thumpnEventId %}
-
-          <div class="marathon-schedule-tickets-col">
-              {% if marathon.upcoming.skipThumpnEmbed %}
-              <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ 'https://thumpn.com/event/' + slot.thumpnEventId + '/tickets'}}" target="_blank" rel="noopener">Book Tickets →</a>
-              {% else %}
-          <button type="button"
-                  class="marathon-schedule-book-btn js-thumpn-modal-open"
-                  data-event-id="{{ slot.thumpnEventId }}"
-                  data-embed-token="{{ slot.thumpnEmbedToken }}"
-                  data-event-title="{{ slot.title }}">
-            Book Tickets →
-          </button>
+        {% if not slot.isEitherOrJam %}
+        <div class="marathon-schedule-tickets-col marathon-schedule-dual-buttons">
+          {% if slot.thumpnEventId %}
+            {% if marathon.upcoming.skipThumpnEmbed %}
+              <a class="marathon-schedule-book-btn btn-thumpn" href="{{ slot.thumpnUrl or ('https://thumpn.com/event/' + slot.thumpnEventId + '/tickets') }}" target="_blank" rel="noopener">Book on Thumpn</a>
+            {% else %}
+              <button type="button"
+                      class="marathon-schedule-book-btn btn-thumpn js-thumpn-modal-open"
+                      data-event-id="{{ slot.thumpnEventId }}"
+                      data-embed-token="{{ slot.thumpnEmbedToken }}"
+                      data-event-title="{{ slot.title }}">
+                Book on Thumpn
+              </button>
+            {% endif %}
+          {% elif slot.thumpnUrl %}
+            <a class="marathon-schedule-book-btn btn-thumpn" href="{{ slot.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
           {% endif %}
-          {% elif slot.ticketUrl %}
-          <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
-          {% else %}
-          <a class="marathon-schedule-book-btn" href="#passes">Get Passes / Tickets →</a>
-          </div>
+
+          {% if slot.districtUrl %}
+            <a class="marathon-schedule-book-btn btn-district" href="{{ slot.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
           {% endif %}
+        </div>
+        {% endif %}
 
 
       </article>

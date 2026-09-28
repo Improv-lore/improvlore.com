@@ -69,7 +69,7 @@ const formats = [
     type: "show",
     feedMatch: "silliest show",
     image: "/assets/posters/the-silliest-show-tonight.jpg",
-    badges: ["Every Friday","Best first step"],
+    badges: ["Every Friday", "Best first step"],
     blurb:
       "A classic good ol' improv show packed with riddles, tongue twisters, and some nostalgia.",
     expect:
@@ -109,7 +109,7 @@ const formats = [
     type: "show",
     feedMatch: "powerpoint roulette",
     image: "/assets/posters/powerpoint-roulette.jpg",
-    badges: ["Unrehearsed slides","Corporate Favourite"],
+    badges: ["Unrehearsed slides", "Corporate Favourite"],
     blurb:
       "Presentations from slides nobody has seen before. Business pitches, eulogies, TED talks, and conspiracy theories, all made up on the spot.",
     expect:
@@ -201,7 +201,7 @@ const formats = [
     title: "The Turing Twist",
     type: "show",
     feedMatch: "turing twist",
-    badges: ["Our Take on AI","BLR HUBBA 2026"],
+    badges: ["Our Take on AI", "BLR HUBBA 2026"],
     image: "/assets/posters/turing-twist.jpg",
     blurb:
       "A live Turing test on stage. AI and human improvisers on a level field, and the audience has no idea who is who.",
@@ -223,7 +223,7 @@ const formats = [
     // underline.center/t/.../809
     sessions: {
       note: "Four sessions, 10am to 1pm on all four days.",
-      dates: ["Sat 19 Sept", "Sun 20 Sept", "Sat 26 Sept", "Sun 27 Sept"],
+      dates: ["Sat 17 Oct", "Sun 18 Oct", "Mon 19 Oct", "Tue 20 Oct"],
     },
     blurb:
       "A hands-on intro workshop for first-timers. Learn the basics and shake off the stage fright.",
@@ -259,7 +259,7 @@ const formats = [
     type: "workshop",
     feedMatch: "what is yes",
     image: "/assets/posters/what-is-yes-and.jpg",
-    badges:["Marathon exclusive"],
+    badges: ["Marathon exclusive"],
     blurb:
       "A gentle, structured two hours on how improv actually works. The best place to start if you've been curious but didn't know where to begin.",
     expect:

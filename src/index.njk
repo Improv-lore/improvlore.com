@@ -113,7 +113,7 @@ pageStyles:
         <span class="home-hero-next-kicker">{{ kicker }}</span>
         {# Type badge and keyword pills share a row here (homepage only), instead
            of overlaying the poster like the /events and library cards. #}
-        {% set badges = filters.eventBadges(ev.title) %}
+        {% set badges = filters.eventBadges(ev.title, ev) %}
         <span class="home-hero-next-tags">
           <span class="event-type-badge">{{ evType }}</span>
           {% for badge in badges %}<span class="pill pill-{{ evType }}">{{ badge }}</span>{% endfor %}

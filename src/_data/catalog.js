@@ -40,10 +40,14 @@ export default async function () {
         (next.slug || "").toLowerCase().includes("all-play-no-work"));
 
     let ticketUrl = next ? next.url : null;
+    let thumpnUrl = null;
+    let districtUrl = null;
     if (hasUpcoming) {
       if (isMarathon || !ticketUrl || ticketUrl === "tba") {
         if (isMarathon) {
-          ticketUrl = marathon.getTicketUrl(fmt.slug);
+          thumpnUrl = marathon.getThumpnUrl(fmt.slug);
+          districtUrl = marathon.getDistrictUrl(fmt.slug);
+          ticketUrl = thumpnUrl || districtUrl || marathon.getTicketUrl(fmt.slug);
         } else if (ticketUrl === "tba") {
           ticketUrl = null;
         }
@@ -55,6 +59,9 @@ export default async function () {
       // Dynamic overlay from the feed (null when nothing is scheduled).
       next,
       hasUpcoming,
+      isMarathon,
+      thumpnUrl,
+      districtUrl,
       startsAt: next ? next.event_starts_at : null,
       endsAt: next ? next.event_ends_at : null,
       ticketUrl,
