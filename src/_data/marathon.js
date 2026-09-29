@@ -16,6 +16,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import site from "./site.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -413,13 +414,19 @@ function getMarathonDistrictUrl(slug) {
 function getMarathonTicketUrl(slug) {
   const slot = getMarathonSlot(slug);
   if (!slot) return "/marathon/#passes";
-  return slot.thumpnUrl || slot.districtUrl || slot.ticketUrl || "/marathon/#passes";
+  return (
+    slot.thumpnUrl ||
+    (site.showDistrictBooking ? slot.districtUrl : null) ||
+    slot.ticketUrl ||
+    "/marathon/#passes"
+  );
 }
 
 export default {
   meta,
   lineup,
   upcoming,
+  showDistrictBooking: site.showDistrictBooking,
   getSlot: getMarathonSlot,
   getTicketUrl: getMarathonTicketUrl,
   getThumpnUrl: getMarathonThumpnUrl,

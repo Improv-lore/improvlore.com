@@ -10,11 +10,16 @@ const url = "https://improvlore.com";
 const turnstileSiteKey =
   process.env.TURNSTILE_SITE_KEY || "0x4AAAAAADgTJL7y4P6HHM46";
 
+// Global toggle for District booking buttons across the site.
+// Hidden by default; can be unhidden by toggling this to true or setting SHOW_DISTRICT_BOOKING=true.
+const showDistrictBooking = process.env.SHOW_DISTRICT_BOOKING === "true" || false;
+
 export default {
   url,
   name: "Improvlore",
   year: new Date().getFullYear(),
   turnstileSiteKey,
+  showDistrictBooking,
 
   // Resolve a path or possibly-relative URL to an absolute URL on this origin.
   // Pass-through for anything already absolute (feed images are hotlinked from

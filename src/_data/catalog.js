@@ -8,6 +8,7 @@
 import formats, { normalize } from "./formats.js";
 import getEvents from "./events.js";
 import marathon from "./marathon.js";
+import site from "./site.js";
 
 export default async function () {
   const rawEvents = await getEvents.getRawEvents();
@@ -47,7 +48,10 @@ export default async function () {
         if (isMarathon) {
           thumpnUrl = marathon.getThumpnUrl(fmt.slug);
           districtUrl = marathon.getDistrictUrl(fmt.slug);
-          ticketUrl = thumpnUrl || districtUrl || marathon.getTicketUrl(fmt.slug);
+          ticketUrl =
+            thumpnUrl ||
+            (site.showDistrictBooking ? districtUrl : null) ||
+            marathon.getTicketUrl(fmt.slug);
         } else if (ticketUrl === "tba") {
           ticketUrl = null;
         }

@@ -254,7 +254,7 @@ pageStyles:
                   <a class="marathon-either-or-btn btn-thumpn" href="{{ j.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
                 {% endif %}
 
-                {% if j.districtUrl %}
+                {% if site.showDistrictBooking and j.districtUrl %}
                   <a class="marathon-either-or-btn btn-district" href="{{ j.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
                 {% endif %}
               </div>
@@ -281,9 +281,13 @@ pageStyles:
             {% endif %}
           {% elif slot.thumpnUrl %}
             <a class="marathon-schedule-book-btn btn-thumpn" href="{{ slot.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
+          {% elif slot.ticketUrl %}
+            <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
+          {% else %}
+            <a class="marathon-schedule-book-btn" href="#passes">Get Passes / Tickets →</a>
           {% endif %}
 
-          {% if slot.districtUrl %}
+          {% if site.showDistrictBooking and slot.districtUrl %}
             <a class="marathon-schedule-book-btn btn-district" href="{{ slot.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
           {% endif %}
         </div>

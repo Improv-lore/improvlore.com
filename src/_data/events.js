@@ -1,6 +1,7 @@
 import eleventyFetch from "@11ty/eleventy-fetch";
 import { matchFormat } from "./formats.js";
 import marathon from "./marathon.js";
+import site from "./site.js";
 
 // Served by the UC-ingest admin Worker (see UC-ingest/admin), backed by D1 —
 // reflects admin edits/disables made at improvlore.com/admin, not just the
@@ -96,7 +97,7 @@ async function getEvents() {
         marathonSlot.districtUrl = districtUrl;
       }
 
-      let ticketUrl = thumpnUrl || districtUrl || ev.url;
+      let ticketUrl = thumpnUrl || (site.showDistrictBooking ? districtUrl : null) || ev.url;
       if (!ticketUrl || ticketUrl === "tba") {
         ticketUrl = "/marathon/#passes";
       }

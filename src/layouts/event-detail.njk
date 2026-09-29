@@ -131,8 +131,11 @@
           {% if d.thumpnUrl %}
             <a class="btn btn-thumpn" href="{{ d.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
           {% endif %}
-          {% if d.districtUrl %}
+          {% if site.showDistrictBooking and d.districtUrl %}
             <a class="btn btn-district" href="{{ d.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
+          {% endif %}
+          {% if not d.thumpnUrl and not (site.showDistrictBooking and d.districtUrl) and d.ticketUrl %}
+            <a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
           {% endif %}
         {% elif d.ticketUrl %}
           <a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
