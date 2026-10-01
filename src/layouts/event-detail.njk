@@ -123,22 +123,17 @@
       {# Primary CTA sits high — right under the date/venue — so the ticket
          button is reachable without scrolling past the description. The utility
          links (add to calendar, original listing) live in a footer below. #}
-      <div class="event-buttons event-detail-actions{% if d.isMarathon %} event-detail-actions--marathon{% endif %}">
+      <div class="event-buttons event-detail-actions">
         {% if d.notify %}
           <a class="btn btn-primary" href="{{ filters.contactUrl(d.title, 'on demand') }}">Get in touch</a>
           <a class="btn btn-ghost" href="{{ social.instagram }}" target="_blank" rel="noopener">DM on Instagram</a>
-        {% elif d.isMarathon %}
-          {% if d.thumpnUrl %}
-            <a class="btn btn-thumpn" href="{{ d.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
+        {% else %}
+          {% set targetUrl = d.districtUrl or d.ticketUrl %}
+          {% if targetUrl and not ("thumpn.com" in targetUrl) %}
+            <a class="btn btn-primary"{% if "district.in" in targetUrl %} data-ticket-slug{% endif %} href="{{ targetUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
+          {% elif d.isMarathon %}
+            <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
           {% endif %}
-          {% if site.showDistrictBooking and d.districtUrl %}
-            <a class="btn btn-district" href="{{ d.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
-          {% endif %}
-          {% if not d.thumpnUrl and not (site.showDistrictBooking and d.districtUrl) and d.ticketUrl %}
-            <a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
-          {% endif %}
-        {% elif d.ticketUrl %}
-          <a class="btn btn-primary"{% if "district.in" in d.ticketUrl %} data-ticket-slug{% endif %} href="{{ d.ticketUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
         {% endif %}
       </div>
       </div>{# /event-detail-facts #}
@@ -177,7 +172,7 @@
   </article>
 
   {# Original listing sits outside the card, a quiet footnote under it. #}
-  {% if d.learnMore %}
+  {% if d.learnMore and not ("thumpn.com" in d.learnMore) %}
     <p class="event-detail-source">
       <a href="{{ d.learnMore }}" target="_blank" rel="noopener">Original listing ↗</a>
     </p>

@@ -464,87 +464,12 @@ pageStyles:
 
 </div>
 
-{# THUMPN TICKETS MODAL #}
-<div class="thumpn-modal-backdrop" id="thumpn-ticket-modal" hidden aria-hidden="true" style="display: none; position: fixed !important; inset: 0 !important; z-index: 999999 !important;">
-  <div class="thumpn-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="thumpn-modal-title">
-    <div class="thumpn-modal-header">
-      <h3 class="thumpn-modal-title" id="thumpn-modal-title">Book Tickets</h3>
-      <button type="button" class="thumpn-modal-close" id="thumpn-modal-close-btn" aria-label="Close ticket modal">✕</button>
-    </div>
-    <div class="thumpn-modal-body" id="thumpn-modal-embed-target">
-      {# Thumpn embed script and container loaded here #}
-    </div>
-  </div>
-</div>
-
 {# FLOATING SUN OVERLAY BUTTON (Where scroll-to-top sits, appears only in After Dark mode) #}
 <button type="button" class="after-dark-sun-btn js-after-dark-return" aria-label="Return to Day Mode" title="Return to Day Mode">
   <span class="sun-icon" aria-hidden="true">☀️</span>
 </button>
 
 <script>
-  (function() {
-    var modal = document.getElementById('thumpn-ticket-modal');
-    var closeBtn = document.getElementById('thumpn-modal-close-btn');
-    var embedTarget = document.getElementById('thumpn-modal-embed-target');
-    var modalTitle = document.getElementById('thumpn-modal-title');
-    if (!modal || !closeBtn || !embedTarget) return;
-
-    // Portal modal directly to document.body so no parent stacking context or sticky header interferes
-    if (modal.parentNode !== document.body) {
-      document.body.appendChild(modal);
-    }
-
-    function openModal(eventId, embedToken, title) {
-      if (title && modalTitle) {
-        modalTitle.textContent = 'Book Tickets: ' + title;
-      }
-      embedTarget.innerHTML = '';
-      var s = document.createElement('script');
-      s.src = 'https://thumpn.com/embed.js';
-      s.setAttribute('data-event-id', eventId);
-      s.setAttribute('data-embed-token', embedToken);
-      s.defer = true;
-      embedTarget.appendChild(s);
-
-      modal.removeAttribute('hidden');
-      modal.setAttribute('aria-hidden', 'false');
-      modal.style.display = 'flex';
-      document.body.classList.add('thumpn-modal-open');
-      closeBtn.focus();
-    }
-
-    function closeModal() {
-      modal.setAttribute('hidden', '');
-      modal.setAttribute('aria-hidden', 'true');
-      modal.style.display = 'none';
-      document.body.classList.remove('thumpn-modal-open');
-      embedTarget.innerHTML = '';
-    }
-
-    document.querySelectorAll('.js-thumpn-modal-open').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var eventId = btn.getAttribute('data-event-id');
-        var embedToken = btn.getAttribute('data-embed-token');
-        var title = btn.getAttribute('data-event-title');
-        openModal(eventId, embedToken, title);
-      });
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.style.display !== 'none' && !modal.hasAttribute('hidden')) {
-        closeModal();
-      }
-    });
-  })();
 
 
   // After Dark Whole Website Inversion & Poster Transition

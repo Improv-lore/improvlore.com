@@ -146,7 +146,12 @@ pageStyles:
            ticket check swaps in "Sold Out" + "Get in touch" the pair sits
            together on one line instead of fighting the date tile for width. #}
         <div class="event-buttons home-hero-next-cta">
-          <a class="btn btn-primary" {% if "district.in" in ev.url %}data-ticket-slug {% endif %}href="{{ ev.url }}" target="_blank" rel="noopener">Buy Ticket</a>
+          {% set targetUrl = ev.districtUrl or ev.url %}
+          {% if targetUrl and not ("thumpn.com" in targetUrl) %}
+            <a class="btn btn-primary" {% if "district.in" in targetUrl %}data-ticket-slug {% endif %}href="{{ targetUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
+          {% elif ev.isMarathon %}
+            <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
+          {% endif %}
         </div>
       </div>
     </div>

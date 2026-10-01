@@ -98,22 +98,14 @@ showCustomEvents: false
             {{ filters.cardText(ev.full_content or ev.excerpt, 260) }}
           </p>
 
-          <div class="event-buttons{% if ev.isMarathon %} event-buttons--marathon{% endif %}">
-            {% if ev.isMarathon %}
-              {% if ev.thumpnUrl %}
-                <a class="btn btn-thumpn" href="{{ ev.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
-              {% endif %}
-              {% if site.showDistrictBooking and ev.districtUrl %}
-                <a class="btn btn-district" href="{{ ev.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
-              {% endif %}
-              {% if not ev.thumpnUrl and not (site.showDistrictBooking and ev.districtUrl) and ev.url %}
-                <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}"{% if "http" in ev.url %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
-              {% endif %}
-              <a class="btn btn-ghost event-learn-more" href="{{ filters.eventPermalink(ev) }}" aria-label="Learn more about {{ filters.workshopName(ev.title) }}"><span aria-hidden="true">→</span></a>
-            {% else %}
-              <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}"{% if "http" in ev.url %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
-              <a class="btn btn-ghost event-learn-more" href="{{ filters.eventPermalink(ev) }}" aria-label="Learn more about {{ filters.workshopName(ev.title) }}"><span aria-hidden="true">→</span></a>
+          <div class="event-buttons">
+            {% set targetUrl = ev.districtUrl or ev.url %}
+            {% if targetUrl and not ("thumpn.com" in targetUrl) %}
+              <a class="btn btn-primary"{% if "district.in" in targetUrl %} data-ticket-slug{% endif %} href="{{ targetUrl }}"{% if "http" in targetUrl %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
+            {% elif ev.isMarathon %}
+              <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
             {% endif %}
+            <a class="btn btn-ghost event-learn-more" href="{{ filters.eventPermalink(ev) }}" aria-label="Learn more about {{ filters.workshopName(ev.title) }}"><span aria-hidden="true">→</span></a>
           </div>
         </div>
 

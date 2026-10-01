@@ -405,29 +405,24 @@ if (upcoming.passes) {
 }
 
 function computeThumpnUrl(slot) {
-  if (slot.ticketUrl && slot.ticketUrl.includes("thumpn.com")) return slot.ticketUrl;
-  if (slot.thumpnEventId) {
-    const clean = slot.thumpnEventId.replace(/^evt-/, "");
-    return `https://thumpn.com/event/${clean}/tickets`;
-  }
   return null;
 }
 
 const eventsConf = ticketsConfig.events || {};
 (upcoming.schedule || []).forEach((slot) => {
   const conf = eventsConf[slot.slug] || eventsConf[slot.title] || {};
-  slot.ticketUrl = resolveUrl(conf.url || conf);
+  const directUrl = resolveUrl(conf.url || conf);
+  slot.ticketUrl = (directUrl && !directUrl.includes("thumpn.com")) ? directUrl : null;
   if (conf.districtUrl) slot.districtUrl = resolveUrl(conf.districtUrl);
-  if (conf.thumpnUrl) slot.thumpnUrl = resolveUrl(conf.thumpnUrl);
-  else slot.thumpnUrl = computeThumpnUrl(slot);
+  slot.thumpnUrl = null;
 
   if (slot.isEitherOrJam && Array.isArray(slot.jams)) {
     slot.jams.forEach((j) => {
       const jConf = eventsConf[j.slug] || eventsConf[j.name] || {};
-      j.ticketUrl = resolveUrl(jConf.url || jConf);
+      const directJamUrl = resolveUrl(jConf.url || jConf);
+      j.ticketUrl = (directJamUrl && !directJamUrl.includes("thumpn.com")) ? directJamUrl : null;
       if (jConf.districtUrl) j.districtUrl = resolveUrl(jConf.districtUrl);
-      if (jConf.thumpnUrl) j.thumpnUrl = resolveUrl(jConf.thumpnUrl);
-      else j.thumpnUrl = computeThumpnUrl(j);
+      j.thumpnUrl = null;
     });
   }
 });
@@ -444,9 +439,7 @@ function getMarathonSlot(slug) {
 }
 
 function getMarathonThumpnUrl(slug) {
-  const slot = getMarathonSlot(slug);
-  if (!slot) return null;
-  return slot.thumpnUrl || computeThumpnUrl(slot);
+  return null;
 }
 
 function getMarathonDistrictUrl(slug) {
@@ -457,12 +450,11 @@ function getMarathonDistrictUrl(slug) {
 
 function getMarathonTicketUrl(slug) {
   const slot = getMarathonSlot(slug);
-  if (!slot) return "/marathon/#passes";
+  if (!slot) return "/marathon/#schedule";
   return (
-    slot.thumpnUrl ||
-    (site.showDistrictBooking ? slot.districtUrl : null) ||
-    slot.ticketUrl ||
-    "/marathon/#passes"
+    slot.districtUrl ||
+    (slot.ticketUrl && !slot.ticketUrl.includes("thumpn.com") ? slot.ticketUrl : null) ||
+    "/marathon/#schedule"
   );
 }
 

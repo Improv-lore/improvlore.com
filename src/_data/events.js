@@ -86,7 +86,6 @@ async function getEvents() {
       const slug = fmt ? fmt.slug : ev.slug;
       const marathonSlot = slug ? marathon.getSlot(slug) : null;
 
-      const thumpnUrl = slug ? marathon.getThumpnUrl(slug) : null;
       let districtUrl = upstreamDistrictUrls.get(slug) || (marathonSlot ? marathonSlot.districtUrl : null);
       if (!districtUrl && ev.url && ev.url.includes("district.in")) {
         districtUrl = ev.url;
@@ -97,21 +96,30 @@ async function getEvents() {
         marathonSlot.districtUrl = districtUrl;
       }
 
-      let ticketUrl = thumpnUrl || (site.showDistrictBooking ? districtUrl : null) || ev.url;
-      if (!ticketUrl || ticketUrl === "tba") {
-        ticketUrl = "/marathon/#passes";
-      }
+      // Never use Thumpn: prefer District URL; fallback to clean non-Thumpn URL or marathon schedule
+      let ticketUrl = districtUrl || (ev.url && !ev.url.includes("thumpn.com") ? ev.url : null) || "/marathon/#schedule";
 
       return {
         ...ev,
         url: ticketUrl,
-        thumpnUrl,
+        thumpnUrl: null,
         districtUrl,
         tags,
         isMarathon: true,
       };
     }
-    return ev;
+
+    // Non-marathon events: sanitize any Thumpn URLs
+    let ticketUrl = ev.url;
+    if (ticketUrl && ticketUrl.includes("thumpn.com")) {
+      ticketUrl = null;
+    }
+
+    return {
+      ...ev,
+      url: ticketUrl,
+      thumpnUrl: null,
+    };
   });
 
   return result.sort(

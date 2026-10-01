@@ -41,17 +41,14 @@ export default async function () {
         (next.slug || "").toLowerCase().includes("all-play-no-work"));
 
     let ticketUrl = next ? next.url : null;
-    let thumpnUrl = null;
     let districtUrl = null;
     if (hasUpcoming) {
-      if (isMarathon || !ticketUrl || ticketUrl === "tba") {
+      if (isMarathon || !ticketUrl || ticketUrl.includes("thumpn.com") || ticketUrl === "tba") {
         if (isMarathon) {
-          thumpnUrl = marathon.getThumpnUrl(fmt.slug);
           districtUrl = marathon.getDistrictUrl(fmt.slug);
-          ticketUrl =
-            thumpnUrl ||
-            (site.showDistrictBooking ? districtUrl : null) ||
-            marathon.getTicketUrl(fmt.slug);
+          ticketUrl = districtUrl || marathon.getTicketUrl(fmt.slug);
+        } else if (ticketUrl && ticketUrl.includes("thumpn.com")) {
+          ticketUrl = null;
         } else if (ticketUrl === "tba") {
           ticketUrl = null;
         }
@@ -64,7 +61,7 @@ export default async function () {
       next,
       hasUpcoming,
       isMarathon,
-      thumpnUrl,
+      thumpnUrl: null,
       districtUrl,
       startsAt: next ? next.event_starts_at : null,
       endsAt: next ? next.event_ends_at : null,
