@@ -9,7 +9,7 @@ pageStyles:
 <div class="events-root">
 
   {# HERO CONTAINER #}
-  <header class="marathon-hero-wrap" aria-label="All Play No Work Marathon Header">
+  <header class="marathon-hero-wrap" id="marathon-hero" aria-label="All Play No Work Marathon Header">
     <div class="marathon-hero-content">
 
       <div class="marathon-hero-split">
@@ -37,29 +37,19 @@ pageStyles:
           </div>
 
           <p class="marathon-hero-lede">
-            Are you tired of staring at screens and rushing to meet deadlines? This Gandhi Jayanti, we're making the antidote: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness. Grab an All-Access Pass for the full run, or drop in for individual shows below.
+            Are you tired of staring at screens and rushing to meet deadlines? This Gandhi Jayanti, we're making the antidote: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness. All-Access and 4-Show Passes are now sold out—drop in for individual shows below.
           </p>
 
           <div class="marathon-hero-actions">
-            <a class="btn-apnw-primary" href="#passes">Get Passes (from ₹999) →</a>
+            <a class="btn-apnw-primary" href="#schedule">Single Show Tickets →</a>
             <a class="btn-apnw-ghost" href="#schedule">View Schedule ↓</a>
             <a class="marathon-hero-community" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community ↗</a>
           </div>
         </div>
 
-        {# RIGHT: BOLD NON-LINEAR COUNTDOWN CANVAS #}
+        {# RIGHT: 3-COLUMN EQUAL COUNTDOWN CANVAS (HOURS, MINUTES, SECONDS) #}
         <aside class="marathon-nonlinear-timer" id="hero-marathon-countdown" data-target="2026-10-02T14:00:00+05:30" aria-label="Countdown to festival kickoff">
-          <div class="timer-mosaic-grid">
-            {# HERO DAYS BLOCK (MASSIVE ASYMMETRICAL CARD) #}
-            <div class="timer-block timer-block--days">
-              <div class="timer-block-top">
-                <span class="timer-badge-pill">DAYS TO GO</span>
-              </div>
-              <div class="timer-block-main">
-                <span class="timer-num" data-unit="days">--</span>
-              </div>
-            </div>
-
+          <div class="timer-mosaic-grid timer-mosaic-grid--triplet">
             {# HOURS BLOCK #}
             <div class="timer-block timer-block--hours">
               <div class="timer-block-top">
@@ -90,42 +80,18 @@ pageStyles:
               </div>
             </div>
           </div>
+
+          {# QUICK PROJECTOR STRIP #}
+          <div class="countdown-tools-strip">
+            <button type="button" class="btn-stage-tool js-toggle-projector" title="Fullscreen Projector View (Shift+P)">
+              ⛶ Projector View
+            </button>
+          </div>
         </aside>
 
       </div>
 
-      <script>
-        (function() {
-          var timer = document.getElementById('hero-marathon-countdown');
-          if (!timer) return;
-          var target = new Date(timer.dataset.target).getTime();
-          var d = timer.querySelector('[data-unit="days"]');
-          var h = timer.querySelector('[data-unit="hours"]');
-          var m = timer.querySelector('[data-unit="minutes"]');
-          var s = timer.querySelector('[data-unit="seconds"]');
-
-          function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-          function tick() {
-            var diff = target - Date.now();
-            if (diff <= 0) {
-              timer.innerHTML = '<div class="big-timer-live">Festival Live Now!</div>';
-              return;
-            }
-            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            var minutes = Math.floor((diff / (1000 * 60)) % 60);
-            var seconds = Math.floor((diff / 1000) % 60);
-
-            if (d) d.textContent = pad(days);
-            if (h) h.textContent = pad(hours);
-            if (m) m.textContent = pad(minutes);
-            if (s) s.textContent = pad(seconds);
-          }
-          tick();
-          setInterval(tick, 1000);
-        })();
-      </script>
+      <script src="/assets/marathon-live.js" defer></script>
     </div>
   </header>
 
@@ -136,24 +102,28 @@ pageStyles:
       <p class="section-sub">{{ marathon.upcoming.scheduleNote }}</p>
     </div>
 
-    {# SCHEDULE CALLOUT / ALL-ACCESS PASS #}
-    <div class="marathon-lineup-notice">
+    {# SCHEDULE CALLOUT / PASSES SOLD OUT NOTICE #}
+    <div class="marathon-lineup-notice marathon-lineup-notice--soldout">
       <div class="marathon-lineup-notice-left">
-        <span class="marathon-lineup-badge">All-Access Pass · Full Marathon</span>
-        <h3 class="marathon-lineup-notice-title">One Pass. 12 Hours. All 7 Shows + Community Jam.</h3>
+        <span class="marathon-lineup-badge marathon-lineup-badge--soldout">Passes Sold Out</span>
+        <h3 class="marathon-lineup-notice-title">All-Access &amp; 4-Show Passes are Sold Out.</h3>
         <p class="marathon-lineup-notice-desc">
-          Drop in whenever you want, stay as long as you like, or grab a 4-show pass. Single-show tickets can also be booked on each slot below.
+          Full-festival passes have completely sold out! Single-show tickets are still available for individual show slots below.
         </p>
       </div>
 
       <div class="marathon-lineup-notice-ticket">
-        <a href="#passes" class="marathon-ticket-preview-wrap" title="View official marathon passes">
+        <div class="marathon-ticket-preview-wrap marathon-ticket-preview-wrap--soldout" title="Passes sold out">
           <img class="marathon-ticket-preview-img" src="/assets/tickets/all-day-pass.png" alt="All-Day Pass ticket" width="280" height="105" loading="lazy">
-        </a>
+          <span class="ticket-soldout-overlay-badge">SOLD OUT</span>
+        </div>
       </div>
 
       <div class="marathon-lineup-notice-right">
-        <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
+        <div class="notice-soldout-cta">
+          <span class="notice-soldout-tag">SOLD OUT</span>
+          <a class="btn-apnw-primary" href="#schedule" style="margin-top: 0.4rem; font-size: 0.85rem; padding: 0.45rem 1rem;">Book Single Shows ↓</a>
+        </div>
       </div>
     </div>
 
@@ -237,25 +207,14 @@ pageStyles:
                 <h4 class="marathon-either-or-opt-title"><a href="/event/{{ j.slug }}/">{{ j.name }}</a></h4>
               </div>
               <p class="marathon-either-or-opt-desc">{{ j.desc }}</p>
-              <div class="marathon-either-or-actions marathon-dual-actions">
-                {% if j.thumpnEventId %}
-                  {% if marathon.upcoming.skipThumpnEmbed %}
-                    <a class="marathon-either-or-btn btn-thumpn" href="{{ j.thumpnUrl or ('https://thumpn.com/event/' + j.thumpnEventId + '/tickets') }}" target="_blank" rel="noopener">Book on Thumpn</a>
-                  {% else %}
-                    <button type="button"
-                            class="marathon-either-or-btn btn-thumpn js-thumpn-modal-open"
-                            data-event-id="{{ j.thumpnEventId }}"
-                            data-embed-token="{{ j.thumpnEmbedToken }}"
-                            data-event-title="{{ j.name }}">
-                      Book on Thumpn
-                    </button>
-                  {% endif %}
-                {% elif j.thumpnUrl %}
-                  <a class="marathon-either-or-btn btn-thumpn" href="{{ j.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
-                {% endif %}
-
-                {% if site.showDistrictBooking and j.districtUrl %}
-                  <a class="marathon-either-or-btn btn-district" href="{{ j.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
+              <div class="marathon-either-or-actions">
+                {% set targetUrl = j.districtUrl or j.ticketUrl %}
+                {% if targetUrl %}
+                  <a class="btn btn-primary marathon-either-or-btn"
+                     {% if "district.in" in targetUrl %}data-ticket-slug{% endif %}
+                     href="{{ targetUrl }}"
+                     target="_blank"
+                     rel="noopener">Buy Ticket</a>
                 {% endif %}
               </div>
             </div>
@@ -266,29 +225,16 @@ pageStyles:
 
         {# TICKETS COLUMN #}
         {% if not slot.isEitherOrJam %}
-        <div class="marathon-schedule-tickets-col marathon-schedule-dual-buttons">
-          {% if slot.thumpnEventId %}
-            {% if marathon.upcoming.skipThumpnEmbed %}
-              <a class="marathon-schedule-book-btn btn-thumpn" href="{{ slot.thumpnUrl or ('https://thumpn.com/event/' + slot.thumpnEventId + '/tickets') }}" target="_blank" rel="noopener">Book on Thumpn</a>
-            {% else %}
-              <button type="button"
-                      class="marathon-schedule-book-btn btn-thumpn js-thumpn-modal-open"
-                      data-event-id="{{ slot.thumpnEventId }}"
-                      data-embed-token="{{ slot.thumpnEmbedToken }}"
-                      data-event-title="{{ slot.title }}">
-                Book on Thumpn
-              </button>
-            {% endif %}
-          {% elif slot.thumpnUrl %}
-            <a class="marathon-schedule-book-btn btn-thumpn" href="{{ slot.thumpnUrl }}" target="_blank" rel="noopener">Book on Thumpn</a>
-          {% elif slot.ticketUrl %}
-            <a class="marathon-schedule-book-btn" href="{{ slot.ticketUrl }}" target="_blank" rel="noopener">Book Tickets →</a>
+        <div class="marathon-schedule-tickets-col">
+          {% set targetUrl = slot.districtUrl or slot.ticketUrl %}
+          {% if targetUrl %}
+            <a class="btn btn-primary marathon-schedule-book-btn"
+               {% if "district.in" in targetUrl %}data-ticket-slug{% endif %}
+               href="{{ targetUrl }}"
+               target="_blank"
+               rel="noopener">Buy Ticket</a>
           {% else %}
-            <a class="marathon-schedule-book-btn" href="#passes">Get Passes / Tickets →</a>
-          {% endif %}
-
-          {% if site.showDistrictBooking and slot.districtUrl %}
-            <a class="marathon-schedule-book-btn btn-district" href="{{ slot.districtUrl }}" target="_blank" rel="noopener">Book on District</a>
+            <a class="btn btn-primary marathon-schedule-book-btn" href="#passes">Get Passes / Tickets →</a>
           {% endif %}
         </div>
         {% endif %}
@@ -307,18 +253,26 @@ pageStyles:
 
     <div class="marathon-passes-grid">
       {% for pass in marathon.upcoming.passes %}
-      <div class="marathon-pass-card{% if pass.featured or loop.first %} marathon-pass-card--featured{% endif %}">
-        {% if pass.tag %}
+      <div class="marathon-pass-card{% if pass.soldOut %} marathon-pass-card--soldout{% elif pass.featured or loop.first %} marathon-pass-card--featured{% endif %}">
+        {% if pass.soldOut %}
+        <span class="marathon-pass-badge marathon-pass-badge--soldout">SOLD OUT</span>
+        {% elif pass.tag %}
         <span class="marathon-pass-badge">{{ pass.tag }}</span>
         {% endif %}
 
         {% if pass.id == "all-access" %}
-        <div class="marathon-pass-card-ticket">
+        <div class="marathon-pass-card-ticket{% if pass.soldOut %} marathon-pass-card-ticket--soldout{% endif %}">
           <img src="/assets/tickets/all-day-pass.png" alt="All-Day Pass ticket graphic" width="340" height="128" class="marathon-pass-ticket-graphic" loading="lazy">
+          {% if pass.soldOut %}
+          <span class="ticket-soldout-overlay-badge">SOLD OUT</span>
+          {% endif %}
         </div>
         {% elif pass.id == "four-show" %}
-        <div class="marathon-pass-card-ticket">
+        <div class="marathon-pass-card-ticket{% if pass.soldOut %} marathon-pass-card-ticket--soldout{% endif %}">
           <img src="/assets/tickets/four-show-pass.png" alt="4-Show Pass ticket graphic" width="340" height="128" class="marathon-pass-ticket-graphic" loading="lazy">
+          {% if pass.soldOut %}
+          <span class="ticket-soldout-overlay-badge">SOLD OUT</span>
+          {% endif %}
         </div>
         {% else %}
         <div class="marathon-pass-card-ticket marathon-pass-card-ticket--generic">
@@ -338,7 +292,12 @@ pageStyles:
           {% endfor %}
         </ul>
         <div class="event-buttons">
-          {% if pass.razorpay %}
+          {% if pass.soldOut %}
+          <div class="pass-soldout-wrap">
+            <span class="btn-apnw-soldout" aria-disabled="true">Sold Out</span>
+            <span class="pass-soldout-sub">Single show tickets available below</span>
+          </div>
+          {% elif pass.razorpay %}
           <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
           {% else %}
           <a class="btn-apnw-primary" href="#schedule">Browse Sessions ↑</a>

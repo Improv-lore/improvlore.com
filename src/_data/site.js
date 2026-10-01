@@ -11,8 +11,8 @@ const turnstileSiteKey =
   process.env.TURNSTILE_SITE_KEY || "0x4AAAAAADgTJL7y4P6HHM46";
 
 // Global toggle for District booking buttons across the site.
-// Hidden by default; can be unhidden by toggling this to true or setting SHOW_DISTRICT_BOOKING=true.
-const showDistrictBooking = process.env.SHOW_DISTRICT_BOOKING === "true" || false;
+// Enabled by default; can be disabled by setting SHOW_DISTRICT_BOOKING=false.
+const showDistrictBooking = process.env.SHOW_DISTRICT_BOOKING !== "false";
 
 export default {
   url,

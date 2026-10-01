@@ -330,6 +330,7 @@ const upcoming = {
       id: "all-access",
       name: "All-Access Pass",
       tag: "Full Marathon",
+      soldOut: true,
       desc: "Stay for the entire 12-hour ride or come and go as you like. Complete access to all 7 shows across the day and night, plus your choice of the 8 PM community jam.",
       perks: [
         "Entry to all 7 shows across the day & night (2 PM to 2 AM)",
@@ -338,13 +339,14 @@ const upcoming = {
         "Best overall value for a full day of unscripted theatre",
         "Directly supports Improvlore and Underline Center"
       ],
-      razorpay: true,
+      razorpay: false,
       featured: true,
     },
     {
       id: "four-show",
       name: "4-Show Pass",
       tag: "Flexible Block",
+      soldOut: true,
       desc: "Pick any 4 shows across the day that match your schedule. Catch an afternoon block, step out for a break, and head back for prime-time and late-night sets.",
       perks: [
         "Entry to any 4 shows of your choice across the lineup",
@@ -352,7 +354,7 @@ const upcoming = {
         "Better value than single session tickets",
         "Directly supports Improvlore and Underline Center"
       ],
-      razorpay: true,
+      razorpay: false,
     },
     {
       id: "single-session",
