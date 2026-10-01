@@ -16,7 +16,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import site from "./site.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -52,8 +51,7 @@ const meta = {
     "Our first marathon, and really just an excuse to spend a day stepping away from everything that feels like work, and leaning into something more playful. Twelve hours of shows and jams back to back, so you could sit and watch the sharpest performers in the shed, or get your hands dirty and try improv yourself. No one had to perform if they didn't want to.",
 };
 
-
-// The running order of the first edition, kept for the /festivals/ recap (not used on the active /marathon/ page).
+// The running order of the first edition, kept for the /festivals/ recap.
 const lineup = [
   {
     title: "TheatreSports™",
@@ -134,51 +132,9 @@ const upcoming = {
   venue: "Underline Center, Indiranagar, Bangalore",
   venueShort: "Underline Center, Indiranagar",
   venueMapsUrl: "https://maps.google.com/?q=Underline+Center+Indiranagar",
-  venueLogo: "/assets/underline-logo.png",
-  venueDesc: "A cozy community space tucked away in Indiranagar. Warm, welcoming, and a 10-minute walk from Indiranagar Metro Station.",
   rsvpUrl: "https://chat.whatsapp.com/CRv3J3K0xRG8iQnTBI4hMa",
   ticketUrl: "https://underline.center",
   skipThumpnEmbed: false, // Set to true if embed is having an issue and we want to link to the event page directly
-  foodPartners: [
-    {
-      name: "Bob's Browniez",
-      brand: "Bob's Browniez",
-      category: "Brownies & Blondies",
-      tagline: "Aiming to make every type of brownie and blondie out there! A Bangalore-based brand constantly experimenting with new flavours and formats.",
-      menuHighlights: [
-        "Pecan Caramel",
-        "Ube White Chocolate",
-        "Kaju Katli",
-        "Surprise Pop-Up Specials"
-      ],
-      note: "Plus special surprise pop-up items on the day!",
-      instagramUrl: "https://www.instagram.com/bobs_browniez/",
-      handle: "@bobs_browniez",
-      logo: "/assets/partners/bobs-browniez.jpg",
-      alt: "Bob's Browniez logo",
-      bgColor: "#0f0b09"
-    },
-    {
-      name: "Whisk & Wabi",
-      subName: "Wabi Bowl by Whisk & Wabi",
-      category: "Asian Rice Bowls",
-      tagline: "Serving Asian-inspired rice bowls packed with bold flavours from across Asia, adapted with their own twist in veg and non-veg options.",
-      menuHighlights: [
-        "Gochujang Chicken Bowl",
-        "Sambal Goreng Chicken",
-        "Sambal Goreng Tofu",
-        "Oyakodon (Japanese Chicken & Egg)",
-        "Mapo Tofu Bowl",
-        "Kerala Prawns Fry Bowl"
-      ],
-      note: "Hot rice bowls and limited-batch specials on the terrace.",
-      instagramUrl: "https://www.instagram.com/whiskandwabi/",
-      handle: "@whiskandwabi",
-      logo: "/assets/partners/whisk-and-wabi.jpg",
-      alt: "Whisk & Wabi logo",
-      bgColor: "#ffffff"
-    }
-  ],
   intro:
     "Are you tired of staring at screens and rushing to meet deadlines? This Gandhi Jayanti, we're making the antidote: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness in a cozy community space in Indiranagar. Seven shows, two community jams, and zero scripts. Pull up a chair, support your local theatre, and come play.",
   scheduleNote:
@@ -187,7 +143,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-KMWNG3",
       thumpnEmbedToken: "eZ3yz_p1lDTy0NRD8wFTb9oYoEnXvPq3XbTyql_YOTU",
-      districtUrl: "https://district.in/powerpoint-roulette-by-improv-lore-may1-2026/event",
       time: "02:00 PM",
       endTime: "03:15 PM",
       title: "PowerPoint Roulette",
@@ -201,7 +156,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-MXNHFG",
       thumpnEmbedToken: "KsD4M6rQ-1QY7_Lb6yAZumOjLm99_cx0mcRy4VOy6to",
-      districtUrl: "https://district.in/maestro-impro-by-improv-lore-oct2-2026/event",
       time: "03:30 PM",
       endTime: "04:45 PM",
       title: "Maestro Impro™",
@@ -215,7 +169,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-X7JFNA",
       thumpnEmbedToken: "vVhQvk7oH18YUNQO85wUDanz4d4aafKJu32r-BCCpuw",
-      districtUrl: "https://district.in/yes-and-dragons-a-dungeons-dragons-inspired-show-by-improv-lore-may1-2026/event",
       time: "05:00 PM",
       endTime: "06:15 PM",
       title: "Yes, and Dragons",
@@ -229,7 +182,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-TVQ8VE",
       thumpnEmbedToken: "GzY3xpi7vsxdFB1pWF_5bAkC7x58mCleSHaoWsgF3hI",
-      districtUrl: "https://www.district.in/events/and-then-an-improv-show-by-improv-lore-jul26-2026-buy-tickets",
       time: "06:30 PM",
       endTime: "07:45 PM",
       title: "And, Then?",
@@ -255,7 +207,6 @@ const upcoming = {
         {
           thumpnEventId: "evt-EZP5Y4",
           thumpnEmbedToken: "fUNSXZIzj_ogM3kErowmWrX17x6EDSzNBzud36CM_EQ",
-          districtUrl: "https://district.in/make-an-improv-song-musical-improv-jam-by-improv-lore-may1-2026/event",
           label: "Option A · Sing & Rhyme",
           name: "Make an Improv Song",
           slug: "make-an-improv-song",
@@ -265,7 +216,6 @@ const upcoming = {
         {
           thumpnEventId: "evt-J8SBG6",
           thumpnEmbedToken: "qLl5fLDt86NXKmFf4W8jykafyTVZfs9eZfT-7kMTft8",
-          districtUrl: "https://www.district.in/events/make-friends-with-the-stage-open-stage-jam-by-improv-lore-may1-2026-buy-tickets",
           label: "Option B · Stage Games",
           name: "Make Friends with the Stage",
           slug: "make-friends-with-the-stage",
@@ -278,7 +228,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-E8WF7R",
       thumpnEmbedToken: "94l7DAgjG7HSVFiGJc3TKpQKT22nP278AIpHMm8hwgU",
-      districtUrl: "https://district.in/musical-improv-show-by-improv-lore-world-music-day-jun21-2026/event",
       time: "09:30 PM",
       endTime: "10:45 PM",
       title: "The Musical Improv Show",
@@ -292,7 +241,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-PUDQUN",
       thumpnEmbedToken: "AuD31j0Knv4EpU66S2ujTrlzZDwpQ4yoYIBZWNtRPkM",
-      districtUrl: "https://district.in/theatresports-by-improv-lore-may1-2026/event",
       time: "11:00 PM",
       endTime: "12:15 AM",
       title: "TheatreSports™",
@@ -306,7 +254,6 @@ const upcoming = {
     {
       thumpnEventId: "evt-9QDCJB",
       thumpnEmbedToken: "SDGhvx3gIvvaT-CSxswrK_HjWNOYoyrZWNY9UohCZHs",
-      districtUrl: "https://district.in/the-silliest-show-tonight-by-improv-lore/event",
       time: "12:30 AM",
       endTime: "02:00 AM",
       dateLabel: "Sat 3 Oct",
@@ -330,7 +277,6 @@ const upcoming = {
       id: "all-access",
       name: "All-Access Pass",
       tag: "Full Marathon",
-      soldOut: true,
       desc: "Stay for the entire 12-hour ride or come and go as you like. Complete access to all 7 shows across the day and night, plus your choice of the 8 PM community jam.",
       perks: [
         "Entry to all 7 shows across the day & night (2 PM to 2 AM)",
@@ -339,14 +285,13 @@ const upcoming = {
         "Best overall value for a full day of unscripted theatre",
         "Directly supports Improvlore and Underline Center"
       ],
-      razorpay: false,
+      razorpay: true,
       featured: true,
     },
     {
       id: "four-show",
       name: "4-Show Pass",
       tag: "Flexible Block",
-      soldOut: true,
       desc: "Pick any 4 shows across the day that match your schedule. Catch an afternoon block, step out for a break, and head back for prime-time and late-night sets.",
       perks: [
         "Entry to any 4 shows of your choice across the lineup",
@@ -354,7 +299,7 @@ const upcoming = {
         "Better value than single session tickets",
         "Directly supports Improvlore and Underline Center"
       ],
-      razorpay: false,
+      razorpay: true,
     },
     {
       id: "single-session",
@@ -383,7 +328,7 @@ const upcoming = {
     },
     {
       q: "What is Underline Center like?",
-      a: "It's a cozy community space in Indiranagar. Warm, welcoming, great acoustics, and zero corporate stiffness. Just a 10-minute walk from Indiranagar Metro Station."
+      a: "It's a cozy community space in Indiranagar. Warm, welcoming, great acoustics, and zero corporate stiffness. Steps away from 12th Main and a short walk from Indiranagar Metro Station."
     }
   ]
 };
@@ -404,25 +349,12 @@ if (upcoming.passes) {
   if (single) single.ticketUrl = resolveUrl(passesConf.singleSession || passesConf["single-session"]);
 }
 
-function computeThumpnUrl(slot) {
-  return null;
-}
-
 const eventsConf = ticketsConfig.events || {};
 (upcoming.schedule || []).forEach((slot) => {
-  const conf = eventsConf[slot.slug] || eventsConf[slot.title] || {};
-  const directUrl = resolveUrl(conf.url || conf);
-  slot.ticketUrl = (directUrl && !directUrl.includes("thumpn.com")) ? directUrl : null;
-  if (conf.districtUrl) slot.districtUrl = resolveUrl(conf.districtUrl);
-  slot.thumpnUrl = null;
-
+  slot.ticketUrl = resolveUrl(eventsConf[slot.slug] || eventsConf[slot.title]);
   if (slot.isEitherOrJam && Array.isArray(slot.jams)) {
     slot.jams.forEach((j) => {
-      const jConf = eventsConf[j.slug] || eventsConf[j.name] || {};
-      const directJamUrl = resolveUrl(jConf.url || jConf);
-      j.ticketUrl = (directJamUrl && !directJamUrl.includes("thumpn.com")) ? directJamUrl : null;
-      if (jConf.districtUrl) j.districtUrl = resolveUrl(jConf.districtUrl);
-      j.thumpnUrl = null;
+      j.ticketUrl = resolveUrl(eventsConf[j.slug] || eventsConf[j.name]);
     });
   }
 });
@@ -438,33 +370,18 @@ function getMarathonSlot(slug) {
   return null;
 }
 
-function getMarathonThumpnUrl(slug) {
-  return null;
-}
-
-function getMarathonDistrictUrl(slug) {
-  const slot = getMarathonSlot(slug);
-  if (!slot) return null;
-  return slot.districtUrl || null;
-}
-
 function getMarathonTicketUrl(slug) {
   const slot = getMarathonSlot(slug);
-  if (!slot) return "/marathon/#schedule";
-  return (
-    slot.districtUrl ||
-    (slot.ticketUrl && !slot.ticketUrl.includes("thumpn.com") ? slot.ticketUrl : null) ||
-    "/marathon/#schedule"
-  );
+  if (!slot) return "/marathon/#passes";
+  if (slot.ticketUrl) return slot.ticketUrl;
+  if (slot.thumpnEventId) return `https://thumpn.com/event/${slot.thumpnEventId}/tickets`;
+  return "/marathon/#passes";
 }
 
 export default {
   meta,
   lineup,
   upcoming,
-  showDistrictBooking: site.showDistrictBooking,
   getSlot: getMarathonSlot,
   getTicketUrl: getMarathonTicketUrl,
-  getThumpnUrl: getMarathonThumpnUrl,
-  getDistrictUrl: getMarathonDistrictUrl,
 };

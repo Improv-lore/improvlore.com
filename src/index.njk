@@ -113,7 +113,7 @@ pageStyles:
         <span class="home-hero-next-kicker">{{ kicker }}</span>
         {# Type badge and keyword pills share a row here (homepage only), instead
            of overlaying the poster like the /events and library cards. #}
-        {% set badges = filters.eventBadges(ev.title, ev) %}
+        {% set badges = filters.eventBadges(ev.title) %}
         <span class="home-hero-next-tags">
           <span class="event-type-badge">{{ evType }}</span>
           {% for badge in badges %}<span class="pill pill-{{ evType }}">{{ badge }}</span>{% endfor %}
@@ -146,12 +146,7 @@ pageStyles:
            ticket check swaps in "Sold Out" + "Get in touch" the pair sits
            together on one line instead of fighting the date tile for width. #}
         <div class="event-buttons home-hero-next-cta">
-          {% set targetUrl = ev.districtUrl or ev.url %}
-          {% if targetUrl and not ("thumpn.com" in targetUrl) %}
-            <a class="btn btn-primary" {% if "district.in" in targetUrl %}data-ticket-slug {% endif %}href="{{ targetUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
-          {% elif ev.isMarathon %}
-            <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
-          {% endif %}
+          <a class="btn btn-primary" {% if "district.in" in ev.url %}data-ticket-slug {% endif %}href="{{ ev.url }}" target="_blank" rel="noopener">Buy Ticket</a>
         </div>
       </div>
     </div>

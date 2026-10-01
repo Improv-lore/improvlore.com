@@ -61,7 +61,7 @@ showCustomEvents: false
 
         <div class="event-card-body">
           <span class="event-type-badge">{% if ev.typeBadge %}{{ ev.typeBadge }}{% else %}{{ evType }}{% endif %}</span>
-          {{ posterBadges(filters.eventBadges(ev.title, ev), evType, true) }}
+          {{ posterBadges(filters.eventBadges(ev.title), evType, true) }}
           {# Title is a "stretched link": its ::before covers the whole card so a
              tap anywhere (except the buttons/venue link) opens the detail page.
              Especially helps on phones, where the big poster is the obvious tap
@@ -99,12 +99,7 @@ showCustomEvents: false
           </p>
 
           <div class="event-buttons">
-            {% set targetUrl = ev.districtUrl or ev.url %}
-            {% if targetUrl and not ("thumpn.com" in targetUrl) %}
-              <a class="btn btn-primary"{% if "district.in" in targetUrl %} data-ticket-slug{% endif %} href="{{ targetUrl }}"{% if "http" in targetUrl %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
-            {% elif ev.isMarathon %}
-              <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
-            {% endif %}
+            <a class="btn btn-primary"{% if "district.in" in ev.url %} data-ticket-slug{% endif %} href="{{ ev.url }}"{% if "http" in ev.url %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
             <a class="btn btn-ghost event-learn-more" href="{{ filters.eventPermalink(ev) }}" aria-label="Learn more about {{ filters.workshopName(ev.title) }}"><span aria-hidden="true">→</span></a>
           </div>
         </div>

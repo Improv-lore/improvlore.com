@@ -10,6 +10,8 @@ const IST = { timeZone: "Asia/Kolkata" };
 // formats.js so they tint and read identically.
 const ONE_OFF_BADGES = {
   theatresports: ["Licensed format"],
+  "all play no work": ["12-hour festival", "7 Shows · 2 Jams"],
+  marathon: ["12-hour festival", "7 Shows · 2 Jams"],
 };
 
 export default {
@@ -106,13 +108,14 @@ export default {
   },
 
   eventPermalink(ev = {}) {
-    if (ev.permalink && ev.permalink !== "/marathon/") return ev.permalink;
-    const fmt = matchFormat(ev.title || "");
-    if (fmt) return `/event/${fmt.slug}/`;
-    if (ev.slug === "all-play-no-work-marathon" || (ev.title || "").toLowerCase() === "all play no work: 12-hour improv marathon") {
+    if (ev.permalink) return ev.permalink;
+    if (ev.slug === "all-play-no-work-marathon" || (ev.title || "").toLowerCase().includes("all play no work")) {
       return "/marathon/";
     }
-    return `/event/${this.eventSlug(ev)}/`;
+    // Catalog formats own the canonical /event/<catalog-slug>/ page, so a
+    // feed event that matches one links there. One-offs use the derived slug.
+    const fmt = matchFormat(ev.title || "");
+    return `/event/${fmt ? fmt.slug : this.eventSlug(ev)}/`;
   },
 
   formatPermalink(fmt = {}) {
@@ -131,33 +134,13 @@ export default {
   // formats.js (the source of truth). Genuine one-offs with no format fall
   // back to ONE_OFF_BADGES below (keyed by a lowercase title substring), so a
   // recurring feed-only show can still carry a pill without a duplicate catalog
-  // entry. Marathon events receive an "ALL PLAY NO WORK" pill.
-  eventBadges(title = "", ev = null) {
-    const rawTitle = typeof title === "string" ? title : (title?.title || "");
-    const eventObj = (ev && typeof ev === "object") ? ev : (typeof title === "object" ? title : null);
-
-    const fmt = matchFormat(rawTitle);
-    let badges = (fmt && fmt.badges) ? [...fmt.badges] : [];
-    if (!badges.length) {
-      const t = rawTitle.toLowerCase();
-      const hit = Object.keys(ONE_OFF_BADGES).find((k) => t.includes(k));
-      if (hit) badges = [...ONE_OFF_BADGES[hit]];
-    }
-
-    const isMarathon =
-      (eventObj && (
-        (eventObj.event_starts_at && eventObj.event_starts_at.includes("2026-10-02")) ||
-        (eventObj.title || "").toLowerCase().includes("all play no work") ||
-        (eventObj.slug || "").toLowerCase().includes("all-play-no-work") ||
-        (eventObj.tags && eventObj.tags.includes("ALL PLAY NO WORK"))
-      )) ||
-      rawTitle.toLowerCase().includes("all play no work");
-
-    if (isMarathon && !badges.includes("ALL PLAY NO WORK")) {
-      badges.unshift("ALL PLAY NO WORK");
-    }
-
-    return badges;
+  // entry. Lets the upcoming-event cards show the same pills as the library.
+  eventBadges(title = "") {
+    const fmt = matchFormat(title);
+    if (fmt && fmt.badges) return fmt.badges;
+    const t = (title || "").toLowerCase();
+    const hit = Object.keys(ONE_OFF_BADGES).find((k) => t.includes(k));
+    return hit ? ONE_OFF_BADGES[hit] : [];
   },
 
   // The next N upcoming events of any type, soonest first, for the hero's
@@ -250,19 +233,11 @@ export default {
   },
 
   eventType(title = "", tags = []) {
-    const fmt = matchFormat(title || "");
-    if (fmt && fmt.type) return fmt.type;
-
-    const t = (title || "").toLowerCase();
-    if (t.includes("workshop")) return "workshop";
+    if (tags.includes("jam")) return "jam";
+    if (tags.includes("show")) return "show";
+    const t = title.toLowerCase();
     if (t.includes("jam")) return "jam";
-    if (t.includes("show")) return "show";
-
-    const tagList = Array.isArray(tags) ? tags : [];
-    if (tagList.includes("workshop")) return "workshop";
-    if (tagList.includes("jam")) return "jam";
-    if (tagList.includes("show")) return "show";
-
+    if (t.includes("workshop")) return "workshop";
     return "show";
   },
 
@@ -290,8 +265,6 @@ export default {
     return title
       .split("|")[0]
       .replace(/\bworkshop\b/i, "")
-      .replace(/\s*[-–]\s*all play no work\b/i, "")
-      .replace(/\ball play no work\b/i, "")
       .replace(/\bby improv ?lore\b/i, "")
       .replace(/[\s:–-]+$/, "")
       .trim() || title.trim();

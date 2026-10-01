@@ -4,7 +4,6 @@ import fs from "fs";
 
 export default function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
-    eleventyConfig.watchIgnores.add("src/assets/qr/**");
 
     eleventyConfig.addFilter("inlineCss", function(filePath) {
         if (!fs.existsSync(filePath)) return "";

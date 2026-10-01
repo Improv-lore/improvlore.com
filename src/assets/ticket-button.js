@@ -58,8 +58,7 @@
     }
 
     // On sale. Append the price string ("199 onwards") when present.
-    let price = (data.price_string || "").trim();
-    if (price.startsWith("₹")) price = price.slice(1).trim();
+    const price = (data.price_string || "").trim();
     btn.textContent = price ? `Buy Tickets · ₹${price}` : "Buy Tickets";
   }
 
@@ -85,11 +84,10 @@
   function eventTitleFor(btn) {
     const scope =
       btn.closest(".event-card") ||
-      btn.closest(".marathon-schedule-row") ||
       btn.closest(".home-hero-next") ||
       document;
     const el = scope.querySelector(
-      ".event-title, .marathon-schedule-title, .event-detail-title, .home-hero-next-title, h1, h2, h3"
+      ".event-title, .event-detail-title, .home-hero-next-title, h1, h2"
     );
     return el ? el.textContent.trim() : "";
   }
@@ -134,7 +132,7 @@
       if (!res.ok) return;
       const json = await res.json();
       const data = json && json.data;
-      if (data && json.result === "ok" && data.event_state) decorate(btn, data);
+      if (data) decorate(btn, data);
     } catch (e) {
       // Leave the original button as-is.
     }
@@ -142,11 +140,9 @@
 
   function init() {
     document
-      .querySelectorAll("a[data-ticket-slug], button[data-ticket-slug]")
+      .querySelectorAll("a.btn[data-ticket-slug]")
       .forEach((btn) => enhance(btn));
   }
-
-  window.enhanceTicketButtons = init;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
