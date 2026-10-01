@@ -2383,9 +2383,356 @@ body > .thumpn-modal-backdrop[hidden],
 }
 
 /* -------------------------------------------------
-   VENUE & LOGISTICS
+   VENUE & FOOD PARTNERS (Side-by-side layout)
 ------------------------------------------------- */
 
+.marathon-venue-partners-wrap,
+#venue-heading {
+  scroll-margin-top: 6.5rem;
+}
+
+.marathon-venue-partners-wrap {
+  margin: 3.5rem 0;
+}
+
+.marathon-venue-partners-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+  align-items: stretch;
+}
+
+@media (min-width: 860px) {
+  .marathon-venue-partners-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 2rem;
+  }
+}
+
+.marathon-loc-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 2rem 1.8rem;
+  box-shadow: 6px 6px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.marathon-loc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.marathon-loc-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.marathon-loc-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.marathon-loc-badge-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.marathon-venue-logo-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.marathon-loc-venue-logo {
+  height: 34px;
+  width: auto;
+  max-width: 155px;
+  object-fit: contain;
+  display: block;
+}
+
+.marathon-loc-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.32rem 0.8rem;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--apnw-yellow);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.marathon-loc-badge--fnb {
+  background: #ffdb88;
+}
+
+.marathon-loc-title {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin: 0 0 0.65rem;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.marathon-loc-desc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-body);
+  margin: 0 0 1.35rem;
+}
+
+/* Venue Perks List */
+.marathon-loc-perks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.marathon-loc-perk {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface-warm);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 0.65rem 0.9rem;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.marathon-loc-perk-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.marathon-loc-perk-text {
+  line-height: 1.35;
+}
+
+.marathon-loc-card-footer {
+  margin-top: 1rem;
+}
+
+.marathon-loc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.96rem;
+  font-weight: 800;
+  box-sizing: border-box;
+}
+
+/* Food & Beverage Partners List */
+.marathon-partners-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin-top: auto;
+}
+
+.marathon-partner-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.15rem;
+  background: var(--surface-warm);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  padding: 1.15rem 1.2rem;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.marathon-partner-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 var(--ink);
+  background: #ffffff;
+}
+
+.marathon-partner-logo-frame {
+  width: 78px;
+  height: 78px;
+  min-width: 78px;
+  border-radius: 14px;
+  border: 2px solid var(--ink);
+  overflow: hidden;
+  background: var(--partner-bg, #ffffff);
+  box-shadow: 2px 2px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.marathon-partner-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.marathon-partner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.marathon-partner-header-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.marathon-partner-name {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.marathon-partner-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--apnw-blue-dark);
+  background: rgba(15, 124, 165, 0.1);
+  border-radius: 6px;
+  padding: 0.18rem 0.55rem;
+}
+
+.marathon-partner-tagline {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-body);
+  margin: 0.2rem 0 0.4rem;
+}
+
+/* Partner Menu Pills */
+.marathon-partner-menu-wrap {
+  margin: 0.4rem 0 0.45rem;
+}
+
+.marathon-partner-menu-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--apnw-blue-dark);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.marathon-partner-menu-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.marathon-partner-dish-tag {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  background: #ffffff;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  color: var(--ink);
+  box-shadow: 1.5px 1.5px 0 var(--ink);
+  line-height: 1.3;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.marathon-partner-note {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-dim);
+  margin: 0.1rem 0 0.6rem;
+  line-height: 1.35;
+}
+
+.marathon-partner-action {
+  display: flex;
+  align-items: center;
+}
+
+.marathon-partner-insta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: #ffffff;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  box-shadow: 2px 2px 0 var(--ink);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.marathon-partner-insta-link:hover {
+  background: #fff0f3;
+  color: #c13584;
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.marathon-partner-insta-svg {
+  flex-shrink: 0;
+  color: #e4405f;
+}
+
+.marathon-partner-insta-arrow {
+  font-weight: 800;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* After Dark Mode Inversion Protection for Partner Logos & Venue Logo */
+html.is-after-dark .marathon-partner-logo-frame {
+  filter: invert(1) hue-rotate(180deg);
+}
+html.is-after-dark .marathon-partner-logo-frame img {
+  filter: none !important;
+}
+html.is-after-dark .marathon-loc-venue-logo {
+  filter: none !important;
+}
+
+/* Legacy fallback card support */
 .marathon-venue-card {
   display: flex;
   flex-direction: column;
@@ -2423,6 +2770,34 @@ body > .thumpn-modal-backdrop[hidden],
 }
 
 @media (max-width: 600px) {
+  .marathon-venue-partners-wrap {
+    margin: 2rem 0;
+  }
+
+  .marathon-loc-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .marathon-loc-card .marathon-loc-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .marathon-partner-item {
+    gap: 0.85rem;
+    padding: 0.9rem;
+  }
+
+  .marathon-partner-logo-frame {
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+  }
+
+  .marathon-partner-name {
+    font-size: 1.05rem;
+  }
+
   .marathon-venue-card {
     padding: 1.4rem 1.2rem;
     margin: 2rem 0;

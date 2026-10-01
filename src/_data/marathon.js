@@ -134,9 +134,51 @@ const upcoming = {
   venue: "Underline Center, Indiranagar, Bangalore",
   venueShort: "Underline Center, Indiranagar",
   venueMapsUrl: "https://maps.google.com/?q=Underline+Center+Indiranagar",
+  venueLogo: "/assets/underline-logo.png",
+  venueDesc: "A cozy community space tucked away in Indiranagar. Warm, welcoming, and a 10-minute walk from Indiranagar Metro Station.",
   rsvpUrl: "https://chat.whatsapp.com/CRv3J3K0xRG8iQnTBI4hMa",
   ticketUrl: "https://underline.center",
   skipThumpnEmbed: false, // Set to true if embed is having an issue and we want to link to the event page directly
+  foodPartners: [
+    {
+      name: "Bob's Browniez",
+      brand: "Bob's Browniez",
+      category: "Brownies & Blondies",
+      tagline: "Aiming to make every type of brownie and blondie out there! A Bangalore-based brand constantly experimenting with new flavours and formats.",
+      menuHighlights: [
+        "Pecan Caramel",
+        "Ube White Chocolate",
+        "Kaju Katli",
+        "Surprise Pop-Up Specials"
+      ],
+      note: "Plus special surprise pop-up items on the day!",
+      instagramUrl: "https://www.instagram.com/bobs_browniez/",
+      handle: "@bobs_browniez",
+      logo: "/assets/partners/bobs-browniez.jpg",
+      alt: "Bob's Browniez logo",
+      bgColor: "#0f0b09"
+    },
+    {
+      name: "Whisk & Wabi",
+      subName: "Wabi Bowl by Whisk & Wabi",
+      category: "Asian Rice Bowls",
+      tagline: "Serving Asian-inspired rice bowls packed with bold flavours from across Asia, adapted with their own twist in veg and non-veg options.",
+      menuHighlights: [
+        "Gochujang Chicken Bowl",
+        "Sambal Goreng Chicken",
+        "Sambal Goreng Tofu",
+        "Oyakodon (Japanese Chicken & Egg)",
+        "Mapo Tofu Bowl",
+        "Kerala Prawns Fry Bowl"
+      ],
+      note: "Hot rice bowls and limited-batch specials on the terrace.",
+      instagramUrl: "https://www.instagram.com/whiskandwabi/",
+      handle: "@whiskandwabi",
+      logo: "/assets/partners/whisk-and-wabi.jpg",
+      alt: "Whisk & Wabi logo",
+      bgColor: "#ffffff"
+    }
+  ],
   intro:
     "Are you tired of staring at screens and rushing to meet deadlines? This Gandhi Jayanti, we're making the antidote: twelve straight hours of unscripted comedy, storytelling, live music, and late-night madness in a cozy community space in Indiranagar. Seven shows, two community jams, and zero scripts. Pull up a chair, support your local theatre, and come play.",
   scheduleNote:
@@ -339,7 +381,7 @@ const upcoming = {
     },
     {
       q: "What is Underline Center like?",
-      a: "It's a cozy community space in Indiranagar. Warm, welcoming, great acoustics, and zero corporate stiffness. Steps away from 12th Main and a short walk from Indiranagar Metro Station."
+      a: "It's a cozy community space in Indiranagar. Warm, welcoming, great acoustics, and zero corporate stiffness. Just a 10-minute walk from Indiranagar Metro Station."
     }
   ]
 };
