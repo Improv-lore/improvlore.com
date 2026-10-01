@@ -4,10 +4,6 @@ import path from "path";
 import social from "./social.js";
 
 export default async function() {
-  const qrDir = path.resolve("src/assets/qr");
-  if (!fs.existsSync(qrDir)) {
-    fs.mkdirSync(qrDir, { recursive: true });
-  }
 
   const readIcon = (filename) => {
     try {
@@ -70,11 +66,8 @@ export default async function() {
   ];
 
   for (const item of items) {
-    const svgPath = path.join(qrDir, `${item.id}-qr.svg`);
-    const pngPath = path.join(qrDir, `${item.id}-qr.png`);
-
-    // Clean vector SVG
-    const svg = await QRCode.toString(item.targetUrl, {
+    // Generate clean vector SVG in-memory (no disk writes to prevent dev watcher loops)
+    item.svg = await QRCode.toString(item.targetUrl, {
       type: "svg",
       margin: 2,
       errorCorrectionLevel: "M",
@@ -83,35 +76,14 @@ export default async function() {
         light: "#ffffff"
       }
     });
-    fs.writeFileSync(svgPath, svg, "utf8");
-
-    // High resolution 1200x1200px PNG
-    await QRCode.toFile(pngPath, item.targetUrl, {
-      width: 1200,
-      margin: 2,
-      errorCorrectionLevel: "M",
-      color: {
-        dark: "#111827",
-        light: "#ffffff"
-      }
-    });
-
-    item.svg = svg;
     item.svgFile = `/assets/qr/${item.id}-qr.svg`;
     item.pngFile = `/assets/qr/${item.id}-qr.png`;
   }
 
-  // Also pre-generate marathon tickets QR code for toggle
+  // Pre-generate marathon tickets QR code SVG in-memory
   const marathonTarget = "https://improvlore.com/marathon/";
   const marathonSvg = await QRCode.toString(marathonTarget, {
     type: "svg",
-    margin: 2,
-    errorCorrectionLevel: "M",
-    color: { dark: "#111827", light: "#ffffff" }
-  });
-  fs.writeFileSync(path.join(qrDir, "marathon-qr.svg"), marathonSvg, "utf8");
-  await QRCode.toFile(path.join(qrDir, "marathon-qr.png"), marathonTarget, {
-    width: 1200,
     margin: 2,
     errorCorrectionLevel: "M",
     color: { dark: "#111827", light: "#ffffff" }
