@@ -1616,37 +1616,17 @@
 .projector-qr-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-}
-
-.projector-qr-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  width: fit-content;
-}
-
-.projector-qr-badge--whatsapp {
-  background: #25d366;
-  color: #062b14;
-}
-
-.projector-qr-badge--instagram {
-  background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
-  color: #ffffff;
+  justify-content: center;
 }
 
 .projector-qr-title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.01em;
-  margin-top: 0.1rem;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .projector-qr-handle {
@@ -1695,23 +1675,15 @@
 
 .projector-chrono-qr-text {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
+  align-items: center;
   text-align: left;
 }
 
 .projector-chrono-qr-text strong {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #ffffff;
   font-weight: 700;
-}
-
-.projector-qr-pill-sm {
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--yellow);
+  letter-spacing: -0.01em;
 }
 
 

@@ -505,7 +505,6 @@
               <img src="/assets/qr/whatsapp-qr.svg" alt="WhatsApp Community QR" class="projector-chrono-qr-img" width="58" height="58" />
             </div>
             <div class="projector-chrono-qr-text">
-              <span class="projector-qr-pill-sm">COMMUNITY</span>
               <strong>Join WhatsApp</strong>
             </div>
           </div>
@@ -514,7 +513,6 @@
               <img src="/assets/qr/instagram-qr.svg" alt="Instagram QR" class="projector-chrono-qr-img" width="58" height="58" />
             </div>
             <div class="projector-chrono-qr-text">
-              <span class="projector-qr-pill-sm">INSTAGRAM</span>
               <strong>@improvlore</strong>
             </div>
           </div>
@@ -648,7 +646,6 @@
                 <img src="/assets/qr/whatsapp-qr.svg" alt="WhatsApp Community QR Code" class="projector-qr-img" width="112" height="112" />
               </div>
               <div class="projector-qr-meta">
-                <span class="projector-qr-badge projector-qr-badge--whatsapp">COMMUNITY</span>
                 <span class="projector-qr-title">Join WhatsApp</span>
               </div>
             </div>
@@ -658,7 +655,6 @@
                 <img src="/assets/qr/instagram-qr.svg" alt="Instagram QR Code" class="projector-qr-img" width="112" height="112" />
               </div>
               <div class="projector-qr-meta">
-                <span class="projector-qr-badge projector-qr-badge--instagram">INSTAGRAM</span>
                 <span class="projector-qr-title">@improvlore</span>
               </div>
             </div>
