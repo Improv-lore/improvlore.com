@@ -627,9 +627,7 @@
 
           <!-- Typewriter Message: Pure unscripted marathon delirium -->
           <div class="finale-typewriter-card">
-            <p class="finale-typewriter-text">
-              <span class="typewriter-content">${TYPEWRITER_QUOTE}</span><span class="typewriter-cursor" aria-hidden="true">▌</span>
-            </p>
+            <p class="finale-typewriter-text"><span class="typewriter-content">${TYPEWRITER_QUOTE}</span><span class="typewriter-cursor" aria-hidden="true">▌</span></p>
           </div>
 
           <div class="finale-actions">
