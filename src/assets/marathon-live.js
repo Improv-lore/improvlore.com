@@ -612,18 +612,6 @@
         ` : ''}
 
         <div class="finale-layout">
-          <!-- Vector Festival Survivor Stamp -->
-          <div class="finale-stamp-wrap">
-            <svg class="finale-stamp-svg" viewBox="0 0 140 140" width="110" height="110" aria-label="12 Hours Conquered Festival Seal">
-              <circle cx="70" cy="70" r="64" fill="#f5c400" stroke="#1a1a1a" stroke-width="4" />
-              <circle cx="70" cy="70" r="57" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-dasharray="3 3" />
-              <text x="70" y="34" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-weight="900" font-size="8.5" fill="#1a1a1a" letter-spacing="1.5">ALL PLAY NO WORK</text>
-              <text x="70" y="74" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-weight="950" font-size="40" fill="#1a1a1a" letter-spacing="-1.5">12</text>
-              <rect x="30" y="80" width="80" height="17" rx="3" fill="#1a1a1a" />
-              <text x="70" y="92.5" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-weight="900" font-size="9.5" fill="#f5c400" letter-spacing="2">HOURS</text>
-              <text x="70" y="114" text-anchor="middle" font-family="'Archivo', sans-serif" font-weight="800" font-size="6.5" fill="#1a1a1a" letter-spacing="1.2">UNSCRIPTED THEATRE</text>
-            </svg>
-          </div>
 
           <!-- Typewriter Message: Pure unscripted marathon delirium -->
           <div class="finale-typewriter-card">

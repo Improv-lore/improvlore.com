@@ -1461,21 +1461,6 @@
   margin: 0 auto;
 }
 
-.finale-stamp-wrap {
-  margin-bottom: 0.2rem;
-  transform: rotate(-2.5deg);
-  transition: transform 0.25s ease;
-}
-
-.finale-stamp-wrap:hover {
-  transform: rotate(0deg) scale(1.03);
-}
-
-.finale-stamp-svg {
-  display: block;
-  filter: drop-shadow(4px 4px 0 var(--ink));
-}
-
 /* Typewriter Card (Delirious marathon quote) */
 .finale-typewriter-card {
   background: #04090e;
