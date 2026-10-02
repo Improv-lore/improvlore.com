@@ -650,7 +650,6 @@
               <div class="projector-qr-meta">
                 <span class="projector-qr-badge projector-qr-badge--whatsapp">COMMUNITY</span>
                 <span class="projector-qr-title">Join WhatsApp</span>
-                <span class="projector-qr-handle">Bangalore Improv Community</span>
               </div>
             </div>
 
@@ -661,7 +660,6 @@
               <div class="projector-qr-meta">
                 <span class="projector-qr-badge projector-qr-badge--instagram">INSTAGRAM</span>
                 <span class="projector-qr-title">@improvlore</span>
-                <span class="projector-qr-handle">Follow on Instagram</span>
               </div>
             </div>
           </div>
