@@ -1477,11 +1477,11 @@
 
 .finale-typewriter-text {
   font-family: 'Courier Prime', 'Courier New', Courier, monospace;
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-size: clamp(0.9rem, 1.3vw, 1.08rem);
   font-weight: 700;
-  line-height: 1.65;
+  line-height: 1.6;
   color: #fef3c7;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.015em;
   margin: 0;
   text-align: left;
   overflow-wrap: break-word;
@@ -1506,7 +1506,7 @@
     padding: 1.1rem 1.15rem;
   }
   .finale-typewriter-text {
-    font-size: 1.05rem;
+    font-size: 0.88rem;
     line-height: 1.5;
   }
 }
