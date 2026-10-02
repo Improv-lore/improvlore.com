@@ -1562,6 +1562,158 @@
   font-size: clamp(2rem, 4vw, 3.2rem);
 }
 
+/* Projector QR Showcase (Finale Screen) */
+.projector-qr-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.75rem;
+  margin: 1.1rem auto 0.4rem;
+  width: 100%;
+  max-width: 820px;
+}
+
+.projector-qr-card {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 1rem 1.35rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  flex: 1;
+  text-align: left;
+  backdrop-filter: blur(8px);
+}
+
+.projector-qr-card--whatsapp {
+  border-color: rgba(37, 211, 102, 0.45);
+}
+
+.projector-qr-card--instagram {
+  border-color: rgba(228, 64, 95, 0.45);
+}
+
+.projector-qr-box {
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.projector-qr-img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.projector-qr-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.projector-qr-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.projector-qr-badge--whatsapp {
+  background: #25d366;
+  color: #062b14;
+}
+
+.projector-qr-badge--instagram {
+  background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
+  color: #ffffff;
+}
+
+.projector-qr-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin-top: 0.1rem;
+}
+
+.projector-qr-handle {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+}
+
+/* Projector Live Chrono QR Strip */
+.projector-chrono-qr-strip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 0.85rem;
+  margin-top: 0.5rem;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.projector-chrono-qr-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 0.5rem 0.95rem;
+}
+
+.projector-chrono-qr-box {
+  background: #ffffff;
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.projector-chrono-qr-img {
+  display: block;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.projector-chrono-qr-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+}
+
+.projector-chrono-qr-text strong {
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.projector-qr-pill-sm {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+
 
 @media (max-width: 768px) {
   .marathon-milestones-track {

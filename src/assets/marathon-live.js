@@ -497,7 +497,29 @@
           </div>
         </div>
 
-        ${isProjector ? '' : `
+        ${isProjector ? `
+        <!-- Projector Connect QR Strip -->
+        <div class="projector-chrono-qr-strip">
+          <div class="projector-chrono-qr-item">
+            <div class="projector-chrono-qr-box">
+              <img src="/assets/qr/whatsapp-qr.svg" alt="WhatsApp Community QR" class="projector-chrono-qr-img" width="58" height="58" />
+            </div>
+            <div class="projector-chrono-qr-text">
+              <span class="projector-qr-pill-sm">COMMUNITY</span>
+              <strong>Join WhatsApp</strong>
+            </div>
+          </div>
+          <div class="projector-chrono-qr-item">
+            <div class="projector-chrono-qr-box">
+              <img src="/assets/qr/instagram-qr.svg" alt="Instagram QR" class="projector-chrono-qr-img" width="58" height="58" />
+            </div>
+            <div class="projector-chrono-qr-text">
+              <span class="projector-qr-pill-sm">INSTAGRAM</span>
+              <strong>@improvlore</strong>
+            </div>
+          </div>
+        </div>
+        ` : `
         <!-- Controls Strip -->
         <div class="stage-controls-strip">
           <button type="button" class="btn-stage-tool js-toggle-projector" title="Fullscreen Projector View (Shift+P)">
@@ -617,6 +639,33 @@
           <div class="finale-typewriter-card">
             <p class="finale-typewriter-text"><span class="typewriter-content">${TYPEWRITER_QUOTE}</span><span class="typewriter-cursor" aria-hidden="true">▌</span></p>
           </div>
+
+          ${isProjector ? `
+          <!-- Projector Screen Connect QR Codes -->
+          <div class="projector-qr-row">
+            <div class="projector-qr-card projector-qr-card--whatsapp">
+              <div class="projector-qr-box">
+                <img src="/assets/qr/whatsapp-qr.svg" alt="WhatsApp Community QR Code" class="projector-qr-img" width="112" height="112" />
+              </div>
+              <div class="projector-qr-meta">
+                <span class="projector-qr-badge projector-qr-badge--whatsapp">COMMUNITY</span>
+                <span class="projector-qr-title">Join WhatsApp</span>
+                <span class="projector-qr-handle">Bangalore Improv Community</span>
+              </div>
+            </div>
+
+            <div class="projector-qr-card projector-qr-card--instagram">
+              <div class="projector-qr-box">
+                <img src="/assets/qr/instagram-qr.svg" alt="Instagram QR Code" class="projector-qr-img" width="112" height="112" />
+              </div>
+              <div class="projector-qr-meta">
+                <span class="projector-qr-badge projector-qr-badge--instagram">INSTAGRAM</span>
+                <span class="projector-qr-title">@improvlore</span>
+                <span class="projector-qr-handle">Follow on Instagram</span>
+              </div>
+            </div>
+          </div>
+          ` : ''}
 
           <div class="finale-actions">
             <button type="button" class="btn-apnw-primary js-retrigger-celebration" style="cursor: pointer;">
