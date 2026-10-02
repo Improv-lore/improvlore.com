@@ -8,6 +8,7 @@
 import formats, { normalize } from "./formats.js";
 import getEvents from "./events.js";
 import marathon from "./marathon.js";
+import site from "./site.js";
 
 export default async function () {
   const rawEvents = await getEvents.getRawEvents();
@@ -40,10 +41,14 @@ export default async function () {
         (next.slug || "").toLowerCase().includes("all-play-no-work"));
 
     let ticketUrl = next ? next.url : null;
+    let districtUrl = null;
     if (hasUpcoming) {
-      if (isMarathon || !ticketUrl || ticketUrl === "tba") {
+      if (isMarathon || !ticketUrl || ticketUrl.includes("thumpn.com") || ticketUrl === "tba") {
         if (isMarathon) {
-          ticketUrl = marathon.getTicketUrl(fmt.slug);
+          districtUrl = marathon.getDistrictUrl(fmt.slug);
+          ticketUrl = districtUrl || marathon.getTicketUrl(fmt.slug);
+        } else if (ticketUrl && ticketUrl.includes("thumpn.com")) {
+          ticketUrl = null;
         } else if (ticketUrl === "tba") {
           ticketUrl = null;
         }
@@ -55,6 +60,9 @@ export default async function () {
       // Dynamic overlay from the feed (null when nothing is scheduled).
       next,
       hasUpcoming,
+      isMarathon,
+      thumpnUrl: null,
+      districtUrl,
       startsAt: next ? next.event_starts_at : null,
       endsAt: next ? next.event_ends_at : null,
       ticketUrl,

@@ -775,6 +775,63 @@ a.event-venue-link:hover {
   box-shadow: 1px 1px 0 var(--ink) !important;
 }
 
+/* Marathon Dual Booking Buttons (Thumpn & District) */
+.btn-thumpn {
+  background: #6d28d9;
+  color: #ffffff !important;
+  border: 2.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.btn-thumpn:hover {
+  background: #7c3aed;
+  color: #ffffff !important;
+  border-color: var(--ink);
+  transform: translate(-2px, -2px) rotate(-1deg);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.btn-thumpn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0 var(--ink) !important;
+}
+
+.btn-district {
+  background: #dc2626;
+  color: #ffffff !important;
+  border: 2.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.btn-district:hover {
+  background: #ef4444;
+  color: #ffffff !important;
+  border-color: var(--ink);
+  transform: translate(-2px, -2px) rotate(1deg);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.btn-district:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0 var(--ink) !important;
+}
+
+.event-buttons--marathon {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.event-buttons--marathon .btn {
+  font-size: 0.8rem;
+  padding: 0.48rem 0.8rem;
+}
+
 /* Applied client-side when District reports an event sold out / not on sale. */
 .btn-disabled,
 .btn-disabled:hover {
