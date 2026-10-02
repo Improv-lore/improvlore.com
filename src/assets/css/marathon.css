@@ -1533,23 +1533,25 @@
 
 /* Projector scaling for completed state */
 .projector-overlay-inner .marathon-stage-board--completed-finale {
-  max-width: 1100px;
-  padding: 3.2rem 2.5rem;
+  max-width: 1340px;
+  padding: 2.8rem 2.5rem;
 }
 
-.projector-overlay-inner .finale-stamp-svg {
-  width: 170px;
-  height: 170px;
+.projector-overlay-inner .finale-layout {
+  max-width: 1260px;
+  width: 100%;
 }
 
 .projector-overlay-inner .finale-typewriter-card {
-  max-width: 960px;
-  padding: 2.2rem 2.6rem;
+  max-width: 1260px;
+  width: 100%;
+  padding: 2rem 2.5rem;
 }
 
 .projector-overlay-inner .finale-typewriter-text {
-  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
-  line-height: 1.5;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
 }
 
 .projector-overlay-inner .chrono-hours-digit {

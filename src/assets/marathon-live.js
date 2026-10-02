@@ -559,7 +559,7 @@
     }
   }
 
-  const TYPEWRITER_QUOTE = "12 hour of all play no work no play all work work all no play play it on the work ughhh whatever the f***\nanyways thank you, for being here. see you again soon";
+  const TYPEWRITER_QUOTE = "12 hour of all play no work no play all work work all no play play it on the work ughhh whatever the f***. SEE YOU SOON";
 
   function startTypewriter(el, text) {
     if (!el || el.dataset.typed === '1') return;
