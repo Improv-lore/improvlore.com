@@ -72,9 +72,33 @@ pageStyles:
       function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
       function tick() {
-        var diff = target - Date.now();
+        var now = Date.now();
+        var diff = target - now;
         if (diff <= 0) {
-          timer.innerHTML = '<span class="timer-live">Live Now!</span>';
+          var elapsed = now - target;
+          var total12 = 12 * 3600 * 1000;
+          if (elapsed >= total12) {
+            timer.innerHTML = '<span class="timer-live" style="background:#ffe642;color:#111827;font-weight:900;">12 Hours Completed! 🏆</span>';
+            return;
+          }
+          var elapsedHours = Math.floor(elapsed / (1000 * 60 * 60));
+          var elapsedMins = Math.floor((elapsed / (1000 * 60)) % 60);
+          var elapsedSecs = Math.floor((elapsed / 1000) % 60);
+          var currentHour = Math.min(12, elapsedHours + 1);
+
+          var label = timer.closest('.home-marathon-countdown-block')?.querySelector('.home-marathon-timer-label');
+          if (label) {
+            label.innerHTML = '<span class="timer-live-dot" aria-hidden="true"></span>Hour ' + currentHour + ' of 12';
+          }
+          if (d) {
+            var dayPod = d.closest('.timer-pod');
+            if (dayPod) dayPod.style.display = 'none';
+            var firstSep = timer.querySelector('.timer-pod-sep');
+            if (firstSep) firstSep.style.display = 'none';
+          }
+          if (h) h.textContent = pad(elapsedHours);
+          if (m) m.textContent = pad(elapsedMins);
+          if (s) s.textContent = pad(elapsedSecs);
           return;
         }
         var days = Math.floor(diff / (1000 * 60 * 60 * 24));

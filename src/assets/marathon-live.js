@@ -4,11 +4,11 @@
 // terrace food tracking (4 PM start), and projector view.
 // =========================================================================
 
-(function() {
+(function () {
   const COUNTDOWN_CONTAINER_ID = 'hero-marathon-countdown';
   const TARGET_DATE_STR = '2026-10-02T14:00:00+05:30';
   const FESTIVAL_START = new Date(TARGET_DATE_STR).getTime();
-  const FESTIVAL_END   = new Date('2026-10-03T02:00:00+05:30').getTime();
+  const FESTIVAL_END = new Date('2026-10-03T02:00:00+05:30').getTime();
   const FOOD_START_TIME = new Date('2026-10-02T16:00:00+05:30').getTime();
 
   // The 12-Hour Running Order with 15-min turnovers & official ticket booking URLs
@@ -95,9 +95,14 @@
   const ONE_PM_TIMESTAMP = new Date('2026-10-02T13:00:00+05:30').getTime();
   let logoRevealStartTime = null;
   const LOGO_REVEAL_DURATION_MS = 15000; // 15 seconds of pure All Play No Work logo
-  let hasCelebrated = false;
-  let celebrationDismissed = false;
+  const initialTime = Date.now();
+  const initialLoadWasBeforeStart = (initialTime < FESTIVAL_START);
+  let hasCelebrated = !initialLoadWasBeforeStart;
+  let celebrationDismissed = !initialLoadWasBeforeStart;
   let lastBeepSec = null;
+  let testHour12Mode = false;
+  let hasCelebratedHour12 = false;
+  let hour12ClimaxEndTime = null;
 
   // Initialize Web Audio Context on demand
   function getAudioCtx() {
@@ -132,7 +137,7 @@
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + (duration || 0.12));
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // Theatrical fanfare chords
@@ -162,7 +167,7 @@
         osc.start(now + n.t);
         osc.stop(now + n.t + n.d);
       });
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // Tasteful canvas confetti cannon
@@ -282,62 +287,44 @@
 
   // Calculate current festival live state
   function getFestivalState(now) {
-    // If turnover test mode is active
-    if (testTurnoverMode) {
-      const show2 = SCHEDULE[1]; // Maestro Impro
+    if (testHour12Mode) {
       return {
-        type: 'INTERMISSION',
-        prevShow: SCHEDULE[0],
-        nextShow: show2,
-        minsUntilNext: 14,
-        elapsedMs: 76 * 60 * 1000,
-        totalMs: FESTIVAL_END - FESTIVAL_START
+        type: 'COMPLETED_12',
+        elapsedMs: 12 * 3600 * 1000,
+        totalMs: 12 * 3600 * 1000
       };
     }
 
     if (now < FESTIVAL_START) {
       return { type: 'COUNTDOWN', diff: FESTIVAL_START - now };
     }
+
     if (now >= FESTIVAL_END) {
-      return { type: 'CONCLUDED' };
+      return {
+        type: 'COMPLETED_12',
+        elapsedMs: 12 * 3600 * 1000,
+        totalMs: 12 * 3600 * 1000
+      };
     }
 
-    // Active Show check
-    for (let i = 0; i < SCHEDULE.length; i++) {
-      const show = SCHEDULE[i];
-      if (now >= show.start && now < show.end) {
-        return {
-          type: 'LIVE_SHOW',
-          showIndex: i + 1,
-          totalShows: SCHEDULE.length,
-          currentShow: show,
-          nextShow: SCHEDULE[i + 1] || null,
-          minsRemaining: Math.ceil((show.end - now) / 60000),
-          elapsedMs: now - FESTIVAL_START,
-          totalMs: FESTIVAL_END - FESTIVAL_START
-        };
-      }
-    }
+    const elapsed = now - FESTIVAL_START;
+    const total = FESTIVAL_END - FESTIVAL_START;
+    const remainingToHour12 = total - elapsed;
 
-    // 15-Minute Intermission / Turnover check
-    for (let i = 0; i < SCHEDULE.length; i++) {
-      const show = SCHEDULE[i];
-      if (now < show.start) {
-        return {
-          type: 'INTERMISSION',
-          prevShow: SCHEDULE[i - 1] || null,
-          nextShow: show,
-          minsUntilNext: Math.ceil((show.start - now) / 60000),
-          elapsedMs: now - FESTIVAL_START,
-          totalMs: FESTIVAL_END - FESTIVAL_START
-        };
-      }
+    // Final 10 seconds of Hour 12 theatrical climax countdown
+    if (remainingToHour12 <= 10000 && remainingToHour12 > 0) {
+      return {
+        type: 'CLIMAX_12',
+        diff: remainingToHour12,
+        elapsedMs: elapsed,
+        totalMs: total
+      };
     }
 
     return {
-      type: 'LIVE_FESTIVAL',
-      elapsedMs: now - FESTIVAL_START,
-      totalMs: FESTIVAL_END - FESTIVAL_START
+      type: 'LIVE_MARATHON',
+      elapsedMs: elapsed,
+      totalMs: total
     };
   }
 
@@ -395,131 +382,119 @@
     }
   }
 
-  // Render Live Festival Stage Call Sheet (Active Show OR 15-Minute Turnover)
-  function renderLiveDashboard(container, state, isProjector) {
+  // Render 12-Hour Physical Stage Ruler (Hours 01 to 12)
+  function renderHourRuler(currentHour, hoursElapsed) {
+    let html = '';
+    for (let hr = 1; hr <= 12; hr++) {
+      const isPast = hr <= hoursElapsed;
+      const isCurrent = hr === currentHour;
+      let cls = 'ruler-step';
+      if (isPast) cls += ' is-past';
+      else if (isCurrent) cls += ' is-current';
+      else cls += ' is-future';
+
+      html += `
+        <div class="${cls}">
+          <span class="ruler-num">${pad(hr)}</span>
+          ${isCurrent ? '<span class="ruler-now-tag">NOW</span>' : ''}
+        </div>
+      `;
+    }
+    return html;
+  }
+
+  // Render Live Marathon Hours Timer (Bespoke Stage Chrono - No generic card clutter)
+  function renderLiveHoursTimer(container, state, isProjector) {
     const elapsed = state.elapsedMs || 0;
     const total = state.totalMs || (12 * 3600 * 1000);
     const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
-    const currentHour = Math.min(12, Math.floor(elapsed / (3600 * 1000)) + 1);
-    const food = getTerraceFoodInfo(FESTIVAL_START + elapsed);
+    const hoursElapsed = Math.floor(elapsed / (3600 * 1000));
+    const minutesElapsed = Math.floor((elapsed % (3600 * 1000)) / 60000);
+    const secondsElapsed = Math.floor((elapsed % 60000) / 1000);
+    const currentHour = Math.min(12, hoursElapsed + 1);
 
-    let stageContent = '';
-    if (state.type === 'LIVE_SHOW') {
-      const s = state.currentShow;
-      const qrUrl = getQrCodeUrl(s.ticketUrl);
-      stageContent = `
-        <div class="stage-sheet-header">
-          <span class="stage-status-pill stage-status-pill--live">● ON STAGE NOW</span>
-          <span class="stage-sheet-slot">${s.slotTime}</span>
-        </div>
-        <h3 class="stage-sheet-title">${s.title}</h3>
-        <span class="stage-sheet-kicker">${s.kicker}</span>
-        <p class="stage-sheet-blurb">${s.blurb}</p>
-        <div class="stage-sheet-footer">
-          <span class="stage-chip stage-chip--time">⏱ Ends in ~${state.minsRemaining} mins</span>
-          ${state.nextShow ? `<span class="stage-chip stage-chip--next">Up next at ${state.nextShow.slotTime.split('–')[0].trim()}: <strong>${state.nextShow.title}</strong></span>` : ''}
-        </div>
+    const existingChrono = container.querySelector('.marathon-stage-board--live-chrono');
+    if (existingChrono) {
+      const hoursEl = existingChrono.querySelector('.chrono-hours-digit');
+      const hoursLabelEl = existingChrono.querySelector('.chrono-hours-label');
+      const runningEl = existingChrono.querySelector('.chrono-running-digits');
+      const editionBadge = existingChrono.querySelector('.chrono-edition-badge');
+      const contextEl = existingChrono.querySelector('.chrono-context-text');
+      const scaleFill = existingChrono.querySelector('.chrono-scale-fill');
+      const rulerTrack = existingChrono.querySelector('.chrono-ruler-track');
+      const metaDone = existingChrono.querySelector('.chrono-meta-done');
+      const metaLeft = existingChrono.querySelector('.chrono-meta-left');
 
-        <!-- Stage QR Code Card -->
-        <div class="stage-qr-card">
-          <img src="${qrUrl}" alt="QR code for ${s.title} passes" class="stage-qr-img" width="86" height="86" />
-          <div class="stage-qr-details">
-            <span class="stage-qr-kicker">SHOW PASSES &amp; BOOKINGS</span>
-            <strong class="stage-qr-title">Book Tickets for ${s.title}</strong>
-            <span class="stage-qr-desc">Scan from the room for single session or all-access passes.</span>
-          </div>
-        </div>
-      `;
-    } else if (state.type === 'INTERMISSION') {
-      const next = state.nextShow;
-      const qrUrl = getQrCodeUrl(next.ticketUrl);
-      stageContent = `
-        <div class="stage-sheet-header">
-          <span class="stage-status-pill stage-status-pill--break">● 15-MINUTE TURNOVER &amp; STAGE RESET</span>
-          <span class="stage-sheet-slot">Next Show at ${next.slotTime.split('–')[0].trim()}</span>
-        </div>
-        <h3 class="stage-sheet-title">Up Next: ${next.title}</h3>
-        <span class="stage-sheet-kicker">${next.kicker} · Doors Open in ~${state.minsUntilNext} mins</span>
-        <p class="stage-sheet-blurb">${next.blurb}</p>
-        <div class="stage-sheet-footer">
-          <span class="stage-chip stage-chip--urgent">⏱ Next show starts in ~${state.minsUntilNext} mins</span>
-        </div>
+      if (hoursEl && hoursEl.textContent !== String(hoursElapsed)) hoursEl.textContent = String(hoursElapsed);
+      if (hoursLabelEl && hoursLabelEl.textContent !== (hoursElapsed === 1 ? 'HOUR' : 'HOURS')) {
+        hoursLabelEl.textContent = hoursElapsed === 1 ? 'HOUR' : 'HOURS';
+      }
+      if (runningEl) runningEl.textContent = `${pad(minutesElapsed)}m ${pad(secondsElapsed)}s`;
+      if (editionBadge) editionBadge.textContent = `HOUR ${currentHour} OF 12`;
+      if (contextEl) contextEl.innerHTML = `INTO HOUR <strong>${currentHour}</strong>`;
+      if (scaleFill) scaleFill.style.width = `${pct}%`;
+      if (metaDone) metaDone.textContent = `${hoursElapsed} ${hoursElapsed === 1 ? 'Hour Down' : 'Hours Down'}`;
+      if (metaLeft) metaLeft.textContent = (12 - hoursElapsed > 0) ? `${12 - hoursElapsed}h Left` : 'Final Hour';
 
-        <!-- Stage QR Code Card for Next Show -->
-        <div class="stage-qr-card">
-          <img src="${qrUrl}" alt="QR code for ${next.title} passes" class="stage-qr-img" width="86" height="86" />
-          <div class="stage-qr-details">
-            <span class="stage-qr-kicker">UPCOMING SHOW TICKETS</span>
-            <strong class="stage-qr-title">Grab Passes for ${next.title}</strong>
-            <span class="stage-qr-desc">Scan to book your seat before doors open.</span>
-          </div>
-        </div>
-      `;
-    } else {
-      stageContent = `
-        <div class="stage-sheet-header">
-          <span class="stage-status-pill stage-status-pill--live">● ALL PLAY NO WORK</span>
-          <span class="stage-sheet-slot">2:00 PM – 2:00 AM</span>
-        </div>
-        <h3 class="stage-sheet-title">12-Hour Improvathon</h3>
-        <p class="stage-sheet-blurb">Seven shows, two community jams, and zero scripts. Live at Underline Center, Indiranagar.</p>
-      `;
-    }
+      if (rulerTrack && rulerTrack.dataset.currentHour !== String(currentHour)) {
+        rulerTrack.dataset.currentHour = String(currentHour);
+        rulerTrack.innerHTML = renderHourRuler(currentHour, hoursElapsed);
+      }
 
-    const isRehearsal = (rehearsalEndTime !== null) || testTurnoverMode;
-
-    // Smooth partial update if stage board already rendered
-    const existingDash = container.querySelector('.marathon-stage-board');
-    if (existingDash) {
-      const hourEl = existingDash.querySelector('.stage-board-tags .marathon-tag--edition');
-      if (hourEl) hourEl.textContent = `HOUR ${currentHour} OF 12`;
-
-      const clockEl = existingDash.querySelector('.clock-val');
-      if (clockEl) clockEl.textContent = formatDuration(elapsed);
-
-      const fillEl = existingDash.querySelector('.marathon-progress-fill');
-      if (fillEl) fillEl.style.width = `${pct}%`;
-
-      const stageSheet = existingDash.querySelector('.stage-active-sheet');
-      if (stageSheet) stageSheet.innerHTML = stageContent;
-
-      const tickerPill = existingDash.querySelector('.ticker-pill');
-      if (tickerPill) tickerPill.textContent = food.pill;
-
-      const tickerCopy = existingDash.querySelector('.ticker-copy');
-      if (tickerCopy) tickerCopy.innerHTML = food.text;
-
+      attachToolbarEvents(container, isProjector);
       return;
     }
 
     container.innerHTML = `
-      <div class="marathon-stage-board">
-        <!-- Top Status Bar -->
-        <div class="stage-board-topbar">
-          <div class="stage-board-tags">
-            <span class="marathon-tag marathon-tag--edition">HOUR ${currentHour} OF 12</span>
-            ${testTurnoverMode ? '<span class="marathon-tag marathon-tag--highlight">TURNOVER TEST</span>' : (rehearsalEndTime ? '<span class="marathon-tag marathon-tag--highlight">CREW REHEARSAL</span>' : '')}
+      <div class="marathon-stage-board marathon-stage-board--live-chrono">
+        ${isProjector ? `
+        <div class="projector-brand-header">
+          <img src="/assets/apnw-c.png" alt="All Play No Work" class="projector-logo-img" width="140" height="140" />
+        </div>
+        ` : ''}
+
+        <!-- Top Header Strip: Clean Live Stage Chrono Status -->
+        <div class="chrono-header-strip">
+          <div class="chrono-cue-wrap">
+            <span class="chrono-cue-lamp" aria-hidden="true"></span>
+            <span class="chrono-cue-text">LIVE STAGE CHRONO</span>
           </div>
-          <div class="stage-board-clock" title="Elapsed marathon duration">
-            <span class="clock-label">ELAPSED:</span>
-            <span class="clock-val">${formatDuration(elapsed)}</span>
+          <div class="chrono-edition-wrap">
+            <span class="chrono-edition-badge">HOUR ${currentHour} OF 12</span>
           </div>
         </div>
 
-        <!-- 12-Hour Endurance Progress Track -->
-        <div class="marathon-progress-track" aria-label="12-Hour Marathon Progress: ${Math.round(pct)}%">
-          <div class="marathon-progress-fill" style="width: ${pct}%;"></div>
+        <!-- Hero Counter: Massive, Sculptural Hours Display -->
+        <div class="chrono-hero-face">
+          <div class="chrono-primary-block">
+            <span class="chrono-hours-digit" data-unit="hours">${hoursElapsed}</span>
+            <span class="chrono-hours-label">${hoursElapsed === 1 ? 'HOUR' : 'HOURS'}</span>
+          </div>
+
+          <div class="chrono-sub-block">
+            <div class="chrono-running-row">
+              <span class="chrono-running-digits" data-unit="running">${pad(minutesElapsed)}m ${pad(secondsElapsed)}s</span>
+              <span class="chrono-running-tag">LIVE ON STAGE</span>
+            </div>
+            <div class="chrono-context-row">
+              <span class="chrono-context-text">INTO HOUR <strong>${currentHour}</strong></span>
+            </div>
+          </div>
         </div>
 
-        <!-- Active Stage Call Sheet Card -->
-        <div class="stage-active-sheet">
-          ${stageContent}
-        </div>
-
-        <!-- Terrace Ticker with 4:00 PM notice -->
-        <div class="stage-terrace-ticker">
-          <span class="ticker-pill">${food.pill}</span>
-          <span class="ticker-copy">${food.text}</span>
+        <!-- 12-Hour Physical Stage Ruler & Scale -->
+        <div class="chrono-ruler-wrap" aria-label="12-Hour Marathon Timeline">
+          <div class="chrono-ruler-track" data-current-hour="${currentHour}">
+            ${renderHourRuler(currentHour, hoursElapsed)}
+          </div>
+          <div class="chrono-scale-track">
+            <div class="chrono-scale-fill" style="width: ${pct}%;"></div>
+          </div>
+          <div class="chrono-ruler-meta">
+            <span class="chrono-meta-done">${hoursElapsed} ${hoursElapsed === 1 ? 'Hour Down' : 'Hours Down'}</span>
+            <span class="chrono-meta-range">2 PM → 2 AM</span>
+            <span class="chrono-meta-left">${12 - hoursElapsed > 0 ? `${12 - hoursElapsed}h Left` : 'Final Hour'}</span>
+          </div>
         </div>
 
         ${isProjector ? '' : `
@@ -531,15 +506,9 @@
           <button type="button" class="btn-stage-tool js-toggle-sound" title="Toggle audio cues">
             ${soundEnabled ? '🔊 Sound ON' : '🔇 Sound OFF'}
           </button>
-          <button type="button" class="btn-stage-tool js-trigger-rehearse" title="Rehearse Kickoff Countdown (Shift+R)">
-            🎭 Rehearse Kickoff
-          </button>
-          <button type="button" class="btn-stage-tool js-trigger-test-turnover" title="Test 15-Minute Stage Turnover / Reset Mode">
-            ⏱ Test Turnover
-          </button>
-          ${isRehearsal ? `
-            <button type="button" class="btn-stage-tool btn-stage-tool--return js-reset-rehearsal" title="Return to real-world countdown">
-              ↺ Return to Countdown
+          ${rehearsalEndTime ? `
+            <button type="button" class="btn-stage-tool btn-stage-tool--return js-reset-rehearsal" title="Return to real-world live timer">
+              ↺ Return to Live Timer
             </button>
           ` : ''}
         </div>
@@ -548,6 +517,205 @@
     `;
 
     attachToolbarEvents(container, isProjector);
+  }
+
+  // Theatrical Climax in Final Seconds to Hour 12 Completion
+  function renderHour12Climax(container, diffMs, isProjector) {
+    const totalSecs = Math.max(0, Math.floor(diffMs / 1000));
+    const existingClimax = container.querySelector('.theatre-call-card--hour12-climax');
+    if (existingClimax) {
+      const numEl = existingClimax.querySelector('.theatre-call-num');
+      if (numEl) numEl.textContent = totalSecs;
+      if (lastBeepSec !== totalSecs) {
+        lastBeepSec = totalSecs;
+        playCountdownBeep(520 + (10 - totalSecs) * 44, 0.14);
+      }
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="theatre-call-card theatre-call-card--hour12-climax">
+        ${isProjector ? `
+        <div class="projector-brand-header">
+          <img src="/assets/apnw-c.png" alt="All Play No Work" class="projector-logo-img" width="140" height="140" />
+        </div>
+        ` : ''}
+        <div class="theatre-call-badge">
+          <span class="theatre-sticker theatre-sticker--accent">FINAL SECONDS TO HOUR 12</span>
+        </div>
+        <div class="theatre-call-countdown">
+          <span class="theatre-call-num">${totalSecs}</span>
+          <span class="theatre-call-unit">SECONDS TO 12-HOUR COMPLETION</span>
+        </div>
+        <p class="theatre-call-sub">
+          Places for the final curtain! <strong>12 straight hours</strong> of unscripted improv in Bangalore!
+        </p>
+      </div>
+    `;
+
+    if (lastBeepSec !== totalSecs) {
+      lastBeepSec = totalSecs;
+      playCountdownBeep(520 + (10 - totalSecs) * 44, 0.14);
+    }
+  }
+
+  const TYPEWRITER_QUOTE = "12 hour of all play no work no play all work work all no play play it on the work ughhh whatever the f***\nanyways thank you, for being here. see you again soon";
+
+  function startTypewriter(el, text) {
+    if (!el || el.dataset.typed === '1') return;
+    const content = el.querySelector('.typewriter-content');
+    if (!content) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      content.textContent = text;
+      el.dataset.typed = '1';
+      return;
+    }
+
+    el.dataset.typed = '1';
+    content.textContent = '';
+    let i = 0;
+
+    function step() {
+      if (i < text.length) {
+        const char = text.charAt(i);
+        content.textContent += char;
+        i++;
+
+        let delay = 75; // Much slower, deliberate mechanical typewriter pace
+        if (char === '\n') {
+          delay = 700; // Dramatic pause before "thank you."
+        } else if (char === '*' && text.charAt(i) !== '*') {
+          delay = 300; // Pause after the asterisk sequence
+        }
+        setTimeout(step, delay);
+      }
+    }
+
+    setTimeout(step, 200);
+  }
+
+  // Special Thing at Completing Hour 12: Typewriter Style Finale
+  function renderHour12Completion(container, isProjector) {
+    const existingCompleted = container.querySelector('.marathon-stage-board--completed-finale');
+    if (existingCompleted) {
+      attachToolbarEvents(container, isProjector);
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="marathon-stage-board marathon-stage-board--completed-finale">
+        ${isProjector ? `
+        <div class="projector-brand-header">
+          <img src="/assets/apnw-c.png" alt="All Play No Work" class="projector-logo-img" width="140" height="140" />
+        </div>
+        ` : ''}
+
+        <div class="finale-layout">
+          <!-- Vector Festival Survivor Stamp -->
+          <div class="finale-stamp-wrap">
+            <svg class="finale-stamp-svg" viewBox="0 0 140 140" width="110" height="110" aria-label="12 Hours Conquered Festival Seal">
+              <circle cx="70" cy="70" r="64" fill="#f5c400" stroke="#1a1a1a" stroke-width="4" />
+              <circle cx="70" cy="70" r="57" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-dasharray="3 3" />
+              <text x="70" y="34" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-weight="900" font-size="8.5" fill="#1a1a1a" letter-spacing="1.5">ALL PLAY NO WORK</text>
+              <text x="70" y="74" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-weight="950" font-size="40" fill="#1a1a1a" letter-spacing="-1.5">12</text>
+              <rect x="30" y="80" width="80" height="17" rx="3" fill="#1a1a1a" />
+              <text x="70" y="92.5" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-weight="900" font-size="9.5" fill="#f5c400" letter-spacing="2">HOURS</text>
+              <text x="70" y="114" text-anchor="middle" font-family="'Archivo', sans-serif" font-weight="800" font-size="6.5" fill="#1a1a1a" letter-spacing="1.2">UNSCRIPTED THEATRE</text>
+            </svg>
+          </div>
+
+          <!-- Typewriter Message: Pure unscripted marathon delirium -->
+          <div class="finale-typewriter-card">
+            <p class="finale-typewriter-text">
+              <span class="typewriter-content">${TYPEWRITER_QUOTE}</span><span class="typewriter-cursor" aria-hidden="true">▌</span>
+            </p>
+          </div>
+
+          <div class="finale-actions">
+            <button type="button" class="btn-apnw-primary js-retrigger-celebration" style="cursor: pointer;">
+              ★ Sound the Fanfare &amp; Confetti
+            </button>
+            <a class="btn-apnw-ghost" href="https://chat.whatsapp.com/CRv3J3K0xRG8iQnTBI4hMa" target="_blank" rel="noopener">
+              Join WhatsApp Community ↗
+            </a>
+            ${testHour12Mode ? `
+            <button type="button" class="btn-stage-tool btn-stage-tool--return js-reset-hour12" title="Return to live hours timer">
+              ↺ Return to Stage Chrono
+            </button>
+            ` : ''}
+          </div>
+        </div>
+
+        ${isProjector ? '' : `
+        <div class="stage-controls-strip">
+          <button type="button" class="btn-stage-tool js-toggle-projector" title="Fullscreen Projector View (Shift+P)">
+            ⛶ Projector View
+          </button>
+          <button type="button" class="btn-stage-tool js-toggle-sound" title="Toggle audio cues">
+            ${soundEnabled ? '🔊 Sound ON' : '🔇 Sound OFF'}
+          </button>
+        </div>
+        `}
+      </div>
+    `;
+
+    startTypewriter(container.querySelector('.finale-typewriter-text'), TYPEWRITER_QUOTE);
+    attachToolbarEvents(container, isProjector);
+  }
+
+  // Trigger celebration effects for Hour 12 completion
+  function triggerHour12Celebration() {
+    triggerStageFlash();
+    fireConfetti();
+    playKickoffFanfare();
+  }
+
+  // Toggle Hour 12 Completed Mode for preview/testing
+  function toggleTestHour12() {
+    getAudioCtx();
+    testHour12Mode = !testHour12Mode;
+    rehearsalEndTime = null;
+    hour12ClimaxEndTime = null;
+    testTurnoverMode = false;
+    test1pmMode = false;
+
+    const c = document.getElementById(COUNTDOWN_CONTAINER_ID);
+    if (c) c.innerHTML = '';
+    const pt = document.getElementById('projector-overlay-target');
+    if (pt) pt.innerHTML = '';
+
+    if (testHour12Mode) {
+      triggerHour12Celebration();
+    }
+    updateFestivalUI();
+  }
+
+  function resetHour12Test() {
+    testHour12Mode = false;
+    hour12ClimaxEndTime = null;
+    const c = document.getElementById(COUNTDOWN_CONTAINER_ID);
+    if (c) c.innerHTML = '';
+    const pt = document.getElementById('projector-overlay-target');
+    if (pt) pt.innerHTML = '';
+    updateFestivalUI();
+  }
+
+  // Start a 5-second countdown climax into Hour 12 completion
+  function startHour12Climax(seconds) {
+    getAudioCtx();
+    testHour12Mode = false;
+    rehearsalEndTime = null;
+    lastBeepSec = null;
+    hasCelebratedHour12 = false;
+    hour12ClimaxEndTime = Date.now() + (seconds || 5) * 1000;
+
+    const c = document.getElementById(COUNTDOWN_CONTAINER_ID);
+    if (c) c.innerHTML = '';
+    const pt = document.getElementById('projector-overlay-target');
+    if (pt) pt.innerHTML = '';
+
+    updateFestivalUI();
   }
 
   // Render Countdown Grid (3 EQUAL COLUMNS: Hours, Minutes, Seconds - No Days Block)
@@ -695,6 +863,32 @@
       });
     }
 
+    const testHour12Btn = container.querySelector('.js-trigger-test-hour12');
+    if (testHour12Btn && !testHour12Btn.dataset.bound) {
+      testHour12Btn.dataset.bound = '1';
+      testHour12Btn.addEventListener('click', toggleTestHour12);
+    }
+
+    const resetHour12Btn = container.querySelector('.js-reset-hour12');
+    if (resetHour12Btn && !resetHour12Btn.dataset.bound) {
+      resetHour12Btn.dataset.bound = '1';
+      resetHour12Btn.addEventListener('click', resetHour12Test);
+    }
+
+    const retriggerCelebrationBtn = container.querySelector('.js-retrigger-celebration');
+    if (retriggerCelebrationBtn && !retriggerCelebrationBtn.dataset.bound) {
+      retriggerCelebrationBtn.dataset.bound = '1';
+      retriggerCelebrationBtn.addEventListener('click', () => {
+        getAudioCtx();
+        triggerHour12Celebration();
+        const twText = container.querySelector('.finale-typewriter-text');
+        if (twText) {
+          twText.dataset.typed = '0';
+          startTypewriter(twText, TYPEWRITER_QUOTE);
+        }
+      });
+    }
+
     const rehearseBtn = container.querySelector('.js-trigger-rehearse');
     if (rehearseBtn && !rehearseBtn.dataset.bound) {
       rehearseBtn.dataset.bound = '1';
@@ -732,6 +926,8 @@
     hasCelebrated = false;
     celebrationDismissed = false;
     testTurnoverMode = false;
+    testHour12Mode = false;
+    hour12ClimaxEndTime = null;
     logoRevealStartTime = null;
     lastBeepSec = null;
     rehearsalEndTime = Date.now() + (seconds || 5) * 1000;
@@ -773,6 +969,8 @@
   // Reset Rehearsal back to live real-world countdown
   function resetRehearsal() {
     rehearsalEndTime = null;
+    testHour12Mode = false;
+    hour12ClimaxEndTime = null;
     testTurnoverMode = false;
     test1pmMode = false;
     logoRevealStartTime = null;
@@ -857,15 +1055,26 @@
         // Crossed T-0 zero mark
         effectiveNow = FESTIVAL_START + Math.abs(remainingRehearsal);
       }
+    } else if (hour12ClimaxEndTime !== null) {
+      const remainingClimax = hour12ClimaxEndTime - now;
+      if (remainingClimax > 0) {
+        effectiveNow = FESTIVAL_END - remainingClimax;
+      } else {
+        effectiveNow = FESTIVAL_END + 1000;
+        hour12ClimaxEndTime = null;
+      }
     }
 
     const state = getFestivalState(effectiveNow);
 
-    // 1:00 PM Final Hour Hero State: remove intro text and display timer full width
+    // Remove other hero text when festival is live/completed or in 1:00 PM final countdown
     const isOnePmFinalHour = (effectiveNow >= ONE_PM_TIMESTAMP && effectiveNow < FESTIVAL_START) || test1pmMode;
+    const isFestivalLiveOrDone = state.type !== 'COUNTDOWN';
+    const shouldRemoveOtherHeroText = isOnePmFinalHour || isFestivalLiveOrDone;
+
     const heroSplit = document.querySelector('.marathon-hero-split');
     const heroWrap = document.querySelector('.marathon-hero-wrap');
-    if (isOnePmFinalHour && state.type === 'COUNTDOWN') {
+    if (shouldRemoveOtherHeroText) {
       if (heroSplit) heroSplit.classList.add('marathon-hero-split--timer-only');
       if (heroWrap) heroWrap.classList.add('marathon-hero-wrap--timer-only');
       document.body.classList.add('hero-mode-1pm');
@@ -875,8 +1084,8 @@
       document.body.classList.remove('hero-mode-1pm');
     }
 
-    // Check if crossing zero right now
-    if (state.type !== 'COUNTDOWN' && !hasCelebrated && !celebrationDismissed && !testTurnoverMode) {
+    // Check if crossing zero kickoff right now
+    if (state.type !== 'COUNTDOWN' && !hasCelebrated && !celebrationDismissed && !testTurnoverMode && !testHour12Mode) {
       triggerCelebration();
     }
 
@@ -893,17 +1102,31 @@
         renderCountdown(el, state.diff, isProjector);
       } else if (isShowingLogoReveal) {
         renderLogoReveal(el, isProjector);
+      } else if (state.type === 'CLIMAX_12') {
+        renderHour12Climax(el, state.diff, isProjector);
+      } else if (state.type === 'COMPLETED_12') {
+        if (!hasCelebratedHour12) {
+          hasCelebratedHour12 = true;
+          triggerHour12Celebration();
+        }
+        renderHour12Completion(el, isProjector);
       } else {
-        renderLiveDashboard(el, state, isProjector);
+        renderLiveHoursTimer(el, state, isProjector);
       }
     });
   }
 
-  // Auto-check URL for ?testKickoff=1 or ?rehearse=1 or ?projector=1 or ?testTurnover=1 or ?test1pm=1
+  // Auto-check URL for ?testKickoff=1 or ?rehearse=1 or ?projector=1 or ?testHour12=1 or ?testClimax=1
   function checkUrlParams() {
     const params = new URLSearchParams(window.location.search);
+    if (params.has('testHour12') || params.has('hour12') || params.has('complete12')) {
+      toggleTestHour12();
+    }
+    if (params.has('testClimax') || params.has('climax')) {
+      startHour12Climax(5);
+    }
     if (params.has('testKickoff') || params.has('rehearse')) {
-      setTimeout(() => startRehearsal(5), 600);
+      startRehearsal(5);
     }
     if (params.has('testTurnover')) {
       setTimeout(() => testTurnover(), 600);
@@ -912,7 +1135,7 @@
       setTimeout(() => toggleTest1pm(), 600);
     }
     if (params.has('projector')) {
-      setTimeout(() => toggleProjectorMode(), 700);
+      toggleProjectorMode();
     }
   }
 
@@ -924,6 +1147,12 @@
       }
       if (e.shiftKey && (e.key === 'P' || e.key === 'p')) {
         toggleProjectorMode();
+      }
+      if (e.shiftKey && (e.key === 'H' || e.key === 'h' || e.key === '@' || e.key === '2')) {
+        toggleTestHour12();
+      }
+      if (e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+        startHour12Climax(5);
       }
       if (e.shiftKey && (e.key === 'R' || e.key === 'r')) {
         startRehearsal(5);
@@ -954,6 +1183,10 @@
   // Expose API for external test scripts
   window.marathonLive = {
     startRehearsal,
+    toggleTestHour12,
+    resetHour12Test,
+    startHour12Climax,
+    triggerHour12Celebration,
     testTurnover,
     toggleTest1pm,
     resetRehearsal,
