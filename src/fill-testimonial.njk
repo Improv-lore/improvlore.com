@@ -54,6 +54,7 @@ pageStyles:
           aria-required="true">
           <option value="A show">A show</option>
           <option value="A jam">A jam</option>
+          <option value="The 12-Hour Improvathon (All Play No Work)">The 12-Hour Improvathon (All Play No Work)</option>
           <option value="Bala's workshop (International)">Bala's workshop (International)</option>
           <option value="Arjun's workshop (International)">Arjun's workshop (International)</option>
           <option value="ImprovLore workshop">ImprovLore workshop</option>
@@ -236,6 +237,19 @@ pageStyles:
       try { window.turnstile.reset("#tf-turnstile"); } catch (e) {}
     }
   };
+
+  // --- URL parameter prefill (e.g. ?source=marathon) --------------------
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const srcParam = params.get("source");
+    const sourceEl = document.getElementById("tf-source");
+    if (srcParam && sourceEl) {
+      const lower = srcParam.toLowerCase();
+      if (lower.includes("marathon") || lower.includes("improvathon") || lower.includes("play")) {
+        sourceEl.value = "The 12-Hour Improvathon (All Play No Work)";
+      }
+    }
+  } catch (e) {}
 
   // --- Live character counter on the story field -------------------------
   const story = document.getElementById("tf-story");

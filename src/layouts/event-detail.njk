@@ -36,23 +36,6 @@
 
   <article class="event-detail event-type-{{ d.type }}">
 
-    {# Highlighted Marathon Banner #}
-    <aside class="event-detail-marathon-banner" aria-label="Upcoming Improv Marathon">
-      <div class="event-marathon-banner-main">
-        <div class="event-marathon-banner-badge">
-          <span class="event-marathon-banner-pulse" aria-hidden="true"></span>
-          <span>All Play No Work · 2nd Oct</span>
-        </div>
-        <p class="event-marathon-banner-text">
-          Buying tickets for the marathon? Check out our multiple events pass for a better value!
-        </p>
-      </div>
-      <div class="event-marathon-banner-actions">
-        <a href="/marathon/#schedule" class="event-marathon-btn event-marathon-btn--ghost">Check Schedule</a>
-        <a href="/marathon/#passes" class="event-marathon-btn event-marathon-btn--primary">Get Passes</a>
-      </div>
-    </aside>
-
     {# Header leads with the type badge and title so they read before the
        artwork. #}
     <div class="event-detail-header">
@@ -132,7 +115,7 @@
           {% if targetUrl and not ("thumpn.com" in targetUrl) %}
             <a class="btn btn-primary"{% if "district.in" in targetUrl %} data-ticket-slug{% endif %} href="{{ targetUrl }}" target="_blank" rel="noopener">Buy Ticket</a>
           {% elif d.isMarathon %}
-            <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
+            <a class="btn btn-primary" href="/marathon/">See Marathon Recap</a>
           {% endif %}
         {% endif %}
       </div>

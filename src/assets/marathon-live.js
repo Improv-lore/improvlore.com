@@ -1096,10 +1096,9 @@
 
     const state = getFestivalState(effectiveNow);
 
-    // Remove other hero text when festival is live/completed or in 1:00 PM final countdown
-    const isOnePmFinalHour = (effectiveNow >= ONE_PM_TIMESTAMP && effectiveNow < FESTIVAL_START) || test1pmMode;
-    const isFestivalLiveOrDone = state.type !== 'COUNTDOWN';
-    const shouldRemoveOtherHeroText = isOnePmFinalHour || isFestivalLiveOrDone;
+    // Remove other hero text only when projector view is active or in specific manual test mode
+    const isProjectorActive = document.body.classList.contains('marathon-projector-active');
+    const shouldRemoveOtherHeroText = isProjectorActive && (test1pmMode || state.type !== 'COUNTDOWN');
 
     const heroSplit = document.querySelector('.marathon-hero-split');
     const heroWrap = document.querySelector('.marathon-hero-wrap');
@@ -1134,11 +1133,16 @@
       } else if (state.type === 'CLIMAX_12') {
         renderHour12Climax(el, state.diff, isProjector);
       } else if (state.type === 'COMPLETED_12') {
-        if (!hasCelebratedHour12) {
-          hasCelebratedHour12 = true;
-          triggerHour12Celebration();
+        if (isProjector || testHour12Mode) {
+          if (!hasCelebratedHour12) {
+            hasCelebratedHour12 = true;
+            triggerHour12Celebration();
+          }
+          renderHour12Completion(el, isProjector);
+        } else {
+          // Public page completed mode: keep the static completed showcase intact and wire toolbar events
+          attachToolbarEvents(el, false);
         }
-        renderHour12Completion(el, isProjector);
       } else {
         renderLiveHoursTimer(el, state, isProjector);
       }

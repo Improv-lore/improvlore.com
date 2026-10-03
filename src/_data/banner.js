@@ -28,7 +28,7 @@ export default {
   items: [
     {
       type: "message",
-      text: "12-Hour Improvathon: All Play No Work · 2nd Oct (2 PM – 2 AM)",
+      text: "12-Hour Improvathon: All Play No Work completed! It was a blast & will be back · See recap",
       href: "/marathon/",
     },
     { type: "events" },

@@ -103,7 +103,7 @@ showCustomEvents: false
             {% if targetUrl and not ("thumpn.com" in targetUrl) %}
               <a class="btn btn-primary"{% if "district.in" in targetUrl %} data-ticket-slug{% endif %} href="{{ targetUrl }}"{% if "http" in targetUrl %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
             {% elif ev.isMarathon %}
-              <a class="btn btn-primary" href="/marathon/#schedule">Buy Ticket</a>
+              <a class="btn btn-primary" href="/marathon/">See Recap</a>
             {% endif %}
             <a class="btn btn-ghost event-learn-more" href="{{ filters.eventPermalink(ev) }}" aria-label="Learn more about {{ filters.workshopName(ev.title) }}"><span aria-hidden="true">→</span></a>
           </div>

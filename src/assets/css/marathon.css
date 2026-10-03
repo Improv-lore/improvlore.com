@@ -589,7 +589,7 @@
   margin: 0.2rem 0;
   letter-spacing: -0.04em;
   text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.8);
-  animation: numPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: numPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes numPop {
@@ -3697,7 +3697,7 @@ body > .thumpn-modal-backdrop[hidden],
 
 /* Sold Out Notice in Schedule Callout */
 .marathon-lineup-notice--soldout {
-  border-left: 6px solid var(--apnw-red);
+  border-color: var(--apnw-red);
 }
 
 .marathon-lineup-badge--soldout {
@@ -4871,4 +4871,218 @@ html.is-after-dark .marathon-loc-venue-logo {
     width: 100%;
     padding: 0.55rem 1rem;
   }
+}
+
+/* -------------------------------------------------
+   COMPLETED MARATHON HOME BANNER & RECAP STYLES
+------------------------------------------------- */
+
+.home-marathon-compact--completed {
+  border-color: var(--apnw-yellow, #ffe642);
+}
+
+.home-marathon-compact-pill-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--apnw-yellow, #ffe642);
+  color: var(--ink, #111827);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 2px solid var(--ink, #111827);
+  box-shadow: 2px 2px 0 var(--ink, #111827);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------
+   HERO RECAP SHOWCASE (Right Column on /marathon/)
+------------------------------------------------- */
+
+.marathon-recap-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  background: linear-gradient(150deg, #092c42 0%, #031622 55%, #010a10 100%);
+  border: 3.5px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 7px 7px 0 var(--ink), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+  padding: 1.4rem 1.35rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.marathon-recap-badge-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.marathon-recap-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--apnw-yellow, #ffe642);
+  color: var(--ink, #111827);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.timer-unit-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.25rem;
+}
+
+.marathon-recap-quote {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0.2rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+}
+
+/* -------------------------------------------------
+   TESTIMONIAL INVITATION SECTION (/marathon/)
+------------------------------------------------- */
+
+.marathon-testimonial-section {
+  margin: 2.75rem 0 2rem;
+}
+
+.marathon-testimonial-card {
+  position: relative;
+  background: linear-gradient(135deg, #1b0e2b 0%, #0d1e34 50%, #062b3a 100%);
+  border: 3.5px solid var(--ink);
+  border-radius: 24px;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  box-shadow: 8px 8px 0 var(--ink);
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.marathon-testimonial-glow {
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(255, 230, 66, 0.2) 0%, rgba(228, 64, 95, 0.12) 40%, transparent 70%);
+  pointer-events: none;
+}
+
+.marathon-testimonial-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: var(--apnw-yellow, #ffe642);
+  color: var(--ink, #111827);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  margin-bottom: 0.85rem;
+}
+
+.marathon-testimonial-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.02em;
+}
+
+.marathon-testimonial-copy {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.6;
+  max-width: 68ch;
+  margin-bottom: 1.5rem;
+}
+
+.marathon-testimonial-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* -------------------------------------------------
+   ALL PLAY NO WORK WILL RETURN SECTION
+------------------------------------------------- */
+
+.marathon-return-wrap {
+  margin: 3.25rem 0 2.5rem;
+}
+
+.marathon-return-card {
+  background: linear-gradient(135deg, #092c42 0%, #0d1e34 100%);
+  border: 3.5px solid var(--ink);
+  border-radius: 24px;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  box-shadow: 8px 8px 0 var(--ink);
+  color: #ffffff;
+}
+
+.marathon-return-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: var(--apnw-cyan-soft, #20b2e2);
+  color: var(--ink, #111827);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  margin-bottom: 0.85rem;
+}
+
+.marathon-return-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.01em;
+}
+
+.marathon-return-desc {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.6;
+  max-width: 70ch;
+  margin-bottom: 0.5rem;
+}
+
+.marathon-return-sub {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  max-width: 70ch;
+  margin-bottom: 1.5rem;
+}
+
+.marathon-return-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
 }

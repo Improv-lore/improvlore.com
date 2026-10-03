@@ -14,7 +14,7 @@ pageStyles:
 
       <div class="marathon-hero-split">
 
-        {# LEFT: FESTIVAL INTRO #}
+        {# LEFT: FESTIVAL RECAP INTRO #}
         <div class="marathon-hero-intro-col">
           <div class="marathon-hero-brand-row">
             <div class="marathon-poster-frame">
@@ -22,106 +22,85 @@ pageStyles:
             </div>
             <div class="marathon-hero-headings">
               <div class="marathon-status-tags" aria-label="Event edition">
-                <span class="marathon-tag marathon-tag--edition">{{ marathon.upcoming.edition }} · 2nd Oct</span>
+                <span class="marathon-tag marathon-tag--edition">Second Edition · Completed 2nd Oct</span>
+                <span class="marathon-tag marathon-tag--highlight">12 Hours of Play</span>
               </div>
-              <h1 class="marathon-hero-title">{{ marathon.upcoming.name }}</h1>
+              <h1 class="marathon-hero-title">All Play No Work</h1>
+              <p class="marathon-hero-sub">The 12-Hour Improvathon in Bangalore</p>
             </div>
           </div>
 
           <div class="marathon-hero-timing">
-            <span class="timing-chip">{{ marathon.upcoming.dateFormatted }}</span>
+            <span class="timing-chip">Friday, 2nd October 2026</span>
             <span class="marathon-timing-sep" aria-hidden="true">·</span>
-            <span class="timing-chip">{{ marathon.upcoming.timing }}</span>
+            <span class="timing-chip">2:00 PM – 2:00 AM</span>
             <span class="marathon-timing-sep" aria-hidden="true">·</span>
-            <span class="timing-chip">{{ marathon.upcoming.venueShort }}</span>
+            <span class="timing-chip">Underline Center, Indiranagar</span>
           </div>
 
+          <p class="marathon-hero-lede">
+            Twelve straight hours of unscripted theatre, comedy, musical storytelling, and late-night madness. The second edition of our marathon has officially wrapped! A massive thank you to everyone who packed the room and played with us. <strong>It was a huge success, and we will be back.</strong>
+          </p>
 
           <div class="marathon-hero-actions">
-            <a class="btn-apnw-primary" href="#schedule">Single Show Tickets →</a>
-            <a class="btn-apnw-ghost" href="#schedule">View Schedule ↓</a>
-            <a class="marathon-hero-community" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community ↗</a>
+            <a class="btn-apnw-primary" href="/fill-testimonial/?source=marathon">Leave a Testimonial ★</a>
+            <a class="btn-apnw-ghost" href="#schedule">What Went Down ↓</a>
           </div>
         </div>
 
-        {# RIGHT: 3-COLUMN EQUAL COUNTDOWN CANVAS (HOURS, MINUTES, SECONDS) #}
-        <aside class="marathon-nonlinear-timer" id="hero-marathon-countdown" data-target="2026-10-02T14:00:00+05:30" aria-label="Countdown to festival kickoff">
+        {# RIGHT: CELEBRATORY ACCOMPLISHMENT BOARD #}
+        <aside class="marathon-nonlinear-timer marathon-recap-showcase" id="hero-marathon-countdown" aria-label="Marathon completed accomplishment summary">
+          <div class="marathon-recap-badge-wrap">
+            <span class="marathon-recap-badge">Edition Completed 🏆</span>
+          </div>
+
           <div class="timer-mosaic-grid timer-mosaic-grid--triplet">
-            {# HOURS BLOCK #}
             <div class="timer-block timer-block--hours">
               <div class="timer-block-top">
-                <span class="timer-badge-pill">HOURS</span>
+                <span class="timer-badge-pill">COMPLETED</span>
               </div>
               <div class="timer-block-main">
-                <span class="timer-num" data-unit="hours">--</span>
+                <span class="timer-num">12</span>
+                <span class="timer-unit-label">Hours of Play</span>
               </div>
             </div>
 
-            {# MINUTES BLOCK #}
             <div class="timer-block timer-block--minutes">
               <div class="timer-block-top">
-                <span class="timer-badge-pill">MINUTES</span>
+                <span class="timer-badge-pill">RUNNING ORDER</span>
               </div>
               <div class="timer-block-main">
-                <span class="timer-num" data-unit="minutes">--</span>
+                <span class="timer-num">7+2</span>
+                <span class="timer-unit-label">Shows &amp; Jams</span>
               </div>
             </div>
 
-            {# SECONDS LIVE BLOCK #}
             <div class="timer-block timer-block--seconds">
               <div class="timer-block-top">
-                <span class="timer-badge-pill timer-badge-pill--live">SECONDS</span>
+                <span class="timer-badge-pill timer-badge-pill--live">COMMUNITY</span>
               </div>
               <div class="timer-block-main">
-                <span class="timer-num timer-num--pulse" data-unit="seconds">--</span>
+                <span class="timer-num">100%</span>
+                <span class="timer-unit-label">Unscripted</span>
               </div>
             </div>
           </div>
 
-          {# QUICK PROJECTOR STRIP #}
-          <div class="countdown-tools-strip">
-            <button type="button" class="btn-stage-tool js-toggle-projector" title="Fullscreen Projector View (Shift+P)">
-              ⛶ Projector View
-            </button>
-          </div>
+          <p class="marathon-recap-quote">
+            “12 straight hours of comedy, caffeine, and zero scripts. Thank you Bangalore for making it unforgettable!”
+          </p>
         </aside>
 
       </div>
 
-      <script src="/assets/marathon-live.js" defer></script>
     </div>
   </header>
 
   {# THE 12-HOUR OFFICIAL SCHEDULE #}
   <section class="page-section marathon-timeline-wrap" id="schedule" aria-labelledby="schedule-heading">
     <div class="marathon-schedule-intro">
-      <h2 class="section-heading" id="schedule-heading">The Lineup (2 PM to 2 AM)</h2>
-      <p class="section-sub">{{ marathon.upcoming.scheduleNote }}</p>
-    </div>
-
-    {# SCHEDULE CALLOUT / PASSES SOLD OUT NOTICE #}
-    <div class="marathon-lineup-notice marathon-lineup-notice--soldout">
-      <div class="marathon-lineup-notice-left">
-        <span class="marathon-lineup-badge marathon-lineup-badge--soldout">Passes Sold Out</span>
-        <h3 class="marathon-lineup-notice-title">All-Access &amp; 4-Show Passes are Sold Out.</h3>
-        <p class="marathon-lineup-notice-desc">
-          Full-festival passes have completely sold out! Single-show tickets are still available for individual show slots below.
-        </p>
-      </div>
-
-      <div class="marathon-lineup-notice-ticket">
-        <div class="marathon-ticket-preview-wrap marathon-ticket-preview-wrap--soldout" title="Passes sold out">
-          <img class="marathon-ticket-preview-img" src="/assets/tickets/all-day-pass.png" alt="All-Day Pass ticket" width="280" height="105" loading="lazy">
-          <span class="ticket-soldout-overlay-badge">SOLD OUT</span>
-        </div>
-      </div>
-
-      <div class="marathon-lineup-notice-right">
-        <div class="notice-soldout-cta">
-          <span class="notice-soldout-tag">SOLD OUT</span>
-          <a class="btn-apnw-primary" href="#schedule" style="margin-top: 0.4rem; font-size: 0.85rem; padding: 0.45rem 1rem;">Book Single Shows ↓</a>
-        </div>
-      </div>
+      <h2 class="section-heading" id="schedule-heading">What Went Down: The 12-Hour Running Order</h2>
+      <p class="section-sub">From 2:00 PM kickoff to the 2:00 AM After Dark finale — seven original shows and two concurrent community jams.</p>
     </div>
 
     {# CHRONOLOGICAL SCHEDULE LIST #}
@@ -154,15 +133,6 @@ pageStyles:
               <img class="marathon-schedule-poster-img" src="/assets/posters/make-friends-with-the-stage.jpg" alt="Make Friends with the Stage poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
             </a>
           </div>
-          {% elif slot.posterAfterDark %}
-          <div class="marathon-poster-after-dark-wrap" data-after-dark-swap>
-            <a class="marathon-poster-link" href="/event/{{ slot.slug }}/" title="{{ slot.title }} details">
-              <div class="marathon-after-dark-stage">
-                <img class="marathon-schedule-poster-img poster-day" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
-                <img class="marathon-schedule-poster-img poster-night" src="{{ slot.posterAfterDark }}" alt="{{ slot.title }} After Dark poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
-              </div>
-            </a>
-          </div>
           {% else %}
           <a class="marathon-poster-link" href="/event/{{ slot.slug }}/" title="{{ slot.title }} details">
             <img class="marathon-schedule-poster-img" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
@@ -178,18 +148,8 @@ pageStyles:
             <span>Make an Improv Song <span class="title-or-accent">OR</span> Make Friends with the Stage</span>
             {% elif slot.formatClass == 'latenight' %}
             <span class="marathon-schedule-title-text"><a href="/event/{{ slot.slug }}/">The Silliest Show Tonight <span class="neon-text-afterdark">: After Dark</span></a></span>
-            <a class="marathon-schedule-about-icon" href="/event/{{ slot.slug }}/" title="About {{ slot.title }}" aria-label="About {{ slot.title }}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20c0,13.88-11.83,21.36-19.89,26.47C124,139.63,120,143.43,120,152a8,8,0,0,0,16,0c0-3.32,1.87-5.59,6.71-8.67C152.06,137.4,168,127.24,168,108,168,88.15,150.06,72,128,72Zm100,56A100,100,0,1,1,128,28,100.11,100.11,0,0,1,228,128Zm-16,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Z"/>
-              </svg>
-            </a>
             {% else %}
             <span class="marathon-schedule-title-text"><a href="/event/{{ slot.slug }}/">{{ slot.title }}</a></span>
-            <a class="marathon-schedule-about-icon" href="/event/{{ slot.slug }}/" title="About {{ slot.title }}" aria-label="About {{ slot.title }}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20c0,13.88-11.83,21.36-19.89,26.47C124,139.63,120,143.43,120,152a8,8,0,0,0,16,0c0-3.32,1.87-5.59,6.71-8.67C152.06,137.4,168,127.24,168,108,168,88.15,150.06,72,128,72Zm100,56A100,100,0,1,1,128,28,100.11,100.11,0,0,1,228,128Zm-16,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Z"/>
-              </svg>
-            </a>
             {% endif %}
           </h3>
 
@@ -205,26 +165,7 @@ pageStyles:
               </div>
               <p class="marathon-either-or-opt-desc">{{ j.desc }}</p>
               <div class="marathon-either-or-actions">
-                {% if j.thumpnEventId %}
-                  {% if marathon.upcoming.skipThumpnEmbed %}
-                  <a class="marathon-either-or-btn marathon-either-or-btn--book" href="{{ 'https://thumpn.com/event/' + j.thumpnEventId + '/tickets'}}" target="_blank" rel="noopener">Book Tickets →</a>
-                  {% else %}
-                  <button type="button"
-                          class="marathon-either-or-btn marathon-either-or-btn--book js-thumpn-modal-open"
-                          data-event-id="{{ j.thumpnEventId }}"
-                          data-embed-token="{{ j.thumpnEmbedToken }}"
-                          data-event-title="{{ j.name }}">
-                    Book Tickets →
-                  </button>
-                  {% endif %}
-                {% elif j.districtUrl or j.ticketUrl %}
-                  {% set targetUrl = j.districtUrl or j.ticketUrl %}
-                  <a class="btn btn-primary marathon-either-or-btn"
-                     {% if "district.in" in targetUrl %}data-ticket-slug{% endif %}
-                     href="{{ targetUrl }}"
-                     target="_blank"
-                     rel="noopener">Buy Ticket</a>
-                {% endif %}
+                <a class="btn btn-ghost marathon-either-or-btn" href="/event/{{ j.slug }}/">About this jam →</a>
               </div>
             </div>
             {% endfor %}
@@ -232,31 +173,10 @@ pageStyles:
           {% endif %}
         </div>
 
-        {# TICKETS COLUMN #}
+        {# DETAILS COLUMN #}
         {% if not slot.isEitherOrJam %}
         <div class="marathon-schedule-tickets-col">
-          {% if slot.thumpnEventId %}
-            {% if marathon.upcoming.skipThumpnEmbed %}
-            <a class="marathon-schedule-book-btn" href="{{ 'https://thumpn.com/event/' + slot.thumpnEventId + '/tickets'}}" target="_blank" rel="noopener">Book Tickets →</a>
-            {% else %}
-            <button type="button"
-                    class="marathon-schedule-book-btn js-thumpn-modal-open"
-                    data-event-id="{{ slot.thumpnEventId }}"
-                    data-embed-token="{{ slot.thumpnEmbedToken }}"
-                    data-event-title="{{ slot.title }}">
-              Book Tickets →
-            </button>
-            {% endif %}
-          {% elif slot.districtUrl or slot.ticketUrl %}
-            {% set targetUrl = slot.districtUrl or slot.ticketUrl %}
-            <a class="btn btn-primary marathon-schedule-book-btn"
-               {% if "district.in" in targetUrl %}data-ticket-slug{% endif %}
-               href="{{ targetUrl }}"
-               target="_blank"
-               rel="noopener">Buy Ticket</a>
-          {% else %}
-            <a class="btn btn-primary marathon-schedule-book-btn" href="#passes">Get Passes / Tickets →</a>
-          {% endif %}
+          <a class="btn btn-ghost marathon-schedule-book-btn" href="/event/{{ slot.slug }}/">About this show →</a>
         </div>
         {% endif %}
 
@@ -267,88 +187,58 @@ pageStyles:
 
   </section>
 
-  {# PASSES & TICKETS #}
-  <section class="page-section marathon-passes-wrap" id="passes" aria-labelledby="passes-heading">
-    <h2 class="section-heading" id="passes-heading">Support Local Theatre: Passes &amp; Tickets</h2>
-    <p class="section-sub">Every pass directly supports Improvlore and Underline Center and keeps independent, grassroots theatre alive in Bangalore.</p>
-
-    <div class="marathon-passes-grid">
-      {% for pass in marathon.upcoming.passes %}
-      <div class="marathon-pass-card{% if pass.soldOut %} marathon-pass-card--soldout{% elif pass.featured or loop.first %} marathon-pass-card--featured{% endif %}">
-        {% if pass.soldOut %}
-        <span class="marathon-pass-badge marathon-pass-badge--soldout">SOLD OUT</span>
-        {% elif pass.tag %}
-        <span class="marathon-pass-badge">{{ pass.tag }}</span>
-        {% endif %}
-
-        {% if pass.id == "all-access" %}
-        <div class="marathon-pass-card-ticket{% if pass.soldOut %} marathon-pass-card-ticket--soldout{% endif %}">
-          <img src="/assets/tickets/all-day-pass.png" alt="All-Day Pass ticket graphic" width="340" height="128" class="marathon-pass-ticket-graphic" loading="lazy">
-          {% if pass.soldOut %}
-          <span class="ticket-soldout-overlay-badge">SOLD OUT</span>
-          {% endif %}
-        </div>
-        {% elif pass.id == "four-show" %}
-        <div class="marathon-pass-card-ticket{% if pass.soldOut %} marathon-pass-card-ticket--soldout{% endif %}">
-          <img src="/assets/tickets/four-show-pass.png" alt="4-Show Pass ticket graphic" width="340" height="128" class="marathon-pass-ticket-graphic" loading="lazy">
-          {% if pass.soldOut %}
-          <span class="ticket-soldout-overlay-badge">SOLD OUT</span>
-          {% endif %}
-        </div>
-        {% else %}
-        <div class="marathon-pass-card-ticket marathon-pass-card-ticket--generic">
-          <div class="marathon-single-stub-badge">
-            <span class="stub-badge-icon" aria-hidden="true">🎟️</span>
-            <span class="stub-badge-label">Individual Show Ticket</span>
-            <span class="stub-badge-sub">Book per session below</span>
-          </div>
-        </div>
-        {% endif %}
-
-        <h3 class="marathon-pass-title">{{ pass.name }}</h3>
-        <p class="marathon-pass-desc">{{ pass.desc }}</p>
-        <ul class="marathon-pass-perks">
-          {% for perk in pass.perks %}
-          <li>{{ perk }}</li>
-          {% endfor %}
-        </ul>
-        <div class="event-buttons">
-          {% if pass.soldOut %}
-          <div class="pass-soldout-wrap">
-            <span class="btn-apnw-soldout" aria-disabled="true">Sold Out</span>
-            <span class="pass-soldout-sub">Single show tickets available above</span>
-          </div>
-          {% elif pass.razorpay %}
-          <form class="razorpay-embed-container"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TeIUwNFDKT5gPL" async> </script> </form>
-          {% else %}
-          <a class="btn-apnw-primary" href="#schedule">Browse Sessions ↑</a>
-          {% endif %}
-        </div>
+  {# ALL PLAY NO WORK WILL RETURN #}
+  <section class="page-section marathon-return-wrap" id="return" aria-labelledby="return-heading">
+    <div class="marathon-return-card">
+      <span class="marathon-return-pill">All Play No Work</span>
+      <h2 class="marathon-return-title" id="return-heading">The Marathon Will Return.</h2>
+      <p class="marathon-return-desc">
+        Twelve consecutive hours of unscripted theatre proved just how electric the room can be when our community gathers to play. We’re already planning our next edition.
+      </p>
+      <p class="marathon-return-sub">
+        Were you in the room? Tell us about your favourite moments, or join our WhatsApp community to be the first to know when dates drop for the next edition.
+      </p>
+      <div class="event-buttons marathon-return-actions">
+        <a class="btn-apnw-primary" href="/fill-testimonial/?source=marathon">Leave a Testimonial ★</a>
+        <a class="btn-apnw-ghost" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Join WhatsApp Community ↗</a>
+        <a class="btn-apnw-ghost" href="/events/">See Upcoming Weekly Events →</a>
       </div>
-      {% endfor %}
     </div>
   </section>
 
   {# COMMON QUESTIONS #}
   <section class="page-section marathon-faq-wrap" aria-labelledby="faq-heading">
     <h2 class="section-heading" id="faq-heading">Common Questions</h2>
-    <p class="section-sub">Everything you might wonder about dropping by for the marathon.</p>
+    <p class="section-sub">Everything you might wonder about the marathon and what comes next.</p>
 
     <div class="marathon-faq-grid">
-      {% for item in marathon.upcoming.faqs %}
       <div class="marathon-faq-card">
-        <h3>{{ item.q }}</h3>
-        <p>{{ item.a }}</p>
+        <h3>Will there be another 12-hour marathon?</h3>
+        <p>Yes! We run the 12-hour marathon periodically as an all-day festival of unscripted comedy and storytelling. Join our <a href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community</a> to be the first to know when dates drop.</p>
       </div>
-      {% endfor %}
+
+      <div class="marathon-faq-card">
+        <h3>How do I catch improv in the meantime?</h3>
+        <p>We perform and jam every single week in Bangalore! Whimsical Wednesday is our weekly flagship jam for total beginners and regulars alike, and we host shows every weekend at Underline Center. Explore our <a href="/events/">upcoming events page</a>.</p>
+      </div>
+
+      <div class="marathon-faq-card">
+        <h3>Were you in the room? Can you leave a testimonial?</h3>
+        <p>We’d love to hear your story! Head over to our <a href="/fill-testimonial/?source=marathon">testimonial form</a> to tell us which shows you saw, how the jams felt, and what made the day memorable.</p>
+      </div>
+
+      <div class="marathon-faq-card">
+        <h3>Where will photos and videos from the day be shared?</h3>
+        <p>We’re curating photo strips and live video highlights from the 12 hours. We’ll be dropping them in our WhatsApp group and on our Instagram (<a href="https://instagram.com/improvlore" target="_blank" rel="noopener">@improvlore</a>) very soon.</p>
+      </div>
     </div>
   </section>
 
   {# VENUE & FOOD PARTNERS #}
   <section class="page-section marathon-venue-partners-wrap" aria-labelledby="venue-heading">
     <div class="marathon-section-intro">
-      <h2 class="section-heading" id="venue-heading">The Venue &amp; Food Partners</h2>
-      <p class="section-sub">Where we're playing and what we're snacking on all day long.</p>
+      <h2 class="section-heading" id="venue-heading">The Venue &amp; Food Partners Who Fueled The Day</h2>
+      <p class="section-sub">Where we played and what kept our performers and audiences energized for 12 straight hours.</p>
     </div>
 
     <div class="marathon-venue-partners-grid">
@@ -406,7 +296,7 @@ pageStyles:
           </div>
           <h3 class="marathon-loc-title">Fuel on the Terrace</h3>
           <p class="marathon-loc-desc">
-            Twelve hours of unscripted improv needs serious fuel. 
+            Twelve hours of unscripted improv needed serious fuel. A huge thank you to our culinary partners on the terrace!
           </p>
 
           <div class="marathon-partners-list">
@@ -465,179 +355,4 @@ pageStyles:
     </div>
   </section>
 
-  {# SUPPORT LOCAL THEATRE COMMUNITY CALLOUT #}
-  <section class="page-section" aria-labelledby="community-heading">
-    <div class="marathon-community-card">
-      <span class="marathon-community-tag">All Play No Work</span>
-      <h2 class="marathon-community-title" id="community-heading">Support Your Local Theatre</h2>
-      <p class="marathon-community-copy">
-        Grassroots improv only happens because people in Bangalore show up, buy tickets, and tell their friends. Every ticket goes directly toward supporting Improvlore and Underline Center.
-      </p>
-      <p class="marathon-community-subcopy">
-        Bring a friend who needs a break from work, share the schedule, or join our community WhatsApp circle to stay in touch.
-      </p>
-      <div class="event-buttons">
-        <a class="btn-apnw-primary" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Join WhatsApp Community ↗</a>
-        <a class="btn-apnw-ghost" href="#schedule">Browse the Shows ↑</a>
-      </div>
-    </div>
-  </section>
-
 </div>
-
-{# THUMPN TICKETS MODAL #}
-<div class="thumpn-modal-backdrop" id="thumpn-ticket-modal" hidden aria-hidden="true" style="display: none; position: fixed !important; inset: 0 !important; z-index: 999999 !important;">
-  <div class="thumpn-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="thumpn-modal-title">
-    <div class="thumpn-modal-header">
-      <h3 class="thumpn-modal-title" id="thumpn-modal-title">Book Tickets</h3>
-      <button type="button" class="thumpn-modal-close" id="thumpn-modal-close-btn" aria-label="Close ticket modal">✕</button>
-    </div>
-    <div class="thumpn-modal-body" id="thumpn-modal-embed-target">
-      {# Thumpn embed script and container loaded here #}
-    </div>
-  </div>
-</div>
-
-{# FLOATING SUN OVERLAY BUTTON (Where scroll-to-top sits, appears only in After Dark mode) #}
-<button type="button" class="after-dark-sun-btn js-after-dark-return" aria-label="Return to Day Mode" title="Return to Day Mode">
-  <span class="sun-icon" aria-hidden="true">☀️</span>
-</button>
-
-<script>
-  (function() {
-    var modal = document.getElementById('thumpn-ticket-modal');
-    var closeBtn = document.getElementById('thumpn-modal-close-btn');
-    var embedTarget = document.getElementById('thumpn-modal-embed-target');
-    var modalTitle = document.getElementById('thumpn-modal-title');
-    if (!modal || !closeBtn || !embedTarget) return;
-
-    // Portal modal directly to document.body so no parent stacking context or sticky header interferes
-    if (modal.parentNode !== document.body) {
-      document.body.appendChild(modal);
-    }
-
-    function openModal(eventId, embedToken, title) {
-      if (title && modalTitle) {
-        modalTitle.textContent = 'Book Tickets: ' + title;
-      }
-      embedTarget.innerHTML = '';
-      var s = document.createElement('script');
-      s.src = 'https://thumpn.com/embed.js';
-      s.setAttribute('data-event-id', eventId);
-      s.setAttribute('data-embed-token', embedToken);
-      s.defer = true;
-      embedTarget.appendChild(s);
-
-      modal.removeAttribute('hidden');
-      modal.setAttribute('aria-hidden', 'false');
-      modal.style.display = 'flex';
-      document.body.classList.add('thumpn-modal-open');
-      closeBtn.focus();
-    }
-
-    function closeModal() {
-      modal.setAttribute('hidden', '');
-      modal.setAttribute('aria-hidden', 'true');
-      modal.style.display = 'none';
-      document.body.classList.remove('thumpn-modal-open');
-      embedTarget.innerHTML = '';
-    }
-
-    document.querySelectorAll('.js-thumpn-modal-open').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var eventId = btn.getAttribute('data-event-id');
-        var embedToken = btn.getAttribute('data-embed-token');
-        var title = btn.getAttribute('data-event-title');
-        openModal(eventId, embedToken, title);
-      });
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.style.display !== 'none' && !modal.hasAttribute('hidden')) {
-        closeModal();
-      }
-    });
-  })();
-
-
-  // After Dark Whole Website Inversion & Poster Transition
-  (function() {
-    var swapWraps = document.querySelectorAll('[data-after-dark-swap]');
-    var sunBtn = document.querySelector('.after-dark-sun-btn');
-    var html = document.documentElement;
-    var triggered = false;
-
-    // Portal sun button directly to body so it floats reliably above all stacking contexts
-    if (sunBtn && sunBtn.parentNode !== document.body) {
-      document.body.appendChild(sunBtn);
-    }
-
-    function activateAfterDark() {
-      if (sunBtn && sunBtn.parentNode !== document.body) {
-        document.body.appendChild(sunBtn);
-      }
-      html.classList.add('is-after-dark');
-      swapWraps.forEach(function(wrap) {
-        wrap.classList.add('is-after-dark');
-      });
-      if (sunBtn) {
-        sunBtn.classList.add('is-visible');
-        sunBtn.setAttribute('aria-expanded', 'true');
-      }
-    }
-
-    function activateDay() {
-      html.classList.remove('is-after-dark');
-      swapWraps.forEach(function(wrap) {
-        wrap.classList.remove('is-after-dark');
-      });
-      if (sunBtn) {
-        sunBtn.classList.remove('is-visible');
-        sunBtn.setAttribute('aria-expanded', 'false');
-      }
-    }
-
-    if (sunBtn) {
-      sunBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        triggered = true; // User explicitly exited After Dark
-        activateDay();
-      });
-    }
-
-    // Check if user prefers reduced motion
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-
-    // Trigger transition smoothly after exactly 1 second in viewport
-    if (swapWraps.length && 'IntersectionObserver' in window) {
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting && !triggered) {
-            triggered = true;
-            setTimeout(function() {
-              if (!html.classList.contains('is-after-dark')) {
-                activateAfterDark();
-              }
-            }, 1000); // 1-second delay
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 });
-
-      swapWraps.forEach(function(wrap) {
-        observer.observe(wrap);
-      });
-    }
-  })();
-</script>
