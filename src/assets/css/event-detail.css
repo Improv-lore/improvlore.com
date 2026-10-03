@@ -80,8 +80,7 @@
     padding: 1.8rem 1.8rem 2rem;
   }
   .event-detail-read .event-detail-sessions,
-  .event-detail-read .event-detail-content,
-  .event-detail-read .event-detail-expect {
+  .event-detail-read .event-detail-content {
     max-width: 68ch;
   }
   .event-detail-read .event-detail-content {
@@ -94,7 +93,7 @@
 
 /* The detail page leans into the brand's bold, hard-shadow card look: thick
    ink border, an offset block shadow tinted to the event type, and a colour
-   accent that runs through the badge, meta strip and "what to expect" block.
+   accent that runs through the badge and meta strip.
    The --accent / --accent-soft / --accent-ink tokens are set per type on the
    shared .event-type-* classes (components.css), so the home hero and /events
    cards share the exact same look. */
@@ -362,32 +361,6 @@
   margin: 0 0 0.9rem;
 }
 
-/* "What to expect" reads as a quote-style callout: a thick accent rule down
-   the left edge keeps it tied to the event's colour. */
-.event-detail-expect {
-  margin-top: 1.6rem;
-  padding: 1.1rem 1.2rem;
-  background: var(--accent-soft, var(--surface-warm));
-  border: 2px solid var(--ink);
-  border-left-width: 8px;
-  border-radius: 12px;
-}
-
-.event-detail-expect h2 {
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-ink, var(--text-soft));
-  margin: 0 0 0.5rem;
-}
-
-.event-detail-expect p {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--text-body);
-}
 
 /* Actions now sit high (under the date/venue), so the spacing is tighter than
    the old bottom placement. */
@@ -594,4 +567,162 @@
     padding: 0.5rem 0.6rem;
     text-align: center;
   }
+}
+
+/* =================================================
+   EVENT DETAIL TESTIMONIALS SECTION
+   ================================================= */
+.event-detail-testimonials {
+  margin-top: 2.2rem;
+  padding-top: 1.8rem;
+  border-top: 2.5px solid var(--border-soft, #e2e8f0);
+}
+
+.event-detail-testimonials-header {
+  margin-bottom: 1.2rem;
+}
+
+.event-detail-testimonials-kicker {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-ink, var(--text-soft));
+  margin-bottom: 0.3rem;
+}
+
+.event-detail-testimonials-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.event-detail-testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+@media (min-width: 680px) {
+  .event-detail-testimonials-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+.event-detail-testimonial-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1.4rem;
+  background: var(--surface-warm, #fffdf8);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.event-detail-testimonial-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.event-detail-testimonial-card--cast {
+  background: color-mix(in srgb, var(--blue, #19bdea) 6%, #fff);
+  border-color: var(--blue, #19bdea);
+  box-shadow: 4px 4px 0 var(--blue, #19bdea);
+}
+
+.event-detail-testimonial-quote {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-body);
+  position: relative;
+}
+
+.event-detail-testimonial-quote::before {
+  content: "“";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--accent-ink, var(--yellow));
+  margin-bottom: -0.4rem;
+}
+
+.event-detail-testimonial-card--cast .event-detail-testimonial-quote::before {
+  color: var(--blue, #19bdea);
+}
+
+.event-detail-testimonial-quote p {
+  margin: 0 0 0.6rem;
+}
+
+.event-detail-testimonial-quote p:last-child {
+  margin-bottom: 0;
+}
+
+.event-detail-testimonial-author {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border-soft, #e2e8f0);
+}
+
+.event-detail-testimonial-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.event-detail-testimonial-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.event-detail-testimonial-sub {
+  font-size: 0.8rem;
+  color: var(--text-soft);
+  line-height: 1.35;
+}
+
+.event-detail-testimonial-social {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-ink, var(--blue));
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.event-detail-testimonial-social:hover {
+  text-decoration: underline;
+}
+
+.event-detail-testimonials-footer {
+  margin-top: 1.2rem;
+}
+
+.event-detail-testimonials-more {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.event-detail-testimonials-more:hover {
+  color: var(--accent-ink, var(--blue));
+  border-color: var(--accent-ink, var(--blue));
 }

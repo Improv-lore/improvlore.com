@@ -14,7 +14,6 @@
     price       price string, or falsy           (catalog only)
     emptyMeta   truthy to show the "no dates scheduled" block (catalog only)
     bodyParas   list of paragraph strings for the main content
-    expect      "what to expect" copy
     ticketUrl   buy-ticket href, or falsy
     notify      truthy to show Notify Me / Instagram instead of ticket (catalog)
     learnMore   "original listing" href, or falsy
@@ -145,10 +144,44 @@
           {% endfor %}
         </div>
 
-        <div class="event-detail-expect">
-          <h2>What to expect</h2>
-          <p>{{ d.expect }}</p>
-        </div>
+        {# Community testimonials relevant to this event format/type #}
+        {% set eventSlug = d.slug or page.fileSlug %}
+        {% set quotes = filters.testimonialsForEvent(testimonials.items, eventSlug, d.type, 2) %}
+        {% if quotes and quotes.length %}
+        <section class="event-detail-testimonials" aria-labelledby="event-testimonials-heading">
+          <div class="event-detail-testimonials-header">
+            <span class="event-detail-testimonials-kicker">Community Stories</span>
+            <h2 class="event-detail-testimonials-heading" id="event-testimonials-heading">From People Who’ve Been There</h2>
+          </div>
+          <div class="event-detail-testimonials-grid">
+            {% for q in quotes %}
+            <article class="event-detail-testimonial-card{% if q.cast == 'yes' %} event-detail-testimonial-card--cast{% endif %}">
+              <blockquote class="event-detail-testimonial-quote">
+                {% set paras = q.story if (q.story is iterable and q.story is not string) else [q.story] %}
+                {% for para in paras %}
+                  {% if para | trim %}<p>{{ para | trim }}</p>{% endif %}
+                {% endfor %}
+              </blockquote>
+              <div class="event-detail-testimonial-author">
+                <div class="event-detail-testimonial-meta">
+                  <span class="event-detail-testimonial-name">{{ q.name }}</span>
+                  {% if q.subtitle %}
+                    <span class="event-detail-testimonial-sub">{{ q.subtitle }}</span>
+                  {% endif %}
+                </div>
+                {% if q.social %}
+                  {% set handle = q.social | replace("@", "") %}
+                  <a class="event-detail-testimonial-social" href="https://instagram.com/{{ handle }}" target="_blank" rel="noopener">@{{ handle }} ↗</a>
+                {% endif %}
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+          <div class="event-detail-testimonials-footer">
+            <a class="event-detail-testimonials-more" href="/testimonials/">Read all community stories →</a>
+          </div>
+        </section>
+        {% endif %}
       </div>
     </div>
 

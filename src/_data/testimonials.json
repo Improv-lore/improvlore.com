@@ -4,25 +4,29 @@
       "name": "Kris Cheppaikode",
       "subtitle": "Attended Whimsical Wednesday and Make Friends with the Stage",
       "social": "@cheppaikode",
+      "tags": ["jam", "whimsy", "make-friends-with-the-stage"],
       "story": "Semi-experienced New Yorker here. Improvlore is great for beginners looking to meet new people, have some fun and workout their \"doing things before they know how\" muscles. Also great for more experienced improvisers looking to brush up on their skills."
     },
     {
       "name": "Kynan D'Souza",
       "subtitle": "Attended workshop and performed a show",
       "social": "@kynan.d",
+      "tags": ["workshop", "show"],
       "story": "It was intimidating at first facing so many talented individuals but most were quite friendly and inclusive and welcoming."
     },
     {
       "name": "Saloni Singh",
       "subtitle": "Regular performer since 2025",
-      "cast":"yes",
+      "cast": "yes",
       "social": "@salonisingh489",
+      "tags": ["cast", "show"],
       "story": "I gained a lot of confidence in being on stage and learnt a lot about the craft of improv from Bala and Arjun which was quite fun. A life changing experience for me. Would highly recommend 10/10"
     },
     {
       "name": "Geetika Varshney",
       "subtitle": "Attended  Improv 101: How Not to Panic on Stage Workshop",
       "social": "@geetikav14",
+      "tags": ["workshop", "improv-101", "what-is-yes-and", "intensive-course", "improv-essentials"],
       "story": [
         "Hosting a workshop that feels well organised, structured, and genuinely fun, especially with 20 complete strangers, takes a lot of intention and patience. Arjun and Keerthana did a wonderful job creating that space.",
         "The games and activities were silly, fun, and intuitive. They made it easy to stop overthinking, let go of being self-conscious, and just be present in the moment. There is joy in failing and this workshop reminded me of that :).",
@@ -32,16 +36,48 @@
     {
       "name": "Rohit Iyengar",
       "subtitle": "Regular performer since 2024",
-      "cast":"yes",
+      "cast": "yes",
       "social": "@rohit.explores",
+      "tags": ["cast", "show"],
       "story": "I knew only Arjun, because we had performed together in Dubai and now I have the best set of co-performers on stage and friends off-stage. They have brought so much joy and fun to my life in Bangalore. I'd highly recommend giving improvlore a try!"
     },
     {
       "name": "Ishan",
       "subtitle": "Regular performer since 2025",
-      "cast":"yes",
+      "cast": "yes",
       "social": "@ishan1310",
+      "tags": ["cast", "show", "jam"],
       "story": "Sometimes I can’t believe I get to play and share the stage with some of the most talented and kind performers in Bangalore. Improv Lore has introduced me to an incredible, warm and welcoming community, and if you’re curious about improv, or just want some magic and whimsy in your life, it’s a wonderful place to start!"
+    },
+    {
+      "name": "Devika",
+      "subtitle": "Been in the audience and attending jam since May 2026, now graduated and certified not to panic.",
+      "tags": ["jam", "whimsy", "make-friends-with-the-stage", "show"],
+      "story": "You are missing out if you aren't attending shows and I would 100% recommend attending the jams. Don't doubt your skills, the jams are beginner friendly and is a loooot of fun! So join in sooon; what are you waiting for?!"
+    },
+    {
+      "name": "Santosh",
+      "subtitle": "Attended improv 101 workshop and many shows",
+      "social": "@santoshsatyanarayana",
+      "tags": ["workshop", "improv-101", "what-is-yes-and", "intensive-course", "improv-essentials", "show"],
+      "story": [
+        "The improv workshop was really special to me. It brought out a completely new side of my personality — one that can create absolute nonsense, and somehow make people believe it with pure conviction. 😂",
+        "It was great fun with the group, and a big thank you to Arjun, Mohit, Keerthana, and Anne for creating such a safe environment that brought out the best in all of us.",
+        "What I loved most was that it gave us the freedom to stop overthinking what was “needed” in the moment and simply act on it. No overplanning — just trust, spontaneity, and going with the flow."
+      ]
+    },
+    {
+      "name": "Balasubramaniam Ambedkar",
+      "subtitle": "Strictly Audience member 😂",
+      "social": "@balu_is_bored",
+      "tags": ["powerpoint-roulette", "show"],
+      "story": "I have been coming on and off to Improvlore session from August 2024. Every time I go back with amazement about the improv skills of participants who are basically working professionals. I am a big fan of PG Wodehouse and PowerPoint Roulette perfectly matches with my interest. It is a laugh riot. To attend a session of PowerPoint Roulette, I am ready to hoodwink the dragons. Fighting them is ruled out. They had done a session on AI at Atta Galata. It was both funny and thought provoking. All the best to Improv Lore. I will be coming whenever there is PowerPoint Roulette"
+    },
+    {
+      "name": "Avijit Pandey",
+      "subtitle": "Attended improv 101 workshop",
+      "tags": ["workshop", "improv-101", "what-is-yes-and", "intensive-course", "improv-essentials"],
+      "story": "Did a lot of goofy stuff, panicked quite a bit and had a lot of fun running around with people who were also doing silly things and having fun. Expect the big goof, and be ready to think on your toes(no pressure, fr) is what I'd tell someone who's looking to join in."
     }
   ]
 }

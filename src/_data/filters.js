@@ -295,5 +295,57 @@ export default {
       .replace(/\bby improv ?lore\b/i, "")
       .replace(/[\s:–-]+$/, "")
       .trim() || title.trim();
+  },
+
+  // Returns contextual testimonials for an event page based on its slug and type.
+  // Prioritizes: 1) exact slug match, 2) event type match ("workshop"|"jam"|"show"), 3) general audience quotes.
+  testimonialsForEvent(testimonials = [], slug = "", type = "show", max = 2) {
+    if (!Array.isArray(testimonials)) return [];
+    const targetSlug = (slug || "").toLowerCase().replace(/^\/|\/$/g, "");
+    const targetType = (type || "").toLowerCase();
+
+    const hasTag = (t, tag) => Array.isArray(t.tags) && t.tags.some((val) => val.toLowerCase() === tag);
+
+    const slugMatches = testimonials.filter((t) => targetSlug && hasTag(t, targetSlug));
+    const typeMatches = testimonials.filter((t) => targetType && hasTag(t, targetType));
+    const generalMatches = testimonials.filter((t) => !t.cast);
+
+    const result = [];
+    const seenNames = new Set();
+
+    for (const pool of [slugMatches, typeMatches, generalMatches]) {
+      for (const item of pool) {
+        if (!seenNames.has(item.name)) {
+          seenNames.add(item.name);
+          result.push(item);
+          if (result.length >= max) return result;
+        }
+      }
+    }
+
+    return result;
+  },
+
+  // Parses event body copy into clean, separate paragraphs.
+  // Handles standard newline-separated markdown text as well as edge cases where
+  // external feed scrapers strip block HTML tags without newlines.
+  bodyParagraphs(text = "") {
+    if (!text) return [];
+    if (Array.isArray(text)) return text.map((s) => (typeof s === "string" ? s.trim() : s)).filter(Boolean);
+    if (typeof text !== "string") return [text];
+
+    // If text already has newlines, split cleanly
+    if (text.includes("\n")) {
+      return text.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+    }
+
+    // Ingest fallback: if HTML was stripped without newlines or sentence spacing
+    const cleaned = text
+      .replace(/([.?!])([A-Z])/g, "$1\n\n$2")
+      .replace(/(Schedule)(This)/g, "\n\n$1\n\n$2")
+      .replace(/(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))([A-Z])/g, "$1\n\n$2")
+      .replace(/\s*•\s*/g, "\n• ");
+
+    return cleaned.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
   }
 };

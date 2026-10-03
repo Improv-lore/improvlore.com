@@ -227,6 +227,13 @@ const formats = [
     },
     blurb:
       "A hands-on intro workshop for first-timers. Learn the basics and shake off the stage fright.",
+    fullText: [
+      "Most people think improvisers are fearless; the truth is they've simply learned what to do when they don't know what to do.",
+      "This beginner-friendly introduction to improv is designed for anyone who's ever worried about saying the wrong thing, running out of ideas, or freezing up in front of others. Through fun games, simple exercises, and guided scene work, you'll learn how to trust your instincts, embrace uncertainty, and stay present when things don't go according to plan.",
+      "Throughout the course, you'll explore the core principles of improvisation, collaborative storytelling, and spontaneous creativity in a supportive, low-pressure environment.",
+      "No acting or stage experience is required. You don't need to be funny, quick-witted, or confident. All you need is a willingness to step on stage and discover that you're capable of more than you think.",
+      "A special Graduation Show is tentatively planned for Sunday, November 1, from 11:00 AM to 12:30 PM. The audience will consist exclusively of friends and family, creating a supportive environment for participants taking the stage for the first time.",
+    ].join("\n"),
     expect:
       "The workshop for anyone who's curious but nervous. You'll work through guided exercises in a supportive room, at a pace that's friendly to first-timers, and leave a little braver than you came.",
   },

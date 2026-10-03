@@ -10,9 +10,10 @@ pageStyles:
   - /assets/css/event-detail.css
 ---
 
-{% set bodyText = fmt.next.full_content or fmt.fullText or fmt.blurb %}
+{% set bodyText = fmt.fullText or fmt.next.full_content or fmt.blurb %}
 {% set d = {
   type: fmt.type,
+  slug: fmt.slug,
   image: fmt.image,
   title: fmt.title,
   hasWhen: fmt.hasUpcoming,
@@ -24,8 +25,7 @@ pageStyles:
   sessions: fmt.sessions,
   badges: fmt.badges,
   emptyMeta: not fmt.hasUpcoming,
-  bodyParas: bodyText.split("\n"),
-  expect: fmt.expect,
+  bodyParas: filters.bodyParagraphs(bodyText),
   ticketUrl: fmt.ticketUrl,
   isMarathon: fmt.isMarathon,
   thumpnUrl: fmt.thumpnUrl,
