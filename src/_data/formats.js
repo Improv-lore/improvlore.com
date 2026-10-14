@@ -222,8 +222,13 @@ const formats = [
     // the UC listing until the ingest emits sessions itself. Source:
     // underline.center/t/.../809
     sessions: {
-      note: "Four sessions, 10am to 1pm on all four days.",
-      dates: ["Sat 17 Oct", "Sun 18 Oct", "Mon 19 Oct", "Tue 20 Oct"],
+      note: "Four sessions: 10am–1pm on Saturday & Sunday, 2pm–5pm on Monday & Tuesday.",
+      dates: [
+        "Sat 17 Oct · 10am–1pm",
+        "Sun 18 Oct · 10am–1pm",
+        "Mon 19 Oct · 2pm–5pm",
+        "Tue 20 Oct · 2pm–5pm",
+      ],
     },
     blurb:
       "A hands-on intro workshop for first-timers. Learn the basics and shake off the stage fright.",
