@@ -9,3 +9,5 @@ _site/
 *.log
 improv-lore-underline-content-pack.md
 audit.md
+.agents/
+skills-lock.json

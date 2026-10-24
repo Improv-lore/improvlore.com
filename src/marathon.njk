@@ -11,180 +11,117 @@ pageStyles:
   {# HERO CONTAINER #}
   <header class="marathon-hero-wrap" id="marathon-hero" aria-label="All Play No Work Marathon Header">
     <div class="marathon-hero-content">
-
-      <div class="marathon-hero-split">
-
-        {# LEFT: FESTIVAL RECAP INTRO #}
-        <div class="marathon-hero-intro-col">
-          <div class="marathon-hero-brand-row">
-            <div class="marathon-poster-frame">
-              <img class="marathon-poster-img" src="/assets/apnw-c.png" alt="All Play No Work 12-Hour Improv Marathon emblem" width="130" height="130" loading="eager" fetchpriority="high">
-            </div>
-            <div class="marathon-hero-headings">
-              <div class="marathon-status-tags" aria-label="Event edition">
-                <span class="marathon-tag marathon-tag--edition">Second Edition · Completed 2nd Oct</span>
-                <span class="marathon-tag marathon-tag--highlight">12 Hours of Play</span>
-              </div>
-              <h1 class="marathon-hero-title">All Play No Work</h1>
-              <p class="marathon-hero-sub">The 12-Hour Improvathon in Bangalore</p>
-            </div>
-          </div>
-
-          <div class="marathon-hero-timing">
-            <span class="timing-chip">Friday, 2nd October 2026</span>
-            <span class="marathon-timing-sep" aria-hidden="true">·</span>
-            <span class="timing-chip">2:00 PM – 2:00 AM</span>
-            <span class="marathon-timing-sep" aria-hidden="true">·</span>
-            <span class="timing-chip">Underline Center, Indiranagar</span>
-          </div>
-
-          <p class="marathon-hero-lede">
-            Twelve straight hours of unscripted theatre, comedy, musical storytelling, and late-night madness. The second edition of our marathon has officially wrapped! A massive thank you to everyone who packed the room and played with us. <strong>It was a huge success, and we will be back.</strong>
-          </p>
-
-          <div class="marathon-hero-actions">
-            <a class="btn-apnw-primary" href="/fill-testimonial/?source=marathon">Leave a Testimonial ★</a>
-            <a class="btn-apnw-ghost" href="#schedule">What Went Down ↓</a>
-          </div>
+      <div class="marathon-hero-brand-row">
+        <div class="marathon-poster-frame">
+          <img class="marathon-poster-img" src="/assets/apnw-c.png" alt="All Play No Work 12-Hour Improv Marathon emblem" width="130" height="130" loading="eager" fetchpriority="high">
         </div>
-
-        {# RIGHT: CELEBRATORY ACCOMPLISHMENT BOARD #}
-        <aside class="marathon-nonlinear-timer marathon-recap-showcase" id="hero-marathon-countdown" aria-label="Marathon completed accomplishment summary">
-          <div class="marathon-recap-badge-wrap">
-            <span class="marathon-recap-badge">Edition Completed 🏆</span>
+        <div class="marathon-hero-headings">
+          <div class="marathon-status-tags" aria-label="Event edition">
+            <span class="marathon-tag marathon-tag--edition">Second Edition · Completed 2nd Oct 2026</span>
+            <span class="marathon-tag marathon-tag--highlight">12 Hours of Play</span>
           </div>
-
-          <div class="timer-mosaic-grid timer-mosaic-grid--triplet">
-            <div class="timer-block timer-block--hours">
-              <div class="timer-block-top">
-                <span class="timer-badge-pill">COMPLETED</span>
-              </div>
-              <div class="timer-block-main">
-                <span class="timer-num">12</span>
-                <span class="timer-unit-label">Hours of Play</span>
-              </div>
-            </div>
-
-            <div class="timer-block timer-block--minutes">
-              <div class="timer-block-top">
-                <span class="timer-badge-pill">RUNNING ORDER</span>
-              </div>
-              <div class="timer-block-main">
-                <span class="timer-num">7+2</span>
-                <span class="timer-unit-label">Shows &amp; Jams</span>
-              </div>
-            </div>
-
-            <div class="timer-block timer-block--seconds">
-              <div class="timer-block-top">
-                <span class="timer-badge-pill timer-badge-pill--live">COMMUNITY</span>
-              </div>
-              <div class="timer-block-main">
-                <span class="timer-num">100%</span>
-                <span class="timer-unit-label">Unscripted</span>
-              </div>
-            </div>
-          </div>
-
-          <p class="marathon-recap-quote">
-            “12 straight hours of comedy, caffeine, and zero scripts. Thank you Bangalore for making it unforgettable!”
-          </p>
-        </aside>
-
+          <h1 class="marathon-hero-title">All Play No Work</h1>
+          <p class="marathon-hero-sub">The 12-Hour Improvathon happened — and we will be back!</p>
+        </div>
       </div>
 
+      <div class="marathon-hero-timing" style="margin-top: 1rem;">
+        <span class="timing-chip">Friday, 2nd October 2026</span>
+        <span class="marathon-timing-sep" aria-hidden="true">·</span>
+        <span class="timing-chip">2:00 PM – 2:00 AM</span>
+        <span class="marathon-timing-sep" aria-hidden="true">·</span>
+        <span class="timing-chip">Underline Center, Indiranagar</span>
+      </div>
+
+      <div class="marathon-hero-actions" style="margin-top: 1.25rem;">
+        <a class="btn-apnw-primary" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Join WhatsApp for Next Edition ↗</a>
+        <a class="btn-apnw-ghost" href="/fill-testimonial/?source=marathon">Leave a Testimonial ★</a>
+      </div>
     </div>
   </header>
 
-  {# THE 12-HOUR OFFICIAL SCHEDULE #}
-  <section class="page-section marathon-timeline-wrap" id="schedule" aria-labelledby="schedule-heading">
-    <div class="marathon-schedule-intro">
-      <h2 class="section-heading" id="schedule-heading">What Went Down: The 12-Hour Running Order</h2>
-      <p class="section-sub">From 2:00 PM kickoff to the 2:00 AM After Dark finale — seven original shows and two concurrent community jams.</p>
+  {# 12 HOURS OF PLAY PHOTO GALLERY #}
+  <section class="page-section" aria-label="Scenes from the 12-Hour Marathon">
+    <div class="photo-strip" style="margin: 0.5rem 0 2.5rem;">
+      <div class="photo-strip-grid">
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&1" alt="Moments from All Play No Work 12-hour improv marathon" eleventy:ignore loading="eager" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&2" alt="Performers and audience at All Play No Work" eleventy:ignore loading="eager" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&3" alt="12 hours of unscripted theatre and comedy" eleventy:ignore loading="eager" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&4" alt="Live improv scene at All Play No Work" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&5" alt="Audience laughing at All Play No Work" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&6" alt="Late-night improv at All Play No Work" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&7" alt="Candid moment from the marathon jam" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&8" alt="Cast and community on stage at All Play No Work" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&9" alt="After-dark improv show in progress" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&10" alt="Audience enjoying a scene at the marathon" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&11" alt="Performers sharing a laugh on stage" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&12" alt="Community members at the 12-hour marathon" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&13" alt="Unscripted magic at All Play No Work" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&14" alt="High energy in the room during the marathon" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+        <figure class="polaroid-card">
+          <div class="polaroid-media">
+            <img src="https://img.improvlore.com/random?tag=apnw&15" alt="Final bow and celebration at All Play No Work" eleventy:ignore loading="lazy" decoding="async" width="600" height="450">
+          </div>
+        </figure>
+      </div>
+      <p class="photo-strip-caption">Live moments from 2:00 PM kickoff to the 2:00 AM After Dark finale.</p>
     </div>
-
-    {# CHRONOLOGICAL SCHEDULE LIST #}
-    <div class="marathon-schedule-list" aria-label="Official marathon schedule timeline">
-      {% for slot in marathon.upcoming.schedule %}
-      <article class="marathon-schedule-card{% if slot.formatClass == 'latenight' %} marathon-schedule-card--latenight{% endif %}">
-
-        {# TIME COLUMN #}
-        <div class="marathon-schedule-time-col">
-          <span class="marathon-schedule-time-main">{{ slot.time }}</span>
-          <span class="marathon-schedule-time-end">until {{ slot.endTime }}</span>
-          {% if slot.dateLabel %}
-          <span class="marathon-schedule-date-badge">{{ slot.dateLabel }}</span>
-          {% endif %}
-          <div class="marathon-schedule-pill-wrap">
-            <span class="marathon-format-pill pill-{{ slot.formatClass }}">{{ slot.format }}</span>
-          </div>
-        </div>
-
-        {# POSTER COLUMN #}
-        <div class="marathon-schedule-poster-col">
-          {% if slot.isEitherOrJam %}
-          <div class="marathon-either-or-posters">
-            <span class="marathon-either-or-pill">Pick 1 of 2 Concurrent Jams</span>
-            <a class="marathon-poster-link" href="/event/make-an-improv-song/" title="Make an Improv Song details">
-              <img class="marathon-schedule-poster-img" src="/assets/posters/make-an-improv-song.jpg" alt="Make an Improv Song poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
-            </a>
-            <span class="marathon-either-or-mini-or">OR</span>
-            <a class="marathon-poster-link" href="/event/make-friends-with-the-stage/" title="Make Friends with the Stage details">
-              <img class="marathon-schedule-poster-img" src="/assets/posters/make-friends-with-the-stage.jpg" alt="Make Friends with the Stage poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
-            </a>
-          </div>
-          {% else %}
-          <a class="marathon-poster-link" href="/event/{{ slot.slug }}/" title="{{ slot.title }} details">
-            <img class="marathon-schedule-poster-img" src="{{ slot.poster }}" alt="{{ slot.title }} poster" loading="lazy" sizes="(min-width: 860px) 440px, 100vw">
-          </a>
-          {% endif %}
-        </div>
-
-        {# CONTENT BODY #}
-        <div class="marathon-schedule-body">
-          <span class="marathon-schedule-kicker">{{ slot.kicker }}</span>
-          <h3 class="marathon-schedule-title">
-            {% if slot.isEitherOrJam %}
-            <span>Make an Improv Song <span class="title-or-accent">OR</span> Make Friends with the Stage</span>
-            {% elif slot.formatClass == 'latenight' %}
-            <span class="marathon-schedule-title-text"><a href="/event/{{ slot.slug }}/">The Silliest Show Tonight <span class="neon-text-afterdark">: After Dark</span></a></span>
-            {% else %}
-            <span class="marathon-schedule-title-text"><a href="/event/{{ slot.slug }}/">{{ slot.title }}</a></span>
-            {% endif %}
-          </h3>
-
-          <p class="marathon-schedule-blurb">{{ slot.blurb }}</p>
-
-          {% if slot.isEitherOrJam %}
-          <div class="marathon-either-or-grid">
-            {% for j in slot.jams %}
-            <div class="marathon-either-or-option">
-              <div class="marathon-either-or-opt-header">
-                <span class="marathon-either-or-chip">{{ j.label }}</span>
-                <h4 class="marathon-either-or-opt-title"><a href="/event/{{ j.slug }}/">{{ j.name }}</a></h4>
-              </div>
-              <p class="marathon-either-or-opt-desc">{{ j.desc }}</p>
-              <div class="marathon-either-or-actions">
-                <a class="btn btn-ghost marathon-either-or-btn" href="/event/{{ j.slug }}/">About this jam →</a>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-
-        {# DETAILS COLUMN #}
-        {% if not slot.isEitherOrJam %}
-        <div class="marathon-schedule-tickets-col">
-          <a class="btn btn-ghost marathon-schedule-book-btn" href="/event/{{ slot.slug }}/">About this show →</a>
-        </div>
-        {% endif %}
-
-
-      </article>
-      {% endfor %}
-    </div>
-
   </section>
 
   {# ALL PLAY NO WORK WILL RETURN #}
@@ -193,165 +130,13 @@ pageStyles:
       <span class="marathon-return-pill">All Play No Work</span>
       <h2 class="marathon-return-title" id="return-heading">The Marathon Will Return.</h2>
       <p class="marathon-return-desc">
-        Twelve consecutive hours of unscripted theatre proved just how electric the room can be when our community gathers to play. We’re already planning our next edition.
-      </p>
-      <p class="marathon-return-sub">
-        Were you in the room? Tell us about your favourite moments, or join our WhatsApp community to be the first to know when dates drop for the next edition.
+        Twelve straight hours of play proved just how electric the room can be when our community gathers. We’re already gearing up for the next edition.
       </p>
       <div class="event-buttons marathon-return-actions">
-        <a class="btn-apnw-primary" href="/fill-testimonial/?source=marathon">Leave a Testimonial ★</a>
-        <a class="btn-apnw-ghost" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Join WhatsApp Community ↗</a>
+        <a class="btn-apnw-primary" href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">Join WhatsApp Community ↗</a>
+        <a class="btn-apnw-ghost" href="/fill-testimonial/?source=marathon">Leave a Testimonial ★</a>
         <a class="btn-apnw-ghost" href="/events/">See Upcoming Weekly Events →</a>
       </div>
-    </div>
-  </section>
-
-  {# COMMON QUESTIONS #}
-  <section class="page-section marathon-faq-wrap" aria-labelledby="faq-heading">
-    <h2 class="section-heading" id="faq-heading">Common Questions</h2>
-    <p class="section-sub">Everything you might wonder about the marathon and what comes next.</p>
-
-    <div class="marathon-faq-grid">
-      <div class="marathon-faq-card">
-        <h3>Will there be another 12-hour marathon?</h3>
-        <p>Yes! We run the 12-hour marathon periodically as an all-day festival of unscripted comedy and storytelling. Join our <a href="{{ marathon.upcoming.rsvpUrl }}" target="_blank" rel="noopener">WhatsApp Community</a> to be the first to know when dates drop.</p>
-      </div>
-
-      <div class="marathon-faq-card">
-        <h3>How do I catch improv in the meantime?</h3>
-        <p>We perform and jam every single week in Bangalore! Whimsical Wednesday is our weekly flagship jam for total beginners and regulars alike, and we host shows every weekend at Underline Center. Explore our <a href="/events/">upcoming events page</a>.</p>
-      </div>
-
-      <div class="marathon-faq-card">
-        <h3>Were you in the room? Can you leave a testimonial?</h3>
-        <p>We’d love to hear your story! Head over to our <a href="/fill-testimonial/?source=marathon">testimonial form</a> to tell us which shows you saw, how the jams felt, and what made the day memorable.</p>
-      </div>
-
-      <div class="marathon-faq-card">
-        <h3>Where will photos and videos from the day be shared?</h3>
-        <p>We’re curating photo strips and live video highlights from the 12 hours. We’ll be dropping them in our WhatsApp group and on our Instagram (<a href="https://instagram.com/improvlore" target="_blank" rel="noopener">@improvlore</a>) very soon.</p>
-      </div>
-    </div>
-  </section>
-
-  {# VENUE & FOOD PARTNERS #}
-  <section class="page-section marathon-venue-partners-wrap" aria-labelledby="venue-heading">
-    <div class="marathon-section-intro">
-      <h2 class="section-heading" id="venue-heading">The Venue &amp; Food Partners Who Fueled The Day</h2>
-      <p class="section-sub">Where we played and what kept our performers and audiences energized for 12 straight hours.</p>
-    </div>
-
-    <div class="marathon-venue-partners-grid">
-
-      {# LEFT COLUMN: VENUE CARD #}
-      <div class="marathon-loc-card marathon-loc-card--venue">
-        <div class="marathon-loc-card-body">
-          <div class="marathon-loc-top-row">
-            <div class="marathon-loc-badge-wrap">
-              <span class="marathon-loc-badge">Festival Venue</span>
-            </div>
-            <div class="marathon-venue-logo-wrap">
-              <img class="marathon-loc-venue-logo"
-                   src="/assets/underline-logo.png"
-                   alt="Underline Center"
-                   width="170"
-                   height="45"
-                   loading="lazy">
-            </div>
-          </div>
-
-          <h3 class="marathon-loc-title">{{ marathon.upcoming.venue }}</h3>
-          <p class="marathon-loc-desc">
-            A cozy community space tucked away in Indiranagar. Warm, welcoming, and a 10-minute walk from Indiranagar Metro Station.
-          </p>
-
-          <ul class="marathon-loc-perks" aria-label="Venue highlights">
-            <li class="marathon-loc-perk">
-              <span class="marathon-loc-perk-icon" aria-hidden="true">🚇</span>
-              <span class="marathon-loc-perk-text">10-min walk from Indiranagar Metro</span>
-            </li>
-            <li class="marathon-loc-perk">
-              <span class="marathon-loc-perk-icon" aria-hidden="true">❄️</span>
-              <span class="marathon-loc-perk-text">Indoor AC Performance Stage</span>
-            </li>
-            <li class="marathon-loc-perk">
-              <span class="marathon-loc-perk-icon" aria-hidden="true">🌿</span>
-              <span class="marathon-loc-perk-text">Open Terrace F&amp;B &amp; Chill Zone</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="marathon-loc-card-footer">
-          <a class="btn btn-primary marathon-loc-btn" href="{{ marathon.upcoming.venueMapsUrl }}" target="_blank" rel="noopener">
-            Open in Google Maps ↗
-          </a>
-        </div>
-      </div>
-
-      {# RIGHT COLUMN: FOOD & BEVERAGE PARTNERS #}
-      <div class="marathon-loc-card marathon-loc-card--partners">
-        <div class="marathon-loc-card-body">
-          <div class="marathon-loc-badge-wrap">
-            <span class="marathon-loc-badge marathon-loc-badge--fnb">Food &amp; Beverage</span>
-          </div>
-          <h3 class="marathon-loc-title">Fuel on the Terrace</h3>
-          <p class="marathon-loc-desc">
-            Twelve hours of unscripted improv needed serious fuel. A huge thank you to our culinary partners on the terrace!
-          </p>
-
-          <div class="marathon-partners-list">
-            {% for partner in marathon.upcoming.foodPartners %}
-            <div class="marathon-partner-item">
-              <div class="marathon-partner-logo-frame" style="--partner-bg: {{ partner.bgColor }};">
-                <img class="marathon-partner-logo-img"
-                     src="{{ partner.logo }}"
-                     alt="{{ partner.alt }}"
-                     width="80"
-                     height="80"
-                     loading="lazy">
-              </div>
-              <div class="marathon-partner-info">
-                <div class="marathon-partner-header-row">
-                  <h4 class="marathon-partner-name">{{ partner.brand or partner.name }}</h4>
-                  <span class="marathon-partner-tag">{{ partner.category }}</span>
-                </div>
-                <p class="marathon-partner-tagline">{{ partner.tagline }}</p>
-
-                {% if partner.menuHighlights %}
-                <div class="marathon-partner-menu-wrap">
-                  <span class="marathon-partner-menu-label">Pop-Up Menu:</span>
-                  <div class="marathon-partner-menu-tags">
-                    {% for dish in partner.menuHighlights %}
-                    <span class="marathon-partner-dish-tag">{{ dish }}</span>
-                    {% endfor %}
-                  </div>
-                </div>
-                {% endif %}
-
-                {% if partner.note %}
-                <p class="marathon-partner-note">{{ partner.note }}</p>
-                {% endif %}
-
-                <div class="marathon-partner-action">
-                  <a class="marathon-partner-insta-link"
-                     href="{{ partner.instagramUrl }}"
-                     target="_blank"
-                     rel="noopener"
-                     aria-label="Visit {{ partner.name }} on Instagram (opens in new tab)">
-                    <svg class="marathon-partner-insta-svg" fill="currentColor" role="img" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
-                      <path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/>
-                    </svg>
-                    <span>{{ partner.handle }}</span>
-                    <span class="marathon-partner-insta-arrow" aria-hidden="true">↗</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 

@@ -5086,3 +5086,50 @@ html.is-after-dark .marathon-loc-venue-logo {
   gap: 1rem;
   align-items: center;
 }
+
+/* =================================================
+   MARATHON PHOTO GALLERY: MELTING INTO BACKGROUND
+   Photos fit naturally with object-fit: contain,
+   melting seamlessly into the cream background with
+   no harsh side borders or block shadows.
+   ================================================= */
+.events-root .photo-strip-grid .polaroid-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  transition: transform 0.25s ease;
+}
+
+.events-root .photo-strip-grid .polaroid-card:hover {
+  transform: translateY(-4px) scale(1.025);
+  box-shadow: none;
+}
+
+.events-root .photo-strip-grid .polaroid-media {
+  background: transparent;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.events-root .photo-strip-grid .polaroid-media img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+  filter: none;
+  box-shadow: none;
+  transition: transform 0.25s ease;
+}
+
+.events-root .photo-strip-grid .polaroid-card:hover .polaroid-media img {
+  transform: scale(1.03);
+  filter: none;
+}
