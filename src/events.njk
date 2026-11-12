@@ -99,7 +99,7 @@ showCustomEvents: false
           </p>
 
           <div class="event-buttons">
-            {% set targetUrl = ev.districtUrl or ev.url %}
+            {% set targetUrl = ev.url or ev.districtUrl %}
             {% if targetUrl and not ("thumpn.com" in targetUrl) %}
               <a class="btn btn-primary"{% if "district.in" in targetUrl %} data-ticket-slug{% endif %} href="{{ targetUrl }}"{% if "http" in targetUrl %} target="_blank" rel="noopener"{% endif %}>{% if ev.buttonLabel %}{{ ev.buttonLabel }}{% else %}Buy Ticket{% endif %}</a>
             {% elif ev.isMarathon %}

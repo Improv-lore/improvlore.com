@@ -170,9 +170,7 @@ export default {
       .filter(ev => {
         if (!ev.event_starts_at) return false;
         const t = new Date(ev.event_starts_at).getTime();
-        if (isNaN(t) || t < now) return false;
-        const tags = ev.tags || [];
-        return showCustom || tags.includes("UC");
+        return !isNaN(t) && t >= now;
       })
       .sort((a, b) => new Date(a.event_starts_at) - new Date(b.event_starts_at))
       .slice(0, n);
@@ -230,8 +228,6 @@ export default {
     ];
     const groups = { "this-week": [], "next-week": [], later: [] };
     for (const ev of events) {
-      const tags = ev.tags || [];
-      if (!(showCustom || tags.includes("UC"))) continue;
       const t = new Date(ev.event_starts_at).getTime();
       if (isNaN(t) || t < now) continue;
       groups[this.weekBucket(ev.event_starts_at)].push(ev);

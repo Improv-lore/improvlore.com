@@ -16,7 +16,6 @@ export default {
     icsBody(data) {
       const now = Date.now();
       const upcoming = (data.events || [])
-        .filter((ev) => (ev.tags || []).includes("UC"))
         .filter((ev) => {
           const t = new Date(ev.event_starts_at).getTime();
           return !isNaN(t) && t >= now;
